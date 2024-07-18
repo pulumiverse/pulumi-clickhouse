@@ -1,0 +1,8 @@
+go 1.22
+
+use (
+    ./provider
+    // ******
+    // Add ./sdk folder when SDK has been published the first time
+    // ./sdk
+)
