@@ -22,8 +22,10 @@ The Pulumi Clickhouse provider is available as a package in all Pulumi languages
 
 The following configuration points are available for the `clickhouse` provider:
 
-- `clickhouse:apiKey` (environment: `clickhouse_API_KEY`) - the API key for `clickhouse`
-- `clickhouse:region` (environment: `clickhouse_REGION`) - the region in which to deploy resources
+- `clickhouse:organizationId` (environment: `CLICKHOUSE_ORG_ID`) - the organization id on clickhouse
+- `clickhouse:tokenKey` (environment: `CLICKHOUSE_TOKEN_KEY`) - the token key
+- `clickhouse:tokenSecret` (environment: `CLICKHOUSE_TOKEN_SECRET`) - the token secret
+
 
 ### Provider Binary
 

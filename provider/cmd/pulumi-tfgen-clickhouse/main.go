@@ -15,8 +15,8 @@
 package main
 
 import (
-	clickhouse "github.com/pulumiverse/pulumi-clickhouse/provider"
 	"github.com/pulumi/pulumi-terraform-bridge/pf/tfgen"
+	clickhouse "github.com/pulumiverse/pulumi-clickhouse/provider"
 )
 
 func main() {
