@@ -1,0 +1,5 @@
+{
+  "resource": true,
+  "name": "clickhouse",
+  "server": "github://api.github.com/pulumiverse/pulumi-clickhouse"
+}
