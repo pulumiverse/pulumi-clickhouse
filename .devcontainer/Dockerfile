@@ -1,5 +1,5 @@
-ARG UBUNTU_VERSION=latest
-FROM ubuntu:${UBUNTU_VERSION}
+ARG UBUNTU_VERSION="22.04"
+FROM --platform=linux/amd64  ubuntu:${UBUNTU_VERSION}
 
 # Update apt-get and install various needed utilities
 RUN apt-get update && \
@@ -35,7 +35,7 @@ RUN rm -rf /usr/local/bin/pulumictl && \
     tar -C /usr/local/bin -xzf -
 
 # Install nodejs
-ARG NODEJS_VERSION=v16.16.0
+ARG NODEJS_VERSION=v18.20.4
 ARG NODEJS_PKG=node-${NODEJS_VERSION}-linux-x64
 ARG NODEJS_TARBALL=${NODEJS_PKG}.tar.xz
 RUN rm -rf /usr/local/node && \
