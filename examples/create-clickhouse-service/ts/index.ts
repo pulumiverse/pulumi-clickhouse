@@ -1,4 +1,3 @@
-import * as pulumi from "@pulumi/pulumi";
 import * as clickhouse from "@pulumiverse/clickhouse";
 
 new clickhouse.Service("example", {
