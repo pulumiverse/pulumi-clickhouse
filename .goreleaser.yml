@@ -1,3 +1,6 @@
+# yaml-language-server: $schema=https://goreleaser.com/static/schema.json
+version: 2
+
 archives:
   - id: archive
     name_template: '{{ .Binary }}-{{ .Tag }}-{{ .Os }}-{{ .Arch }}'
@@ -21,7 +24,7 @@ builds:
       - -X github.com/pulumiverse/pulumi-clickhouse/provider/pkg/version.Version={{.Tag }}
     main: ./cmd/pulumi-resource-clickhouse/
 changelog:
-  skip: true
+  disable: true
 release:
   disable: false
   prerelease: auto
