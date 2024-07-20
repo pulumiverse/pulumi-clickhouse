@@ -2,6 +2,10 @@
 
 The Clickhouse Resource Provider lets you manage [clickhouse](https://www.pulumi.com/registry/packages/clickhouse/) resources.
 
+## Sponsored By
+
+* [Fiveonefour](https://www.fiveonefour.com/)
+
 ## Installing
 
 This package is available for several languages/platforms:
@@ -47,3 +51,7 @@ dotnet add package Pulumiverse.Clickhouse
 ## Reference
 
 For detailed reference documentation, please visit [the Pulumi registry](https://www.pulumi.com/registry/packages/clickhouse/api-docs/).
+
+## Used By
+
+* [Boreal](https://commercial-hosting-web.vercel.app) hosting platform for Moose projects (open source developer framework for data engineering workloads)
