@@ -52,6 +52,14 @@ dotnet add package Pulumiverse.Clickhouse
 
 For detailed reference documentation, please visit [the Pulumi registry](https://www.pulumi.com/registry/packages/clickhouse/api-docs/).
 
+## Support
+
+If you run into any issue, please file and [issue](https://github.com/pulumiverse/pulumi-clickhouse/issues/new) in the github repository, or 
+come [ask us for help in the moose community](https://join.slack.com/t/moose-community/shared_invite/zt-2fjh5n3wz-cnOmM9Xe9DYAgQrNu8xKxg)
+
 ## Used By
 
-* [Boreal](https://commercial-hosting-web.vercel.app) hosting platform for Moose projects (open source developer framework for data engineering workloads)
+Please make a PR adding your company or product if you are using this
+provider in production.
+
+* [Boreal](https://www.boreal.cloud) hosting platform for Moose projects (open source developer framework for data engineering workloads)
