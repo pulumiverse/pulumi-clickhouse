@@ -10,6 +10,48 @@ using Pulumi;
 
 namespace Pulumiverse.Clickhouse
 {
+    /// <summary>
+    /// ## Example Usage
+    /// 
+    /// ```csharp
+    /// using System.Collections.Generic;
+    /// using System.Linq;
+    /// using Pulumi;
+    /// using Clickhouse = Pulumiverse.Clickhouse;
+    /// 
+    /// return await Deployment.RunAsync(() =&gt; 
+    /// {
+    ///     var service = new Clickhouse.Service("service", new()
+    ///     {
+    ///         CloudProvider = "aws",
+    ///         IdleScaling = true,
+    ///         IdleTimeoutMinutes = 5,
+    ///         IpAccesses = new[]
+    ///         {
+    ///             new Clickhouse.Inputs.ServiceIpAccessArgs
+    ///             {
+    ///                 Description = "Test IP",
+    ///                 Source = "192.168.2.63",
+    ///             },
+    ///         },
+    ///         MaxTotalMemoryGb = 360,
+    ///         MinTotalMemoryGb = 24,
+    ///         PasswordHash = "n4bQgYhMfWWaL+qgxVrQFaO/TxsrC4Is0V1sFbDwCgg=",
+    ///         Region = "us-east-1",
+    ///         Tier = "production",
+    ///     });
+    /// 
+    /// });
+    /// ```
+    /// 
+    /// ## Import
+    /// 
+    /// Services can be imported by specifying the UUID.
+    /// 
+    /// ```sh
+    /// $ pulumi import clickhouse:index/service:Service example xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    /// ```
+    /// </summary>
     [ClickhouseResourceType("clickhouse:index/service:Service")]
     public partial class Service : global::Pulumi.CustomResource
     {
@@ -50,13 +92,13 @@ namespace Pulumiverse.Clickhouse
         public Output<string> IamRole { get; private set; } = null!;
 
         /// <summary>
-        /// When set to true the service is allowed to scale down to zero when idle. Always true for development services. Configurable only for 'production' services.
+        /// When set to true the service is allowed to scale down to zero when idle.
         /// </summary>
         [Output("idleScaling")]
         public Output<bool?> IdleScaling { get; private set; } = null!;
 
         /// <summary>
-        /// Set minimum idling timeout (in minutes). Available only for 'production' services. Must be greater than or equal to 5 minutes.
+        /// Set minimum idling timeout (in minutes). Must be greater than or equal to 5 minutes. Must be set if idle_scaling is enabled
         /// </summary>
         [Output("idleTimeoutMinutes")]
         public Output<int?> IdleTimeoutMinutes { get; private set; } = null!;
@@ -212,13 +254,13 @@ namespace Pulumiverse.Clickhouse
         public Input<string>? EncryptionKey { get; set; }
 
         /// <summary>
-        /// When set to true the service is allowed to scale down to zero when idle. Always true for development services. Configurable only for 'production' services.
+        /// When set to true the service is allowed to scale down to zero when idle.
         /// </summary>
         [Input("idleScaling")]
         public Input<bool>? IdleScaling { get; set; }
 
         /// <summary>
-        /// Set minimum idling timeout (in minutes). Available only for 'production' services. Must be greater than or equal to 5 minutes.
+        /// Set minimum idling timeout (in minutes). Must be greater than or equal to 5 minutes. Must be set if idle_scaling is enabled
         /// </summary>
         [Input("idleTimeoutMinutes")]
         public Input<int>? IdleTimeoutMinutes { get; set; }
@@ -370,13 +412,13 @@ namespace Pulumiverse.Clickhouse
         public Input<string>? IamRole { get; set; }
 
         /// <summary>
-        /// When set to true the service is allowed to scale down to zero when idle. Always true for development services. Configurable only for 'production' services.
+        /// When set to true the service is allowed to scale down to zero when idle.
         /// </summary>
         [Input("idleScaling")]
         public Input<bool>? IdleScaling { get; set; }
 
         /// <summary>
-        /// Set minimum idling timeout (in minutes). Available only for 'production' services. Must be greater than or equal to 5 minutes.
+        /// Set minimum idling timeout (in minutes). Must be greater than or equal to 5 minutes. Must be set if idle_scaling is enabled
         /// </summary>
         [Input("idleTimeoutMinutes")]
         public Input<int>? IdleTimeoutMinutes { get; set; }

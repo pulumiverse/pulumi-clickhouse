@@ -40,8 +40,8 @@ class ServiceArgs:
         :param pulumi.Input[str] double_sha1_password_hash: Double SHA1 hash of password for connecting with the MySQL protocol. Cannot be specified if `password` is specified.
         :param pulumi.Input[str] encryption_assumed_role_identifier: Custom role identifier arn
         :param pulumi.Input[str] encryption_key: Custom encryption key arn
-        :param pulumi.Input[bool] idle_scaling: When set to true the service is allowed to scale down to zero when idle. Always true for development services. Configurable only for 'production' services.
-        :param pulumi.Input[int] idle_timeout_minutes: Set minimum idling timeout (in minutes). Available only for 'production' services. Must be greater than or equal to 5 minutes.
+        :param pulumi.Input[bool] idle_scaling: When set to true the service is allowed to scale down to zero when idle.
+        :param pulumi.Input[int] idle_timeout_minutes: Set minimum idling timeout (in minutes). Must be greater than or equal to 5 minutes. Must be set if idle_scaling is enabled
         :param pulumi.Input[int] max_total_memory_gb: Maximum total memory of all workers during auto-scaling in Gb. Available only for 'production' services. Must be a multiple of 12 and lower than 360 for non paid services or 720 for paid services.
         :param pulumi.Input[int] min_total_memory_gb: Minimum total memory of all workers during auto-scaling in Gb. Available only for 'production' services. Must be a multiple of 12 and greater than 24.
         :param pulumi.Input[str] name: User defined identifier for the service.
@@ -164,7 +164,7 @@ class ServiceArgs:
     @pulumi.getter(name="idleScaling")
     def idle_scaling(self) -> Optional[pulumi.Input[bool]]:
         """
-        When set to true the service is allowed to scale down to zero when idle. Always true for development services. Configurable only for 'production' services.
+        When set to true the service is allowed to scale down to zero when idle.
         """
         return pulumi.get(self, "idle_scaling")
 
@@ -176,7 +176,7 @@ class ServiceArgs:
     @pulumi.getter(name="idleTimeoutMinutes")
     def idle_timeout_minutes(self) -> Optional[pulumi.Input[int]]:
         """
-        Set minimum idling timeout (in minutes). Available only for 'production' services. Must be greater than or equal to 5 minutes.
+        Set minimum idling timeout (in minutes). Must be greater than or equal to 5 minutes. Must be set if idle_scaling is enabled
         """
         return pulumi.get(self, "idle_timeout_minutes")
 
@@ -287,8 +287,8 @@ class _ServiceState:
         :param pulumi.Input[str] encryption_key: Custom encryption key arn
         :param pulumi.Input[Sequence[pulumi.Input['ServiceEndpointArgs']]] endpoints: List of public endpoints.
         :param pulumi.Input[str] iam_role: IAM role used for accessing objects in s3.
-        :param pulumi.Input[bool] idle_scaling: When set to true the service is allowed to scale down to zero when idle. Always true for development services. Configurable only for 'production' services.
-        :param pulumi.Input[int] idle_timeout_minutes: Set minimum idling timeout (in minutes). Available only for 'production' services. Must be greater than or equal to 5 minutes.
+        :param pulumi.Input[bool] idle_scaling: When set to true the service is allowed to scale down to zero when idle.
+        :param pulumi.Input[int] idle_timeout_minutes: Set minimum idling timeout (in minutes). Must be greater than or equal to 5 minutes. Must be set if idle_scaling is enabled
         :param pulumi.Input[Sequence[pulumi.Input['ServiceIpAccessArgs']]] ip_accesses: List of IP addresses allowed to access the service.
         :param pulumi.Input[int] max_total_memory_gb: Maximum total memory of all workers during auto-scaling in Gb. Available only for 'production' services. Must be a multiple of 12 and lower than 360 for non paid services or 720 for paid services.
         :param pulumi.Input[int] min_total_memory_gb: Minimum total memory of all workers during auto-scaling in Gb. Available only for 'production' services. Must be a multiple of 12 and greater than 24.
@@ -418,7 +418,7 @@ class _ServiceState:
     @pulumi.getter(name="idleScaling")
     def idle_scaling(self) -> Optional[pulumi.Input[bool]]:
         """
-        When set to true the service is allowed to scale down to zero when idle. Always true for development services. Configurable only for 'production' services.
+        When set to true the service is allowed to scale down to zero when idle.
         """
         return pulumi.get(self, "idle_scaling")
 
@@ -430,7 +430,7 @@ class _ServiceState:
     @pulumi.getter(name="idleTimeoutMinutes")
     def idle_timeout_minutes(self) -> Optional[pulumi.Input[int]]:
         """
-        Set minimum idling timeout (in minutes). Available only for 'production' services. Must be greater than or equal to 5 minutes.
+        Set minimum idling timeout (in minutes). Must be greater than or equal to 5 minutes. Must be set if idle_scaling is enabled
         """
         return pulumi.get(self, "idle_timeout_minutes")
 
@@ -591,15 +591,43 @@ class Service(pulumi.CustomResource):
                  tier: Optional[pulumi.Input[str]] = None,
                  __props__=None):
         """
-        Create a Service resource with the given unique name, props, and options.
+        ## Example Usage
+
+        ```python
+        import pulumi
+        import pulumiverse_clickhouse as clickhouse
+
+        service = clickhouse.Service("service",
+            cloud_provider="aws",
+            idle_scaling=True,
+            idle_timeout_minutes=5,
+            ip_accesses=[clickhouse.ServiceIpAccessArgs(
+                description="Test IP",
+                source="192.168.2.63",
+            )],
+            max_total_memory_gb=360,
+            min_total_memory_gb=24,
+            password_hash="n4bQgYhMfWWaL+qgxVrQFaO/TxsrC4Is0V1sFbDwCgg=",
+            region="us-east-1",
+            tier="production")
+        ```
+
+        ## Import
+
+        Services can be imported by specifying the UUID.
+
+        ```sh
+        $ pulumi import clickhouse:index/service:Service example xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+        ```
+
         :param str resource_name: The name of the resource.
         :param pulumi.ResourceOptions opts: Options for the resource.
         :param pulumi.Input[str] cloud_provider: Cloud provider ('aws', 'gcp', or 'azure') in which the service is deployed in.
         :param pulumi.Input[str] double_sha1_password_hash: Double SHA1 hash of password for connecting with the MySQL protocol. Cannot be specified if `password` is specified.
         :param pulumi.Input[str] encryption_assumed_role_identifier: Custom role identifier arn
         :param pulumi.Input[str] encryption_key: Custom encryption key arn
-        :param pulumi.Input[bool] idle_scaling: When set to true the service is allowed to scale down to zero when idle. Always true for development services. Configurable only for 'production' services.
-        :param pulumi.Input[int] idle_timeout_minutes: Set minimum idling timeout (in minutes). Available only for 'production' services. Must be greater than or equal to 5 minutes.
+        :param pulumi.Input[bool] idle_scaling: When set to true the service is allowed to scale down to zero when idle.
+        :param pulumi.Input[int] idle_timeout_minutes: Set minimum idling timeout (in minutes). Must be greater than or equal to 5 minutes. Must be set if idle_scaling is enabled
         :param pulumi.Input[Sequence[pulumi.Input[pulumi.InputType['ServiceIpAccessArgs']]]] ip_accesses: List of IP addresses allowed to access the service.
         :param pulumi.Input[int] max_total_memory_gb: Maximum total memory of all workers during auto-scaling in Gb. Available only for 'production' services. Must be a multiple of 12 and lower than 360 for non paid services or 720 for paid services.
         :param pulumi.Input[int] min_total_memory_gb: Minimum total memory of all workers during auto-scaling in Gb. Available only for 'production' services. Must be a multiple of 12 and greater than 24.
@@ -617,7 +645,35 @@ class Service(pulumi.CustomResource):
                  args: ServiceArgs,
                  opts: Optional[pulumi.ResourceOptions] = None):
         """
-        Create a Service resource with the given unique name, props, and options.
+        ## Example Usage
+
+        ```python
+        import pulumi
+        import pulumiverse_clickhouse as clickhouse
+
+        service = clickhouse.Service("service",
+            cloud_provider="aws",
+            idle_scaling=True,
+            idle_timeout_minutes=5,
+            ip_accesses=[clickhouse.ServiceIpAccessArgs(
+                description="Test IP",
+                source="192.168.2.63",
+            )],
+            max_total_memory_gb=360,
+            min_total_memory_gb=24,
+            password_hash="n4bQgYhMfWWaL+qgxVrQFaO/TxsrC4Is0V1sFbDwCgg=",
+            region="us-east-1",
+            tier="production")
+        ```
+
+        ## Import
+
+        Services can be imported by specifying the UUID.
+
+        ```sh
+        $ pulumi import clickhouse:index/service:Service example xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+        ```
+
         :param str resource_name: The name of the resource.
         :param ServiceArgs args: The arguments to use to populate this resource's properties.
         :param pulumi.ResourceOptions opts: Options for the resource.
@@ -728,8 +784,8 @@ class Service(pulumi.CustomResource):
         :param pulumi.Input[str] encryption_key: Custom encryption key arn
         :param pulumi.Input[Sequence[pulumi.Input[pulumi.InputType['ServiceEndpointArgs']]]] endpoints: List of public endpoints.
         :param pulumi.Input[str] iam_role: IAM role used for accessing objects in s3.
-        :param pulumi.Input[bool] idle_scaling: When set to true the service is allowed to scale down to zero when idle. Always true for development services. Configurable only for 'production' services.
-        :param pulumi.Input[int] idle_timeout_minutes: Set minimum idling timeout (in minutes). Available only for 'production' services. Must be greater than or equal to 5 minutes.
+        :param pulumi.Input[bool] idle_scaling: When set to true the service is allowed to scale down to zero when idle.
+        :param pulumi.Input[int] idle_timeout_minutes: Set minimum idling timeout (in minutes). Must be greater than or equal to 5 minutes. Must be set if idle_scaling is enabled
         :param pulumi.Input[Sequence[pulumi.Input[pulumi.InputType['ServiceIpAccessArgs']]]] ip_accesses: List of IP addresses allowed to access the service.
         :param pulumi.Input[int] max_total_memory_gb: Maximum total memory of all workers during auto-scaling in Gb. Available only for 'production' services. Must be a multiple of 12 and lower than 360 for non paid services or 720 for paid services.
         :param pulumi.Input[int] min_total_memory_gb: Minimum total memory of all workers during auto-scaling in Gb. Available only for 'production' services. Must be a multiple of 12 and greater than 24.
@@ -818,7 +874,7 @@ class Service(pulumi.CustomResource):
     @pulumi.getter(name="idleScaling")
     def idle_scaling(self) -> pulumi.Output[Optional[bool]]:
         """
-        When set to true the service is allowed to scale down to zero when idle. Always true for development services. Configurable only for 'production' services.
+        When set to true the service is allowed to scale down to zero when idle.
         """
         return pulumi.get(self, "idle_scaling")
 
@@ -826,7 +882,7 @@ class Service(pulumi.CustomResource):
     @pulumi.getter(name="idleTimeoutMinutes")
     def idle_timeout_minutes(self) -> pulumi.Output[Optional[int]]:
         """
-        Set minimum idling timeout (in minutes). Available only for 'production' services. Must be greater than or equal to 5 minutes.
+        Set minimum idling timeout (in minutes). Must be greater than or equal to 5 minutes. Must be set if idle_scaling is enabled
         """
         return pulumi.get(self, "idle_timeout_minutes")
 

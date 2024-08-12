@@ -12,6 +12,52 @@ import (
 	"github.com/pulumiverse/pulumi-clickhouse/sdk/go/clickhouse/internal"
 )
 
+// ## Example Usage
+//
+// ```go
+// package main
+//
+// import (
+//
+//	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+//	"github.com/pulumiverse/pulumi-clickhouse/sdk/go/clickhouse"
+//
+// )
+//
+//	func main() {
+//		pulumi.Run(func(ctx *pulumi.Context) error {
+//			_, err := clickhouse.NewService(ctx, "service", &clickhouse.ServiceArgs{
+//				CloudProvider:      pulumi.String("aws"),
+//				IdleScaling:        pulumi.Bool(true),
+//				IdleTimeoutMinutes: pulumi.Int(5),
+//				IpAccesses: clickhouse.ServiceIpAccessArray{
+//					&clickhouse.ServiceIpAccessArgs{
+//						Description: pulumi.String("Test IP"),
+//						Source:      pulumi.String("192.168.2.63"),
+//					},
+//				},
+//				MaxTotalMemoryGb: pulumi.Int(360),
+//				MinTotalMemoryGb: pulumi.Int(24),
+//				PasswordHash:     pulumi.String("n4bQgYhMfWWaL+qgxVrQFaO/TxsrC4Is0V1sFbDwCgg="),
+//				Region:           pulumi.String("us-east-1"),
+//				Tier:             pulumi.String("production"),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			return nil
+//		})
+//	}
+//
+// ```
+//
+// ## Import
+//
+// Services can be imported by specifying the UUID.
+//
+// ```sh
+// $ pulumi import clickhouse:index/service:Service example xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+// ```
 type Service struct {
 	pulumi.CustomResourceState
 
@@ -27,9 +73,9 @@ type Service struct {
 	Endpoints ServiceEndpointArrayOutput `pulumi:"endpoints"`
 	// IAM role used for accessing objects in s3.
 	IamRole pulumi.StringOutput `pulumi:"iamRole"`
-	// When set to true the service is allowed to scale down to zero when idle. Always true for development services. Configurable only for 'production' services.
+	// When set to true the service is allowed to scale down to zero when idle.
 	IdleScaling pulumi.BoolPtrOutput `pulumi:"idleScaling"`
-	// Set minimum idling timeout (in minutes). Available only for 'production' services. Must be greater than or equal to 5 minutes.
+	// Set minimum idling timeout (in minutes). Must be greater than or equal to 5 minutes. Must be set if idleScaling is enabled
 	IdleTimeoutMinutes pulumi.IntPtrOutput `pulumi:"idleTimeoutMinutes"`
 	// List of IP addresses allowed to access the service.
 	IpAccesses  ServiceIpAccessArrayOutput `pulumi:"ipAccesses"`
@@ -125,9 +171,9 @@ type serviceState struct {
 	Endpoints []ServiceEndpoint `pulumi:"endpoints"`
 	// IAM role used for accessing objects in s3.
 	IamRole *string `pulumi:"iamRole"`
-	// When set to true the service is allowed to scale down to zero when idle. Always true for development services. Configurable only for 'production' services.
+	// When set to true the service is allowed to scale down to zero when idle.
 	IdleScaling *bool `pulumi:"idleScaling"`
-	// Set minimum idling timeout (in minutes). Available only for 'production' services. Must be greater than or equal to 5 minutes.
+	// Set minimum idling timeout (in minutes). Must be greater than or equal to 5 minutes. Must be set if idleScaling is enabled
 	IdleTimeoutMinutes *int `pulumi:"idleTimeoutMinutes"`
 	// List of IP addresses allowed to access the service.
 	IpAccesses  []ServiceIpAccess `pulumi:"ipAccesses"`
@@ -167,9 +213,9 @@ type ServiceState struct {
 	Endpoints ServiceEndpointArrayInput
 	// IAM role used for accessing objects in s3.
 	IamRole pulumi.StringPtrInput
-	// When set to true the service is allowed to scale down to zero when idle. Always true for development services. Configurable only for 'production' services.
+	// When set to true the service is allowed to scale down to zero when idle.
 	IdleScaling pulumi.BoolPtrInput
-	// Set minimum idling timeout (in minutes). Available only for 'production' services. Must be greater than or equal to 5 minutes.
+	// Set minimum idling timeout (in minutes). Must be greater than or equal to 5 minutes. Must be set if idleScaling is enabled
 	IdleTimeoutMinutes pulumi.IntPtrInput
 	// List of IP addresses allowed to access the service.
 	IpAccesses  ServiceIpAccessArrayInput
@@ -209,9 +255,9 @@ type serviceArgs struct {
 	EncryptionAssumedRoleIdentifier *string `pulumi:"encryptionAssumedRoleIdentifier"`
 	// Custom encryption key arn
 	EncryptionKey *string `pulumi:"encryptionKey"`
-	// When set to true the service is allowed to scale down to zero when idle. Always true for development services. Configurable only for 'production' services.
+	// When set to true the service is allowed to scale down to zero when idle.
 	IdleScaling *bool `pulumi:"idleScaling"`
-	// Set minimum idling timeout (in minutes). Available only for 'production' services. Must be greater than or equal to 5 minutes.
+	// Set minimum idling timeout (in minutes). Must be greater than or equal to 5 minutes. Must be set if idleScaling is enabled
 	IdleTimeoutMinutes *int `pulumi:"idleTimeoutMinutes"`
 	// List of IP addresses allowed to access the service.
 	IpAccesses []ServiceIpAccess `pulumi:"ipAccesses"`
@@ -243,9 +289,9 @@ type ServiceArgs struct {
 	EncryptionAssumedRoleIdentifier pulumi.StringPtrInput
 	// Custom encryption key arn
 	EncryptionKey pulumi.StringPtrInput
-	// When set to true the service is allowed to scale down to zero when idle. Always true for development services. Configurable only for 'production' services.
+	// When set to true the service is allowed to scale down to zero when idle.
 	IdleScaling pulumi.BoolPtrInput
-	// Set minimum idling timeout (in minutes). Available only for 'production' services. Must be greater than or equal to 5 minutes.
+	// Set minimum idling timeout (in minutes). Must be greater than or equal to 5 minutes. Must be set if idleScaling is enabled
 	IdleTimeoutMinutes pulumi.IntPtrInput
 	// List of IP addresses allowed to access the service.
 	IpAccesses ServiceIpAccessArrayInput
@@ -384,12 +430,12 @@ func (o ServiceOutput) IamRole() pulumi.StringOutput {
 	return o.ApplyT(func(v *Service) pulumi.StringOutput { return v.IamRole }).(pulumi.StringOutput)
 }
 
-// When set to true the service is allowed to scale down to zero when idle. Always true for development services. Configurable only for 'production' services.
+// When set to true the service is allowed to scale down to zero when idle.
 func (o ServiceOutput) IdleScaling() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v *Service) pulumi.BoolPtrOutput { return v.IdleScaling }).(pulumi.BoolPtrOutput)
 }
 
-// Set minimum idling timeout (in minutes). Available only for 'production' services. Must be greater than or equal to 5 minutes.
+// Set minimum idling timeout (in minutes). Must be greater than or equal to 5 minutes. Must be set if idleScaling is enabled
 func (o ServiceOutput) IdleTimeoutMinutes() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v *Service) pulumi.IntPtrOutput { return v.IdleTimeoutMinutes }).(pulumi.IntPtrOutput)
 }

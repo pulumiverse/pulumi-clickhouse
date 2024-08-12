@@ -6,6 +6,37 @@ import * as inputs from "./types/input";
 import * as outputs from "./types/output";
 import * as utilities from "./utilities";
 
+/**
+ * ## Example Usage
+ *
+ * ```typescript
+ * import * as pulumi from "@pulumi/pulumi";
+ * import * as clickhouse from "@pulumiverse/clickhouse";
+ *
+ * const service = new clickhouse.Service("service", {
+ *     cloudProvider: "aws",
+ *     idleScaling: true,
+ *     idleTimeoutMinutes: 5,
+ *     ipAccesses: [{
+ *         description: "Test IP",
+ *         source: "192.168.2.63",
+ *     }],
+ *     maxTotalMemoryGb: 360,
+ *     minTotalMemoryGb: 24,
+ *     passwordHash: "n4bQgYhMfWWaL+qgxVrQFaO/TxsrC4Is0V1sFbDwCgg=",
+ *     region: "us-east-1",
+ *     tier: "production",
+ * });
+ * ```
+ *
+ * ## Import
+ *
+ * Services can be imported by specifying the UUID.
+ *
+ * ```sh
+ * $ pulumi import clickhouse:index/service:Service example xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+ * ```
+ */
 export class Service extends pulumi.CustomResource {
     /**
      * Get an existing Service resource's state with the given name, ID, and optional extra
@@ -59,11 +90,11 @@ export class Service extends pulumi.CustomResource {
      */
     public /*out*/ readonly iamRole!: pulumi.Output<string>;
     /**
-     * When set to true the service is allowed to scale down to zero when idle. Always true for development services. Configurable only for 'production' services.
+     * When set to true the service is allowed to scale down to zero when idle.
      */
     public readonly idleScaling!: pulumi.Output<boolean | undefined>;
     /**
-     * Set minimum idling timeout (in minutes). Available only for 'production' services. Must be greater than or equal to 5 minutes.
+     * Set minimum idling timeout (in minutes). Must be greater than or equal to 5 minutes. Must be set if idleScaling is enabled
      */
     public readonly idleTimeoutMinutes!: pulumi.Output<number | undefined>;
     /**
@@ -212,11 +243,11 @@ export interface ServiceState {
      */
     iamRole?: pulumi.Input<string>;
     /**
-     * When set to true the service is allowed to scale down to zero when idle. Always true for development services. Configurable only for 'production' services.
+     * When set to true the service is allowed to scale down to zero when idle.
      */
     idleScaling?: pulumi.Input<boolean>;
     /**
-     * Set minimum idling timeout (in minutes). Available only for 'production' services. Must be greater than or equal to 5 minutes.
+     * Set minimum idling timeout (in minutes). Must be greater than or equal to 5 minutes. Must be set if idleScaling is enabled
      */
     idleTimeoutMinutes?: pulumi.Input<number>;
     /**
@@ -285,11 +316,11 @@ export interface ServiceArgs {
      */
     encryptionKey?: pulumi.Input<string>;
     /**
-     * When set to true the service is allowed to scale down to zero when idle. Always true for development services. Configurable only for 'production' services.
+     * When set to true the service is allowed to scale down to zero when idle.
      */
     idleScaling?: pulumi.Input<boolean>;
     /**
-     * Set minimum idling timeout (in minutes). Available only for 'production' services. Must be greater than or equal to 5 minutes.
+     * Set minimum idling timeout (in minutes). Must be greater than or equal to 5 minutes. Must be set if idleScaling is enabled
      */
     idleTimeoutMinutes?: pulumi.Input<number>;
     /**

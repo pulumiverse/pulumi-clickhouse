@@ -245,6 +245,7 @@
             }
         },
         "clickhouse:index/service:Service": {
+            "description": "## Example Usage\n\n\u003c!--Start PulumiCodeChooser --\u003e\n```typescript\nimport * as pulumi from \"@pulumi/pulumi\";\nimport * as clickhouse from \"@pulumiverse/clickhouse\";\n\nconst service = new clickhouse.Service(\"service\", {\n    cloudProvider: \"aws\",\n    idleScaling: true,\n    idleTimeoutMinutes: 5,\n    ipAccesses: [{\n        description: \"Test IP\",\n        source: \"192.168.2.63\",\n    }],\n    maxTotalMemoryGb: 360,\n    minTotalMemoryGb: 24,\n    passwordHash: \"n4bQgYhMfWWaL+qgxVrQFaO/TxsrC4Is0V1sFbDwCgg=\",\n    region: \"us-east-1\",\n    tier: \"production\",\n});\n```\n```python\nimport pulumi\nimport pulumiverse_clickhouse as clickhouse\n\nservice = clickhouse.Service(\"service\",\n    cloud_provider=\"aws\",\n    idle_scaling=True,\n    idle_timeout_minutes=5,\n    ip_accesses=[clickhouse.ServiceIpAccessArgs(\n        description=\"Test IP\",\n        source=\"192.168.2.63\",\n    )],\n    max_total_memory_gb=360,\n    min_total_memory_gb=24,\n    password_hash=\"n4bQgYhMfWWaL+qgxVrQFaO/TxsrC4Is0V1sFbDwCgg=\",\n    region=\"us-east-1\",\n    tier=\"production\")\n```\n```csharp\nusing System.Collections.Generic;\nusing System.Linq;\nusing Pulumi;\nusing Clickhouse = Pulumiverse.Clickhouse;\n\nreturn await Deployment.RunAsync(() =\u003e \n{\n    var service = new Clickhouse.Service(\"service\", new()\n    {\n        CloudProvider = \"aws\",\n        IdleScaling = true,\n        IdleTimeoutMinutes = 5,\n        IpAccesses = new[]\n        {\n            new Clickhouse.Inputs.ServiceIpAccessArgs\n            {\n                Description = \"Test IP\",\n                Source = \"192.168.2.63\",\n            },\n        },\n        MaxTotalMemoryGb = 360,\n        MinTotalMemoryGb = 24,\n        PasswordHash = \"n4bQgYhMfWWaL+qgxVrQFaO/TxsrC4Is0V1sFbDwCgg=\",\n        Region = \"us-east-1\",\n        Tier = \"production\",\n    });\n\n});\n```\n```go\npackage main\n\nimport (\n\t\"github.com/pulumi/pulumi/sdk/v3/go/pulumi\"\n\t\"github.com/pulumiverse/pulumi-clickhouse/sdk/go/clickhouse\"\n)\n\nfunc main() {\n\tpulumi.Run(func(ctx *pulumi.Context) error {\n\t\t_, err := clickhouse.NewService(ctx, \"service\", \u0026clickhouse.ServiceArgs{\n\t\t\tCloudProvider:      pulumi.String(\"aws\"),\n\t\t\tIdleScaling:        pulumi.Bool(true),\n\t\t\tIdleTimeoutMinutes: pulumi.Int(5),\n\t\t\tIpAccesses: clickhouse.ServiceIpAccessArray{\n\t\t\t\t\u0026clickhouse.ServiceIpAccessArgs{\n\t\t\t\t\tDescription: pulumi.String(\"Test IP\"),\n\t\t\t\t\tSource:      pulumi.String(\"192.168.2.63\"),\n\t\t\t\t},\n\t\t\t},\n\t\t\tMaxTotalMemoryGb: pulumi.Int(360),\n\t\t\tMinTotalMemoryGb: pulumi.Int(24),\n\t\t\tPasswordHash:     pulumi.String(\"n4bQgYhMfWWaL+qgxVrQFaO/TxsrC4Is0V1sFbDwCgg=\"),\n\t\t\tRegion:           pulumi.String(\"us-east-1\"),\n\t\t\tTier:             pulumi.String(\"production\"),\n\t\t})\n\t\tif err != nil {\n\t\t\treturn err\n\t\t}\n\t\treturn nil\n\t})\n}\n```\n```java\npackage generated_program;\n\nimport com.pulumi.Context;\nimport com.pulumi.Pulumi;\nimport com.pulumi.core.Output;\nimport com.pulumi.clickhouse.Service;\nimport com.pulumi.clickhouse.ServiceArgs;\nimport com.pulumi.clickhouse.inputs.ServiceIpAccessArgs;\nimport java.util.List;\nimport java.util.ArrayList;\nimport java.util.Map;\nimport java.io.File;\nimport java.nio.file.Files;\nimport java.nio.file.Paths;\n\npublic class App {\n    public static void main(String[] args) {\n        Pulumi.run(App::stack);\n    }\n\n    public static void stack(Context ctx) {\n        var service = new Service(\"service\", ServiceArgs.builder()\n            .cloudProvider(\"aws\")\n            .idleScaling(true)\n            .idleTimeoutMinutes(5)\n            .ipAccesses(ServiceIpAccessArgs.builder()\n                .description(\"Test IP\")\n                .source(\"192.168.2.63\")\n                .build())\n            .maxTotalMemoryGb(360)\n            .minTotalMemoryGb(24)\n            .passwordHash(\"n4bQgYhMfWWaL+qgxVrQFaO/TxsrC4Is0V1sFbDwCgg=\")\n            .region(\"us-east-1\")\n            .tier(\"production\")\n            .build());\n\n    }\n}\n```\n```yaml\nresources:\n  service:\n    type: clickhouse:Service\n    properties:\n      cloudProvider: aws\n      idleScaling: true\n      idleTimeoutMinutes: 5\n      ipAccesses:\n        - description: Test IP\n          source: 192.168.2.63\n      maxTotalMemoryGb: 360\n      minTotalMemoryGb: 24\n      passwordHash: n4bQgYhMfWWaL+qgxVrQFaO/TxsrC4Is0V1sFbDwCgg=\n      # base64 encoded sha256 hash of \"test\"\n      region: us-east-1\n      tier: production\n```\n\u003c!--End PulumiCodeChooser --\u003e\n\n## Import\n\nServices can be imported by specifying the UUID.\n\n```sh\n$ pulumi import clickhouse:index/service:Service example xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx\n```\n\n",
             "properties": {
                 "cloudProvider": {
                     "type": "string",
@@ -276,11 +277,11 @@
                 },
                 "idleScaling": {
                     "type": "boolean",
-                    "description": "When set to true the service is allowed to scale down to zero when idle. Always true for development services. Configurable only for 'production' services.\n"
+                    "description": "When set to true the service is allowed to scale down to zero when idle.\n"
                 },
                 "idleTimeoutMinutes": {
                     "type": "integer",
-                    "description": "Set minimum idling timeout (in minutes). Available only for 'production' services. Must be greater than or equal to 5 minutes.\n"
+                    "description": "Set minimum idling timeout (in minutes). Must be greater than or equal to 5 minutes. Must be set if idle_scaling is enabled\n"
                 },
                 "ipAccesses": {
                     "type": "array",
@@ -367,11 +368,11 @@
                 },
                 "idleScaling": {
                     "type": "boolean",
-                    "description": "When set to true the service is allowed to scale down to zero when idle. Always true for development services. Configurable only for 'production' services.\n"
+                    "description": "When set to true the service is allowed to scale down to zero when idle.\n"
                 },
                 "idleTimeoutMinutes": {
                     "type": "integer",
-                    "description": "Set minimum idling timeout (in minutes). Available only for 'production' services. Must be greater than or equal to 5 minutes.\n"
+                    "description": "Set minimum idling timeout (in minutes). Must be greater than or equal to 5 minutes. Must be set if idle_scaling is enabled\n"
                 },
                 "ipAccesses": {
                     "type": "array",
@@ -457,11 +458,11 @@
                     },
                     "idleScaling": {
                         "type": "boolean",
-                        "description": "When set to true the service is allowed to scale down to zero when idle. Always true for development services. Configurable only for 'production' services.\n"
+                        "description": "When set to true the service is allowed to scale down to zero when idle.\n"
                     },
                     "idleTimeoutMinutes": {
                         "type": "integer",
-                        "description": "Set minimum idling timeout (in minutes). Available only for 'production' services. Must be greater than or equal to 5 minutes.\n"
+                        "description": "Set minimum idling timeout (in minutes). Must be greater than or equal to 5 minutes. Must be set if idle_scaling is enabled\n"
                     },
                     "ipAccesses": {
                         "type": "array",
