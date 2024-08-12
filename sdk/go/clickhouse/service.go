@@ -78,14 +78,15 @@ type Service struct {
 	// Set minimum idling timeout (in minutes). Must be greater than or equal to 5 minutes. Must be set if idleScaling is enabled
 	IdleTimeoutMinutes pulumi.IntPtrOutput `pulumi:"idleTimeoutMinutes"`
 	// List of IP addresses allowed to access the service.
-	IpAccesses  ServiceIpAccessArrayOutput `pulumi:"ipAccesses"`
-	LastUpdated pulumi.StringOutput        `pulumi:"lastUpdated"`
+	IpAccesses ServiceIpAccessArrayOutput `pulumi:"ipAccesses"`
 	// Maximum total memory of all workers during auto-scaling in Gb. Available only for 'production' services. Must be a multiple of 12 and lower than 360 for non paid services or 720 for paid services.
 	MaxTotalMemoryGb pulumi.IntPtrOutput `pulumi:"maxTotalMemoryGb"`
 	// Minimum total memory of all workers during auto-scaling in Gb. Available only for 'production' services. Must be a multiple of 12 and greater than 24.
 	MinTotalMemoryGb pulumi.IntPtrOutput `pulumi:"minTotalMemoryGb"`
 	// User defined identifier for the service.
 	Name pulumi.StringOutput `pulumi:"name"`
+	// Number of replicas for the service. Available only for 'production' services. Must be between 3 and 20. Contact support to enable this feature.
+	NumReplicas pulumi.IntPtrOutput `pulumi:"numReplicas"`
 	// Password for the default user. One of either `password` or `passwordHash` must be specified.
 	Password pulumi.StringPtrOutput `pulumi:"password"`
 	// SHA256 hash of password for the default user. One of either `password` or `passwordHash` must be specified.
@@ -176,14 +177,15 @@ type serviceState struct {
 	// Set minimum idling timeout (in minutes). Must be greater than or equal to 5 minutes. Must be set if idleScaling is enabled
 	IdleTimeoutMinutes *int `pulumi:"idleTimeoutMinutes"`
 	// List of IP addresses allowed to access the service.
-	IpAccesses  []ServiceIpAccess `pulumi:"ipAccesses"`
-	LastUpdated *string           `pulumi:"lastUpdated"`
+	IpAccesses []ServiceIpAccess `pulumi:"ipAccesses"`
 	// Maximum total memory of all workers during auto-scaling in Gb. Available only for 'production' services. Must be a multiple of 12 and lower than 360 for non paid services or 720 for paid services.
 	MaxTotalMemoryGb *int `pulumi:"maxTotalMemoryGb"`
 	// Minimum total memory of all workers during auto-scaling in Gb. Available only for 'production' services. Must be a multiple of 12 and greater than 24.
 	MinTotalMemoryGb *int `pulumi:"minTotalMemoryGb"`
 	// User defined identifier for the service.
 	Name *string `pulumi:"name"`
+	// Number of replicas for the service. Available only for 'production' services. Must be between 3 and 20. Contact support to enable this feature.
+	NumReplicas *int `pulumi:"numReplicas"`
 	// Password for the default user. One of either `password` or `passwordHash` must be specified.
 	Password *string `pulumi:"password"`
 	// SHA256 hash of password for the default user. One of either `password` or `passwordHash` must be specified.
@@ -218,14 +220,15 @@ type ServiceState struct {
 	// Set minimum idling timeout (in minutes). Must be greater than or equal to 5 minutes. Must be set if idleScaling is enabled
 	IdleTimeoutMinutes pulumi.IntPtrInput
 	// List of IP addresses allowed to access the service.
-	IpAccesses  ServiceIpAccessArrayInput
-	LastUpdated pulumi.StringPtrInput
+	IpAccesses ServiceIpAccessArrayInput
 	// Maximum total memory of all workers during auto-scaling in Gb. Available only for 'production' services. Must be a multiple of 12 and lower than 360 for non paid services or 720 for paid services.
 	MaxTotalMemoryGb pulumi.IntPtrInput
 	// Minimum total memory of all workers during auto-scaling in Gb. Available only for 'production' services. Must be a multiple of 12 and greater than 24.
 	MinTotalMemoryGb pulumi.IntPtrInput
 	// User defined identifier for the service.
 	Name pulumi.StringPtrInput
+	// Number of replicas for the service. Available only for 'production' services. Must be between 3 and 20. Contact support to enable this feature.
+	NumReplicas pulumi.IntPtrInput
 	// Password for the default user. One of either `password` or `passwordHash` must be specified.
 	Password pulumi.StringPtrInput
 	// SHA256 hash of password for the default user. One of either `password` or `passwordHash` must be specified.
@@ -267,6 +270,8 @@ type serviceArgs struct {
 	MinTotalMemoryGb *int `pulumi:"minTotalMemoryGb"`
 	// User defined identifier for the service.
 	Name *string `pulumi:"name"`
+	// Number of replicas for the service. Available only for 'production' services. Must be between 3 and 20. Contact support to enable this feature.
+	NumReplicas *int `pulumi:"numReplicas"`
 	// Password for the default user. One of either `password` or `passwordHash` must be specified.
 	Password *string `pulumi:"password"`
 	// SHA256 hash of password for the default user. One of either `password` or `passwordHash` must be specified.
@@ -301,6 +306,8 @@ type ServiceArgs struct {
 	MinTotalMemoryGb pulumi.IntPtrInput
 	// User defined identifier for the service.
 	Name pulumi.StringPtrInput
+	// Number of replicas for the service. Available only for 'production' services. Must be between 3 and 20. Contact support to enable this feature.
+	NumReplicas pulumi.IntPtrInput
 	// Password for the default user. One of either `password` or `passwordHash` must be specified.
 	Password pulumi.StringPtrInput
 	// SHA256 hash of password for the default user. One of either `password` or `passwordHash` must be specified.
@@ -445,10 +452,6 @@ func (o ServiceOutput) IpAccesses() ServiceIpAccessArrayOutput {
 	return o.ApplyT(func(v *Service) ServiceIpAccessArrayOutput { return v.IpAccesses }).(ServiceIpAccessArrayOutput)
 }
 
-func (o ServiceOutput) LastUpdated() pulumi.StringOutput {
-	return o.ApplyT(func(v *Service) pulumi.StringOutput { return v.LastUpdated }).(pulumi.StringOutput)
-}
-
 // Maximum total memory of all workers during auto-scaling in Gb. Available only for 'production' services. Must be a multiple of 12 and lower than 360 for non paid services or 720 for paid services.
 func (o ServiceOutput) MaxTotalMemoryGb() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v *Service) pulumi.IntPtrOutput { return v.MaxTotalMemoryGb }).(pulumi.IntPtrOutput)
@@ -462,6 +465,11 @@ func (o ServiceOutput) MinTotalMemoryGb() pulumi.IntPtrOutput {
 // User defined identifier for the service.
 func (o ServiceOutput) Name() pulumi.StringOutput {
 	return o.ApplyT(func(v *Service) pulumi.StringOutput { return v.Name }).(pulumi.StringOutput)
+}
+
+// Number of replicas for the service. Available only for 'production' services. Must be between 3 and 20. Contact support to enable this feature.
+func (o ServiceOutput) NumReplicas() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v *Service) pulumi.IntPtrOutput { return v.NumReplicas }).(pulumi.IntPtrOutput)
 }
 
 // Password for the default user. One of either `password` or `passwordHash` must be specified.

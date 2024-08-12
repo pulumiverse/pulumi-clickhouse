@@ -21,7 +21,7 @@ import (
 	"strings"
 	"unicode"
 
-	"terraform-provider-clickhouse/clickhouse"
+	"github.com/ClickHouse/terraform-provider-clickhouse/pkg/provider"
 
 	"github.com/ettle/strcase"
 	pf "github.com/pulumi/pulumi-terraform-bridge/pf/tfbridge"
@@ -108,7 +108,7 @@ func preConfigureCallback(vars resource.PropertyMap, c shim.ResourceConfig) erro
 // Provider returns additional overlaid schema and metadata associated with the provider..
 func Provider() tfbridge.ProviderInfo {
 	// Instantiate the Terraform provider
-	p := pf.ShimProvider(clickhouse.New())
+	p := pf.ShimProvider(provider.New())
 
 	// Create a Pulumi provider mapping
 	prov := tfbridge.ProviderInfo{
@@ -149,7 +149,7 @@ func Provider() tfbridge.ProviderInfo {
 		Version:           version.Version,
 		GitHubOrg:         "ClickHouse",
 		MetadataInfo:      tfbridge.NewProviderMetadata(bridgeMetadata),
-		TFProviderVersion: "0.0.10",
+		TFProviderVersion: "0.3.0",
 		UpstreamRepoPath:  "./upstream",
 		Config:            map[string]*tfbridge.SchemaInfo{
 			// Add any required configuration here, or remove the example below if

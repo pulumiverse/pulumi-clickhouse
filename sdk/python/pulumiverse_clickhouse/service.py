@@ -28,6 +28,7 @@ class ServiceArgs:
                  max_total_memory_gb: Optional[pulumi.Input[int]] = None,
                  min_total_memory_gb: Optional[pulumi.Input[int]] = None,
                  name: Optional[pulumi.Input[str]] = None,
+                 num_replicas: Optional[pulumi.Input[int]] = None,
                  password: Optional[pulumi.Input[str]] = None,
                  password_hash: Optional[pulumi.Input[str]] = None,
                  private_endpoint_ids: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None):
@@ -45,6 +46,7 @@ class ServiceArgs:
         :param pulumi.Input[int] max_total_memory_gb: Maximum total memory of all workers during auto-scaling in Gb. Available only for 'production' services. Must be a multiple of 12 and lower than 360 for non paid services or 720 for paid services.
         :param pulumi.Input[int] min_total_memory_gb: Minimum total memory of all workers during auto-scaling in Gb. Available only for 'production' services. Must be a multiple of 12 and greater than 24.
         :param pulumi.Input[str] name: User defined identifier for the service.
+        :param pulumi.Input[int] num_replicas: Number of replicas for the service. Available only for 'production' services. Must be between 3 and 20. Contact support to enable this feature.
         :param pulumi.Input[str] password: Password for the default user. One of either `password` or `password_hash` must be specified.
         :param pulumi.Input[str] password_hash: SHA256 hash of password for the default user. One of either `password` or `password_hash` must be specified.
         :param pulumi.Input[Sequence[pulumi.Input[str]]] private_endpoint_ids: List of private endpoint IDs
@@ -69,6 +71,8 @@ class ServiceArgs:
             pulumi.set(__self__, "min_total_memory_gb", min_total_memory_gb)
         if name is not None:
             pulumi.set(__self__, "name", name)
+        if num_replicas is not None:
+            pulumi.set(__self__, "num_replicas", num_replicas)
         if password is not None:
             pulumi.set(__self__, "password", password)
         if password_hash is not None:
@@ -221,6 +225,18 @@ class ServiceArgs:
         pulumi.set(self, "name", value)
 
     @property
+    @pulumi.getter(name="numReplicas")
+    def num_replicas(self) -> Optional[pulumi.Input[int]]:
+        """
+        Number of replicas for the service. Available only for 'production' services. Must be between 3 and 20. Contact support to enable this feature.
+        """
+        return pulumi.get(self, "num_replicas")
+
+    @num_replicas.setter
+    def num_replicas(self, value: Optional[pulumi.Input[int]]):
+        pulumi.set(self, "num_replicas", value)
+
+    @property
     @pulumi.getter
     def password(self) -> Optional[pulumi.Input[str]]:
         """
@@ -269,10 +285,10 @@ class _ServiceState:
                  idle_scaling: Optional[pulumi.Input[bool]] = None,
                  idle_timeout_minutes: Optional[pulumi.Input[int]] = None,
                  ip_accesses: Optional[pulumi.Input[Sequence[pulumi.Input['ServiceIpAccessArgs']]]] = None,
-                 last_updated: Optional[pulumi.Input[str]] = None,
                  max_total_memory_gb: Optional[pulumi.Input[int]] = None,
                  min_total_memory_gb: Optional[pulumi.Input[int]] = None,
                  name: Optional[pulumi.Input[str]] = None,
+                 num_replicas: Optional[pulumi.Input[int]] = None,
                  password: Optional[pulumi.Input[str]] = None,
                  password_hash: Optional[pulumi.Input[str]] = None,
                  private_endpoint_config: Optional[pulumi.Input['ServicePrivateEndpointConfigArgs']] = None,
@@ -293,6 +309,7 @@ class _ServiceState:
         :param pulumi.Input[int] max_total_memory_gb: Maximum total memory of all workers during auto-scaling in Gb. Available only for 'production' services. Must be a multiple of 12 and lower than 360 for non paid services or 720 for paid services.
         :param pulumi.Input[int] min_total_memory_gb: Minimum total memory of all workers during auto-scaling in Gb. Available only for 'production' services. Must be a multiple of 12 and greater than 24.
         :param pulumi.Input[str] name: User defined identifier for the service.
+        :param pulumi.Input[int] num_replicas: Number of replicas for the service. Available only for 'production' services. Must be between 3 and 20. Contact support to enable this feature.
         :param pulumi.Input[str] password: Password for the default user. One of either `password` or `password_hash` must be specified.
         :param pulumi.Input[str] password_hash: SHA256 hash of password for the default user. One of either `password` or `password_hash` must be specified.
         :param pulumi.Input['ServicePrivateEndpointConfigArgs'] private_endpoint_config: Service config for private endpoints
@@ -318,14 +335,14 @@ class _ServiceState:
             pulumi.set(__self__, "idle_timeout_minutes", idle_timeout_minutes)
         if ip_accesses is not None:
             pulumi.set(__self__, "ip_accesses", ip_accesses)
-        if last_updated is not None:
-            pulumi.set(__self__, "last_updated", last_updated)
         if max_total_memory_gb is not None:
             pulumi.set(__self__, "max_total_memory_gb", max_total_memory_gb)
         if min_total_memory_gb is not None:
             pulumi.set(__self__, "min_total_memory_gb", min_total_memory_gb)
         if name is not None:
             pulumi.set(__self__, "name", name)
+        if num_replicas is not None:
+            pulumi.set(__self__, "num_replicas", num_replicas)
         if password is not None:
             pulumi.set(__self__, "password", password)
         if password_hash is not None:
@@ -451,15 +468,6 @@ class _ServiceState:
         pulumi.set(self, "ip_accesses", value)
 
     @property
-    @pulumi.getter(name="lastUpdated")
-    def last_updated(self) -> Optional[pulumi.Input[str]]:
-        return pulumi.get(self, "last_updated")
-
-    @last_updated.setter
-    def last_updated(self, value: Optional[pulumi.Input[str]]):
-        pulumi.set(self, "last_updated", value)
-
-    @property
     @pulumi.getter(name="maxTotalMemoryGb")
     def max_total_memory_gb(self) -> Optional[pulumi.Input[int]]:
         """
@@ -494,6 +502,18 @@ class _ServiceState:
     @name.setter
     def name(self, value: Optional[pulumi.Input[str]]):
         pulumi.set(self, "name", value)
+
+    @property
+    @pulumi.getter(name="numReplicas")
+    def num_replicas(self) -> Optional[pulumi.Input[int]]:
+        """
+        Number of replicas for the service. Available only for 'production' services. Must be between 3 and 20. Contact support to enable this feature.
+        """
+        return pulumi.get(self, "num_replicas")
+
+    @num_replicas.setter
+    def num_replicas(self, value: Optional[pulumi.Input[int]]):
+        pulumi.set(self, "num_replicas", value)
 
     @property
     @pulumi.getter
@@ -580,10 +600,11 @@ class Service(pulumi.CustomResource):
                  encryption_key: Optional[pulumi.Input[str]] = None,
                  idle_scaling: Optional[pulumi.Input[bool]] = None,
                  idle_timeout_minutes: Optional[pulumi.Input[int]] = None,
-                 ip_accesses: Optional[pulumi.Input[Sequence[pulumi.Input[pulumi.InputType['ServiceIpAccessArgs']]]]] = None,
+                 ip_accesses: Optional[pulumi.Input[Sequence[pulumi.Input[Union['ServiceIpAccessArgs', 'ServiceIpAccessArgsDict']]]]] = None,
                  max_total_memory_gb: Optional[pulumi.Input[int]] = None,
                  min_total_memory_gb: Optional[pulumi.Input[int]] = None,
                  name: Optional[pulumi.Input[str]] = None,
+                 num_replicas: Optional[pulumi.Input[int]] = None,
                  password: Optional[pulumi.Input[str]] = None,
                  password_hash: Optional[pulumi.Input[str]] = None,
                  private_endpoint_ids: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
@@ -601,10 +622,10 @@ class Service(pulumi.CustomResource):
             cloud_provider="aws",
             idle_scaling=True,
             idle_timeout_minutes=5,
-            ip_accesses=[clickhouse.ServiceIpAccessArgs(
-                description="Test IP",
-                source="192.168.2.63",
-            )],
+            ip_accesses=[{
+                "description": "Test IP",
+                "source": "192.168.2.63",
+            }],
             max_total_memory_gb=360,
             min_total_memory_gb=24,
             password_hash="n4bQgYhMfWWaL+qgxVrQFaO/TxsrC4Is0V1sFbDwCgg=",
@@ -628,10 +649,11 @@ class Service(pulumi.CustomResource):
         :param pulumi.Input[str] encryption_key: Custom encryption key arn
         :param pulumi.Input[bool] idle_scaling: When set to true the service is allowed to scale down to zero when idle.
         :param pulumi.Input[int] idle_timeout_minutes: Set minimum idling timeout (in minutes). Must be greater than or equal to 5 minutes. Must be set if idle_scaling is enabled
-        :param pulumi.Input[Sequence[pulumi.Input[pulumi.InputType['ServiceIpAccessArgs']]]] ip_accesses: List of IP addresses allowed to access the service.
+        :param pulumi.Input[Sequence[pulumi.Input[Union['ServiceIpAccessArgs', 'ServiceIpAccessArgsDict']]]] ip_accesses: List of IP addresses allowed to access the service.
         :param pulumi.Input[int] max_total_memory_gb: Maximum total memory of all workers during auto-scaling in Gb. Available only for 'production' services. Must be a multiple of 12 and lower than 360 for non paid services or 720 for paid services.
         :param pulumi.Input[int] min_total_memory_gb: Minimum total memory of all workers during auto-scaling in Gb. Available only for 'production' services. Must be a multiple of 12 and greater than 24.
         :param pulumi.Input[str] name: User defined identifier for the service.
+        :param pulumi.Input[int] num_replicas: Number of replicas for the service. Available only for 'production' services. Must be between 3 and 20. Contact support to enable this feature.
         :param pulumi.Input[str] password: Password for the default user. One of either `password` or `password_hash` must be specified.
         :param pulumi.Input[str] password_hash: SHA256 hash of password for the default user. One of either `password` or `password_hash` must be specified.
         :param pulumi.Input[Sequence[pulumi.Input[str]]] private_endpoint_ids: List of private endpoint IDs
@@ -655,10 +677,10 @@ class Service(pulumi.CustomResource):
             cloud_provider="aws",
             idle_scaling=True,
             idle_timeout_minutes=5,
-            ip_accesses=[clickhouse.ServiceIpAccessArgs(
-                description="Test IP",
-                source="192.168.2.63",
-            )],
+            ip_accesses=[{
+                "description": "Test IP",
+                "source": "192.168.2.63",
+            }],
             max_total_memory_gb=360,
             min_total_memory_gb=24,
             password_hash="n4bQgYhMfWWaL+qgxVrQFaO/TxsrC4Is0V1sFbDwCgg=",
@@ -695,10 +717,11 @@ class Service(pulumi.CustomResource):
                  encryption_key: Optional[pulumi.Input[str]] = None,
                  idle_scaling: Optional[pulumi.Input[bool]] = None,
                  idle_timeout_minutes: Optional[pulumi.Input[int]] = None,
-                 ip_accesses: Optional[pulumi.Input[Sequence[pulumi.Input[pulumi.InputType['ServiceIpAccessArgs']]]]] = None,
+                 ip_accesses: Optional[pulumi.Input[Sequence[pulumi.Input[Union['ServiceIpAccessArgs', 'ServiceIpAccessArgsDict']]]]] = None,
                  max_total_memory_gb: Optional[pulumi.Input[int]] = None,
                  min_total_memory_gb: Optional[pulumi.Input[int]] = None,
                  name: Optional[pulumi.Input[str]] = None,
+                 num_replicas: Optional[pulumi.Input[int]] = None,
                  password: Optional[pulumi.Input[str]] = None,
                  password_hash: Optional[pulumi.Input[str]] = None,
                  private_endpoint_ids: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
@@ -727,6 +750,7 @@ class Service(pulumi.CustomResource):
             __props__.__dict__["max_total_memory_gb"] = max_total_memory_gb
             __props__.__dict__["min_total_memory_gb"] = min_total_memory_gb
             __props__.__dict__["name"] = name
+            __props__.__dict__["num_replicas"] = num_replicas
             __props__.__dict__["password"] = None if password is None else pulumi.Output.secret(password)
             __props__.__dict__["password_hash"] = None if password_hash is None else pulumi.Output.secret(password_hash)
             __props__.__dict__["private_endpoint_ids"] = private_endpoint_ids
@@ -738,7 +762,6 @@ class Service(pulumi.CustomResource):
             __props__.__dict__["tier"] = tier
             __props__.__dict__["endpoints"] = None
             __props__.__dict__["iam_role"] = None
-            __props__.__dict__["last_updated"] = None
             __props__.__dict__["private_endpoint_config"] = None
         secret_opts = pulumi.ResourceOptions(additional_secret_outputs=["doubleSha1PasswordHash", "password", "passwordHash"])
         opts = pulumi.ResourceOptions.merge(opts, secret_opts)
@@ -756,18 +779,18 @@ class Service(pulumi.CustomResource):
             double_sha1_password_hash: Optional[pulumi.Input[str]] = None,
             encryption_assumed_role_identifier: Optional[pulumi.Input[str]] = None,
             encryption_key: Optional[pulumi.Input[str]] = None,
-            endpoints: Optional[pulumi.Input[Sequence[pulumi.Input[pulumi.InputType['ServiceEndpointArgs']]]]] = None,
+            endpoints: Optional[pulumi.Input[Sequence[pulumi.Input[Union['ServiceEndpointArgs', 'ServiceEndpointArgsDict']]]]] = None,
             iam_role: Optional[pulumi.Input[str]] = None,
             idle_scaling: Optional[pulumi.Input[bool]] = None,
             idle_timeout_minutes: Optional[pulumi.Input[int]] = None,
-            ip_accesses: Optional[pulumi.Input[Sequence[pulumi.Input[pulumi.InputType['ServiceIpAccessArgs']]]]] = None,
-            last_updated: Optional[pulumi.Input[str]] = None,
+            ip_accesses: Optional[pulumi.Input[Sequence[pulumi.Input[Union['ServiceIpAccessArgs', 'ServiceIpAccessArgsDict']]]]] = None,
             max_total_memory_gb: Optional[pulumi.Input[int]] = None,
             min_total_memory_gb: Optional[pulumi.Input[int]] = None,
             name: Optional[pulumi.Input[str]] = None,
+            num_replicas: Optional[pulumi.Input[int]] = None,
             password: Optional[pulumi.Input[str]] = None,
             password_hash: Optional[pulumi.Input[str]] = None,
-            private_endpoint_config: Optional[pulumi.Input[pulumi.InputType['ServicePrivateEndpointConfigArgs']]] = None,
+            private_endpoint_config: Optional[pulumi.Input[Union['ServicePrivateEndpointConfigArgs', 'ServicePrivateEndpointConfigArgsDict']]] = None,
             private_endpoint_ids: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
             region: Optional[pulumi.Input[str]] = None,
             tier: Optional[pulumi.Input[str]] = None) -> 'Service':
@@ -782,17 +805,18 @@ class Service(pulumi.CustomResource):
         :param pulumi.Input[str] double_sha1_password_hash: Double SHA1 hash of password for connecting with the MySQL protocol. Cannot be specified if `password` is specified.
         :param pulumi.Input[str] encryption_assumed_role_identifier: Custom role identifier arn
         :param pulumi.Input[str] encryption_key: Custom encryption key arn
-        :param pulumi.Input[Sequence[pulumi.Input[pulumi.InputType['ServiceEndpointArgs']]]] endpoints: List of public endpoints.
+        :param pulumi.Input[Sequence[pulumi.Input[Union['ServiceEndpointArgs', 'ServiceEndpointArgsDict']]]] endpoints: List of public endpoints.
         :param pulumi.Input[str] iam_role: IAM role used for accessing objects in s3.
         :param pulumi.Input[bool] idle_scaling: When set to true the service is allowed to scale down to zero when idle.
         :param pulumi.Input[int] idle_timeout_minutes: Set minimum idling timeout (in minutes). Must be greater than or equal to 5 minutes. Must be set if idle_scaling is enabled
-        :param pulumi.Input[Sequence[pulumi.Input[pulumi.InputType['ServiceIpAccessArgs']]]] ip_accesses: List of IP addresses allowed to access the service.
+        :param pulumi.Input[Sequence[pulumi.Input[Union['ServiceIpAccessArgs', 'ServiceIpAccessArgsDict']]]] ip_accesses: List of IP addresses allowed to access the service.
         :param pulumi.Input[int] max_total_memory_gb: Maximum total memory of all workers during auto-scaling in Gb. Available only for 'production' services. Must be a multiple of 12 and lower than 360 for non paid services or 720 for paid services.
         :param pulumi.Input[int] min_total_memory_gb: Minimum total memory of all workers during auto-scaling in Gb. Available only for 'production' services. Must be a multiple of 12 and greater than 24.
         :param pulumi.Input[str] name: User defined identifier for the service.
+        :param pulumi.Input[int] num_replicas: Number of replicas for the service. Available only for 'production' services. Must be between 3 and 20. Contact support to enable this feature.
         :param pulumi.Input[str] password: Password for the default user. One of either `password` or `password_hash` must be specified.
         :param pulumi.Input[str] password_hash: SHA256 hash of password for the default user. One of either `password` or `password_hash` must be specified.
-        :param pulumi.Input[pulumi.InputType['ServicePrivateEndpointConfigArgs']] private_endpoint_config: Service config for private endpoints
+        :param pulumi.Input[Union['ServicePrivateEndpointConfigArgs', 'ServicePrivateEndpointConfigArgsDict']] private_endpoint_config: Service config for private endpoints
         :param pulumi.Input[Sequence[pulumi.Input[str]]] private_endpoint_ids: List of private endpoint IDs
         :param pulumi.Input[str] region: Region within the cloud provider in which the service is deployed in.
         :param pulumi.Input[str] tier: Tier of the service: 'development', 'production'. Production services scale, Development are fixed size.
@@ -810,10 +834,10 @@ class Service(pulumi.CustomResource):
         __props__.__dict__["idle_scaling"] = idle_scaling
         __props__.__dict__["idle_timeout_minutes"] = idle_timeout_minutes
         __props__.__dict__["ip_accesses"] = ip_accesses
-        __props__.__dict__["last_updated"] = last_updated
         __props__.__dict__["max_total_memory_gb"] = max_total_memory_gb
         __props__.__dict__["min_total_memory_gb"] = min_total_memory_gb
         __props__.__dict__["name"] = name
+        __props__.__dict__["num_replicas"] = num_replicas
         __props__.__dict__["password"] = password
         __props__.__dict__["password_hash"] = password_hash
         __props__.__dict__["private_endpoint_config"] = private_endpoint_config
@@ -895,11 +919,6 @@ class Service(pulumi.CustomResource):
         return pulumi.get(self, "ip_accesses")
 
     @property
-    @pulumi.getter(name="lastUpdated")
-    def last_updated(self) -> pulumi.Output[str]:
-        return pulumi.get(self, "last_updated")
-
-    @property
     @pulumi.getter(name="maxTotalMemoryGb")
     def max_total_memory_gb(self) -> pulumi.Output[Optional[int]]:
         """
@@ -922,6 +941,14 @@ class Service(pulumi.CustomResource):
         User defined identifier for the service.
         """
         return pulumi.get(self, "name")
+
+    @property
+    @pulumi.getter(name="numReplicas")
+    def num_replicas(self) -> pulumi.Output[Optional[int]]:
+        """
+        Number of replicas for the service. Available only for 'production' services. Must be between 3 and 20. Contact support to enable this feature.
+        """
+        return pulumi.get(self, "num_replicas")
 
     @property
     @pulumi.getter

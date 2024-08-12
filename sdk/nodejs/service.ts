@@ -101,7 +101,6 @@ export class Service extends pulumi.CustomResource {
      * List of IP addresses allowed to access the service.
      */
     public readonly ipAccesses!: pulumi.Output<outputs.ServiceIpAccess[]>;
-    public /*out*/ readonly lastUpdated!: pulumi.Output<string>;
     /**
      * Maximum total memory of all workers during auto-scaling in Gb. Available only for 'production' services. Must be a multiple of 12 and lower than 360 for non paid services or 720 for paid services.
      */
@@ -114,6 +113,10 @@ export class Service extends pulumi.CustomResource {
      * User defined identifier for the service.
      */
     public readonly name!: pulumi.Output<string>;
+    /**
+     * Number of replicas for the service. Available only for 'production' services. Must be between 3 and 20. Contact support to enable this feature.
+     */
+    public readonly numReplicas!: pulumi.Output<number | undefined>;
     /**
      * Password for the default user. One of either `password` or `passwordHash` must be specified.
      */
@@ -163,10 +166,10 @@ export class Service extends pulumi.CustomResource {
             resourceInputs["idleScaling"] = state ? state.idleScaling : undefined;
             resourceInputs["idleTimeoutMinutes"] = state ? state.idleTimeoutMinutes : undefined;
             resourceInputs["ipAccesses"] = state ? state.ipAccesses : undefined;
-            resourceInputs["lastUpdated"] = state ? state.lastUpdated : undefined;
             resourceInputs["maxTotalMemoryGb"] = state ? state.maxTotalMemoryGb : undefined;
             resourceInputs["minTotalMemoryGb"] = state ? state.minTotalMemoryGb : undefined;
             resourceInputs["name"] = state ? state.name : undefined;
+            resourceInputs["numReplicas"] = state ? state.numReplicas : undefined;
             resourceInputs["password"] = state ? state.password : undefined;
             resourceInputs["passwordHash"] = state ? state.passwordHash : undefined;
             resourceInputs["privateEndpointConfig"] = state ? state.privateEndpointConfig : undefined;
@@ -197,6 +200,7 @@ export class Service extends pulumi.CustomResource {
             resourceInputs["maxTotalMemoryGb"] = args ? args.maxTotalMemoryGb : undefined;
             resourceInputs["minTotalMemoryGb"] = args ? args.minTotalMemoryGb : undefined;
             resourceInputs["name"] = args ? args.name : undefined;
+            resourceInputs["numReplicas"] = args ? args.numReplicas : undefined;
             resourceInputs["password"] = args?.password ? pulumi.secret(args.password) : undefined;
             resourceInputs["passwordHash"] = args?.passwordHash ? pulumi.secret(args.passwordHash) : undefined;
             resourceInputs["privateEndpointIds"] = args ? args.privateEndpointIds : undefined;
@@ -204,7 +208,6 @@ export class Service extends pulumi.CustomResource {
             resourceInputs["tier"] = args ? args.tier : undefined;
             resourceInputs["endpoints"] = undefined /*out*/;
             resourceInputs["iamRole"] = undefined /*out*/;
-            resourceInputs["lastUpdated"] = undefined /*out*/;
             resourceInputs["privateEndpointConfig"] = undefined /*out*/;
         }
         opts = pulumi.mergeOptions(utilities.resourceOptsDefaults(), opts);
@@ -254,7 +257,6 @@ export interface ServiceState {
      * List of IP addresses allowed to access the service.
      */
     ipAccesses?: pulumi.Input<pulumi.Input<inputs.ServiceIpAccess>[]>;
-    lastUpdated?: pulumi.Input<string>;
     /**
      * Maximum total memory of all workers during auto-scaling in Gb. Available only for 'production' services. Must be a multiple of 12 and lower than 360 for non paid services or 720 for paid services.
      */
@@ -267,6 +269,10 @@ export interface ServiceState {
      * User defined identifier for the service.
      */
     name?: pulumi.Input<string>;
+    /**
+     * Number of replicas for the service. Available only for 'production' services. Must be between 3 and 20. Contact support to enable this feature.
+     */
+    numReplicas?: pulumi.Input<number>;
     /**
      * Password for the default user. One of either `password` or `passwordHash` must be specified.
      */
@@ -339,6 +345,10 @@ export interface ServiceArgs {
      * User defined identifier for the service.
      */
     name?: pulumi.Input<string>;
+    /**
+     * Number of replicas for the service. Available only for 'production' services. Must be between 3 and 20. Contact support to enable this feature.
+     */
+    numReplicas?: pulumi.Input<number>;
     /**
      * Password for the default user. One of either `password` or `passwordHash` must be specified.
      */

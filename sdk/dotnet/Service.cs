@@ -109,9 +109,6 @@ namespace Pulumiverse.Clickhouse
         [Output("ipAccesses")]
         public Output<ImmutableArray<Outputs.ServiceIpAccess>> IpAccesses { get; private set; } = null!;
 
-        [Output("lastUpdated")]
-        public Output<string> LastUpdated { get; private set; } = null!;
-
         /// <summary>
         /// Maximum total memory of all workers during auto-scaling in Gb. Available only for 'production' services. Must be a multiple of 12 and lower than 360 for non paid services or 720 for paid services.
         /// </summary>
@@ -129,6 +126,12 @@ namespace Pulumiverse.Clickhouse
         /// </summary>
         [Output("name")]
         public Output<string> Name { get; private set; } = null!;
+
+        /// <summary>
+        /// Number of replicas for the service. Available only for 'production' services. Must be between 3 and 20. Contact support to enable this feature.
+        /// </summary>
+        [Output("numReplicas")]
+        public Output<int?> NumReplicas { get; private set; } = null!;
 
         /// <summary>
         /// Password for the default user. One of either `password` or `password_hash` must be specified.
@@ -295,6 +298,12 @@ namespace Pulumiverse.Clickhouse
         [Input("name")]
         public Input<string>? Name { get; set; }
 
+        /// <summary>
+        /// Number of replicas for the service. Available only for 'production' services. Must be between 3 and 20. Contact support to enable this feature.
+        /// </summary>
+        [Input("numReplicas")]
+        public Input<int>? NumReplicas { get; set; }
+
         [Input("password")]
         private Input<string>? _password;
 
@@ -435,9 +444,6 @@ namespace Pulumiverse.Clickhouse
             set => _ipAccesses = value;
         }
 
-        [Input("lastUpdated")]
-        public Input<string>? LastUpdated { get; set; }
-
         /// <summary>
         /// Maximum total memory of all workers during auto-scaling in Gb. Available only for 'production' services. Must be a multiple of 12 and lower than 360 for non paid services or 720 for paid services.
         /// </summary>
@@ -455,6 +461,12 @@ namespace Pulumiverse.Clickhouse
         /// </summary>
         [Input("name")]
         public Input<string>? Name { get; set; }
+
+        /// <summary>
+        /// Number of replicas for the service. Available only for 'production' services. Must be between 3 and 20. Contact support to enable this feature.
+        /// </summary>
+        [Input("numReplicas")]
+        public Input<int>? NumReplicas { get; set; }
 
         [Input("password")]
         private Input<string>? _password;
