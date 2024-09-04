@@ -15,6 +15,7 @@
 package provider
 
 import (
+	"context"
 	_ "embed"
 	"fmt"
 	"path/filepath"
@@ -149,7 +150,7 @@ func Provider() tfbridge.ProviderInfo {
 		Version:           version.Version,
 		GitHubOrg:         "ClickHouse",
 		MetadataInfo:      tfbridge.NewProviderMetadata(bridgeMetadata),
-		TFProviderVersion: "0.3.0",
+		TFProviderVersion: "1.0.0",
 		UpstreamRepoPath:  "./upstream",
 		Config:            map[string]*tfbridge.SchemaInfo{
 			// Add any required configuration here, or remove the example below if
@@ -162,12 +163,45 @@ func Provider() tfbridge.ProviderInfo {
 			// },
 		},
 		PreConfigureCallback: preConfigureCallback,
-		Resources:            map[string]*tfbridge.ResourceInfo{
+		Resources: map[string]*tfbridge.ResourceInfo{
 			// Map each resource in the Terraform provider to a Pulumi type.
 			//
 			// "aws_iam_role": {
 			//   Tok: makeResource(mainMod, "aws_iam_role"),
 			// },
+			"clickhouse_service_private_endpoints_attachment": {
+				Tok: makeResource("clickhouse_service_private_endpoints_attachment"),
+				ComputeID: func(ctx context.Context, state resource.PropertyMap) (resource.ID, error) {
+					serviceId := state["service_id"]
+					privateEndpointIds := state["private_endpoint_ids"]
+
+					if serviceId.IsNull() {
+						return "", fmt.Errorf("service_id is required")
+					}
+
+					if privateEndpointIds.IsNull() || !privateEndpointIds.IsArray() {
+						return "", fmt.Errorf("private_endpoint_ids must be a non-empty array")
+					}
+
+					idParts := []string{serviceId.StringValue()}
+					for _, id := range privateEndpointIds.ArrayValue() {
+						idParts = append(idParts, id.StringValue())
+					}
+
+					return resource.ID(strings.Join(idParts, ":")), nil
+				},
+			},
+			"clickhouse_private_endpoint_registration": {
+				Tok: makeResource("clickhouse_private_endpoint_registration"),
+				ComputeID: func(ctx context.Context, state resource.PropertyMap) (resource.ID, error) {
+					privateEndpointId := state["private_endpoint_id"]
+					cloudProvider := state["cloud_provider"]
+					if privateEndpointId.IsNull() || cloudProvider.IsNull() {
+						return "", fmt.Errorf("cloud_provider and region are required")
+					}
+					return resource.ID(fmt.Sprintf("%s-%s", cloudProvider.StringValue(), privateEndpointId.StringValue())), nil
+				},
+			},
 		},
 		DataSources: map[string]*tfbridge.DataSourceInfo{
 			// Map each data source in the Terraform provider to a Pulumi function.

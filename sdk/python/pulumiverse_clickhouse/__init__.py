@@ -16,9 +16,12 @@ if typing.TYPE_CHECKING:
     config = __config
     import pulumiverse_clickhouse.privateendpoint as __privateendpoint
     privateendpoint = __privateendpoint
+    import pulumiverse_clickhouse.serviceprivateendpoints as __serviceprivateendpoints
+    serviceprivateendpoints = __serviceprivateendpoints
 else:
     config = _utilities.lazy_import('pulumiverse_clickhouse.config')
     privateendpoint = _utilities.lazy_import('pulumiverse_clickhouse.privateendpoint')
+    serviceprivateendpoints = _utilities.lazy_import('pulumiverse_clickhouse.serviceprivateendpoints')
 
 _utilities.register(
     resource_modules="""
@@ -29,6 +32,14 @@ _utilities.register(
   "fqn": "pulumiverse_clickhouse.privateendpoint",
   "classes": {
    "clickhouse:PrivateEndpoint/registration:Registration": "Registration"
+  }
+ },
+ {
+  "pkg": "clickhouse",
+  "mod": "ServicePrivateEndpoints/attachment",
+  "fqn": "pulumiverse_clickhouse.serviceprivateendpoints",
+  "classes": {
+   "clickhouse:ServicePrivateEndpoints/attachment:Attachment": "Attachment"
   }
  },
  {

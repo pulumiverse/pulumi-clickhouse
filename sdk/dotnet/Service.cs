@@ -11,6 +11,8 @@ using Pulumi;
 namespace Pulumiverse.Clickhouse
 {
     /// <summary>
+    /// You can use the *clickhouse_service* resource to deploy ClickHouse cloud instances on supported cloud providers.
+    /// 
     /// ## Example Usage
     /// 
     /// ```csharp
@@ -150,12 +152,6 @@ namespace Pulumiverse.Clickhouse
         /// </summary>
         [Output("privateEndpointConfig")]
         public Output<Outputs.ServicePrivateEndpointConfig> PrivateEndpointConfig { get; private set; } = null!;
-
-        /// <summary>
-        /// List of private endpoint IDs
-        /// </summary>
-        [Output("privateEndpointIds")]
-        public Output<ImmutableArray<string>> PrivateEndpointIds { get; private set; } = null!;
 
         /// <summary>
         /// Region within the cloud provider in which the service is deployed in.
@@ -336,18 +332,6 @@ namespace Pulumiverse.Clickhouse
             }
         }
 
-        [Input("privateEndpointIds")]
-        private InputList<string>? _privateEndpointIds;
-
-        /// <summary>
-        /// List of private endpoint IDs
-        /// </summary>
-        public InputList<string> PrivateEndpointIds
-        {
-            get => _privateEndpointIds ?? (_privateEndpointIds = new InputList<string>());
-            set => _privateEndpointIds = value;
-        }
-
         /// <summary>
         /// Region within the cloud provider in which the service is deployed in.
         /// </summary>
@@ -505,18 +489,6 @@ namespace Pulumiverse.Clickhouse
         /// </summary>
         [Input("privateEndpointConfig")]
         public Input<Inputs.ServicePrivateEndpointConfigGetArgs>? PrivateEndpointConfig { get; set; }
-
-        [Input("privateEndpointIds")]
-        private InputList<string>? _privateEndpointIds;
-
-        /// <summary>
-        /// List of private endpoint IDs
-        /// </summary>
-        public InputList<string> PrivateEndpointIds
-        {
-            get => _privateEndpointIds ?? (_privateEndpointIds = new InputList<string>());
-            set => _privateEndpointIds = value;
-        }
 
         /// <summary>
         /// Region within the cloud provider in which the service is deployed in.

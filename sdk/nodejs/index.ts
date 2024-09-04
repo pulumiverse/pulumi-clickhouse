@@ -19,11 +19,13 @@ utilities.lazyLoad(exports, ["Service"], () => require("./service"));
 // Export sub-modules:
 import * as config from "./config";
 import * as privateendpoint from "./privateendpoint";
+import * as serviceprivateendpoints from "./serviceprivateendpoints";
 import * as types from "./types";
 
 export {
     config,
     privateendpoint,
+    serviceprivateendpoints,
     types,
 };
 

@@ -30,8 +30,7 @@ class ServiceArgs:
                  name: Optional[pulumi.Input[str]] = None,
                  num_replicas: Optional[pulumi.Input[int]] = None,
                  password: Optional[pulumi.Input[str]] = None,
-                 password_hash: Optional[pulumi.Input[str]] = None,
-                 private_endpoint_ids: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None):
+                 password_hash: Optional[pulumi.Input[str]] = None):
         """
         The set of arguments for constructing a Service resource.
         :param pulumi.Input[str] cloud_provider: Cloud provider ('aws', 'gcp', or 'azure') in which the service is deployed in.
@@ -49,7 +48,6 @@ class ServiceArgs:
         :param pulumi.Input[int] num_replicas: Number of replicas for the service. Available only for 'production' services. Must be between 3 and 20. Contact support to enable this feature.
         :param pulumi.Input[str] password: Password for the default user. One of either `password` or `password_hash` must be specified.
         :param pulumi.Input[str] password_hash: SHA256 hash of password for the default user. One of either `password` or `password_hash` must be specified.
-        :param pulumi.Input[Sequence[pulumi.Input[str]]] private_endpoint_ids: List of private endpoint IDs
         """
         pulumi.set(__self__, "cloud_provider", cloud_provider)
         pulumi.set(__self__, "ip_accesses", ip_accesses)
@@ -77,8 +75,6 @@ class ServiceArgs:
             pulumi.set(__self__, "password", password)
         if password_hash is not None:
             pulumi.set(__self__, "password_hash", password_hash)
-        if private_endpoint_ids is not None:
-            pulumi.set(__self__, "private_endpoint_ids", private_endpoint_ids)
 
     @property
     @pulumi.getter(name="cloudProvider")
@@ -260,18 +256,6 @@ class ServiceArgs:
     def password_hash(self, value: Optional[pulumi.Input[str]]):
         pulumi.set(self, "password_hash", value)
 
-    @property
-    @pulumi.getter(name="privateEndpointIds")
-    def private_endpoint_ids(self) -> Optional[pulumi.Input[Sequence[pulumi.Input[str]]]]:
-        """
-        List of private endpoint IDs
-        """
-        return pulumi.get(self, "private_endpoint_ids")
-
-    @private_endpoint_ids.setter
-    def private_endpoint_ids(self, value: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]]):
-        pulumi.set(self, "private_endpoint_ids", value)
-
 
 @pulumi.input_type
 class _ServiceState:
@@ -292,7 +276,6 @@ class _ServiceState:
                  password: Optional[pulumi.Input[str]] = None,
                  password_hash: Optional[pulumi.Input[str]] = None,
                  private_endpoint_config: Optional[pulumi.Input['ServicePrivateEndpointConfigArgs']] = None,
-                 private_endpoint_ids: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
                  region: Optional[pulumi.Input[str]] = None,
                  tier: Optional[pulumi.Input[str]] = None):
         """
@@ -313,7 +296,6 @@ class _ServiceState:
         :param pulumi.Input[str] password: Password for the default user. One of either `password` or `password_hash` must be specified.
         :param pulumi.Input[str] password_hash: SHA256 hash of password for the default user. One of either `password` or `password_hash` must be specified.
         :param pulumi.Input['ServicePrivateEndpointConfigArgs'] private_endpoint_config: Service config for private endpoints
-        :param pulumi.Input[Sequence[pulumi.Input[str]]] private_endpoint_ids: List of private endpoint IDs
         :param pulumi.Input[str] region: Region within the cloud provider in which the service is deployed in.
         :param pulumi.Input[str] tier: Tier of the service: 'development', 'production'. Production services scale, Development are fixed size.
         """
@@ -352,8 +334,6 @@ class _ServiceState:
             pulumi.log.warn("""private_endpoint_config is deprecated: Please use the `private_endpoint_get_config` data source instead.""")
         if private_endpoint_config is not None:
             pulumi.set(__self__, "private_endpoint_config", private_endpoint_config)
-        if private_endpoint_ids is not None:
-            pulumi.set(__self__, "private_endpoint_ids", private_endpoint_ids)
         if region is not None:
             pulumi.set(__self__, "region", region)
         if tier is not None:
@@ -553,18 +533,6 @@ class _ServiceState:
         pulumi.set(self, "private_endpoint_config", value)
 
     @property
-    @pulumi.getter(name="privateEndpointIds")
-    def private_endpoint_ids(self) -> Optional[pulumi.Input[Sequence[pulumi.Input[str]]]]:
-        """
-        List of private endpoint IDs
-        """
-        return pulumi.get(self, "private_endpoint_ids")
-
-    @private_endpoint_ids.setter
-    def private_endpoint_ids(self, value: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]]):
-        pulumi.set(self, "private_endpoint_ids", value)
-
-    @property
     @pulumi.getter
     def region(self) -> Optional[pulumi.Input[str]]:
         """
@@ -607,11 +575,12 @@ class Service(pulumi.CustomResource):
                  num_replicas: Optional[pulumi.Input[int]] = None,
                  password: Optional[pulumi.Input[str]] = None,
                  password_hash: Optional[pulumi.Input[str]] = None,
-                 private_endpoint_ids: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
                  region: Optional[pulumi.Input[str]] = None,
                  tier: Optional[pulumi.Input[str]] = None,
                  __props__=None):
         """
+        You can use the *clickhouse_service* resource to deploy ClickHouse cloud instances on supported cloud providers.
+
         ## Example Usage
 
         ```python
@@ -656,7 +625,6 @@ class Service(pulumi.CustomResource):
         :param pulumi.Input[int] num_replicas: Number of replicas for the service. Available only for 'production' services. Must be between 3 and 20. Contact support to enable this feature.
         :param pulumi.Input[str] password: Password for the default user. One of either `password` or `password_hash` must be specified.
         :param pulumi.Input[str] password_hash: SHA256 hash of password for the default user. One of either `password` or `password_hash` must be specified.
-        :param pulumi.Input[Sequence[pulumi.Input[str]]] private_endpoint_ids: List of private endpoint IDs
         :param pulumi.Input[str] region: Region within the cloud provider in which the service is deployed in.
         :param pulumi.Input[str] tier: Tier of the service: 'development', 'production'. Production services scale, Development are fixed size.
         """
@@ -667,6 +635,8 @@ class Service(pulumi.CustomResource):
                  args: ServiceArgs,
                  opts: Optional[pulumi.ResourceOptions] = None):
         """
+        You can use the *clickhouse_service* resource to deploy ClickHouse cloud instances on supported cloud providers.
+
         ## Example Usage
 
         ```python
@@ -724,7 +694,6 @@ class Service(pulumi.CustomResource):
                  num_replicas: Optional[pulumi.Input[int]] = None,
                  password: Optional[pulumi.Input[str]] = None,
                  password_hash: Optional[pulumi.Input[str]] = None,
-                 private_endpoint_ids: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
                  region: Optional[pulumi.Input[str]] = None,
                  tier: Optional[pulumi.Input[str]] = None,
                  __props__=None):
@@ -753,7 +722,6 @@ class Service(pulumi.CustomResource):
             __props__.__dict__["num_replicas"] = num_replicas
             __props__.__dict__["password"] = None if password is None else pulumi.Output.secret(password)
             __props__.__dict__["password_hash"] = None if password_hash is None else pulumi.Output.secret(password_hash)
-            __props__.__dict__["private_endpoint_ids"] = private_endpoint_ids
             if region is None and not opts.urn:
                 raise TypeError("Missing required property 'region'")
             __props__.__dict__["region"] = region
@@ -791,7 +759,6 @@ class Service(pulumi.CustomResource):
             password: Optional[pulumi.Input[str]] = None,
             password_hash: Optional[pulumi.Input[str]] = None,
             private_endpoint_config: Optional[pulumi.Input[Union['ServicePrivateEndpointConfigArgs', 'ServicePrivateEndpointConfigArgsDict']]] = None,
-            private_endpoint_ids: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
             region: Optional[pulumi.Input[str]] = None,
             tier: Optional[pulumi.Input[str]] = None) -> 'Service':
         """
@@ -817,7 +784,6 @@ class Service(pulumi.CustomResource):
         :param pulumi.Input[str] password: Password for the default user. One of either `password` or `password_hash` must be specified.
         :param pulumi.Input[str] password_hash: SHA256 hash of password for the default user. One of either `password` or `password_hash` must be specified.
         :param pulumi.Input[Union['ServicePrivateEndpointConfigArgs', 'ServicePrivateEndpointConfigArgsDict']] private_endpoint_config: Service config for private endpoints
-        :param pulumi.Input[Sequence[pulumi.Input[str]]] private_endpoint_ids: List of private endpoint IDs
         :param pulumi.Input[str] region: Region within the cloud provider in which the service is deployed in.
         :param pulumi.Input[str] tier: Tier of the service: 'development', 'production'. Production services scale, Development are fixed size.
         """
@@ -841,7 +807,6 @@ class Service(pulumi.CustomResource):
         __props__.__dict__["password"] = password
         __props__.__dict__["password_hash"] = password_hash
         __props__.__dict__["private_endpoint_config"] = private_endpoint_config
-        __props__.__dict__["private_endpoint_ids"] = private_endpoint_ids
         __props__.__dict__["region"] = region
         __props__.__dict__["tier"] = tier
         return Service(resource_name, opts=opts, __props__=__props__)
@@ -974,14 +939,6 @@ class Service(pulumi.CustomResource):
         Service config for private endpoints
         """
         return pulumi.get(self, "private_endpoint_config")
-
-    @property
-    @pulumi.getter(name="privateEndpointIds")
-    def private_endpoint_ids(self) -> pulumi.Output[Sequence[str]]:
-        """
-        List of private endpoint IDs
-        """
-        return pulumi.get(self, "private_endpoint_ids")
 
     @property
     @pulumi.getter

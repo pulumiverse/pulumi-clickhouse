@@ -38,7 +38,7 @@
         },
         "nodejs": {
             "packageName": "@pulumiverse/clickhouse",
-            "packageDescription": "A Pulumi package for creating and managing Clickhouse Cloud resources. Based on terraform-provider-clickhouse: version v0.3.0",
+            "packageDescription": "A Pulumi package for creating and managing Clickhouse Cloud resources. Based on terraform-provider-clickhouse: version v1.0.0",
             "readme": "\u003e This provider is a derived work of the [Terraform Provider](https://github.com/ClickHouse/terraform-provider-clickhouse)\n\u003e distributed under [MPL 2.0](https://www.mozilla.org/en-US/MPL/2.0/). If you encounter a bug or missing feature,\n\u003e first check the [`pulumi-clickhouse` repo](https://github.com/pulumiverse/pulumi-clickhouse/issues); however, if that doesn't turn up anything,\n\u003e please consult the source [`terraform-provider-clickhouse` repo](https://github.com/ClickHouse/terraform-provider-clickhouse/issues).",
             "dependencies": {
                 "@pulumi/pulumi": "^3.0.0"
@@ -189,6 +189,7 @@
     },
     "resources": {
         "clickhouse:PrivateEndpoint/registration:Registration": {
+            "description": "ClickHouse Cloud provides the ability to connect your services to your cloud virtual network through a feature named *Private Link*.\n\nYou can use the *private_endpoint_registration* resource to set up the private link feature.\n\nCheck the [docs](https://clickhouse.com/docs/en/cloud/security/private-link-overview) for more details on *private link*.\n\n## Example Usage\n\n\u003c!--Start PulumiCodeChooser --\u003e\n```typescript\nimport * as pulumi from \"@pulumi/pulumi\";\nimport * as clickhouse from \"@pulumiverse/clickhouse\";\n\nconst endpoint = new clickhouse.privateendpoint.Registration(\"endpoint\", {\n    cloudProvider: \"aws\",\n    description: \"Private Link from VPC foo\",\n    privateEndpointId: \"vpce-...\",\n    region: \"us-west-2\",\n});\n```\n```python\nimport pulumi\nimport pulumiverse_clickhouse as clickhouse\n\nendpoint = clickhouse.private_endpoint.Registration(\"endpoint\",\n    cloud_provider=\"aws\",\n    description=\"Private Link from VPC foo\",\n    private_endpoint_id=\"vpce-...\",\n    region=\"us-west-2\")\n```\n```csharp\nusing System.Collections.Generic;\nusing System.Linq;\nusing Pulumi;\nusing Clickhouse = Pulumiverse.Clickhouse;\n\nreturn await Deployment.RunAsync(() =\u003e \n{\n    var endpoint = new Clickhouse.PrivateEndpoint.Registration(\"endpoint\", new()\n    {\n        CloudProvider = \"aws\",\n        Description = \"Private Link from VPC foo\",\n        PrivateEndpointId = \"vpce-...\",\n        Region = \"us-west-2\",\n    });\n\n});\n```\n```go\npackage main\n\nimport (\n\t\"github.com/pulumi/pulumi/sdk/v3/go/pulumi\"\n\t\"github.com/pulumiverse/pulumi-clickhouse/sdk/go/clickhouse/PrivateEndpoint\"\n)\n\nfunc main() {\n\tpulumi.Run(func(ctx *pulumi.Context) error {\n\t\t_, err := PrivateEndpoint.NewRegistration(ctx, \"endpoint\", \u0026PrivateEndpoint.RegistrationArgs{\n\t\t\tCloudProvider:     pulumi.String(\"aws\"),\n\t\t\tDescription:       pulumi.String(\"Private Link from VPC foo\"),\n\t\t\tPrivateEndpointId: pulumi.String(\"vpce-...\"),\n\t\t\tRegion:            pulumi.String(\"us-west-2\"),\n\t\t})\n\t\tif err != nil {\n\t\t\treturn err\n\t\t}\n\t\treturn nil\n\t})\n}\n```\n```java\npackage generated_program;\n\nimport com.pulumi.Context;\nimport com.pulumi.Pulumi;\nimport com.pulumi.core.Output;\nimport com.pulumi.clickhouse.PrivateEndpoint.Registration;\nimport com.pulumi.clickhouse.PrivateEndpoint.RegistrationArgs;\nimport java.util.List;\nimport java.util.ArrayList;\nimport java.util.Map;\nimport java.io.File;\nimport java.nio.file.Files;\nimport java.nio.file.Paths;\n\npublic class App {\n    public static void main(String[] args) {\n        Pulumi.run(App::stack);\n    }\n\n    public static void stack(Context ctx) {\n        var endpoint = new Registration(\"endpoint\", RegistrationArgs.builder()\n            .cloudProvider(\"aws\")\n            .description(\"Private Link from VPC foo\")\n            .privateEndpointId(\"vpce-...\")\n            .region(\"us-west-2\")\n            .build());\n\n    }\n}\n```\n```yaml\nresources:\n  endpoint:\n    type: clickhouse:PrivateEndpoint:Registration\n    properties:\n      cloudProvider: aws\n      description: Private Link from VPC foo\n      privateEndpointId: vpce-...\n      region: us-west-2\n```\n\u003c!--End PulumiCodeChooser --\u003e\n\n## Import\n\nEndpoint Attachments can be imported by specifying the Cloud provider private endpoint ID\n\nFor example for AWS you could run:\n\n```sh\n$ pulumi import clickhouse:PrivateEndpoint/registration:Registration example vpce-xxxxxx\n```\n\n",
             "properties": {
                 "cloudProvider": {
                     "type": "string",
@@ -198,6 +199,10 @@
                     "type": "string",
                     "description": "Description of the private endpoint\n"
                 },
+                "privateEndpointId": {
+                    "type": "string",
+                    "description": "ID of the private endpoint (replaces deprecated attribute `id`)\n"
+                },
                 "region": {
                     "type": "string",
                     "description": "Region of the private endpoint\n"
@@ -205,6 +210,7 @@
             },
             "required": [
                 "cloudProvider",
+                "privateEndpointId",
                 "region"
             ],
             "inputProperties": {
@@ -216,6 +222,10 @@
                     "type": "string",
                     "description": "Description of the private endpoint\n"
                 },
+                "privateEndpointId": {
+                    "type": "string",
+                    "description": "ID of the private endpoint (replaces deprecated attribute `id`)\n"
+                },
                 "region": {
                     "type": "string",
                     "description": "Region of the private endpoint\n"
@@ -223,6 +233,7 @@
             },
             "requiredInputs": [
                 "cloudProvider",
+                "privateEndpointId",
                 "region"
             ],
             "stateInputs": {
@@ -236,6 +247,10 @@
                         "type": "string",
                         "description": "Description of the private endpoint\n"
                     },
+                    "privateEndpointId": {
+                        "type": "string",
+                        "description": "ID of the private endpoint (replaces deprecated attribute `id`)\n"
+                    },
                     "region": {
                         "type": "string",
                         "description": "Region of the private endpoint\n"
@@ -244,8 +259,57 @@
                 "type": "object"
             }
         },
+        "clickhouse:ServicePrivateEndpoints/attachment:Attachment": {
+            "description": "Use the *clickhouse_service_private_endpoints_attachment* resource to attach a ClickHouse *service* to a *Private Endpoint*.\n\nSee private_endpoint_registration for how to create a *private endpoint*.\n\nSee full example on GitHub.\n\n## Import\n\nEndpoint Attachments can be imported by specifying the clickhouse service UUID\n\n```sh\n$ pulumi import clickhouse:ServicePrivateEndpoints/attachment:Attachment example xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx\n```\n\n",
+            "properties": {
+                "privateEndpointIds": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "List of private endpoint IDs\n"
+                },
+                "serviceId": {
+                    "type": "string",
+                    "description": "ClickHouse Servie ID\n"
+                }
+            },
+            "required": [
+                "privateEndpointIds"
+            ],
+            "inputProperties": {
+                "privateEndpointIds": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "List of private endpoint IDs\n"
+                },
+                "serviceId": {
+                    "type": "string",
+                    "description": "ClickHouse Servie ID\n"
+                }
+            },
+            "stateInputs": {
+                "description": "Input properties used for looking up and filtering Attachment resources.\n",
+                "properties": {
+                    "privateEndpointIds": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "List of private endpoint IDs\n"
+                    },
+                    "serviceId": {
+                        "type": "string",
+                        "description": "ClickHouse Servie ID\n"
+                    }
+                },
+                "type": "object"
+            }
+        },
         "clickhouse:index/service:Service": {
-            "description": "## Example Usage\n\n\u003c!--Start PulumiCodeChooser --\u003e\n```typescript\nimport * as pulumi from \"@pulumi/pulumi\";\nimport * as clickhouse from \"@pulumiverse/clickhouse\";\n\nconst service = new clickhouse.Service(\"service\", {\n    cloudProvider: \"aws\",\n    idleScaling: true,\n    idleTimeoutMinutes: 5,\n    ipAccesses: [{\n        description: \"Test IP\",\n        source: \"192.168.2.63\",\n    }],\n    maxTotalMemoryGb: 360,\n    minTotalMemoryGb: 24,\n    passwordHash: \"n4bQgYhMfWWaL+qgxVrQFaO/TxsrC4Is0V1sFbDwCgg=\",\n    region: \"us-east-1\",\n    tier: \"production\",\n});\n```\n```python\nimport pulumi\nimport pulumiverse_clickhouse as clickhouse\n\nservice = clickhouse.Service(\"service\",\n    cloud_provider=\"aws\",\n    idle_scaling=True,\n    idle_timeout_minutes=5,\n    ip_accesses=[{\n        \"description\": \"Test IP\",\n        \"source\": \"192.168.2.63\",\n    }],\n    max_total_memory_gb=360,\n    min_total_memory_gb=24,\n    password_hash=\"n4bQgYhMfWWaL+qgxVrQFaO/TxsrC4Is0V1sFbDwCgg=\",\n    region=\"us-east-1\",\n    tier=\"production\")\n```\n```csharp\nusing System.Collections.Generic;\nusing System.Linq;\nusing Pulumi;\nusing Clickhouse = Pulumiverse.Clickhouse;\n\nreturn await Deployment.RunAsync(() =\u003e \n{\n    var service = new Clickhouse.Service(\"service\", new()\n    {\n        CloudProvider = \"aws\",\n        IdleScaling = true,\n        IdleTimeoutMinutes = 5,\n        IpAccesses = new[]\n        {\n            new Clickhouse.Inputs.ServiceIpAccessArgs\n            {\n                Description = \"Test IP\",\n                Source = \"192.168.2.63\",\n            },\n        },\n        MaxTotalMemoryGb = 360,\n        MinTotalMemoryGb = 24,\n        PasswordHash = \"n4bQgYhMfWWaL+qgxVrQFaO/TxsrC4Is0V1sFbDwCgg=\",\n        Region = \"us-east-1\",\n        Tier = \"production\",\n    });\n\n});\n```\n```go\npackage main\n\nimport (\n\t\"github.com/pulumi/pulumi/sdk/v3/go/pulumi\"\n\t\"github.com/pulumiverse/pulumi-clickhouse/sdk/go/clickhouse\"\n)\n\nfunc main() {\n\tpulumi.Run(func(ctx *pulumi.Context) error {\n\t\t_, err := clickhouse.NewService(ctx, \"service\", \u0026clickhouse.ServiceArgs{\n\t\t\tCloudProvider:      pulumi.String(\"aws\"),\n\t\t\tIdleScaling:        pulumi.Bool(true),\n\t\t\tIdleTimeoutMinutes: pulumi.Int(5),\n\t\t\tIpAccesses: clickhouse.ServiceIpAccessArray{\n\t\t\t\t\u0026clickhouse.ServiceIpAccessArgs{\n\t\t\t\t\tDescription: pulumi.String(\"Test IP\"),\n\t\t\t\t\tSource:      pulumi.String(\"192.168.2.63\"),\n\t\t\t\t},\n\t\t\t},\n\t\t\tMaxTotalMemoryGb: pulumi.Int(360),\n\t\t\tMinTotalMemoryGb: pulumi.Int(24),\n\t\t\tPasswordHash:     pulumi.String(\"n4bQgYhMfWWaL+qgxVrQFaO/TxsrC4Is0V1sFbDwCgg=\"),\n\t\t\tRegion:           pulumi.String(\"us-east-1\"),\n\t\t\tTier:             pulumi.String(\"production\"),\n\t\t})\n\t\tif err != nil {\n\t\t\treturn err\n\t\t}\n\t\treturn nil\n\t})\n}\n```\n```java\npackage generated_program;\n\nimport com.pulumi.Context;\nimport com.pulumi.Pulumi;\nimport com.pulumi.core.Output;\nimport com.pulumi.clickhouse.Service;\nimport com.pulumi.clickhouse.ServiceArgs;\nimport com.pulumi.clickhouse.inputs.ServiceIpAccessArgs;\nimport java.util.List;\nimport java.util.ArrayList;\nimport java.util.Map;\nimport java.io.File;\nimport java.nio.file.Files;\nimport java.nio.file.Paths;\n\npublic class App {\n    public static void main(String[] args) {\n        Pulumi.run(App::stack);\n    }\n\n    public static void stack(Context ctx) {\n        var service = new Service(\"service\", ServiceArgs.builder()\n            .cloudProvider(\"aws\")\n            .idleScaling(true)\n            .idleTimeoutMinutes(5)\n            .ipAccesses(ServiceIpAccessArgs.builder()\n                .description(\"Test IP\")\n                .source(\"192.168.2.63\")\n                .build())\n            .maxTotalMemoryGb(360)\n            .minTotalMemoryGb(24)\n            .passwordHash(\"n4bQgYhMfWWaL+qgxVrQFaO/TxsrC4Is0V1sFbDwCgg=\")\n            .region(\"us-east-1\")\n            .tier(\"production\")\n            .build());\n\n    }\n}\n```\n```yaml\nresources:\n  service:\n    type: clickhouse:Service\n    properties:\n      cloudProvider: aws\n      idleScaling: true\n      idleTimeoutMinutes: 5\n      ipAccesses:\n        - description: Test IP\n          source: 192.168.2.63\n      maxTotalMemoryGb: 360\n      minTotalMemoryGb: 24\n      passwordHash: n4bQgYhMfWWaL+qgxVrQFaO/TxsrC4Is0V1sFbDwCgg=\n      # base64 encoded sha256 hash of \"test\"\n      region: us-east-1\n      tier: production\n```\n\u003c!--End PulumiCodeChooser --\u003e\n\n## Import\n\nServices can be imported by specifying the UUID.\n\n```sh\n$ pulumi import clickhouse:index/service:Service example xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx\n```\n\n",
+            "description": "You can use the *clickhouse_service* resource to deploy ClickHouse cloud instances on supported cloud providers.\n\n## Example Usage\n\n\u003c!--Start PulumiCodeChooser --\u003e\n```typescript\nimport * as pulumi from \"@pulumi/pulumi\";\nimport * as clickhouse from \"@pulumiverse/clickhouse\";\n\nconst service = new clickhouse.Service(\"service\", {\n    cloudProvider: \"aws\",\n    idleScaling: true,\n    idleTimeoutMinutes: 5,\n    ipAccesses: [{\n        description: \"Test IP\",\n        source: \"192.168.2.63\",\n    }],\n    maxTotalMemoryGb: 360,\n    minTotalMemoryGb: 24,\n    passwordHash: \"n4bQgYhMfWWaL+qgxVrQFaO/TxsrC4Is0V1sFbDwCgg=\",\n    region: \"us-east-1\",\n    tier: \"production\",\n});\n```\n```python\nimport pulumi\nimport pulumiverse_clickhouse as clickhouse\n\nservice = clickhouse.Service(\"service\",\n    cloud_provider=\"aws\",\n    idle_scaling=True,\n    idle_timeout_minutes=5,\n    ip_accesses=[{\n        \"description\": \"Test IP\",\n        \"source\": \"192.168.2.63\",\n    }],\n    max_total_memory_gb=360,\n    min_total_memory_gb=24,\n    password_hash=\"n4bQgYhMfWWaL+qgxVrQFaO/TxsrC4Is0V1sFbDwCgg=\",\n    region=\"us-east-1\",\n    tier=\"production\")\n```\n```csharp\nusing System.Collections.Generic;\nusing System.Linq;\nusing Pulumi;\nusing Clickhouse = Pulumiverse.Clickhouse;\n\nreturn await Deployment.RunAsync(() =\u003e \n{\n    var service = new Clickhouse.Service(\"service\", new()\n    {\n        CloudProvider = \"aws\",\n        IdleScaling = true,\n        IdleTimeoutMinutes = 5,\n        IpAccesses = new[]\n        {\n            new Clickhouse.Inputs.ServiceIpAccessArgs\n            {\n                Description = \"Test IP\",\n                Source = \"192.168.2.63\",\n            },\n        },\n        MaxTotalMemoryGb = 360,\n        MinTotalMemoryGb = 24,\n        PasswordHash = \"n4bQgYhMfWWaL+qgxVrQFaO/TxsrC4Is0V1sFbDwCgg=\",\n        Region = \"us-east-1\",\n        Tier = \"production\",\n    });\n\n});\n```\n```go\npackage main\n\nimport (\n\t\"github.com/pulumi/pulumi/sdk/v3/go/pulumi\"\n\t\"github.com/pulumiverse/pulumi-clickhouse/sdk/go/clickhouse\"\n)\n\nfunc main() {\n\tpulumi.Run(func(ctx *pulumi.Context) error {\n\t\t_, err := clickhouse.NewService(ctx, \"service\", \u0026clickhouse.ServiceArgs{\n\t\t\tCloudProvider:      pulumi.String(\"aws\"),\n\t\t\tIdleScaling:        pulumi.Bool(true),\n\t\t\tIdleTimeoutMinutes: pulumi.Int(5),\n\t\t\tIpAccesses: clickhouse.ServiceIpAccessArray{\n\t\t\t\t\u0026clickhouse.ServiceIpAccessArgs{\n\t\t\t\t\tDescription: pulumi.String(\"Test IP\"),\n\t\t\t\t\tSource:      pulumi.String(\"192.168.2.63\"),\n\t\t\t\t},\n\t\t\t},\n\t\t\tMaxTotalMemoryGb: pulumi.Int(360),\n\t\t\tMinTotalMemoryGb: pulumi.Int(24),\n\t\t\tPasswordHash:     pulumi.String(\"n4bQgYhMfWWaL+qgxVrQFaO/TxsrC4Is0V1sFbDwCgg=\"),\n\t\t\tRegion:           pulumi.String(\"us-east-1\"),\n\t\t\tTier:             pulumi.String(\"production\"),\n\t\t})\n\t\tif err != nil {\n\t\t\treturn err\n\t\t}\n\t\treturn nil\n\t})\n}\n```\n```java\npackage generated_program;\n\nimport com.pulumi.Context;\nimport com.pulumi.Pulumi;\nimport com.pulumi.core.Output;\nimport com.pulumi.clickhouse.Service;\nimport com.pulumi.clickhouse.ServiceArgs;\nimport com.pulumi.clickhouse.inputs.ServiceIpAccessArgs;\nimport java.util.List;\nimport java.util.ArrayList;\nimport java.util.Map;\nimport java.io.File;\nimport java.nio.file.Files;\nimport java.nio.file.Paths;\n\npublic class App {\n    public static void main(String[] args) {\n        Pulumi.run(App::stack);\n    }\n\n    public static void stack(Context ctx) {\n        var service = new Service(\"service\", ServiceArgs.builder()\n            .cloudProvider(\"aws\")\n            .idleScaling(true)\n            .idleTimeoutMinutes(5)\n            .ipAccesses(ServiceIpAccessArgs.builder()\n                .description(\"Test IP\")\n                .source(\"192.168.2.63\")\n                .build())\n            .maxTotalMemoryGb(360)\n            .minTotalMemoryGb(24)\n            .passwordHash(\"n4bQgYhMfWWaL+qgxVrQFaO/TxsrC4Is0V1sFbDwCgg=\")\n            .region(\"us-east-1\")\n            .tier(\"production\")\n            .build());\n\n    }\n}\n```\n```yaml\nresources:\n  service:\n    type: clickhouse:Service\n    properties:\n      cloudProvider: aws\n      idleScaling: true\n      idleTimeoutMinutes: 5\n      ipAccesses:\n        - description: Test IP\n          source: 192.168.2.63\n      maxTotalMemoryGb: 360\n      minTotalMemoryGb: 24\n      passwordHash: n4bQgYhMfWWaL+qgxVrQFaO/TxsrC4Is0V1sFbDwCgg=\n      # base64 encoded sha256 hash of \"test\"\n      region: us-east-1\n      tier: production\n```\n\u003c!--End PulumiCodeChooser --\u003e\n\n## Import\n\nServices can be imported by specifying the UUID.\n\n```sh\n$ pulumi import clickhouse:index/service:Service example xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx\n```\n\n",
             "properties": {
                 "cloudProvider": {
                     "type": "string",
@@ -321,13 +385,6 @@
                     "description": "Service config for private endpoints\n",
                     "deprecationMessage": "Please use the `clickhouse.PrivateEndpoint.getConfig` data source instead."
                 },
-                "privateEndpointIds": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    },
-                    "description": "List of private endpoint IDs\n"
-                },
                 "region": {
                     "type": "string",
                     "description": "Region within the cloud provider in which the service is deployed in.\n"
@@ -344,7 +401,6 @@
                 "ipAccesses",
                 "name",
                 "privateEndpointConfig",
-                "privateEndpointIds",
                 "region",
                 "tier"
             ],
@@ -406,13 +462,6 @@
                     "type": "string",
                     "description": "SHA256 hash of password for the default user. One of either `password` or `password_hash` must be specified.\n",
                     "secret": true
-                },
-                "privateEndpointIds": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    },
-                    "description": "List of private endpoint IDs\n"
                 },
                 "region": {
                     "type": "string",
@@ -505,13 +554,6 @@
                         "$ref": "#/types/clickhouse:index/ServicePrivateEndpointConfig:ServicePrivateEndpointConfig",
                         "description": "Service config for private endpoints\n",
                         "deprecationMessage": "Please use the `clickhouse.PrivateEndpoint.getConfig` data source instead."
-                    },
-                    "privateEndpointIds": {
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        },
-                        "description": "List of private endpoint IDs\n"
                     },
                     "region": {
                         "type": "string",

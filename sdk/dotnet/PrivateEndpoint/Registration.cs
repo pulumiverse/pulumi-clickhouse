@@ -10,6 +10,44 @@ using Pulumi;
 
 namespace Pulumiverse.Clickhouse.PrivateEndpoint
 {
+    /// <summary>
+    /// ClickHouse Cloud provides the ability to connect your services to your cloud virtual network through a feature named *Private Link*.
+    /// 
+    /// You can use the *private_endpoint_registration* resource to set up the private link feature.
+    /// 
+    /// Check the [docs](https://clickhouse.com/docs/en/cloud/security/private-link-overview) for more details on *private link*.
+    /// 
+    /// ## Example Usage
+    /// 
+    /// ```csharp
+    /// using System.Collections.Generic;
+    /// using System.Linq;
+    /// using Pulumi;
+    /// using Clickhouse = Pulumiverse.Clickhouse;
+    /// 
+    /// return await Deployment.RunAsync(() =&gt; 
+    /// {
+    ///     var endpoint = new Clickhouse.PrivateEndpoint.Registration("endpoint", new()
+    ///     {
+    ///         CloudProvider = "aws",
+    ///         Description = "Private Link from VPC foo",
+    ///         PrivateEndpointId = "vpce-...",
+    ///         Region = "us-west-2",
+    ///     });
+    /// 
+    /// });
+    /// ```
+    /// 
+    /// ## Import
+    /// 
+    /// Endpoint Attachments can be imported by specifying the Cloud provider private endpoint ID
+    /// 
+    /// For example for AWS you could run:
+    /// 
+    /// ```sh
+    /// $ pulumi import clickhouse:PrivateEndpoint/registration:Registration example vpce-xxxxxx
+    /// ```
+    /// </summary>
     [ClickhouseResourceType("clickhouse:PrivateEndpoint/registration:Registration")]
     public partial class Registration : global::Pulumi.CustomResource
     {
@@ -24,6 +62,12 @@ namespace Pulumiverse.Clickhouse.PrivateEndpoint
         /// </summary>
         [Output("description")]
         public Output<string?> Description { get; private set; } = null!;
+
+        /// <summary>
+        /// ID of the private endpoint (replaces deprecated attribute `id`)
+        /// </summary>
+        [Output("privateEndpointId")]
+        public Output<string> PrivateEndpointId { get; private set; } = null!;
 
         /// <summary>
         /// Region of the private endpoint
@@ -91,6 +135,12 @@ namespace Pulumiverse.Clickhouse.PrivateEndpoint
         public Input<string>? Description { get; set; }
 
         /// <summary>
+        /// ID of the private endpoint (replaces deprecated attribute `id`)
+        /// </summary>
+        [Input("privateEndpointId", required: true)]
+        public Input<string> PrivateEndpointId { get; set; } = null!;
+
+        /// <summary>
         /// Region of the private endpoint
         /// </summary>
         [Input("region", required: true)]
@@ -115,6 +165,12 @@ namespace Pulumiverse.Clickhouse.PrivateEndpoint
         /// </summary>
         [Input("description")]
         public Input<string>? Description { get; set; }
+
+        /// <summary>
+        /// ID of the private endpoint (replaces deprecated attribute `id`)
+        /// </summary>
+        [Input("privateEndpointId")]
+        public Input<string>? PrivateEndpointId { get; set; }
 
         /// <summary>
         /// Region of the private endpoint

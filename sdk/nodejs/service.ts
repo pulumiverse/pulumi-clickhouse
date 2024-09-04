@@ -7,6 +7,8 @@ import * as outputs from "./types/output";
 import * as utilities from "./utilities";
 
 /**
+ * You can use the *clickhouse_service* resource to deploy ClickHouse cloud instances on supported cloud providers.
+ *
  * ## Example Usage
  *
  * ```typescript
@@ -132,10 +134,6 @@ export class Service extends pulumi.CustomResource {
      */
     public /*out*/ readonly privateEndpointConfig!: pulumi.Output<outputs.ServicePrivateEndpointConfig>;
     /**
-     * List of private endpoint IDs
-     */
-    public readonly privateEndpointIds!: pulumi.Output<string[]>;
-    /**
      * Region within the cloud provider in which the service is deployed in.
      */
     public readonly region!: pulumi.Output<string>;
@@ -173,7 +171,6 @@ export class Service extends pulumi.CustomResource {
             resourceInputs["password"] = state ? state.password : undefined;
             resourceInputs["passwordHash"] = state ? state.passwordHash : undefined;
             resourceInputs["privateEndpointConfig"] = state ? state.privateEndpointConfig : undefined;
-            resourceInputs["privateEndpointIds"] = state ? state.privateEndpointIds : undefined;
             resourceInputs["region"] = state ? state.region : undefined;
             resourceInputs["tier"] = state ? state.tier : undefined;
         } else {
@@ -203,7 +200,6 @@ export class Service extends pulumi.CustomResource {
             resourceInputs["numReplicas"] = args ? args.numReplicas : undefined;
             resourceInputs["password"] = args?.password ? pulumi.secret(args.password) : undefined;
             resourceInputs["passwordHash"] = args?.passwordHash ? pulumi.secret(args.passwordHash) : undefined;
-            resourceInputs["privateEndpointIds"] = args ? args.privateEndpointIds : undefined;
             resourceInputs["region"] = args ? args.region : undefined;
             resourceInputs["tier"] = args ? args.tier : undefined;
             resourceInputs["endpoints"] = undefined /*out*/;
@@ -288,10 +284,6 @@ export interface ServiceState {
      */
     privateEndpointConfig?: pulumi.Input<inputs.ServicePrivateEndpointConfig>;
     /**
-     * List of private endpoint IDs
-     */
-    privateEndpointIds?: pulumi.Input<pulumi.Input<string>[]>;
-    /**
      * Region within the cloud provider in which the service is deployed in.
      */
     region?: pulumi.Input<string>;
@@ -357,10 +349,6 @@ export interface ServiceArgs {
      * SHA256 hash of password for the default user. One of either `password` or `passwordHash` must be specified.
      */
     passwordHash?: pulumi.Input<string>;
-    /**
-     * List of private endpoint IDs
-     */
-    privateEndpointIds?: pulumi.Input<pulumi.Input<string>[]>;
     /**
      * Region within the cloud provider in which the service is deployed in.
      */

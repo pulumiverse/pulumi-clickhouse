@@ -3,7 +3,7 @@ module github.com/pulumiverse/pulumi-clickhouse/provider
 go 1.22.5
 
 require (
-	github.com/ClickHouse/terraform-provider-clickhouse v0.3.0
+	github.com/ClickHouse/terraform-provider-clickhouse v1.0.0
 	github.com/ettle/strcase v0.1.1
 	github.com/pulumi/pulumi-terraform-bridge/pf v0.42.0
 	github.com/pulumi/pulumi-terraform-bridge/v3 v3.89.0
@@ -59,6 +59,7 @@ require (
 	github.com/bgentry/speakeasy v0.1.0 // indirect
 	github.com/blang/semver v3.5.1+incompatible // indirect
 	github.com/cenkalti/backoff/v3 v3.2.2 // indirect
+	github.com/cenkalti/backoff/v4 v4.3.0 // indirect
 	github.com/charmbracelet/bubbles v0.16.1 // indirect
 	github.com/charmbracelet/bubbletea v0.25.0 // indirect
 	github.com/charmbracelet/lipgloss v0.7.1 // indirect

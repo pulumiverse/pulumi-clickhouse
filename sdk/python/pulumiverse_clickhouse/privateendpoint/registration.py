@@ -15,15 +15,18 @@ __all__ = ['RegistrationArgs', 'Registration']
 class RegistrationArgs:
     def __init__(__self__, *,
                  cloud_provider: pulumi.Input[str],
+                 private_endpoint_id: pulumi.Input[str],
                  region: pulumi.Input[str],
                  description: Optional[pulumi.Input[str]] = None):
         """
         The set of arguments for constructing a Registration resource.
         :param pulumi.Input[str] cloud_provider: Cloud provider of the private endpoint ID
+        :param pulumi.Input[str] private_endpoint_id: ID of the private endpoint (replaces deprecated attribute `id`)
         :param pulumi.Input[str] region: Region of the private endpoint
         :param pulumi.Input[str] description: Description of the private endpoint
         """
         pulumi.set(__self__, "cloud_provider", cloud_provider)
+        pulumi.set(__self__, "private_endpoint_id", private_endpoint_id)
         pulumi.set(__self__, "region", region)
         if description is not None:
             pulumi.set(__self__, "description", description)
@@ -39,6 +42,18 @@ class RegistrationArgs:
     @cloud_provider.setter
     def cloud_provider(self, value: pulumi.Input[str]):
         pulumi.set(self, "cloud_provider", value)
+
+    @property
+    @pulumi.getter(name="privateEndpointId")
+    def private_endpoint_id(self) -> pulumi.Input[str]:
+        """
+        ID of the private endpoint (replaces deprecated attribute `id`)
+        """
+        return pulumi.get(self, "private_endpoint_id")
+
+    @private_endpoint_id.setter
+    def private_endpoint_id(self, value: pulumi.Input[str]):
+        pulumi.set(self, "private_endpoint_id", value)
 
     @property
     @pulumi.getter
@@ -70,17 +85,21 @@ class _RegistrationState:
     def __init__(__self__, *,
                  cloud_provider: Optional[pulumi.Input[str]] = None,
                  description: Optional[pulumi.Input[str]] = None,
+                 private_endpoint_id: Optional[pulumi.Input[str]] = None,
                  region: Optional[pulumi.Input[str]] = None):
         """
         Input properties used for looking up and filtering Registration resources.
         :param pulumi.Input[str] cloud_provider: Cloud provider of the private endpoint ID
         :param pulumi.Input[str] description: Description of the private endpoint
+        :param pulumi.Input[str] private_endpoint_id: ID of the private endpoint (replaces deprecated attribute `id`)
         :param pulumi.Input[str] region: Region of the private endpoint
         """
         if cloud_provider is not None:
             pulumi.set(__self__, "cloud_provider", cloud_provider)
         if description is not None:
             pulumi.set(__self__, "description", description)
+        if private_endpoint_id is not None:
+            pulumi.set(__self__, "private_endpoint_id", private_endpoint_id)
         if region is not None:
             pulumi.set(__self__, "region", region)
 
@@ -109,6 +128,18 @@ class _RegistrationState:
         pulumi.set(self, "description", value)
 
     @property
+    @pulumi.getter(name="privateEndpointId")
+    def private_endpoint_id(self) -> Optional[pulumi.Input[str]]:
+        """
+        ID of the private endpoint (replaces deprecated attribute `id`)
+        """
+        return pulumi.get(self, "private_endpoint_id")
+
+    @private_endpoint_id.setter
+    def private_endpoint_id(self, value: Optional[pulumi.Input[str]]):
+        pulumi.set(self, "private_endpoint_id", value)
+
+    @property
     @pulumi.getter
     def region(self) -> Optional[pulumi.Input[str]]:
         """
@@ -128,14 +159,44 @@ class Registration(pulumi.CustomResource):
                  opts: Optional[pulumi.ResourceOptions] = None,
                  cloud_provider: Optional[pulumi.Input[str]] = None,
                  description: Optional[pulumi.Input[str]] = None,
+                 private_endpoint_id: Optional[pulumi.Input[str]] = None,
                  region: Optional[pulumi.Input[str]] = None,
                  __props__=None):
         """
-        Create a Registration resource with the given unique name, props, and options.
+        ClickHouse Cloud provides the ability to connect your services to your cloud virtual network through a feature named *Private Link*.
+
+        You can use the *private_endpoint_registration* resource to set up the private link feature.
+
+        Check the [docs](https://clickhouse.com/docs/en/cloud/security/private-link-overview) for more details on *private link*.
+
+        ## Example Usage
+
+        ```python
+        import pulumi
+        import pulumiverse_clickhouse as clickhouse
+
+        endpoint = clickhouse.private_endpoint.Registration("endpoint",
+            cloud_provider="aws",
+            description="Private Link from VPC foo",
+            private_endpoint_id="vpce-...",
+            region="us-west-2")
+        ```
+
+        ## Import
+
+        Endpoint Attachments can be imported by specifying the Cloud provider private endpoint ID
+
+        For example for AWS you could run:
+
+        ```sh
+        $ pulumi import clickhouse:PrivateEndpoint/registration:Registration example vpce-xxxxxx
+        ```
+
         :param str resource_name: The name of the resource.
         :param pulumi.ResourceOptions opts: Options for the resource.
         :param pulumi.Input[str] cloud_provider: Cloud provider of the private endpoint ID
         :param pulumi.Input[str] description: Description of the private endpoint
+        :param pulumi.Input[str] private_endpoint_id: ID of the private endpoint (replaces deprecated attribute `id`)
         :param pulumi.Input[str] region: Region of the private endpoint
         """
         ...
@@ -145,7 +206,35 @@ class Registration(pulumi.CustomResource):
                  args: RegistrationArgs,
                  opts: Optional[pulumi.ResourceOptions] = None):
         """
-        Create a Registration resource with the given unique name, props, and options.
+        ClickHouse Cloud provides the ability to connect your services to your cloud virtual network through a feature named *Private Link*.
+
+        You can use the *private_endpoint_registration* resource to set up the private link feature.
+
+        Check the [docs](https://clickhouse.com/docs/en/cloud/security/private-link-overview) for more details on *private link*.
+
+        ## Example Usage
+
+        ```python
+        import pulumi
+        import pulumiverse_clickhouse as clickhouse
+
+        endpoint = clickhouse.private_endpoint.Registration("endpoint",
+            cloud_provider="aws",
+            description="Private Link from VPC foo",
+            private_endpoint_id="vpce-...",
+            region="us-west-2")
+        ```
+
+        ## Import
+
+        Endpoint Attachments can be imported by specifying the Cloud provider private endpoint ID
+
+        For example for AWS you could run:
+
+        ```sh
+        $ pulumi import clickhouse:PrivateEndpoint/registration:Registration example vpce-xxxxxx
+        ```
+
         :param str resource_name: The name of the resource.
         :param RegistrationArgs args: The arguments to use to populate this resource's properties.
         :param pulumi.ResourceOptions opts: Options for the resource.
@@ -163,6 +252,7 @@ class Registration(pulumi.CustomResource):
                  opts: Optional[pulumi.ResourceOptions] = None,
                  cloud_provider: Optional[pulumi.Input[str]] = None,
                  description: Optional[pulumi.Input[str]] = None,
+                 private_endpoint_id: Optional[pulumi.Input[str]] = None,
                  region: Optional[pulumi.Input[str]] = None,
                  __props__=None):
         opts = pulumi.ResourceOptions.merge(_utilities.get_resource_opts_defaults(), opts)
@@ -177,6 +267,9 @@ class Registration(pulumi.CustomResource):
                 raise TypeError("Missing required property 'cloud_provider'")
             __props__.__dict__["cloud_provider"] = cloud_provider
             __props__.__dict__["description"] = description
+            if private_endpoint_id is None and not opts.urn:
+                raise TypeError("Missing required property 'private_endpoint_id'")
+            __props__.__dict__["private_endpoint_id"] = private_endpoint_id
             if region is None and not opts.urn:
                 raise TypeError("Missing required property 'region'")
             __props__.__dict__["region"] = region
@@ -192,6 +285,7 @@ class Registration(pulumi.CustomResource):
             opts: Optional[pulumi.ResourceOptions] = None,
             cloud_provider: Optional[pulumi.Input[str]] = None,
             description: Optional[pulumi.Input[str]] = None,
+            private_endpoint_id: Optional[pulumi.Input[str]] = None,
             region: Optional[pulumi.Input[str]] = None) -> 'Registration':
         """
         Get an existing Registration resource's state with the given name, id, and optional extra
@@ -202,6 +296,7 @@ class Registration(pulumi.CustomResource):
         :param pulumi.ResourceOptions opts: Options for the resource.
         :param pulumi.Input[str] cloud_provider: Cloud provider of the private endpoint ID
         :param pulumi.Input[str] description: Description of the private endpoint
+        :param pulumi.Input[str] private_endpoint_id: ID of the private endpoint (replaces deprecated attribute `id`)
         :param pulumi.Input[str] region: Region of the private endpoint
         """
         opts = pulumi.ResourceOptions.merge(opts, pulumi.ResourceOptions(id=id))
@@ -210,6 +305,7 @@ class Registration(pulumi.CustomResource):
 
         __props__.__dict__["cloud_provider"] = cloud_provider
         __props__.__dict__["description"] = description
+        __props__.__dict__["private_endpoint_id"] = private_endpoint_id
         __props__.__dict__["region"] = region
         return Registration(resource_name, opts=opts, __props__=__props__)
 
@@ -228,6 +324,14 @@ class Registration(pulumi.CustomResource):
         Description of the private endpoint
         """
         return pulumi.get(self, "description")
+
+    @property
+    @pulumi.getter(name="privateEndpointId")
+    def private_endpoint_id(self) -> pulumi.Output[str]:
+        """
+        ID of the private endpoint (replaces deprecated attribute `id`)
+        """
+        return pulumi.get(self, "private_endpoint_id")
 
     @property
     @pulumi.getter

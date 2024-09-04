@@ -12,6 +12,50 @@ import (
 	"github.com/pulumiverse/pulumi-clickhouse/sdk/go/clickhouse/internal"
 )
 
+// ClickHouse Cloud provides the ability to connect your services to your cloud virtual network through a feature named *Private Link*.
+//
+// You can use the *private_endpoint_registration* resource to set up the private link feature.
+//
+// Check the [docs](https://clickhouse.com/docs/en/cloud/security/private-link-overview) for more details on *private link*.
+//
+// ## Example Usage
+//
+// ```go
+// package main
+//
+// import (
+//
+//	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+//	"github.com/pulumiverse/pulumi-clickhouse/sdk/go/clickhouse/PrivateEndpoint"
+//
+// )
+//
+//	func main() {
+//		pulumi.Run(func(ctx *pulumi.Context) error {
+//			_, err := PrivateEndpoint.NewRegistration(ctx, "endpoint", &PrivateEndpoint.RegistrationArgs{
+//				CloudProvider:     pulumi.String("aws"),
+//				Description:       pulumi.String("Private Link from VPC foo"),
+//				PrivateEndpointId: pulumi.String("vpce-..."),
+//				Region:            pulumi.String("us-west-2"),
+//			})
+//			if err != nil {
+//				return err
+//			}
+//			return nil
+//		})
+//	}
+//
+// ```
+//
+// ## Import
+//
+// # Endpoint Attachments can be imported by specifying the Cloud provider private endpoint ID
+//
+// For example for AWS you could run:
+//
+// ```sh
+// $ pulumi import clickhouse:PrivateEndpoint/registration:Registration example vpce-xxxxxx
+// ```
 type Registration struct {
 	pulumi.CustomResourceState
 
@@ -19,6 +63,8 @@ type Registration struct {
 	CloudProvider pulumi.StringOutput `pulumi:"cloudProvider"`
 	// Description of the private endpoint
 	Description pulumi.StringPtrOutput `pulumi:"description"`
+	// ID of the private endpoint (replaces deprecated attribute `id`)
+	PrivateEndpointId pulumi.StringOutput `pulumi:"privateEndpointId"`
 	// Region of the private endpoint
 	Region pulumi.StringOutput `pulumi:"region"`
 }
@@ -32,6 +78,9 @@ func NewRegistration(ctx *pulumi.Context,
 
 	if args.CloudProvider == nil {
 		return nil, errors.New("invalid value for required argument 'CloudProvider'")
+	}
+	if args.PrivateEndpointId == nil {
+		return nil, errors.New("invalid value for required argument 'PrivateEndpointId'")
 	}
 	if args.Region == nil {
 		return nil, errors.New("invalid value for required argument 'Region'")
@@ -63,6 +112,8 @@ type registrationState struct {
 	CloudProvider *string `pulumi:"cloudProvider"`
 	// Description of the private endpoint
 	Description *string `pulumi:"description"`
+	// ID of the private endpoint (replaces deprecated attribute `id`)
+	PrivateEndpointId *string `pulumi:"privateEndpointId"`
 	// Region of the private endpoint
 	Region *string `pulumi:"region"`
 }
@@ -72,6 +123,8 @@ type RegistrationState struct {
 	CloudProvider pulumi.StringPtrInput
 	// Description of the private endpoint
 	Description pulumi.StringPtrInput
+	// ID of the private endpoint (replaces deprecated attribute `id`)
+	PrivateEndpointId pulumi.StringPtrInput
 	// Region of the private endpoint
 	Region pulumi.StringPtrInput
 }
@@ -85,6 +138,8 @@ type registrationArgs struct {
 	CloudProvider string `pulumi:"cloudProvider"`
 	// Description of the private endpoint
 	Description *string `pulumi:"description"`
+	// ID of the private endpoint (replaces deprecated attribute `id`)
+	PrivateEndpointId string `pulumi:"privateEndpointId"`
 	// Region of the private endpoint
 	Region string `pulumi:"region"`
 }
@@ -95,6 +150,8 @@ type RegistrationArgs struct {
 	CloudProvider pulumi.StringInput
 	// Description of the private endpoint
 	Description pulumi.StringPtrInput
+	// ID of the private endpoint (replaces deprecated attribute `id`)
+	PrivateEndpointId pulumi.StringInput
 	// Region of the private endpoint
 	Region pulumi.StringInput
 }
@@ -194,6 +251,11 @@ func (o RegistrationOutput) CloudProvider() pulumi.StringOutput {
 // Description of the private endpoint
 func (o RegistrationOutput) Description() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *Registration) pulumi.StringPtrOutput { return v.Description }).(pulumi.StringPtrOutput)
+}
+
+// ID of the private endpoint (replaces deprecated attribute `id`)
+func (o RegistrationOutput) PrivateEndpointId() pulumi.StringOutput {
+	return o.ApplyT(func(v *Registration) pulumi.StringOutput { return v.PrivateEndpointId }).(pulumi.StringOutput)
 }
 
 // Region of the private endpoint

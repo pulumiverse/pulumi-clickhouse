@@ -4,6 +4,37 @@
 import * as pulumi from "@pulumi/pulumi";
 import * as utilities from "../utilities";
 
+/**
+ * ClickHouse Cloud provides the ability to connect your services to your cloud virtual network through a feature named *Private Link*.
+ *
+ * You can use the *private_endpoint_registration* resource to set up the private link feature.
+ *
+ * Check the [docs](https://clickhouse.com/docs/en/cloud/security/private-link-overview) for more details on *private link*.
+ *
+ * ## Example Usage
+ *
+ * ```typescript
+ * import * as pulumi from "@pulumi/pulumi";
+ * import * as clickhouse from "@pulumiverse/clickhouse";
+ *
+ * const endpoint = new clickhouse.privateendpoint.Registration("endpoint", {
+ *     cloudProvider: "aws",
+ *     description: "Private Link from VPC foo",
+ *     privateEndpointId: "vpce-...",
+ *     region: "us-west-2",
+ * });
+ * ```
+ *
+ * ## Import
+ *
+ * Endpoint Attachments can be imported by specifying the Cloud provider private endpoint ID
+ *
+ * For example for AWS you could run:
+ *
+ * ```sh
+ * $ pulumi import clickhouse:PrivateEndpoint/registration:Registration example vpce-xxxxxx
+ * ```
+ */
 export class Registration extends pulumi.CustomResource {
     /**
      * Get an existing Registration resource's state with the given name, ID, and optional extra
@@ -41,6 +72,10 @@ export class Registration extends pulumi.CustomResource {
      */
     public readonly description!: pulumi.Output<string | undefined>;
     /**
+     * ID of the private endpoint (replaces deprecated attribute `id`)
+     */
+    public readonly privateEndpointId!: pulumi.Output<string>;
+    /**
      * Region of the private endpoint
      */
     public readonly region!: pulumi.Output<string>;
@@ -60,17 +95,22 @@ export class Registration extends pulumi.CustomResource {
             const state = argsOrState as RegistrationState | undefined;
             resourceInputs["cloudProvider"] = state ? state.cloudProvider : undefined;
             resourceInputs["description"] = state ? state.description : undefined;
+            resourceInputs["privateEndpointId"] = state ? state.privateEndpointId : undefined;
             resourceInputs["region"] = state ? state.region : undefined;
         } else {
             const args = argsOrState as RegistrationArgs | undefined;
             if ((!args || args.cloudProvider === undefined) && !opts.urn) {
                 throw new Error("Missing required property 'cloudProvider'");
             }
+            if ((!args || args.privateEndpointId === undefined) && !opts.urn) {
+                throw new Error("Missing required property 'privateEndpointId'");
+            }
             if ((!args || args.region === undefined) && !opts.urn) {
                 throw new Error("Missing required property 'region'");
             }
             resourceInputs["cloudProvider"] = args ? args.cloudProvider : undefined;
             resourceInputs["description"] = args ? args.description : undefined;
+            resourceInputs["privateEndpointId"] = args ? args.privateEndpointId : undefined;
             resourceInputs["region"] = args ? args.region : undefined;
         }
         opts = pulumi.mergeOptions(utilities.resourceOptsDefaults(), opts);
@@ -91,6 +131,10 @@ export interface RegistrationState {
      */
     description?: pulumi.Input<string>;
     /**
+     * ID of the private endpoint (replaces deprecated attribute `id`)
+     */
+    privateEndpointId?: pulumi.Input<string>;
+    /**
      * Region of the private endpoint
      */
     region?: pulumi.Input<string>;
@@ -108,6 +152,10 @@ export interface RegistrationArgs {
      * Description of the private endpoint
      */
     description?: pulumi.Input<string>;
+    /**
+     * ID of the private endpoint (replaces deprecated attribute `id`)
+     */
+    privateEndpointId: pulumi.Input<string>;
     /**
      * Region of the private endpoint
      */

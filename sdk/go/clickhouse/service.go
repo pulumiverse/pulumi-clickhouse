@@ -12,6 +12,8 @@ import (
 	"github.com/pulumiverse/pulumi-clickhouse/sdk/go/clickhouse/internal"
 )
 
+// You can use the *clickhouse_service* resource to deploy ClickHouse cloud instances on supported cloud providers.
+//
 // ## Example Usage
 //
 // ```go
@@ -95,8 +97,6 @@ type Service struct {
 	//
 	// Deprecated: Please use the `PrivateEndpoint.getConfig` data source instead.
 	PrivateEndpointConfig ServicePrivateEndpointConfigOutput `pulumi:"privateEndpointConfig"`
-	// List of private endpoint IDs
-	PrivateEndpointIds pulumi.StringArrayOutput `pulumi:"privateEndpointIds"`
 	// Region within the cloud provider in which the service is deployed in.
 	Region pulumi.StringOutput `pulumi:"region"`
 	// Tier of the service: 'development', 'production'. Production services scale, Development are fixed size.
@@ -194,8 +194,6 @@ type serviceState struct {
 	//
 	// Deprecated: Please use the `PrivateEndpoint.getConfig` data source instead.
 	PrivateEndpointConfig *ServicePrivateEndpointConfig `pulumi:"privateEndpointConfig"`
-	// List of private endpoint IDs
-	PrivateEndpointIds []string `pulumi:"privateEndpointIds"`
 	// Region within the cloud provider in which the service is deployed in.
 	Region *string `pulumi:"region"`
 	// Tier of the service: 'development', 'production'. Production services scale, Development are fixed size.
@@ -237,8 +235,6 @@ type ServiceState struct {
 	//
 	// Deprecated: Please use the `PrivateEndpoint.getConfig` data source instead.
 	PrivateEndpointConfig ServicePrivateEndpointConfigPtrInput
-	// List of private endpoint IDs
-	PrivateEndpointIds pulumi.StringArrayInput
 	// Region within the cloud provider in which the service is deployed in.
 	Region pulumi.StringPtrInput
 	// Tier of the service: 'development', 'production'. Production services scale, Development are fixed size.
@@ -276,8 +272,6 @@ type serviceArgs struct {
 	Password *string `pulumi:"password"`
 	// SHA256 hash of password for the default user. One of either `password` or `passwordHash` must be specified.
 	PasswordHash *string `pulumi:"passwordHash"`
-	// List of private endpoint IDs
-	PrivateEndpointIds []string `pulumi:"privateEndpointIds"`
 	// Region within the cloud provider in which the service is deployed in.
 	Region string `pulumi:"region"`
 	// Tier of the service: 'development', 'production'. Production services scale, Development are fixed size.
@@ -312,8 +306,6 @@ type ServiceArgs struct {
 	Password pulumi.StringPtrInput
 	// SHA256 hash of password for the default user. One of either `password` or `passwordHash` must be specified.
 	PasswordHash pulumi.StringPtrInput
-	// List of private endpoint IDs
-	PrivateEndpointIds pulumi.StringArrayInput
 	// Region within the cloud provider in which the service is deployed in.
 	Region pulumi.StringInput
 	// Tier of the service: 'development', 'production'. Production services scale, Development are fixed size.
@@ -487,11 +479,6 @@ func (o ServiceOutput) PasswordHash() pulumi.StringPtrOutput {
 // Deprecated: Please use the `PrivateEndpoint.getConfig` data source instead.
 func (o ServiceOutput) PrivateEndpointConfig() ServicePrivateEndpointConfigOutput {
 	return o.ApplyT(func(v *Service) ServicePrivateEndpointConfigOutput { return v.PrivateEndpointConfig }).(ServicePrivateEndpointConfigOutput)
-}
-
-// List of private endpoint IDs
-func (o ServiceOutput) PrivateEndpointIds() pulumi.StringArrayOutput {
-	return o.ApplyT(func(v *Service) pulumi.StringArrayOutput { return v.PrivateEndpointIds }).(pulumi.StringArrayOutput)
 }
 
 // Region within the cloud provider in which the service is deployed in.

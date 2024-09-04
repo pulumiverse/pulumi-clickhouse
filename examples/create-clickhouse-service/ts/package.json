@@ -7,6 +7,6 @@
     },
     "dependencies": {
         "@pulumi/pulumi": "^3.113.0",
-        "@pulumiverse/clickhouse": "^0.0.4"
+        "@pulumiverse/clickhouse": "^1.0.0"
     }
 }

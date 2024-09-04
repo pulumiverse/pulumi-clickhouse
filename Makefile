@@ -4,7 +4,7 @@ PROJECT          := github.com/pulumiverse/pulumi-clickhouse
 NODE_MODULE_NAME := @pulumiverse/clickhouse
 TF_NAME          := clickhouse
 PROVIDER_PATH    := provider
-PROVIDER_VERSION := 0.3.0
+PROVIDER_VERSION := 1.0.0
 VERSION_PATH     := ${PROVIDER_PATH}/pkg/version.Version
 
 JAVA_GEN         := pulumi-java-gen
