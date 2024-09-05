@@ -172,15 +172,15 @@ func Provider() tfbridge.ProviderInfo {
 			"clickhouse_service_private_endpoints_attachment": {
 				Tok: makeResource("clickhouse_service_private_endpoints_attachment"),
 				ComputeID: func(ctx context.Context, state resource.PropertyMap) (resource.ID, error) {
-					serviceId := state["service_id"]
-					privateEndpointIds := state["private_endpoint_ids"]
+					serviceId := state["serviceId"]
+					privateEndpointIds := state["privateEndpointIds"]
 
 					if serviceId.IsNull() {
-						return "", fmt.Errorf("service_id is required")
+						return "", fmt.Errorf("serviceId is required")
 					}
 
 					if privateEndpointIds.IsNull() || !privateEndpointIds.IsArray() {
-						return "", fmt.Errorf("private_endpoint_ids must be a non-empty array")
+						return "", fmt.Errorf("privateEndpointIds must be a non-empty array")
 					}
 
 					idParts := []string{serviceId.StringValue()}
@@ -194,10 +194,10 @@ func Provider() tfbridge.ProviderInfo {
 			"clickhouse_private_endpoint_registration": {
 				Tok: makeResource("clickhouse_private_endpoint_registration"),
 				ComputeID: func(ctx context.Context, state resource.PropertyMap) (resource.ID, error) {
-					privateEndpointId := state["private_endpoint_id"]
-					cloudProvider := state["cloud_provider"]
+					privateEndpointId := state["privateEndpointId"]
+					cloudProvider := state["cloudProvider"]
 					if privateEndpointId.IsNull() || cloudProvider.IsNull() {
-						return "", fmt.Errorf("cloud_provider and region are required")
+						return "", fmt.Errorf("cloudProvider and privateEndpointId are required")
 					}
 					return resource.ID(fmt.Sprintf("%s-%s", cloudProvider.StringValue(), privateEndpointId.StringValue())), nil
 				},
