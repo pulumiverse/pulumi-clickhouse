@@ -6,7 +6,7 @@ package config
 import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi/config"
-	"github.com/pulumiverse/pulumi-clickhouse/sdk/go/clickhouse/internal"
+	"github.com/pulumiverse/pulumi-clickhouse/sdk/v2/go/clickhouse/internal"
 )
 
 var _ = internal.GetEnvOrDefault

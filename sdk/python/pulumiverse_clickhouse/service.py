@@ -24,34 +24,34 @@ class ServiceArgs:
                  cloud_provider: pulumi.Input[_builtins.str],
                  ip_accesses: pulumi.Input[Sequence[pulumi.Input['ServiceIpAccessArgs']]],
                  region: pulumi.Input[_builtins.str],
-                 backup_configuration: Optional[pulumi.Input['ServiceBackupConfigurationArgs']] = None,
-                 backup_id: Optional[pulumi.Input[_builtins.str]] = None,
-                 byoc_id: Optional[pulumi.Input[_builtins.str]] = None,
-                 compliance_type: Optional[pulumi.Input[_builtins.str]] = None,
-                 double_sha1_password_hash: Optional[pulumi.Input[_builtins.str]] = None,
-                 enable_core_dumps: Optional[pulumi.Input[_builtins.bool]] = None,
-                 encryption_assumed_role_identifier: Optional[pulumi.Input[_builtins.str]] = None,
-                 encryption_key: Optional[pulumi.Input[_builtins.str]] = None,
-                 endpoints: Optional[pulumi.Input['ServiceEndpointsArgs']] = None,
-                 idle_scaling: Optional[pulumi.Input[_builtins.bool]] = None,
-                 idle_timeout_minutes: Optional[pulumi.Input[_builtins.int]] = None,
-                 max_replica_memory_gb: Optional[pulumi.Input[_builtins.int]] = None,
-                 max_total_memory_gb: Optional[pulumi.Input[_builtins.int]] = None,
-                 min_replica_memory_gb: Optional[pulumi.Input[_builtins.int]] = None,
-                 min_total_memory_gb: Optional[pulumi.Input[_builtins.int]] = None,
-                 name: Optional[pulumi.Input[_builtins.str]] = None,
-                 num_replicas: Optional[pulumi.Input[_builtins.int]] = None,
-                 password: Optional[pulumi.Input[_builtins.str]] = None,
-                 password_hash: Optional[pulumi.Input[_builtins.str]] = None,
-                 password_wo: Optional[pulumi.Input[_builtins.str]] = None,
-                 password_wo_version: Optional[pulumi.Input[_builtins.int]] = None,
-                 query_api_endpoints: Optional[pulumi.Input['ServiceQueryApiEndpointsArgs']] = None,
-                 readonly: Optional[pulumi.Input[_builtins.bool]] = None,
-                 release_channel: Optional[pulumi.Input[_builtins.str]] = None,
-                 tags: Optional[pulumi.Input[Mapping[str, pulumi.Input[_builtins.str]]]] = None,
-                 tier: Optional[pulumi.Input[_builtins.str]] = None,
-                 transparent_data_encryption: Optional[pulumi.Input['ServiceTransparentDataEncryptionArgs']] = None,
-                 warehouse_id: Optional[pulumi.Input[_builtins.str]] = None):
+                 backup_configuration: pulumi.Input[Optional['ServiceBackupConfigurationArgs']] = None,
+                 backup_id: pulumi.Input[Optional[_builtins.str]] = None,
+                 byoc_id: pulumi.Input[Optional[_builtins.str]] = None,
+                 compliance_type: pulumi.Input[Optional[_builtins.str]] = None,
+                 double_sha1_password_hash: pulumi.Input[Optional[_builtins.str]] = None,
+                 enable_core_dumps: pulumi.Input[Optional[_builtins.bool]] = None,
+                 encryption_assumed_role_identifier: pulumi.Input[Optional[_builtins.str]] = None,
+                 encryption_key: pulumi.Input[Optional[_builtins.str]] = None,
+                 endpoints: pulumi.Input[Optional['ServiceEndpointsArgs']] = None,
+                 idle_scaling: pulumi.Input[Optional[_builtins.bool]] = None,
+                 idle_timeout_minutes: pulumi.Input[Optional[_builtins.int]] = None,
+                 max_replica_memory_gb: pulumi.Input[Optional[_builtins.int]] = None,
+                 max_total_memory_gb: pulumi.Input[Optional[_builtins.int]] = None,
+                 min_replica_memory_gb: pulumi.Input[Optional[_builtins.int]] = None,
+                 min_total_memory_gb: pulumi.Input[Optional[_builtins.int]] = None,
+                 name: pulumi.Input[Optional[_builtins.str]] = None,
+                 num_replicas: pulumi.Input[Optional[_builtins.int]] = None,
+                 password: pulumi.Input[Optional[_builtins.str]] = None,
+                 password_hash: pulumi.Input[Optional[_builtins.str]] = None,
+                 password_wo: pulumi.Input[Optional[_builtins.str]] = None,
+                 password_wo_version: pulumi.Input[Optional[_builtins.int]] = None,
+                 query_api_endpoints: pulumi.Input[Optional['ServiceQueryApiEndpointsArgs']] = None,
+                 readonly: pulumi.Input[Optional[_builtins.bool]] = None,
+                 release_channel: pulumi.Input[Optional[_builtins.str]] = None,
+                 tags: pulumi.Input[Optional[Mapping[str, pulumi.Input[_builtins.str]]]] = None,
+                 tier: pulumi.Input[Optional[_builtins.str]] = None,
+                 transparent_data_encryption: pulumi.Input[Optional['ServiceTransparentDataEncryptionArgs']] = None,
+                 warehouse_id: pulumi.Input[Optional[_builtins.str]] = None):
         """
         The set of arguments for constructing a Service resource.
 
@@ -192,237 +192,237 @@ class ServiceArgs:
 
     @_builtins.property
     @pulumi.getter(name="backupConfiguration")
-    def backup_configuration(self) -> Optional[pulumi.Input['ServiceBackupConfigurationArgs']]:
+    def backup_configuration(self) -> pulumi.Input[Optional['ServiceBackupConfigurationArgs']]:
         """
         Configuration of service backup settings.
         """
         return pulumi.get(self, "backup_configuration")
 
     @backup_configuration.setter
-    def backup_configuration(self, value: Optional[pulumi.Input['ServiceBackupConfigurationArgs']]):
+    def backup_configuration(self, value: pulumi.Input[Optional['ServiceBackupConfigurationArgs']]):
         pulumi.set(self, "backup_configuration", value)
 
     @_builtins.property
     @pulumi.getter(name="backupId")
-    def backup_id(self) -> Optional[pulumi.Input[_builtins.str]]:
+    def backup_id(self) -> pulumi.Input[Optional[_builtins.str]]:
         """
         ID of the backup to restore when creating new service. If specified, the service will be created as a restore operation
         """
         return pulumi.get(self, "backup_id")
 
     @backup_id.setter
-    def backup_id(self, value: Optional[pulumi.Input[_builtins.str]]):
+    def backup_id(self, value: pulumi.Input[Optional[_builtins.str]]):
         pulumi.set(self, "backup_id", value)
 
     @_builtins.property
     @pulumi.getter(name="byocId")
-    def byoc_id(self) -> Optional[pulumi.Input[_builtins.str]]:
+    def byoc_id(self) -> pulumi.Input[Optional[_builtins.str]]:
         """
         BYOC ID related to the cloud provider account you want to create this service into.
         """
         return pulumi.get(self, "byoc_id")
 
     @byoc_id.setter
-    def byoc_id(self, value: Optional[pulumi.Input[_builtins.str]]):
+    def byoc_id(self, value: pulumi.Input[Optional[_builtins.str]]):
         pulumi.set(self, "byoc_id", value)
 
     @_builtins.property
     @pulumi.getter(name="complianceType")
-    def compliance_type(self) -> Optional[pulumi.Input[_builtins.str]]:
+    def compliance_type(self) -> pulumi.Input[Optional[_builtins.str]]:
         """
         Compliance type of the service. Can be 'hipaa', 'pci'. Required for organizations that wish to deploy their services in the hipaa/pci compliant environment. NOTE: hipaa/pci compliance should be enabled for your ClickHouse organization before using this field.
         """
         return pulumi.get(self, "compliance_type")
 
     @compliance_type.setter
-    def compliance_type(self, value: Optional[pulumi.Input[_builtins.str]]):
+    def compliance_type(self, value: pulumi.Input[Optional[_builtins.str]]):
         pulumi.set(self, "compliance_type", value)
 
     @_builtins.property
     @pulumi.getter(name="doubleSha1PasswordHash")
-    def double_sha1_password_hash(self) -> Optional[pulumi.Input[_builtins.str]]:
+    def double_sha1_password_hash(self) -> pulumi.Input[Optional[_builtins.str]]:
         """
         Double SHA1 hash of password for connecting with the MySQL protocol. Cannot be specified if `password` or `password_wo` is specified.
         """
         return pulumi.get(self, "double_sha1_password_hash")
 
     @double_sha1_password_hash.setter
-    def double_sha1_password_hash(self, value: Optional[pulumi.Input[_builtins.str]]):
+    def double_sha1_password_hash(self, value: pulumi.Input[Optional[_builtins.str]]):
         pulumi.set(self, "double_sha1_password_hash", value)
 
     @_builtins.property
     @pulumi.getter(name="enableCoreDumps")
-    def enable_core_dumps(self) -> Optional[pulumi.Input[_builtins.bool]]:
+    def enable_core_dumps(self) -> pulumi.Input[Optional[_builtins.bool]]:
         """
         Enable core dumps for the service.
         """
         return pulumi.get(self, "enable_core_dumps")
 
     @enable_core_dumps.setter
-    def enable_core_dumps(self, value: Optional[pulumi.Input[_builtins.bool]]):
+    def enable_core_dumps(self, value: pulumi.Input[Optional[_builtins.bool]]):
         pulumi.set(self, "enable_core_dumps", value)
 
     @_builtins.property
     @pulumi.getter(name="encryptionAssumedRoleIdentifier")
-    def encryption_assumed_role_identifier(self) -> Optional[pulumi.Input[_builtins.str]]:
+    def encryption_assumed_role_identifier(self) -> pulumi.Input[Optional[_builtins.str]]:
         """
         Custom role identifier ARN.
         """
         return pulumi.get(self, "encryption_assumed_role_identifier")
 
     @encryption_assumed_role_identifier.setter
-    def encryption_assumed_role_identifier(self, value: Optional[pulumi.Input[_builtins.str]]):
+    def encryption_assumed_role_identifier(self, value: pulumi.Input[Optional[_builtins.str]]):
         pulumi.set(self, "encryption_assumed_role_identifier", value)
 
     @_builtins.property
     @pulumi.getter(name="encryptionKey")
-    def encryption_key(self) -> Optional[pulumi.Input[_builtins.str]]:
+    def encryption_key(self) -> pulumi.Input[Optional[_builtins.str]]:
         """
         Custom encryption key ARN.
         """
         return pulumi.get(self, "encryption_key")
 
     @encryption_key.setter
-    def encryption_key(self, value: Optional[pulumi.Input[_builtins.str]]):
+    def encryption_key(self, value: pulumi.Input[Optional[_builtins.str]]):
         pulumi.set(self, "encryption_key", value)
 
     @_builtins.property
     @pulumi.getter
-    def endpoints(self) -> Optional[pulumi.Input['ServiceEndpointsArgs']]:
+    def endpoints(self) -> pulumi.Input[Optional['ServiceEndpointsArgs']]:
         """
         Allow to enable and configure additional endpoints (read protocols) to expose on the ClickHouse service.
         """
         return pulumi.get(self, "endpoints")
 
     @endpoints.setter
-    def endpoints(self, value: Optional[pulumi.Input['ServiceEndpointsArgs']]):
+    def endpoints(self, value: pulumi.Input[Optional['ServiceEndpointsArgs']]):
         pulumi.set(self, "endpoints", value)
 
     @_builtins.property
     @pulumi.getter(name="idleScaling")
-    def idle_scaling(self) -> Optional[pulumi.Input[_builtins.bool]]:
+    def idle_scaling(self) -> pulumi.Input[Optional[_builtins.bool]]:
         """
         When set to true the service is allowed to scale down to zero when idle.
         """
         return pulumi.get(self, "idle_scaling")
 
     @idle_scaling.setter
-    def idle_scaling(self, value: Optional[pulumi.Input[_builtins.bool]]):
+    def idle_scaling(self, value: pulumi.Input[Optional[_builtins.bool]]):
         pulumi.set(self, "idle_scaling", value)
 
     @_builtins.property
     @pulumi.getter(name="idleTimeoutMinutes")
-    def idle_timeout_minutes(self) -> Optional[pulumi.Input[_builtins.int]]:
+    def idle_timeout_minutes(self) -> pulumi.Input[Optional[_builtins.int]]:
         """
         Set minimum idling timeout (in minutes). Must be greater than or equal to 5 minutes. Must be set if idle_scaling is enabled.
         """
         return pulumi.get(self, "idle_timeout_minutes")
 
     @idle_timeout_minutes.setter
-    def idle_timeout_minutes(self, value: Optional[pulumi.Input[_builtins.int]]):
+    def idle_timeout_minutes(self, value: pulumi.Input[Optional[_builtins.int]]):
         pulumi.set(self, "idle_timeout_minutes", value)
 
     @_builtins.property
     @pulumi.getter(name="maxReplicaMemoryGb")
-    def max_replica_memory_gb(self) -> Optional[pulumi.Input[_builtins.int]]:
+    def max_replica_memory_gb(self) -> pulumi.Input[Optional[_builtins.int]]:
         """
         Maximum memory of a single replica during auto-scaling in GiB.
         """
         return pulumi.get(self, "max_replica_memory_gb")
 
     @max_replica_memory_gb.setter
-    def max_replica_memory_gb(self, value: Optional[pulumi.Input[_builtins.int]]):
+    def max_replica_memory_gb(self, value: pulumi.Input[Optional[_builtins.int]]):
         pulumi.set(self, "max_replica_memory_gb", value)
 
     @_builtins.property
     @pulumi.getter(name="maxTotalMemoryGb")
     @_utilities.deprecated("""Please use max_replica_memory_gb instead""")
-    def max_total_memory_gb(self) -> Optional[pulumi.Input[_builtins.int]]:
+    def max_total_memory_gb(self) -> pulumi.Input[Optional[_builtins.int]]:
         """
         Maximum total memory of all workers during auto-scaling in GiB.
         """
         return pulumi.get(self, "max_total_memory_gb")
 
     @max_total_memory_gb.setter
-    def max_total_memory_gb(self, value: Optional[pulumi.Input[_builtins.int]]):
+    def max_total_memory_gb(self, value: pulumi.Input[Optional[_builtins.int]]):
         pulumi.set(self, "max_total_memory_gb", value)
 
     @_builtins.property
     @pulumi.getter(name="minReplicaMemoryGb")
-    def min_replica_memory_gb(self) -> Optional[pulumi.Input[_builtins.int]]:
+    def min_replica_memory_gb(self) -> pulumi.Input[Optional[_builtins.int]]:
         """
         Minimum memory of a single replica during auto-scaling in GiB.
         """
         return pulumi.get(self, "min_replica_memory_gb")
 
     @min_replica_memory_gb.setter
-    def min_replica_memory_gb(self, value: Optional[pulumi.Input[_builtins.int]]):
+    def min_replica_memory_gb(self, value: pulumi.Input[Optional[_builtins.int]]):
         pulumi.set(self, "min_replica_memory_gb", value)
 
     @_builtins.property
     @pulumi.getter(name="minTotalMemoryGb")
     @_utilities.deprecated("""Please use min_replica_memory_gb instead""")
-    def min_total_memory_gb(self) -> Optional[pulumi.Input[_builtins.int]]:
+    def min_total_memory_gb(self) -> pulumi.Input[Optional[_builtins.int]]:
         """
         Minimum total memory of all workers during auto-scaling in GiB.
         """
         return pulumi.get(self, "min_total_memory_gb")
 
     @min_total_memory_gb.setter
-    def min_total_memory_gb(self, value: Optional[pulumi.Input[_builtins.int]]):
+    def min_total_memory_gb(self, value: pulumi.Input[Optional[_builtins.int]]):
         pulumi.set(self, "min_total_memory_gb", value)
 
     @_builtins.property
     @pulumi.getter
-    def name(self) -> Optional[pulumi.Input[_builtins.str]]:
+    def name(self) -> pulumi.Input[Optional[_builtins.str]]:
         """
         User defined identifier for the service.
         """
         return pulumi.get(self, "name")
 
     @name.setter
-    def name(self, value: Optional[pulumi.Input[_builtins.str]]):
+    def name(self, value: pulumi.Input[Optional[_builtins.str]]):
         pulumi.set(self, "name", value)
 
     @_builtins.property
     @pulumi.getter(name="numReplicas")
-    def num_replicas(self) -> Optional[pulumi.Input[_builtins.int]]:
+    def num_replicas(self) -> pulumi.Input[Optional[_builtins.int]]:
         """
         Number of replicas for the service.
         """
         return pulumi.get(self, "num_replicas")
 
     @num_replicas.setter
-    def num_replicas(self, value: Optional[pulumi.Input[_builtins.int]]):
+    def num_replicas(self, value: pulumi.Input[Optional[_builtins.int]]):
         pulumi.set(self, "num_replicas", value)
 
     @_builtins.property
     @pulumi.getter
-    def password(self) -> Optional[pulumi.Input[_builtins.str]]:
+    def password(self) -> pulumi.Input[Optional[_builtins.str]]:
         """
         Password for the default user. One of either `password`, `password_wo`, or `password_hash` must be specified.
         """
         return pulumi.get(self, "password")
 
     @password.setter
-    def password(self, value: Optional[pulumi.Input[_builtins.str]]):
+    def password(self, value: pulumi.Input[Optional[_builtins.str]]):
         pulumi.set(self, "password", value)
 
     @_builtins.property
     @pulumi.getter(name="passwordHash")
-    def password_hash(self) -> Optional[pulumi.Input[_builtins.str]]:
+    def password_hash(self) -> pulumi.Input[Optional[_builtins.str]]:
         """
         SHA256 hash of password for the default user. One of either `password`, `password_wo`, or `password_hash` must be specified.
         """
         return pulumi.get(self, "password_hash")
 
     @password_hash.setter
-    def password_hash(self, value: Optional[pulumi.Input[_builtins.str]]):
+    def password_hash(self, value: pulumi.Input[Optional[_builtins.str]]):
         pulumi.set(self, "password_hash", value)
 
     @_builtins.property
     @pulumi.getter(name="passwordWo")
-    def password_wo(self) -> Optional[pulumi.Input[_builtins.str]]:
+    def password_wo(self) -> pulumi.Input[Optional[_builtins.str]]:
         """
         **NOTE:** This field is write-only and its value will not be updated in state as part of read operations.
         Password for the default user (write-only, not persisted to state). Use this instead of `password` to avoid storing the password hash in Terraform state.
@@ -430,143 +430,143 @@ class ServiceArgs:
         return pulumi.get(self, "password_wo")
 
     @password_wo.setter
-    def password_wo(self, value: Optional[pulumi.Input[_builtins.str]]):
+    def password_wo(self, value: pulumi.Input[Optional[_builtins.str]]):
         pulumi.set(self, "password_wo", value)
 
     @_builtins.property
     @pulumi.getter(name="passwordWoVersion")
-    def password_wo_version(self) -> Optional[pulumi.Input[_builtins.int]]:
+    def password_wo_version(self) -> pulumi.Input[Optional[_builtins.int]]:
         """
         Version number for password*wo. Increment this to trigger a password update when using password*wo.
         """
         return pulumi.get(self, "password_wo_version")
 
     @password_wo_version.setter
-    def password_wo_version(self, value: Optional[pulumi.Input[_builtins.int]]):
+    def password_wo_version(self, value: pulumi.Input[Optional[_builtins.int]]):
         pulumi.set(self, "password_wo_version", value)
 
     @_builtins.property
     @pulumi.getter(name="queryApiEndpoints")
-    def query_api_endpoints(self) -> Optional[pulumi.Input['ServiceQueryApiEndpointsArgs']]:
+    def query_api_endpoints(self) -> pulumi.Input[Optional['ServiceQueryApiEndpointsArgs']]:
         """
         Configuration of the query API endpoints feature.
         """
         return pulumi.get(self, "query_api_endpoints")
 
     @query_api_endpoints.setter
-    def query_api_endpoints(self, value: Optional[pulumi.Input['ServiceQueryApiEndpointsArgs']]):
+    def query_api_endpoints(self, value: pulumi.Input[Optional['ServiceQueryApiEndpointsArgs']]):
         pulumi.set(self, "query_api_endpoints", value)
 
     @_builtins.property
     @pulumi.getter
-    def readonly(self) -> Optional[pulumi.Input[_builtins.bool]]:
+    def readonly(self) -> pulumi.Input[Optional[_builtins.bool]]:
         """
         Indicates if this service should be read only. Only allowed for secondary services, those which share data with another service (i.e. when `warehouse_id` field is set).
         """
         return pulumi.get(self, "readonly")
 
     @readonly.setter
-    def readonly(self, value: Optional[pulumi.Input[_builtins.bool]]):
+    def readonly(self, value: pulumi.Input[Optional[_builtins.bool]]):
         pulumi.set(self, "readonly", value)
 
     @_builtins.property
     @pulumi.getter(name="releaseChannel")
-    def release_channel(self) -> Optional[pulumi.Input[_builtins.str]]:
+    def release_channel(self) -> pulumi.Input[Optional[_builtins.str]]:
         """
         Release channel to use for this service. Can be 'default', 'fast' or 'slow'.
         """
         return pulumi.get(self, "release_channel")
 
     @release_channel.setter
-    def release_channel(self, value: Optional[pulumi.Input[_builtins.str]]):
+    def release_channel(self, value: pulumi.Input[Optional[_builtins.str]]):
         pulumi.set(self, "release_channel", value)
 
     @_builtins.property
     @pulumi.getter
-    def tags(self) -> Optional[pulumi.Input[Mapping[str, pulumi.Input[_builtins.str]]]]:
+    def tags(self) -> pulumi.Input[Optional[Mapping[str, pulumi.Input[_builtins.str]]]]:
         """
         Tags associated with the service as key-value pairs.
         """
         return pulumi.get(self, "tags")
 
     @tags.setter
-    def tags(self, value: Optional[pulumi.Input[Mapping[str, pulumi.Input[_builtins.str]]]]):
+    def tags(self, value: pulumi.Input[Optional[Mapping[str, pulumi.Input[_builtins.str]]]]):
         pulumi.set(self, "tags", value)
 
     @_builtins.property
     @pulumi.getter
-    def tier(self) -> Optional[pulumi.Input[_builtins.str]]:
+    def tier(self) -> pulumi.Input[Optional[_builtins.str]]:
         """
         Tier of the service: 'development', 'production'. Required for organizations using the Legacy ClickHouse Cloud Tiers, must be omitted for organizations using the new ClickHouse Cloud Tiers.
         """
         return pulumi.get(self, "tier")
 
     @tier.setter
-    def tier(self, value: Optional[pulumi.Input[_builtins.str]]):
+    def tier(self, value: pulumi.Input[Optional[_builtins.str]]):
         pulumi.set(self, "tier", value)
 
     @_builtins.property
     @pulumi.getter(name="transparentDataEncryption")
-    def transparent_data_encryption(self) -> Optional[pulumi.Input['ServiceTransparentDataEncryptionArgs']]:
+    def transparent_data_encryption(self) -> pulumi.Input[Optional['ServiceTransparentDataEncryptionArgs']]:
         """
         Configuration of the Transparent Data Encryption (TDE) feature. Requires an organization with the Enterprise plan.
         """
         return pulumi.get(self, "transparent_data_encryption")
 
     @transparent_data_encryption.setter
-    def transparent_data_encryption(self, value: Optional[pulumi.Input['ServiceTransparentDataEncryptionArgs']]):
+    def transparent_data_encryption(self, value: pulumi.Input[Optional['ServiceTransparentDataEncryptionArgs']]):
         pulumi.set(self, "transparent_data_encryption", value)
 
     @_builtins.property
     @pulumi.getter(name="warehouseId")
-    def warehouse_id(self) -> Optional[pulumi.Input[_builtins.str]]:
+    def warehouse_id(self) -> pulumi.Input[Optional[_builtins.str]]:
         """
         Set it to the 'warehouse_id' attribute of another service to share the data with it. The service must be in the same cloud and region.
         """
         return pulumi.get(self, "warehouse_id")
 
     @warehouse_id.setter
-    def warehouse_id(self, value: Optional[pulumi.Input[_builtins.str]]):
+    def warehouse_id(self, value: pulumi.Input[Optional[_builtins.str]]):
         pulumi.set(self, "warehouse_id", value)
 
 
 @pulumi.input_type
 class _ServiceState:
     def __init__(__self__, *,
-                 backup_configuration: Optional[pulumi.Input['ServiceBackupConfigurationArgs']] = None,
-                 backup_id: Optional[pulumi.Input[_builtins.str]] = None,
-                 byoc_id: Optional[pulumi.Input[_builtins.str]] = None,
-                 cloud_provider: Optional[pulumi.Input[_builtins.str]] = None,
-                 compliance_type: Optional[pulumi.Input[_builtins.str]] = None,
-                 double_sha1_password_hash: Optional[pulumi.Input[_builtins.str]] = None,
-                 enable_core_dumps: Optional[pulumi.Input[_builtins.bool]] = None,
-                 encryption_assumed_role_identifier: Optional[pulumi.Input[_builtins.str]] = None,
-                 encryption_key: Optional[pulumi.Input[_builtins.str]] = None,
-                 endpoints: Optional[pulumi.Input['ServiceEndpointsArgs']] = None,
-                 iam_role: Optional[pulumi.Input[_builtins.str]] = None,
-                 idle_scaling: Optional[pulumi.Input[_builtins.bool]] = None,
-                 idle_timeout_minutes: Optional[pulumi.Input[_builtins.int]] = None,
-                 ip_accesses: Optional[pulumi.Input[Sequence[pulumi.Input['ServiceIpAccessArgs']]]] = None,
-                 is_primary: Optional[pulumi.Input[_builtins.bool]] = None,
-                 max_replica_memory_gb: Optional[pulumi.Input[_builtins.int]] = None,
-                 max_total_memory_gb: Optional[pulumi.Input[_builtins.int]] = None,
-                 min_replica_memory_gb: Optional[pulumi.Input[_builtins.int]] = None,
-                 min_total_memory_gb: Optional[pulumi.Input[_builtins.int]] = None,
-                 name: Optional[pulumi.Input[_builtins.str]] = None,
-                 num_replicas: Optional[pulumi.Input[_builtins.int]] = None,
-                 password: Optional[pulumi.Input[_builtins.str]] = None,
-                 password_hash: Optional[pulumi.Input[_builtins.str]] = None,
-                 password_wo: Optional[pulumi.Input[_builtins.str]] = None,
-                 password_wo_version: Optional[pulumi.Input[_builtins.int]] = None,
-                 private_endpoint_config: Optional[pulumi.Input['ServicePrivateEndpointConfigArgs']] = None,
-                 query_api_endpoints: Optional[pulumi.Input['ServiceQueryApiEndpointsArgs']] = None,
-                 readonly: Optional[pulumi.Input[_builtins.bool]] = None,
-                 region: Optional[pulumi.Input[_builtins.str]] = None,
-                 release_channel: Optional[pulumi.Input[_builtins.str]] = None,
-                 tags: Optional[pulumi.Input[Mapping[str, pulumi.Input[_builtins.str]]]] = None,
-                 tier: Optional[pulumi.Input[_builtins.str]] = None,
-                 transparent_data_encryption: Optional[pulumi.Input['ServiceTransparentDataEncryptionArgs']] = None,
-                 warehouse_id: Optional[pulumi.Input[_builtins.str]] = None):
+                 backup_configuration: pulumi.Input[Optional['ServiceBackupConfigurationArgs']] = None,
+                 backup_id: pulumi.Input[Optional[_builtins.str]] = None,
+                 byoc_id: pulumi.Input[Optional[_builtins.str]] = None,
+                 cloud_provider: pulumi.Input[Optional[_builtins.str]] = None,
+                 compliance_type: pulumi.Input[Optional[_builtins.str]] = None,
+                 double_sha1_password_hash: pulumi.Input[Optional[_builtins.str]] = None,
+                 enable_core_dumps: pulumi.Input[Optional[_builtins.bool]] = None,
+                 encryption_assumed_role_identifier: pulumi.Input[Optional[_builtins.str]] = None,
+                 encryption_key: pulumi.Input[Optional[_builtins.str]] = None,
+                 endpoints: pulumi.Input[Optional['ServiceEndpointsArgs']] = None,
+                 iam_role: pulumi.Input[Optional[_builtins.str]] = None,
+                 idle_scaling: pulumi.Input[Optional[_builtins.bool]] = None,
+                 idle_timeout_minutes: pulumi.Input[Optional[_builtins.int]] = None,
+                 ip_accesses: pulumi.Input[Optional[Sequence[pulumi.Input['ServiceIpAccessArgs']]]] = None,
+                 is_primary: pulumi.Input[Optional[_builtins.bool]] = None,
+                 max_replica_memory_gb: pulumi.Input[Optional[_builtins.int]] = None,
+                 max_total_memory_gb: pulumi.Input[Optional[_builtins.int]] = None,
+                 min_replica_memory_gb: pulumi.Input[Optional[_builtins.int]] = None,
+                 min_total_memory_gb: pulumi.Input[Optional[_builtins.int]] = None,
+                 name: pulumi.Input[Optional[_builtins.str]] = None,
+                 num_replicas: pulumi.Input[Optional[_builtins.int]] = None,
+                 password: pulumi.Input[Optional[_builtins.str]] = None,
+                 password_hash: pulumi.Input[Optional[_builtins.str]] = None,
+                 password_wo: pulumi.Input[Optional[_builtins.str]] = None,
+                 password_wo_version: pulumi.Input[Optional[_builtins.int]] = None,
+                 private_endpoint_config: pulumi.Input[Optional['ServicePrivateEndpointConfigArgs']] = None,
+                 query_api_endpoints: pulumi.Input[Optional['ServiceQueryApiEndpointsArgs']] = None,
+                 readonly: pulumi.Input[Optional[_builtins.bool]] = None,
+                 region: pulumi.Input[Optional[_builtins.str]] = None,
+                 release_channel: pulumi.Input[Optional[_builtins.str]] = None,
+                 tags: pulumi.Input[Optional[Mapping[str, pulumi.Input[_builtins.str]]]] = None,
+                 tier: pulumi.Input[Optional[_builtins.str]] = None,
+                 transparent_data_encryption: pulumi.Input[Optional['ServiceTransparentDataEncryptionArgs']] = None,
+                 warehouse_id: pulumi.Input[Optional[_builtins.str]] = None):
         """
         Input properties used for looking up and filtering Service resources.
 
@@ -683,285 +683,285 @@ class _ServiceState:
 
     @_builtins.property
     @pulumi.getter(name="backupConfiguration")
-    def backup_configuration(self) -> Optional[pulumi.Input['ServiceBackupConfigurationArgs']]:
+    def backup_configuration(self) -> pulumi.Input[Optional['ServiceBackupConfigurationArgs']]:
         """
         Configuration of service backup settings.
         """
         return pulumi.get(self, "backup_configuration")
 
     @backup_configuration.setter
-    def backup_configuration(self, value: Optional[pulumi.Input['ServiceBackupConfigurationArgs']]):
+    def backup_configuration(self, value: pulumi.Input[Optional['ServiceBackupConfigurationArgs']]):
         pulumi.set(self, "backup_configuration", value)
 
     @_builtins.property
     @pulumi.getter(name="backupId")
-    def backup_id(self) -> Optional[pulumi.Input[_builtins.str]]:
+    def backup_id(self) -> pulumi.Input[Optional[_builtins.str]]:
         """
         ID of the backup to restore when creating new service. If specified, the service will be created as a restore operation
         """
         return pulumi.get(self, "backup_id")
 
     @backup_id.setter
-    def backup_id(self, value: Optional[pulumi.Input[_builtins.str]]):
+    def backup_id(self, value: pulumi.Input[Optional[_builtins.str]]):
         pulumi.set(self, "backup_id", value)
 
     @_builtins.property
     @pulumi.getter(name="byocId")
-    def byoc_id(self) -> Optional[pulumi.Input[_builtins.str]]:
+    def byoc_id(self) -> pulumi.Input[Optional[_builtins.str]]:
         """
         BYOC ID related to the cloud provider account you want to create this service into.
         """
         return pulumi.get(self, "byoc_id")
 
     @byoc_id.setter
-    def byoc_id(self, value: Optional[pulumi.Input[_builtins.str]]):
+    def byoc_id(self, value: pulumi.Input[Optional[_builtins.str]]):
         pulumi.set(self, "byoc_id", value)
 
     @_builtins.property
     @pulumi.getter(name="cloudProvider")
-    def cloud_provider(self) -> Optional[pulumi.Input[_builtins.str]]:
+    def cloud_provider(self) -> pulumi.Input[Optional[_builtins.str]]:
         """
         Cloud provider ('aws', 'gcp', or 'azure') in which the service is deployed in.
         """
         return pulumi.get(self, "cloud_provider")
 
     @cloud_provider.setter
-    def cloud_provider(self, value: Optional[pulumi.Input[_builtins.str]]):
+    def cloud_provider(self, value: pulumi.Input[Optional[_builtins.str]]):
         pulumi.set(self, "cloud_provider", value)
 
     @_builtins.property
     @pulumi.getter(name="complianceType")
-    def compliance_type(self) -> Optional[pulumi.Input[_builtins.str]]:
+    def compliance_type(self) -> pulumi.Input[Optional[_builtins.str]]:
         """
         Compliance type of the service. Can be 'hipaa', 'pci'. Required for organizations that wish to deploy their services in the hipaa/pci compliant environment. NOTE: hipaa/pci compliance should be enabled for your ClickHouse organization before using this field.
         """
         return pulumi.get(self, "compliance_type")
 
     @compliance_type.setter
-    def compliance_type(self, value: Optional[pulumi.Input[_builtins.str]]):
+    def compliance_type(self, value: pulumi.Input[Optional[_builtins.str]]):
         pulumi.set(self, "compliance_type", value)
 
     @_builtins.property
     @pulumi.getter(name="doubleSha1PasswordHash")
-    def double_sha1_password_hash(self) -> Optional[pulumi.Input[_builtins.str]]:
+    def double_sha1_password_hash(self) -> pulumi.Input[Optional[_builtins.str]]:
         """
         Double SHA1 hash of password for connecting with the MySQL protocol. Cannot be specified if `password` or `password_wo` is specified.
         """
         return pulumi.get(self, "double_sha1_password_hash")
 
     @double_sha1_password_hash.setter
-    def double_sha1_password_hash(self, value: Optional[pulumi.Input[_builtins.str]]):
+    def double_sha1_password_hash(self, value: pulumi.Input[Optional[_builtins.str]]):
         pulumi.set(self, "double_sha1_password_hash", value)
 
     @_builtins.property
     @pulumi.getter(name="enableCoreDumps")
-    def enable_core_dumps(self) -> Optional[pulumi.Input[_builtins.bool]]:
+    def enable_core_dumps(self) -> pulumi.Input[Optional[_builtins.bool]]:
         """
         Enable core dumps for the service.
         """
         return pulumi.get(self, "enable_core_dumps")
 
     @enable_core_dumps.setter
-    def enable_core_dumps(self, value: Optional[pulumi.Input[_builtins.bool]]):
+    def enable_core_dumps(self, value: pulumi.Input[Optional[_builtins.bool]]):
         pulumi.set(self, "enable_core_dumps", value)
 
     @_builtins.property
     @pulumi.getter(name="encryptionAssumedRoleIdentifier")
-    def encryption_assumed_role_identifier(self) -> Optional[pulumi.Input[_builtins.str]]:
+    def encryption_assumed_role_identifier(self) -> pulumi.Input[Optional[_builtins.str]]:
         """
         Custom role identifier ARN.
         """
         return pulumi.get(self, "encryption_assumed_role_identifier")
 
     @encryption_assumed_role_identifier.setter
-    def encryption_assumed_role_identifier(self, value: Optional[pulumi.Input[_builtins.str]]):
+    def encryption_assumed_role_identifier(self, value: pulumi.Input[Optional[_builtins.str]]):
         pulumi.set(self, "encryption_assumed_role_identifier", value)
 
     @_builtins.property
     @pulumi.getter(name="encryptionKey")
-    def encryption_key(self) -> Optional[pulumi.Input[_builtins.str]]:
+    def encryption_key(self) -> pulumi.Input[Optional[_builtins.str]]:
         """
         Custom encryption key ARN.
         """
         return pulumi.get(self, "encryption_key")
 
     @encryption_key.setter
-    def encryption_key(self, value: Optional[pulumi.Input[_builtins.str]]):
+    def encryption_key(self, value: pulumi.Input[Optional[_builtins.str]]):
         pulumi.set(self, "encryption_key", value)
 
     @_builtins.property
     @pulumi.getter
-    def endpoints(self) -> Optional[pulumi.Input['ServiceEndpointsArgs']]:
+    def endpoints(self) -> pulumi.Input[Optional['ServiceEndpointsArgs']]:
         """
         Allow to enable and configure additional endpoints (read protocols) to expose on the ClickHouse service.
         """
         return pulumi.get(self, "endpoints")
 
     @endpoints.setter
-    def endpoints(self, value: Optional[pulumi.Input['ServiceEndpointsArgs']]):
+    def endpoints(self, value: pulumi.Input[Optional['ServiceEndpointsArgs']]):
         pulumi.set(self, "endpoints", value)
 
     @_builtins.property
     @pulumi.getter(name="iamRole")
-    def iam_role(self) -> Optional[pulumi.Input[_builtins.str]]:
+    def iam_role(self) -> pulumi.Input[Optional[_builtins.str]]:
         """
         IAM role used for accessing objects in s3.
         """
         return pulumi.get(self, "iam_role")
 
     @iam_role.setter
-    def iam_role(self, value: Optional[pulumi.Input[_builtins.str]]):
+    def iam_role(self, value: pulumi.Input[Optional[_builtins.str]]):
         pulumi.set(self, "iam_role", value)
 
     @_builtins.property
     @pulumi.getter(name="idleScaling")
-    def idle_scaling(self) -> Optional[pulumi.Input[_builtins.bool]]:
+    def idle_scaling(self) -> pulumi.Input[Optional[_builtins.bool]]:
         """
         When set to true the service is allowed to scale down to zero when idle.
         """
         return pulumi.get(self, "idle_scaling")
 
     @idle_scaling.setter
-    def idle_scaling(self, value: Optional[pulumi.Input[_builtins.bool]]):
+    def idle_scaling(self, value: pulumi.Input[Optional[_builtins.bool]]):
         pulumi.set(self, "idle_scaling", value)
 
     @_builtins.property
     @pulumi.getter(name="idleTimeoutMinutes")
-    def idle_timeout_minutes(self) -> Optional[pulumi.Input[_builtins.int]]:
+    def idle_timeout_minutes(self) -> pulumi.Input[Optional[_builtins.int]]:
         """
         Set minimum idling timeout (in minutes). Must be greater than or equal to 5 minutes. Must be set if idle_scaling is enabled.
         """
         return pulumi.get(self, "idle_timeout_minutes")
 
     @idle_timeout_minutes.setter
-    def idle_timeout_minutes(self, value: Optional[pulumi.Input[_builtins.int]]):
+    def idle_timeout_minutes(self, value: pulumi.Input[Optional[_builtins.int]]):
         pulumi.set(self, "idle_timeout_minutes", value)
 
     @_builtins.property
     @pulumi.getter(name="ipAccesses")
-    def ip_accesses(self) -> Optional[pulumi.Input[Sequence[pulumi.Input['ServiceIpAccessArgs']]]]:
+    def ip_accesses(self) -> pulumi.Input[Optional[Sequence[pulumi.Input['ServiceIpAccessArgs']]]]:
         """
         List of IP addresses allowed to access the service.
         """
         return pulumi.get(self, "ip_accesses")
 
     @ip_accesses.setter
-    def ip_accesses(self, value: Optional[pulumi.Input[Sequence[pulumi.Input['ServiceIpAccessArgs']]]]):
+    def ip_accesses(self, value: pulumi.Input[Optional[Sequence[pulumi.Input['ServiceIpAccessArgs']]]]):
         pulumi.set(self, "ip_accesses", value)
 
     @_builtins.property
     @pulumi.getter(name="isPrimary")
-    def is_primary(self) -> Optional[pulumi.Input[_builtins.bool]]:
+    def is_primary(self) -> pulumi.Input[Optional[_builtins.bool]]:
         """
         If true, it indicates this is a primary service using its own data. If false it means this service is a secondary service, thus using data from a warehouse.
         """
         return pulumi.get(self, "is_primary")
 
     @is_primary.setter
-    def is_primary(self, value: Optional[pulumi.Input[_builtins.bool]]):
+    def is_primary(self, value: pulumi.Input[Optional[_builtins.bool]]):
         pulumi.set(self, "is_primary", value)
 
     @_builtins.property
     @pulumi.getter(name="maxReplicaMemoryGb")
-    def max_replica_memory_gb(self) -> Optional[pulumi.Input[_builtins.int]]:
+    def max_replica_memory_gb(self) -> pulumi.Input[Optional[_builtins.int]]:
         """
         Maximum memory of a single replica during auto-scaling in GiB.
         """
         return pulumi.get(self, "max_replica_memory_gb")
 
     @max_replica_memory_gb.setter
-    def max_replica_memory_gb(self, value: Optional[pulumi.Input[_builtins.int]]):
+    def max_replica_memory_gb(self, value: pulumi.Input[Optional[_builtins.int]]):
         pulumi.set(self, "max_replica_memory_gb", value)
 
     @_builtins.property
     @pulumi.getter(name="maxTotalMemoryGb")
     @_utilities.deprecated("""Please use max_replica_memory_gb instead""")
-    def max_total_memory_gb(self) -> Optional[pulumi.Input[_builtins.int]]:
+    def max_total_memory_gb(self) -> pulumi.Input[Optional[_builtins.int]]:
         """
         Maximum total memory of all workers during auto-scaling in GiB.
         """
         return pulumi.get(self, "max_total_memory_gb")
 
     @max_total_memory_gb.setter
-    def max_total_memory_gb(self, value: Optional[pulumi.Input[_builtins.int]]):
+    def max_total_memory_gb(self, value: pulumi.Input[Optional[_builtins.int]]):
         pulumi.set(self, "max_total_memory_gb", value)
 
     @_builtins.property
     @pulumi.getter(name="minReplicaMemoryGb")
-    def min_replica_memory_gb(self) -> Optional[pulumi.Input[_builtins.int]]:
+    def min_replica_memory_gb(self) -> pulumi.Input[Optional[_builtins.int]]:
         """
         Minimum memory of a single replica during auto-scaling in GiB.
         """
         return pulumi.get(self, "min_replica_memory_gb")
 
     @min_replica_memory_gb.setter
-    def min_replica_memory_gb(self, value: Optional[pulumi.Input[_builtins.int]]):
+    def min_replica_memory_gb(self, value: pulumi.Input[Optional[_builtins.int]]):
         pulumi.set(self, "min_replica_memory_gb", value)
 
     @_builtins.property
     @pulumi.getter(name="minTotalMemoryGb")
     @_utilities.deprecated("""Please use min_replica_memory_gb instead""")
-    def min_total_memory_gb(self) -> Optional[pulumi.Input[_builtins.int]]:
+    def min_total_memory_gb(self) -> pulumi.Input[Optional[_builtins.int]]:
         """
         Minimum total memory of all workers during auto-scaling in GiB.
         """
         return pulumi.get(self, "min_total_memory_gb")
 
     @min_total_memory_gb.setter
-    def min_total_memory_gb(self, value: Optional[pulumi.Input[_builtins.int]]):
+    def min_total_memory_gb(self, value: pulumi.Input[Optional[_builtins.int]]):
         pulumi.set(self, "min_total_memory_gb", value)
 
     @_builtins.property
     @pulumi.getter
-    def name(self) -> Optional[pulumi.Input[_builtins.str]]:
+    def name(self) -> pulumi.Input[Optional[_builtins.str]]:
         """
         User defined identifier for the service.
         """
         return pulumi.get(self, "name")
 
     @name.setter
-    def name(self, value: Optional[pulumi.Input[_builtins.str]]):
+    def name(self, value: pulumi.Input[Optional[_builtins.str]]):
         pulumi.set(self, "name", value)
 
     @_builtins.property
     @pulumi.getter(name="numReplicas")
-    def num_replicas(self) -> Optional[pulumi.Input[_builtins.int]]:
+    def num_replicas(self) -> pulumi.Input[Optional[_builtins.int]]:
         """
         Number of replicas for the service.
         """
         return pulumi.get(self, "num_replicas")
 
     @num_replicas.setter
-    def num_replicas(self, value: Optional[pulumi.Input[_builtins.int]]):
+    def num_replicas(self, value: pulumi.Input[Optional[_builtins.int]]):
         pulumi.set(self, "num_replicas", value)
 
     @_builtins.property
     @pulumi.getter
-    def password(self) -> Optional[pulumi.Input[_builtins.str]]:
+    def password(self) -> pulumi.Input[Optional[_builtins.str]]:
         """
         Password for the default user. One of either `password`, `password_wo`, or `password_hash` must be specified.
         """
         return pulumi.get(self, "password")
 
     @password.setter
-    def password(self, value: Optional[pulumi.Input[_builtins.str]]):
+    def password(self, value: pulumi.Input[Optional[_builtins.str]]):
         pulumi.set(self, "password", value)
 
     @_builtins.property
     @pulumi.getter(name="passwordHash")
-    def password_hash(self) -> Optional[pulumi.Input[_builtins.str]]:
+    def password_hash(self) -> pulumi.Input[Optional[_builtins.str]]:
         """
         SHA256 hash of password for the default user. One of either `password`, `password_wo`, or `password_hash` must be specified.
         """
         return pulumi.get(self, "password_hash")
 
     @password_hash.setter
-    def password_hash(self, value: Optional[pulumi.Input[_builtins.str]]):
+    def password_hash(self, value: pulumi.Input[Optional[_builtins.str]]):
         pulumi.set(self, "password_hash", value)
 
     @_builtins.property
     @pulumi.getter(name="passwordWo")
-    def password_wo(self) -> Optional[pulumi.Input[_builtins.str]]:
+    def password_wo(self) -> pulumi.Input[Optional[_builtins.str]]:
         """
         **NOTE:** This field is write-only and its value will not be updated in state as part of read operations.
         Password for the default user (write-only, not persisted to state). Use this instead of `password` to avoid storing the password hash in Terraform state.
@@ -969,127 +969,127 @@ class _ServiceState:
         return pulumi.get(self, "password_wo")
 
     @password_wo.setter
-    def password_wo(self, value: Optional[pulumi.Input[_builtins.str]]):
+    def password_wo(self, value: pulumi.Input[Optional[_builtins.str]]):
         pulumi.set(self, "password_wo", value)
 
     @_builtins.property
     @pulumi.getter(name="passwordWoVersion")
-    def password_wo_version(self) -> Optional[pulumi.Input[_builtins.int]]:
+    def password_wo_version(self) -> pulumi.Input[Optional[_builtins.int]]:
         """
         Version number for password*wo. Increment this to trigger a password update when using password*wo.
         """
         return pulumi.get(self, "password_wo_version")
 
     @password_wo_version.setter
-    def password_wo_version(self, value: Optional[pulumi.Input[_builtins.int]]):
+    def password_wo_version(self, value: pulumi.Input[Optional[_builtins.int]]):
         pulumi.set(self, "password_wo_version", value)
 
     @_builtins.property
     @pulumi.getter(name="privateEndpointConfig")
-    def private_endpoint_config(self) -> Optional[pulumi.Input['ServicePrivateEndpointConfigArgs']]:
+    def private_endpoint_config(self) -> pulumi.Input[Optional['ServicePrivateEndpointConfigArgs']]:
         """
         Service config for private endpoints
         """
         return pulumi.get(self, "private_endpoint_config")
 
     @private_endpoint_config.setter
-    def private_endpoint_config(self, value: Optional[pulumi.Input['ServicePrivateEndpointConfigArgs']]):
+    def private_endpoint_config(self, value: pulumi.Input[Optional['ServicePrivateEndpointConfigArgs']]):
         pulumi.set(self, "private_endpoint_config", value)
 
     @_builtins.property
     @pulumi.getter(name="queryApiEndpoints")
-    def query_api_endpoints(self) -> Optional[pulumi.Input['ServiceQueryApiEndpointsArgs']]:
+    def query_api_endpoints(self) -> pulumi.Input[Optional['ServiceQueryApiEndpointsArgs']]:
         """
         Configuration of the query API endpoints feature.
         """
         return pulumi.get(self, "query_api_endpoints")
 
     @query_api_endpoints.setter
-    def query_api_endpoints(self, value: Optional[pulumi.Input['ServiceQueryApiEndpointsArgs']]):
+    def query_api_endpoints(self, value: pulumi.Input[Optional['ServiceQueryApiEndpointsArgs']]):
         pulumi.set(self, "query_api_endpoints", value)
 
     @_builtins.property
     @pulumi.getter
-    def readonly(self) -> Optional[pulumi.Input[_builtins.bool]]:
+    def readonly(self) -> pulumi.Input[Optional[_builtins.bool]]:
         """
         Indicates if this service should be read only. Only allowed for secondary services, those which share data with another service (i.e. when `warehouse_id` field is set).
         """
         return pulumi.get(self, "readonly")
 
     @readonly.setter
-    def readonly(self, value: Optional[pulumi.Input[_builtins.bool]]):
+    def readonly(self, value: pulumi.Input[Optional[_builtins.bool]]):
         pulumi.set(self, "readonly", value)
 
     @_builtins.property
     @pulumi.getter
-    def region(self) -> Optional[pulumi.Input[_builtins.str]]:
+    def region(self) -> pulumi.Input[Optional[_builtins.str]]:
         """
         Region within the cloud provider in which the service is deployed in.
         """
         return pulumi.get(self, "region")
 
     @region.setter
-    def region(self, value: Optional[pulumi.Input[_builtins.str]]):
+    def region(self, value: pulumi.Input[Optional[_builtins.str]]):
         pulumi.set(self, "region", value)
 
     @_builtins.property
     @pulumi.getter(name="releaseChannel")
-    def release_channel(self) -> Optional[pulumi.Input[_builtins.str]]:
+    def release_channel(self) -> pulumi.Input[Optional[_builtins.str]]:
         """
         Release channel to use for this service. Can be 'default', 'fast' or 'slow'.
         """
         return pulumi.get(self, "release_channel")
 
     @release_channel.setter
-    def release_channel(self, value: Optional[pulumi.Input[_builtins.str]]):
+    def release_channel(self, value: pulumi.Input[Optional[_builtins.str]]):
         pulumi.set(self, "release_channel", value)
 
     @_builtins.property
     @pulumi.getter
-    def tags(self) -> Optional[pulumi.Input[Mapping[str, pulumi.Input[_builtins.str]]]]:
+    def tags(self) -> pulumi.Input[Optional[Mapping[str, pulumi.Input[_builtins.str]]]]:
         """
         Tags associated with the service as key-value pairs.
         """
         return pulumi.get(self, "tags")
 
     @tags.setter
-    def tags(self, value: Optional[pulumi.Input[Mapping[str, pulumi.Input[_builtins.str]]]]):
+    def tags(self, value: pulumi.Input[Optional[Mapping[str, pulumi.Input[_builtins.str]]]]):
         pulumi.set(self, "tags", value)
 
     @_builtins.property
     @pulumi.getter
-    def tier(self) -> Optional[pulumi.Input[_builtins.str]]:
+    def tier(self) -> pulumi.Input[Optional[_builtins.str]]:
         """
         Tier of the service: 'development', 'production'. Required for organizations using the Legacy ClickHouse Cloud Tiers, must be omitted for organizations using the new ClickHouse Cloud Tiers.
         """
         return pulumi.get(self, "tier")
 
     @tier.setter
-    def tier(self, value: Optional[pulumi.Input[_builtins.str]]):
+    def tier(self, value: pulumi.Input[Optional[_builtins.str]]):
         pulumi.set(self, "tier", value)
 
     @_builtins.property
     @pulumi.getter(name="transparentDataEncryption")
-    def transparent_data_encryption(self) -> Optional[pulumi.Input['ServiceTransparentDataEncryptionArgs']]:
+    def transparent_data_encryption(self) -> pulumi.Input[Optional['ServiceTransparentDataEncryptionArgs']]:
         """
         Configuration of the Transparent Data Encryption (TDE) feature. Requires an organization with the Enterprise plan.
         """
         return pulumi.get(self, "transparent_data_encryption")
 
     @transparent_data_encryption.setter
-    def transparent_data_encryption(self, value: Optional[pulumi.Input['ServiceTransparentDataEncryptionArgs']]):
+    def transparent_data_encryption(self, value: pulumi.Input[Optional['ServiceTransparentDataEncryptionArgs']]):
         pulumi.set(self, "transparent_data_encryption", value)
 
     @_builtins.property
     @pulumi.getter(name="warehouseId")
-    def warehouse_id(self) -> Optional[pulumi.Input[_builtins.str]]:
+    def warehouse_id(self) -> pulumi.Input[Optional[_builtins.str]]:
         """
         Set it to the 'warehouse_id' attribute of another service to share the data with it. The service must be in the same cloud and region.
         """
         return pulumi.get(self, "warehouse_id")
 
     @warehouse_id.setter
-    def warehouse_id(self, value: Optional[pulumi.Input[_builtins.str]]):
+    def warehouse_id(self, value: pulumi.Input[Optional[_builtins.str]]):
         pulumi.set(self, "warehouse_id", value)
 
 
@@ -1099,37 +1099,37 @@ class Service(pulumi.CustomResource):
     def __init__(__self__,
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
-                 backup_configuration: Optional[pulumi.Input[Union['ServiceBackupConfigurationArgs', 'ServiceBackupConfigurationArgsDict']]] = None,
-                 backup_id: Optional[pulumi.Input[_builtins.str]] = None,
-                 byoc_id: Optional[pulumi.Input[_builtins.str]] = None,
-                 cloud_provider: Optional[pulumi.Input[_builtins.str]] = None,
-                 compliance_type: Optional[pulumi.Input[_builtins.str]] = None,
-                 double_sha1_password_hash: Optional[pulumi.Input[_builtins.str]] = None,
-                 enable_core_dumps: Optional[pulumi.Input[_builtins.bool]] = None,
-                 encryption_assumed_role_identifier: Optional[pulumi.Input[_builtins.str]] = None,
-                 encryption_key: Optional[pulumi.Input[_builtins.str]] = None,
-                 endpoints: Optional[pulumi.Input[Union['ServiceEndpointsArgs', 'ServiceEndpointsArgsDict']]] = None,
-                 idle_scaling: Optional[pulumi.Input[_builtins.bool]] = None,
-                 idle_timeout_minutes: Optional[pulumi.Input[_builtins.int]] = None,
-                 ip_accesses: Optional[pulumi.Input[Sequence[pulumi.Input[Union['ServiceIpAccessArgs', 'ServiceIpAccessArgsDict']]]]] = None,
-                 max_replica_memory_gb: Optional[pulumi.Input[_builtins.int]] = None,
-                 max_total_memory_gb: Optional[pulumi.Input[_builtins.int]] = None,
-                 min_replica_memory_gb: Optional[pulumi.Input[_builtins.int]] = None,
-                 min_total_memory_gb: Optional[pulumi.Input[_builtins.int]] = None,
-                 name: Optional[pulumi.Input[_builtins.str]] = None,
-                 num_replicas: Optional[pulumi.Input[_builtins.int]] = None,
-                 password: Optional[pulumi.Input[_builtins.str]] = None,
-                 password_hash: Optional[pulumi.Input[_builtins.str]] = None,
-                 password_wo: Optional[pulumi.Input[_builtins.str]] = None,
-                 password_wo_version: Optional[pulumi.Input[_builtins.int]] = None,
-                 query_api_endpoints: Optional[pulumi.Input[Union['ServiceQueryApiEndpointsArgs', 'ServiceQueryApiEndpointsArgsDict']]] = None,
-                 readonly: Optional[pulumi.Input[_builtins.bool]] = None,
-                 region: Optional[pulumi.Input[_builtins.str]] = None,
-                 release_channel: Optional[pulumi.Input[_builtins.str]] = None,
-                 tags: Optional[pulumi.Input[Mapping[str, pulumi.Input[_builtins.str]]]] = None,
-                 tier: Optional[pulumi.Input[_builtins.str]] = None,
-                 transparent_data_encryption: Optional[pulumi.Input[Union['ServiceTransparentDataEncryptionArgs', 'ServiceTransparentDataEncryptionArgsDict']]] = None,
-                 warehouse_id: Optional[pulumi.Input[_builtins.str]] = None,
+                 backup_configuration: pulumi.Input[Optional[Union['ServiceBackupConfigurationArgs', 'ServiceBackupConfigurationArgsDict']]] = None,
+                 backup_id: pulumi.Input[Optional[_builtins.str]] = None,
+                 byoc_id: pulumi.Input[Optional[_builtins.str]] = None,
+                 cloud_provider: pulumi.Input[Optional[_builtins.str]] = None,
+                 compliance_type: pulumi.Input[Optional[_builtins.str]] = None,
+                 double_sha1_password_hash: pulumi.Input[Optional[_builtins.str]] = None,
+                 enable_core_dumps: pulumi.Input[Optional[_builtins.bool]] = None,
+                 encryption_assumed_role_identifier: pulumi.Input[Optional[_builtins.str]] = None,
+                 encryption_key: pulumi.Input[Optional[_builtins.str]] = None,
+                 endpoints: pulumi.Input[Optional[Union['ServiceEndpointsArgs', 'ServiceEndpointsArgsDict']]] = None,
+                 idle_scaling: pulumi.Input[Optional[_builtins.bool]] = None,
+                 idle_timeout_minutes: pulumi.Input[Optional[_builtins.int]] = None,
+                 ip_accesses: pulumi.Input[Optional[Sequence[pulumi.Input[Union['ServiceIpAccessArgs', 'ServiceIpAccessArgsDict']]]]] = None,
+                 max_replica_memory_gb: pulumi.Input[Optional[_builtins.int]] = None,
+                 max_total_memory_gb: pulumi.Input[Optional[_builtins.int]] = None,
+                 min_replica_memory_gb: pulumi.Input[Optional[_builtins.int]] = None,
+                 min_total_memory_gb: pulumi.Input[Optional[_builtins.int]] = None,
+                 name: pulumi.Input[Optional[_builtins.str]] = None,
+                 num_replicas: pulumi.Input[Optional[_builtins.int]] = None,
+                 password: pulumi.Input[Optional[_builtins.str]] = None,
+                 password_hash: pulumi.Input[Optional[_builtins.str]] = None,
+                 password_wo: pulumi.Input[Optional[_builtins.str]] = None,
+                 password_wo_version: pulumi.Input[Optional[_builtins.int]] = None,
+                 query_api_endpoints: pulumi.Input[Optional[Union['ServiceQueryApiEndpointsArgs', 'ServiceQueryApiEndpointsArgsDict']]] = None,
+                 readonly: pulumi.Input[Optional[_builtins.bool]] = None,
+                 region: pulumi.Input[Optional[_builtins.str]] = None,
+                 release_channel: pulumi.Input[Optional[_builtins.str]] = None,
+                 tags: pulumi.Input[Optional[Mapping[str, pulumi.Input[_builtins.str]]]] = None,
+                 tier: pulumi.Input[Optional[_builtins.str]] = None,
+                 transparent_data_encryption: pulumi.Input[Optional[Union['ServiceTransparentDataEncryptionArgs', 'ServiceTransparentDataEncryptionArgsDict']]] = None,
+                 warehouse_id: pulumi.Input[Optional[_builtins.str]] = None,
                  __props__=None):
         """
         You can use the *clickhouse_service* resource to deploy ClickHouse cloud instances on supported cloud providers.
@@ -1273,37 +1273,37 @@ class Service(pulumi.CustomResource):
     def _internal_init(__self__,
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
-                 backup_configuration: Optional[pulumi.Input[Union['ServiceBackupConfigurationArgs', 'ServiceBackupConfigurationArgsDict']]] = None,
-                 backup_id: Optional[pulumi.Input[_builtins.str]] = None,
-                 byoc_id: Optional[pulumi.Input[_builtins.str]] = None,
-                 cloud_provider: Optional[pulumi.Input[_builtins.str]] = None,
-                 compliance_type: Optional[pulumi.Input[_builtins.str]] = None,
-                 double_sha1_password_hash: Optional[pulumi.Input[_builtins.str]] = None,
-                 enable_core_dumps: Optional[pulumi.Input[_builtins.bool]] = None,
-                 encryption_assumed_role_identifier: Optional[pulumi.Input[_builtins.str]] = None,
-                 encryption_key: Optional[pulumi.Input[_builtins.str]] = None,
-                 endpoints: Optional[pulumi.Input[Union['ServiceEndpointsArgs', 'ServiceEndpointsArgsDict']]] = None,
-                 idle_scaling: Optional[pulumi.Input[_builtins.bool]] = None,
-                 idle_timeout_minutes: Optional[pulumi.Input[_builtins.int]] = None,
-                 ip_accesses: Optional[pulumi.Input[Sequence[pulumi.Input[Union['ServiceIpAccessArgs', 'ServiceIpAccessArgsDict']]]]] = None,
-                 max_replica_memory_gb: Optional[pulumi.Input[_builtins.int]] = None,
-                 max_total_memory_gb: Optional[pulumi.Input[_builtins.int]] = None,
-                 min_replica_memory_gb: Optional[pulumi.Input[_builtins.int]] = None,
-                 min_total_memory_gb: Optional[pulumi.Input[_builtins.int]] = None,
-                 name: Optional[pulumi.Input[_builtins.str]] = None,
-                 num_replicas: Optional[pulumi.Input[_builtins.int]] = None,
-                 password: Optional[pulumi.Input[_builtins.str]] = None,
-                 password_hash: Optional[pulumi.Input[_builtins.str]] = None,
-                 password_wo: Optional[pulumi.Input[_builtins.str]] = None,
-                 password_wo_version: Optional[pulumi.Input[_builtins.int]] = None,
-                 query_api_endpoints: Optional[pulumi.Input[Union['ServiceQueryApiEndpointsArgs', 'ServiceQueryApiEndpointsArgsDict']]] = None,
-                 readonly: Optional[pulumi.Input[_builtins.bool]] = None,
-                 region: Optional[pulumi.Input[_builtins.str]] = None,
-                 release_channel: Optional[pulumi.Input[_builtins.str]] = None,
-                 tags: Optional[pulumi.Input[Mapping[str, pulumi.Input[_builtins.str]]]] = None,
-                 tier: Optional[pulumi.Input[_builtins.str]] = None,
-                 transparent_data_encryption: Optional[pulumi.Input[Union['ServiceTransparentDataEncryptionArgs', 'ServiceTransparentDataEncryptionArgsDict']]] = None,
-                 warehouse_id: Optional[pulumi.Input[_builtins.str]] = None,
+                 backup_configuration: pulumi.Input[Optional[Union['ServiceBackupConfigurationArgs', 'ServiceBackupConfigurationArgsDict']]] = None,
+                 backup_id: pulumi.Input[Optional[_builtins.str]] = None,
+                 byoc_id: pulumi.Input[Optional[_builtins.str]] = None,
+                 cloud_provider: pulumi.Input[Optional[_builtins.str]] = None,
+                 compliance_type: pulumi.Input[Optional[_builtins.str]] = None,
+                 double_sha1_password_hash: pulumi.Input[Optional[_builtins.str]] = None,
+                 enable_core_dumps: pulumi.Input[Optional[_builtins.bool]] = None,
+                 encryption_assumed_role_identifier: pulumi.Input[Optional[_builtins.str]] = None,
+                 encryption_key: pulumi.Input[Optional[_builtins.str]] = None,
+                 endpoints: pulumi.Input[Optional[Union['ServiceEndpointsArgs', 'ServiceEndpointsArgsDict']]] = None,
+                 idle_scaling: pulumi.Input[Optional[_builtins.bool]] = None,
+                 idle_timeout_minutes: pulumi.Input[Optional[_builtins.int]] = None,
+                 ip_accesses: pulumi.Input[Optional[Sequence[pulumi.Input[Union['ServiceIpAccessArgs', 'ServiceIpAccessArgsDict']]]]] = None,
+                 max_replica_memory_gb: pulumi.Input[Optional[_builtins.int]] = None,
+                 max_total_memory_gb: pulumi.Input[Optional[_builtins.int]] = None,
+                 min_replica_memory_gb: pulumi.Input[Optional[_builtins.int]] = None,
+                 min_total_memory_gb: pulumi.Input[Optional[_builtins.int]] = None,
+                 name: pulumi.Input[Optional[_builtins.str]] = None,
+                 num_replicas: pulumi.Input[Optional[_builtins.int]] = None,
+                 password: pulumi.Input[Optional[_builtins.str]] = None,
+                 password_hash: pulumi.Input[Optional[_builtins.str]] = None,
+                 password_wo: pulumi.Input[Optional[_builtins.str]] = None,
+                 password_wo_version: pulumi.Input[Optional[_builtins.int]] = None,
+                 query_api_endpoints: pulumi.Input[Optional[Union['ServiceQueryApiEndpointsArgs', 'ServiceQueryApiEndpointsArgsDict']]] = None,
+                 readonly: pulumi.Input[Optional[_builtins.bool]] = None,
+                 region: pulumi.Input[Optional[_builtins.str]] = None,
+                 release_channel: pulumi.Input[Optional[_builtins.str]] = None,
+                 tags: pulumi.Input[Optional[Mapping[str, pulumi.Input[_builtins.str]]]] = None,
+                 tier: pulumi.Input[Optional[_builtins.str]] = None,
+                 transparent_data_encryption: pulumi.Input[Optional[Union['ServiceTransparentDataEncryptionArgs', 'ServiceTransparentDataEncryptionArgsDict']]] = None,
+                 warehouse_id: pulumi.Input[Optional[_builtins.str]] = None,
                  __props__=None):
         opts = pulumi.ResourceOptions.merge(_utilities.get_resource_opts_defaults(), opts)
         if not isinstance(opts, pulumi.ResourceOptions):
@@ -1365,40 +1365,40 @@ class Service(pulumi.CustomResource):
     def get(resource_name: str,
             id: pulumi.Input[str],
             opts: Optional[pulumi.ResourceOptions] = None,
-            backup_configuration: Optional[pulumi.Input[Union['ServiceBackupConfigurationArgs', 'ServiceBackupConfigurationArgsDict']]] = None,
-            backup_id: Optional[pulumi.Input[_builtins.str]] = None,
-            byoc_id: Optional[pulumi.Input[_builtins.str]] = None,
-            cloud_provider: Optional[pulumi.Input[_builtins.str]] = None,
-            compliance_type: Optional[pulumi.Input[_builtins.str]] = None,
-            double_sha1_password_hash: Optional[pulumi.Input[_builtins.str]] = None,
-            enable_core_dumps: Optional[pulumi.Input[_builtins.bool]] = None,
-            encryption_assumed_role_identifier: Optional[pulumi.Input[_builtins.str]] = None,
-            encryption_key: Optional[pulumi.Input[_builtins.str]] = None,
-            endpoints: Optional[pulumi.Input[Union['ServiceEndpointsArgs', 'ServiceEndpointsArgsDict']]] = None,
-            iam_role: Optional[pulumi.Input[_builtins.str]] = None,
-            idle_scaling: Optional[pulumi.Input[_builtins.bool]] = None,
-            idle_timeout_minutes: Optional[pulumi.Input[_builtins.int]] = None,
-            ip_accesses: Optional[pulumi.Input[Sequence[pulumi.Input[Union['ServiceIpAccessArgs', 'ServiceIpAccessArgsDict']]]]] = None,
-            is_primary: Optional[pulumi.Input[_builtins.bool]] = None,
-            max_replica_memory_gb: Optional[pulumi.Input[_builtins.int]] = None,
-            max_total_memory_gb: Optional[pulumi.Input[_builtins.int]] = None,
-            min_replica_memory_gb: Optional[pulumi.Input[_builtins.int]] = None,
-            min_total_memory_gb: Optional[pulumi.Input[_builtins.int]] = None,
-            name: Optional[pulumi.Input[_builtins.str]] = None,
-            num_replicas: Optional[pulumi.Input[_builtins.int]] = None,
-            password: Optional[pulumi.Input[_builtins.str]] = None,
-            password_hash: Optional[pulumi.Input[_builtins.str]] = None,
-            password_wo: Optional[pulumi.Input[_builtins.str]] = None,
-            password_wo_version: Optional[pulumi.Input[_builtins.int]] = None,
-            private_endpoint_config: Optional[pulumi.Input[Union['ServicePrivateEndpointConfigArgs', 'ServicePrivateEndpointConfigArgsDict']]] = None,
-            query_api_endpoints: Optional[pulumi.Input[Union['ServiceQueryApiEndpointsArgs', 'ServiceQueryApiEndpointsArgsDict']]] = None,
-            readonly: Optional[pulumi.Input[_builtins.bool]] = None,
-            region: Optional[pulumi.Input[_builtins.str]] = None,
-            release_channel: Optional[pulumi.Input[_builtins.str]] = None,
-            tags: Optional[pulumi.Input[Mapping[str, pulumi.Input[_builtins.str]]]] = None,
-            tier: Optional[pulumi.Input[_builtins.str]] = None,
-            transparent_data_encryption: Optional[pulumi.Input[Union['ServiceTransparentDataEncryptionArgs', 'ServiceTransparentDataEncryptionArgsDict']]] = None,
-            warehouse_id: Optional[pulumi.Input[_builtins.str]] = None) -> 'Service':
+            backup_configuration: pulumi.Input[Optional[Union['ServiceBackupConfigurationArgs', 'ServiceBackupConfigurationArgsDict']]] = None,
+            backup_id: pulumi.Input[Optional[_builtins.str]] = None,
+            byoc_id: pulumi.Input[Optional[_builtins.str]] = None,
+            cloud_provider: pulumi.Input[Optional[_builtins.str]] = None,
+            compliance_type: pulumi.Input[Optional[_builtins.str]] = None,
+            double_sha1_password_hash: pulumi.Input[Optional[_builtins.str]] = None,
+            enable_core_dumps: pulumi.Input[Optional[_builtins.bool]] = None,
+            encryption_assumed_role_identifier: pulumi.Input[Optional[_builtins.str]] = None,
+            encryption_key: pulumi.Input[Optional[_builtins.str]] = None,
+            endpoints: pulumi.Input[Optional[Union['ServiceEndpointsArgs', 'ServiceEndpointsArgsDict']]] = None,
+            iam_role: pulumi.Input[Optional[_builtins.str]] = None,
+            idle_scaling: pulumi.Input[Optional[_builtins.bool]] = None,
+            idle_timeout_minutes: pulumi.Input[Optional[_builtins.int]] = None,
+            ip_accesses: pulumi.Input[Optional[Sequence[pulumi.Input[Union['ServiceIpAccessArgs', 'ServiceIpAccessArgsDict']]]]] = None,
+            is_primary: pulumi.Input[Optional[_builtins.bool]] = None,
+            max_replica_memory_gb: pulumi.Input[Optional[_builtins.int]] = None,
+            max_total_memory_gb: pulumi.Input[Optional[_builtins.int]] = None,
+            min_replica_memory_gb: pulumi.Input[Optional[_builtins.int]] = None,
+            min_total_memory_gb: pulumi.Input[Optional[_builtins.int]] = None,
+            name: pulumi.Input[Optional[_builtins.str]] = None,
+            num_replicas: pulumi.Input[Optional[_builtins.int]] = None,
+            password: pulumi.Input[Optional[_builtins.str]] = None,
+            password_hash: pulumi.Input[Optional[_builtins.str]] = None,
+            password_wo: pulumi.Input[Optional[_builtins.str]] = None,
+            password_wo_version: pulumi.Input[Optional[_builtins.int]] = None,
+            private_endpoint_config: pulumi.Input[Optional[Union['ServicePrivateEndpointConfigArgs', 'ServicePrivateEndpointConfigArgsDict']]] = None,
+            query_api_endpoints: pulumi.Input[Optional[Union['ServiceQueryApiEndpointsArgs', 'ServiceQueryApiEndpointsArgsDict']]] = None,
+            readonly: pulumi.Input[Optional[_builtins.bool]] = None,
+            region: pulumi.Input[Optional[_builtins.str]] = None,
+            release_channel: pulumi.Input[Optional[_builtins.str]] = None,
+            tags: pulumi.Input[Optional[Mapping[str, pulumi.Input[_builtins.str]]]] = None,
+            tier: pulumi.Input[Optional[_builtins.str]] = None,
+            transparent_data_encryption: pulumi.Input[Optional[Union['ServiceTransparentDataEncryptionArgs', 'ServiceTransparentDataEncryptionArgsDict']]] = None,
+            warehouse_id: pulumi.Input[Optional[_builtins.str]] = None) -> 'Service':
         """
         Get an existing Service resource's state with the given name, id, and optional extra
         properties used to qualify the lookup.

@@ -8,7 +8,7 @@ import (
 	"reflect"
 
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumiverse/pulumi-clickhouse/sdk/go/clickhouse/internal"
+	"github.com/pulumiverse/pulumi-clickhouse/sdk/v2/go/clickhouse/internal"
 )
 
 func GetConfig(ctx *pulumi.Context, args *GetConfigArgs, opts ...pulumi.InvokeOption) (*GetConfigResult, error) {

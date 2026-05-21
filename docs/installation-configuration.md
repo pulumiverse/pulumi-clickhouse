@@ -10,7 +10,7 @@ The Pulumi Clickhouse provider is available as a package in all Pulumi languages
 
 * JavaScript/TypeScript: [`@pulumiverse/clickhouse`](https://www.npmjs.com/package/@pulumiverse/clickhouse)
 * Python: [`pulumiverse_clickhouse`](https://pypi.org/project/pulumiverse_clickhouse/)
-* Go: [`github.com/pulumiverse/pulumi-clickhouse/sdk/go/clickhouse`](https://pkg.go.dev/github.com/pulumiverse/pulumi-clickhouse/sdk/go/clickhouse)
+* Go: [`github.com/pulumiverse/pulumi-clickhouse/sdk/v2/go/clickhouse`](https://pkg.go.dev/github.com/pulumiverse/pulumi-clickhouse/sdk/v2/go/clickhouse)
 * .NET: [`Pulumiverse.Clickhouse`](https://www.nuget.org/packages/Pulumiverse.Clickhouse)
 
 

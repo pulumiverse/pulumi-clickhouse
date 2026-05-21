@@ -105,8 +105,8 @@ def get_config(cloud_provider: Optional[_builtins.str] = None,
         endpoint_service_id=pulumi.get(__ret__, 'endpoint_service_id'),
         id=pulumi.get(__ret__, 'id'),
         region=pulumi.get(__ret__, 'region'))
-def get_config_output(cloud_provider: Optional[pulumi.Input[_builtins.str]] = None,
-                      region: Optional[pulumi.Input[_builtins.str]] = None,
+def get_config_output(cloud_provider: pulumi.Input[Optional[_builtins.str]] = None,
+                      region: pulumi.Input[Optional[_builtins.str]] = None,
                       opts: Optional[Union[pulumi.InvokeOptions, pulumi.InvokeOutputOptions]] = None) -> pulumi.Output[GetConfigResult]:
     """
     Use this data source to access information about an existing resource.

@@ -8,7 +8,7 @@ import (
 	"reflect"
 
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumiverse/pulumi-clickhouse/sdk/go/clickhouse/internal"
+	"github.com/pulumiverse/pulumi-clickhouse/sdk/v2/go/clickhouse/internal"
 )
 
 // The provider type for the clickhouse package. By default, resources use package-wide configuration

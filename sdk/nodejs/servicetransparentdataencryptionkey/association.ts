@@ -93,11 +93,11 @@ export interface AssociationState {
     /**
      * ID of the Encryption key to use for data encryption. Must be an ARN for AWS services or a Key Resource Path for GCP services.
      */
-    keyId?: pulumi.Input<string>;
+    keyId?: pulumi.Input<string | undefined>;
     /**
      * ClickHouse Service ID
      */
-    serviceId?: pulumi.Input<string>;
+    serviceId?: pulumi.Input<string | undefined>;
 }
 
 /**

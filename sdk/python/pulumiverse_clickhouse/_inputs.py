@@ -36,15 +36,15 @@ __all__ = [
 ]
 
 class ServiceBackupConfigurationArgsDict(TypedDict):
-    backup_period_in_hours: NotRequired[pulumi.Input[_builtins.int]]
+    backup_period_in_hours: NotRequired[pulumi.Input[Optional[_builtins.int]]]
     """
     Interval in hours between each backup.
     """
-    backup_retention_period_in_hours: NotRequired[pulumi.Input[_builtins.int]]
+    backup_retention_period_in_hours: NotRequired[pulumi.Input[Optional[_builtins.int]]]
     """
     How long in hours to keep a backup before deleting it.
     """
-    backup_start_time: NotRequired[pulumi.Input[_builtins.str]]
+    backup_start_time: NotRequired[pulumi.Input[Optional[_builtins.str]]]
     """
     Time of the day in UTC that indicates the start time of a 2 hours window to be used for backup. If set, backup*period*in_hours must be null and backups are created once a day.
     """
@@ -52,9 +52,9 @@ class ServiceBackupConfigurationArgsDict(TypedDict):
 @pulumi.input_type
 class ServiceBackupConfigurationArgs:
     def __init__(__self__, *,
-                 backup_period_in_hours: Optional[pulumi.Input[_builtins.int]] = None,
-                 backup_retention_period_in_hours: Optional[pulumi.Input[_builtins.int]] = None,
-                 backup_start_time: Optional[pulumi.Input[_builtins.str]] = None):
+                 backup_period_in_hours: pulumi.Input[Optional[_builtins.int]] = None,
+                 backup_retention_period_in_hours: pulumi.Input[Optional[_builtins.int]] = None,
+                 backup_start_time: pulumi.Input[Optional[_builtins.str]] = None):
         """
         :param pulumi.Input[_builtins.int] backup_period_in_hours: Interval in hours between each backup.
         :param pulumi.Input[_builtins.int] backup_retention_period_in_hours: How long in hours to keep a backup before deleting it.
@@ -69,52 +69,52 @@ class ServiceBackupConfigurationArgs:
 
     @_builtins.property
     @pulumi.getter(name="backupPeriodInHours")
-    def backup_period_in_hours(self) -> Optional[pulumi.Input[_builtins.int]]:
+    def backup_period_in_hours(self) -> pulumi.Input[Optional[_builtins.int]]:
         """
         Interval in hours between each backup.
         """
         return pulumi.get(self, "backup_period_in_hours")
 
     @backup_period_in_hours.setter
-    def backup_period_in_hours(self, value: Optional[pulumi.Input[_builtins.int]]):
+    def backup_period_in_hours(self, value: pulumi.Input[Optional[_builtins.int]]):
         pulumi.set(self, "backup_period_in_hours", value)
 
     @_builtins.property
     @pulumi.getter(name="backupRetentionPeriodInHours")
-    def backup_retention_period_in_hours(self) -> Optional[pulumi.Input[_builtins.int]]:
+    def backup_retention_period_in_hours(self) -> pulumi.Input[Optional[_builtins.int]]:
         """
         How long in hours to keep a backup before deleting it.
         """
         return pulumi.get(self, "backup_retention_period_in_hours")
 
     @backup_retention_period_in_hours.setter
-    def backup_retention_period_in_hours(self, value: Optional[pulumi.Input[_builtins.int]]):
+    def backup_retention_period_in_hours(self, value: pulumi.Input[Optional[_builtins.int]]):
         pulumi.set(self, "backup_retention_period_in_hours", value)
 
     @_builtins.property
     @pulumi.getter(name="backupStartTime")
-    def backup_start_time(self) -> Optional[pulumi.Input[_builtins.str]]:
+    def backup_start_time(self) -> pulumi.Input[Optional[_builtins.str]]:
         """
         Time of the day in UTC that indicates the start time of a 2 hours window to be used for backup. If set, backup*period*in_hours must be null and backups are created once a day.
         """
         return pulumi.get(self, "backup_start_time")
 
     @backup_start_time.setter
-    def backup_start_time(self, value: Optional[pulumi.Input[_builtins.str]]):
+    def backup_start_time(self, value: pulumi.Input[Optional[_builtins.str]]):
         pulumi.set(self, "backup_start_time", value)
 
 
 class ServiceEndpointsArgsDict(TypedDict):
-    https: NotRequired[pulumi.Input['ServiceEndpointsHttpsArgsDict']]
-    mysql: NotRequired[pulumi.Input['ServiceEndpointsMysqlArgsDict']]
-    nativesecure: NotRequired[pulumi.Input['ServiceEndpointsNativesecureArgsDict']]
+    https: NotRequired[pulumi.Input[Optional['ServiceEndpointsHttpsArgs']]]
+    mysql: NotRequired[pulumi.Input[Optional['ServiceEndpointsMysqlArgs']]]
+    nativesecure: NotRequired[pulumi.Input[Optional['ServiceEndpointsNativesecureArgs']]]
 
 @pulumi.input_type
 class ServiceEndpointsArgs:
     def __init__(__self__, *,
-                 https: Optional[pulumi.Input['ServiceEndpointsHttpsArgs']] = None,
-                 mysql: Optional[pulumi.Input['ServiceEndpointsMysqlArgs']] = None,
-                 nativesecure: Optional[pulumi.Input['ServiceEndpointsNativesecureArgs']] = None):
+                 https: pulumi.Input[Optional['ServiceEndpointsHttpsArgs']] = None,
+                 mysql: pulumi.Input[Optional['ServiceEndpointsMysqlArgs']] = None,
+                 nativesecure: pulumi.Input[Optional['ServiceEndpointsNativesecureArgs']] = None):
         if https is not None:
             pulumi.set(__self__, "https", https)
         if mysql is not None:
@@ -124,38 +124,38 @@ class ServiceEndpointsArgs:
 
     @_builtins.property
     @pulumi.getter
-    def https(self) -> Optional[pulumi.Input['ServiceEndpointsHttpsArgs']]:
+    def https(self) -> pulumi.Input[Optional['ServiceEndpointsHttpsArgs']]:
         return pulumi.get(self, "https")
 
     @https.setter
-    def https(self, value: Optional[pulumi.Input['ServiceEndpointsHttpsArgs']]):
+    def https(self, value: pulumi.Input[Optional['ServiceEndpointsHttpsArgs']]):
         pulumi.set(self, "https", value)
 
     @_builtins.property
     @pulumi.getter
-    def mysql(self) -> Optional[pulumi.Input['ServiceEndpointsMysqlArgs']]:
+    def mysql(self) -> pulumi.Input[Optional['ServiceEndpointsMysqlArgs']]:
         return pulumi.get(self, "mysql")
 
     @mysql.setter
-    def mysql(self, value: Optional[pulumi.Input['ServiceEndpointsMysqlArgs']]):
+    def mysql(self, value: pulumi.Input[Optional['ServiceEndpointsMysqlArgs']]):
         pulumi.set(self, "mysql", value)
 
     @_builtins.property
     @pulumi.getter
-    def nativesecure(self) -> Optional[pulumi.Input['ServiceEndpointsNativesecureArgs']]:
+    def nativesecure(self) -> pulumi.Input[Optional['ServiceEndpointsNativesecureArgs']]:
         return pulumi.get(self, "nativesecure")
 
     @nativesecure.setter
-    def nativesecure(self, value: Optional[pulumi.Input['ServiceEndpointsNativesecureArgs']]):
+    def nativesecure(self, value: pulumi.Input[Optional['ServiceEndpointsNativesecureArgs']]):
         pulumi.set(self, "nativesecure", value)
 
 
 class ServiceEndpointsHttpsArgsDict(TypedDict):
-    host: NotRequired[pulumi.Input[_builtins.str]]
+    host: NotRequired[pulumi.Input[Optional[_builtins.str]]]
     """
     Endpoint host.
     """
-    port: NotRequired[pulumi.Input[_builtins.int]]
+    port: NotRequired[pulumi.Input[Optional[_builtins.int]]]
     """
     Endpoint port.
     """
@@ -163,8 +163,8 @@ class ServiceEndpointsHttpsArgsDict(TypedDict):
 @pulumi.input_type
 class ServiceEndpointsHttpsArgs:
     def __init__(__self__, *,
-                 host: Optional[pulumi.Input[_builtins.str]] = None,
-                 port: Optional[pulumi.Input[_builtins.int]] = None):
+                 host: pulumi.Input[Optional[_builtins.str]] = None,
+                 port: pulumi.Input[Optional[_builtins.int]] = None):
         """
         :param pulumi.Input[_builtins.str] host: Endpoint host.
         :param pulumi.Input[_builtins.int] port: Endpoint port.
@@ -176,26 +176,26 @@ class ServiceEndpointsHttpsArgs:
 
     @_builtins.property
     @pulumi.getter
-    def host(self) -> Optional[pulumi.Input[_builtins.str]]:
+    def host(self) -> pulumi.Input[Optional[_builtins.str]]:
         """
         Endpoint host.
         """
         return pulumi.get(self, "host")
 
     @host.setter
-    def host(self, value: Optional[pulumi.Input[_builtins.str]]):
+    def host(self, value: pulumi.Input[Optional[_builtins.str]]):
         pulumi.set(self, "host", value)
 
     @_builtins.property
     @pulumi.getter
-    def port(self) -> Optional[pulumi.Input[_builtins.int]]:
+    def port(self) -> pulumi.Input[Optional[_builtins.int]]:
         """
         Endpoint port.
         """
         return pulumi.get(self, "port")
 
     @port.setter
-    def port(self, value: Optional[pulumi.Input[_builtins.int]]):
+    def port(self, value: pulumi.Input[Optional[_builtins.int]]):
         pulumi.set(self, "port", value)
 
 
@@ -204,11 +204,11 @@ class ServiceEndpointsMysqlArgsDict(TypedDict):
     """
     Wether to enable the mysql endpoint or not.
     """
-    host: NotRequired[pulumi.Input[_builtins.str]]
+    host: NotRequired[pulumi.Input[Optional[_builtins.str]]]
     """
     Endpoint host.
     """
-    port: NotRequired[pulumi.Input[_builtins.int]]
+    port: NotRequired[pulumi.Input[Optional[_builtins.int]]]
     """
     Endpoint port.
     """
@@ -217,8 +217,8 @@ class ServiceEndpointsMysqlArgsDict(TypedDict):
 class ServiceEndpointsMysqlArgs:
     def __init__(__self__, *,
                  enabled: pulumi.Input[_builtins.bool],
-                 host: Optional[pulumi.Input[_builtins.str]] = None,
-                 port: Optional[pulumi.Input[_builtins.int]] = None):
+                 host: pulumi.Input[Optional[_builtins.str]] = None,
+                 port: pulumi.Input[Optional[_builtins.int]] = None):
         """
         :param pulumi.Input[_builtins.bool] enabled: Wether to enable the mysql endpoint or not.
         :param pulumi.Input[_builtins.str] host: Endpoint host.
@@ -244,35 +244,35 @@ class ServiceEndpointsMysqlArgs:
 
     @_builtins.property
     @pulumi.getter
-    def host(self) -> Optional[pulumi.Input[_builtins.str]]:
+    def host(self) -> pulumi.Input[Optional[_builtins.str]]:
         """
         Endpoint host.
         """
         return pulumi.get(self, "host")
 
     @host.setter
-    def host(self, value: Optional[pulumi.Input[_builtins.str]]):
+    def host(self, value: pulumi.Input[Optional[_builtins.str]]):
         pulumi.set(self, "host", value)
 
     @_builtins.property
     @pulumi.getter
-    def port(self) -> Optional[pulumi.Input[_builtins.int]]:
+    def port(self) -> pulumi.Input[Optional[_builtins.int]]:
         """
         Endpoint port.
         """
         return pulumi.get(self, "port")
 
     @port.setter
-    def port(self, value: Optional[pulumi.Input[_builtins.int]]):
+    def port(self, value: pulumi.Input[Optional[_builtins.int]]):
         pulumi.set(self, "port", value)
 
 
 class ServiceEndpointsNativesecureArgsDict(TypedDict):
-    host: NotRequired[pulumi.Input[_builtins.str]]
+    host: NotRequired[pulumi.Input[Optional[_builtins.str]]]
     """
     Endpoint host.
     """
-    port: NotRequired[pulumi.Input[_builtins.int]]
+    port: NotRequired[pulumi.Input[Optional[_builtins.int]]]
     """
     Endpoint port.
     """
@@ -280,8 +280,8 @@ class ServiceEndpointsNativesecureArgsDict(TypedDict):
 @pulumi.input_type
 class ServiceEndpointsNativesecureArgs:
     def __init__(__self__, *,
-                 host: Optional[pulumi.Input[_builtins.str]] = None,
-                 port: Optional[pulumi.Input[_builtins.int]] = None):
+                 host: pulumi.Input[Optional[_builtins.str]] = None,
+                 port: pulumi.Input[Optional[_builtins.int]] = None):
         """
         :param pulumi.Input[_builtins.str] host: Endpoint host.
         :param pulumi.Input[_builtins.int] port: Endpoint port.
@@ -293,26 +293,26 @@ class ServiceEndpointsNativesecureArgs:
 
     @_builtins.property
     @pulumi.getter
-    def host(self) -> Optional[pulumi.Input[_builtins.str]]:
+    def host(self) -> pulumi.Input[Optional[_builtins.str]]:
         """
         Endpoint host.
         """
         return pulumi.get(self, "host")
 
     @host.setter
-    def host(self, value: Optional[pulumi.Input[_builtins.str]]):
+    def host(self, value: pulumi.Input[Optional[_builtins.str]]):
         pulumi.set(self, "host", value)
 
     @_builtins.property
     @pulumi.getter
-    def port(self) -> Optional[pulumi.Input[_builtins.int]]:
+    def port(self) -> pulumi.Input[Optional[_builtins.int]]:
         """
         Endpoint port.
         """
         return pulumi.get(self, "port")
 
     @port.setter
-    def port(self, value: Optional[pulumi.Input[_builtins.int]]):
+    def port(self, value: pulumi.Input[Optional[_builtins.int]]):
         pulumi.set(self, "port", value)
 
 
@@ -364,11 +364,11 @@ class ServiceIpAccessArgs:
 
 
 class ServicePrivateEndpointConfigArgsDict(TypedDict):
-    endpoint_service_id: NotRequired[pulumi.Input[_builtins.str]]
+    endpoint_service_id: NotRequired[pulumi.Input[Optional[_builtins.str]]]
     """
     Unique identifier of the interface endpoint you created in your VPC with the AWS(Service Name) or GCP(Target Service) resource.
     """
-    private_dns_hostname: NotRequired[pulumi.Input[_builtins.str]]
+    private_dns_hostname: NotRequired[pulumi.Input[Optional[_builtins.str]]]
     """
     Private DNS Hostname of the VPC you created.
     """
@@ -376,8 +376,8 @@ class ServicePrivateEndpointConfigArgsDict(TypedDict):
 @pulumi.input_type
 class ServicePrivateEndpointConfigArgs:
     def __init__(__self__, *,
-                 endpoint_service_id: Optional[pulumi.Input[_builtins.str]] = None,
-                 private_dns_hostname: Optional[pulumi.Input[_builtins.str]] = None):
+                 endpoint_service_id: pulumi.Input[Optional[_builtins.str]] = None,
+                 private_dns_hostname: pulumi.Input[Optional[_builtins.str]] = None):
         """
         :param pulumi.Input[_builtins.str] endpoint_service_id: Unique identifier of the interface endpoint you created in your VPC with the AWS(Service Name) or GCP(Target Service) resource.
         :param pulumi.Input[_builtins.str] private_dns_hostname: Private DNS Hostname of the VPC you created.
@@ -389,26 +389,26 @@ class ServicePrivateEndpointConfigArgs:
 
     @_builtins.property
     @pulumi.getter(name="endpointServiceId")
-    def endpoint_service_id(self) -> Optional[pulumi.Input[_builtins.str]]:
+    def endpoint_service_id(self) -> pulumi.Input[Optional[_builtins.str]]:
         """
         Unique identifier of the interface endpoint you created in your VPC with the AWS(Service Name) or GCP(Target Service) resource.
         """
         return pulumi.get(self, "endpoint_service_id")
 
     @endpoint_service_id.setter
-    def endpoint_service_id(self, value: Optional[pulumi.Input[_builtins.str]]):
+    def endpoint_service_id(self, value: pulumi.Input[Optional[_builtins.str]]):
         pulumi.set(self, "endpoint_service_id", value)
 
     @_builtins.property
     @pulumi.getter(name="privateDnsHostname")
-    def private_dns_hostname(self) -> Optional[pulumi.Input[_builtins.str]]:
+    def private_dns_hostname(self) -> pulumi.Input[Optional[_builtins.str]]:
         """
         Private DNS Hostname of the VPC you created.
         """
         return pulumi.get(self, "private_dns_hostname")
 
     @private_dns_hostname.setter
-    def private_dns_hostname(self, value: Optional[pulumi.Input[_builtins.str]]):
+    def private_dns_hostname(self, value: pulumi.Input[Optional[_builtins.str]]):
         pulumi.set(self, "private_dns_hostname", value)
 
 
@@ -421,7 +421,7 @@ class ServiceQueryApiEndpointsArgsDict(TypedDict):
     """
     The Database role that will be used to run the query.
     """
-    allowed_origins: NotRequired[pulumi.Input[_builtins.str]]
+    allowed_origins: NotRequired[pulumi.Input[Optional[_builtins.str]]]
     """
     Comma separated list of domain names to be allowed cross-origin resource sharing (CORS) access to the query API. Leave this field empty to restrict access to backend servers only
     """
@@ -431,7 +431,7 @@ class ServiceQueryApiEndpointsArgs:
     def __init__(__self__, *,
                  api_key_ids: pulumi.Input[Sequence[pulumi.Input[_builtins.str]]],
                  roles: pulumi.Input[Sequence[pulumi.Input[_builtins.str]]],
-                 allowed_origins: Optional[pulumi.Input[_builtins.str]] = None):
+                 allowed_origins: pulumi.Input[Optional[_builtins.str]] = None):
         """
         :param pulumi.Input[Sequence[pulumi.Input[_builtins.str]]] api_key_ids: The UUIDs of the API Keys to grant access to the query API.
         :param pulumi.Input[Sequence[pulumi.Input[_builtins.str]]] roles: The Database role that will be used to run the query.
@@ -468,23 +468,23 @@ class ServiceQueryApiEndpointsArgs:
 
     @_builtins.property
     @pulumi.getter(name="allowedOrigins")
-    def allowed_origins(self) -> Optional[pulumi.Input[_builtins.str]]:
+    def allowed_origins(self) -> pulumi.Input[Optional[_builtins.str]]:
         """
         Comma separated list of domain names to be allowed cross-origin resource sharing (CORS) access to the query API. Leave this field empty to restrict access to backend servers only
         """
         return pulumi.get(self, "allowed_origins")
 
     @allowed_origins.setter
-    def allowed_origins(self, value: Optional[pulumi.Input[_builtins.str]]):
+    def allowed_origins(self, value: pulumi.Input[Optional[_builtins.str]]):
         pulumi.set(self, "allowed_origins", value)
 
 
 class ServiceTransparentDataEncryptionArgsDict(TypedDict):
-    enabled: NotRequired[pulumi.Input[_builtins.bool]]
+    enabled: NotRequired[pulumi.Input[Optional[_builtins.bool]]]
     """
     If true, TDE is enabled for the service.
     """
-    role_id: NotRequired[pulumi.Input[_builtins.str]]
+    role_id: NotRequired[pulumi.Input[Optional[_builtins.str]]]
     """
     ID of Role to be used for granting access to the Encryption Key. This is an ARN for AWS services and a Service Account Identifier for GCP.
     """
@@ -492,8 +492,8 @@ class ServiceTransparentDataEncryptionArgsDict(TypedDict):
 @pulumi.input_type
 class ServiceTransparentDataEncryptionArgs:
     def __init__(__self__, *,
-                 enabled: Optional[pulumi.Input[_builtins.bool]] = None,
-                 role_id: Optional[pulumi.Input[_builtins.str]] = None):
+                 enabled: pulumi.Input[Optional[_builtins.bool]] = None,
+                 role_id: pulumi.Input[Optional[_builtins.str]] = None):
         """
         :param pulumi.Input[_builtins.bool] enabled: If true, TDE is enabled for the service.
         :param pulumi.Input[_builtins.str] role_id: ID of Role to be used for granting access to the Encryption Key. This is an ARN for AWS services and a Service Account Identifier for GCP.
@@ -505,26 +505,26 @@ class ServiceTransparentDataEncryptionArgs:
 
     @_builtins.property
     @pulumi.getter
-    def enabled(self) -> Optional[pulumi.Input[_builtins.bool]]:
+    def enabled(self) -> pulumi.Input[Optional[_builtins.bool]]:
         """
         If true, TDE is enabled for the service.
         """
         return pulumi.get(self, "enabled")
 
     @enabled.setter
-    def enabled(self, value: Optional[pulumi.Input[_builtins.bool]]):
+    def enabled(self, value: pulumi.Input[Optional[_builtins.bool]]):
         pulumi.set(self, "enabled", value)
 
     @_builtins.property
     @pulumi.getter(name="roleId")
-    def role_id(self) -> Optional[pulumi.Input[_builtins.str]]:
+    def role_id(self) -> pulumi.Input[Optional[_builtins.str]]:
         """
         ID of Role to be used for granting access to the Encryption Key. This is an ARN for AWS services and a Service Account Identifier for GCP.
         """
         return pulumi.get(self, "role_id")
 
     @role_id.setter
-    def role_id(self, value: Optional[pulumi.Input[_builtins.str]]):
+    def role_id(self, value: pulumi.Input[Optional[_builtins.str]]):
         pulumi.set(self, "role_id", value)
 
 

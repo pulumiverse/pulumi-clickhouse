@@ -9,7 +9,7 @@ import (
 
 	"errors"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumiverse/pulumi-clickhouse/sdk/go/clickhouse/internal"
+	"github.com/pulumiverse/pulumi-clickhouse/sdk/v2/go/clickhouse/internal"
 )
 
 // This resource is deprecated since version 3.2.0. Please refer to the docs for migration steps.

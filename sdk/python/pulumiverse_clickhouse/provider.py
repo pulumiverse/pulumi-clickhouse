@@ -19,11 +19,11 @@ __all__ = ['ProviderArgs', 'Provider']
 @pulumi.input_type
 class ProviderArgs:
     def __init__(__self__, *,
-                 api_url: Optional[pulumi.Input[_builtins.str]] = None,
-                 organization_id: Optional[pulumi.Input[_builtins.str]] = None,
-                 timeout_seconds: Optional[pulumi.Input[_builtins.int]] = None,
-                 token_key: Optional[pulumi.Input[_builtins.str]] = None,
-                 token_secret: Optional[pulumi.Input[_builtins.str]] = None):
+                 api_url: pulumi.Input[Optional[_builtins.str]] = None,
+                 organization_id: pulumi.Input[Optional[_builtins.str]] = None,
+                 timeout_seconds: pulumi.Input[Optional[_builtins.int]] = None,
+                 token_key: pulumi.Input[Optional[_builtins.str]] = None,
+                 token_secret: pulumi.Input[Optional[_builtins.str]] = None):
         """
         The set of arguments for constructing a Provider resource.
 
@@ -46,62 +46,62 @@ class ProviderArgs:
 
     @_builtins.property
     @pulumi.getter(name="apiUrl")
-    def api_url(self) -> Optional[pulumi.Input[_builtins.str]]:
+    def api_url(self) -> pulumi.Input[Optional[_builtins.str]]:
         """
         API URL of the ClickHouse OpenAPI the provider will interact with. Alternatively, can be configured using the `CLICKHOUSE_API_URL` environment variable. Only specify if you have a specific deployment of the ClickHouse OpenAPI you want to run against.
         """
         return pulumi.get(self, "api_url")
 
     @api_url.setter
-    def api_url(self, value: Optional[pulumi.Input[_builtins.str]]):
+    def api_url(self, value: pulumi.Input[Optional[_builtins.str]]):
         pulumi.set(self, "api_url", value)
 
     @_builtins.property
     @pulumi.getter(name="organizationId")
-    def organization_id(self) -> Optional[pulumi.Input[_builtins.str]]:
+    def organization_id(self) -> pulumi.Input[Optional[_builtins.str]]:
         """
         ID of the organization the provider will create services under. Alternatively, can be configured using the `CLICKHOUSE_ORG_ID` environment variable.
         """
         return pulumi.get(self, "organization_id")
 
     @organization_id.setter
-    def organization_id(self, value: Optional[pulumi.Input[_builtins.str]]):
+    def organization_id(self, value: pulumi.Input[Optional[_builtins.str]]):
         pulumi.set(self, "organization_id", value)
 
     @_builtins.property
     @pulumi.getter(name="timeoutSeconds")
-    def timeout_seconds(self) -> Optional[pulumi.Input[_builtins.int]]:
+    def timeout_seconds(self) -> pulumi.Input[Optional[_builtins.int]]:
         """
         Timeout in seconds for the HTTP client.
         """
         return pulumi.get(self, "timeout_seconds")
 
     @timeout_seconds.setter
-    def timeout_seconds(self, value: Optional[pulumi.Input[_builtins.int]]):
+    def timeout_seconds(self, value: pulumi.Input[Optional[_builtins.int]]):
         pulumi.set(self, "timeout_seconds", value)
 
     @_builtins.property
     @pulumi.getter(name="tokenKey")
-    def token_key(self) -> Optional[pulumi.Input[_builtins.str]]:
+    def token_key(self) -> pulumi.Input[Optional[_builtins.str]]:
         """
         Token key of the key/secret pair. Used to authenticate with OpenAPI. Alternatively, can be configured using the `CLICKHOUSE_TOKEN_KEY` environment variable.
         """
         return pulumi.get(self, "token_key")
 
     @token_key.setter
-    def token_key(self, value: Optional[pulumi.Input[_builtins.str]]):
+    def token_key(self, value: pulumi.Input[Optional[_builtins.str]]):
         pulumi.set(self, "token_key", value)
 
     @_builtins.property
     @pulumi.getter(name="tokenSecret")
-    def token_secret(self) -> Optional[pulumi.Input[_builtins.str]]:
+    def token_secret(self) -> pulumi.Input[Optional[_builtins.str]]:
         """
         Token secret of the key/secret pair. Used to authenticate with OpenAPI. Alternatively, can be configured using the `CLICKHOUSE_TOKEN_SECRET` environment variable.
         """
         return pulumi.get(self, "token_secret")
 
     @token_secret.setter
-    def token_secret(self, value: Optional[pulumi.Input[_builtins.str]]):
+    def token_secret(self, value: pulumi.Input[Optional[_builtins.str]]):
         pulumi.set(self, "token_secret", value)
 
 
@@ -111,11 +111,11 @@ class Provider(pulumi.ProviderResource):
     def __init__(__self__,
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
-                 api_url: Optional[pulumi.Input[_builtins.str]] = None,
-                 organization_id: Optional[pulumi.Input[_builtins.str]] = None,
-                 timeout_seconds: Optional[pulumi.Input[_builtins.int]] = None,
-                 token_key: Optional[pulumi.Input[_builtins.str]] = None,
-                 token_secret: Optional[pulumi.Input[_builtins.str]] = None,
+                 api_url: pulumi.Input[Optional[_builtins.str]] = None,
+                 organization_id: pulumi.Input[Optional[_builtins.str]] = None,
+                 timeout_seconds: pulumi.Input[Optional[_builtins.int]] = None,
+                 token_key: pulumi.Input[Optional[_builtins.str]] = None,
+                 token_secret: pulumi.Input[Optional[_builtins.str]] = None,
                  __props__=None):
         """
         The provider type for the clickhouse package. By default, resources use package-wide configuration
@@ -160,11 +160,11 @@ class Provider(pulumi.ProviderResource):
     def _internal_init(__self__,
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
-                 api_url: Optional[pulumi.Input[_builtins.str]] = None,
-                 organization_id: Optional[pulumi.Input[_builtins.str]] = None,
-                 timeout_seconds: Optional[pulumi.Input[_builtins.int]] = None,
-                 token_key: Optional[pulumi.Input[_builtins.str]] = None,
-                 token_secret: Optional[pulumi.Input[_builtins.str]] = None,
+                 api_url: pulumi.Input[Optional[_builtins.str]] = None,
+                 organization_id: pulumi.Input[Optional[_builtins.str]] = None,
+                 timeout_seconds: pulumi.Input[Optional[_builtins.int]] = None,
+                 token_key: pulumi.Input[Optional[_builtins.str]] = None,
+                 token_secret: pulumi.Input[Optional[_builtins.str]] = None,
                  __props__=None):
         opts = pulumi.ResourceOptions.merge(_utilities.get_resource_opts_defaults(), opts)
         if not isinstance(opts, pulumi.ResourceOptions):

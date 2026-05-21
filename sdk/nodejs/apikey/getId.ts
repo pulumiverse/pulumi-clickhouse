@@ -94,5 +94,5 @@ export interface GetIdOutputArgs {
     /**
      * The name of the API key to retrieve information about. If left empty, the API key used by the Terraform provider is used instead.
      */
-    name?: pulumi.Input<string>;
+    name?: pulumi.Input<string | undefined>;
 }

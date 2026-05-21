@@ -2,7 +2,5 @@ go 1.25.6
 
 use (
     ./provider
-    // ******
-    // Add ./sdk folder when SDK has been published the first time
-    ./sdk
+    ./sdk/v2
 )

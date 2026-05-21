@@ -326,144 +326,144 @@ export interface ServiceState {
     /**
      * Configuration of service backup settings.
      */
-    backupConfiguration?: pulumi.Input<inputs.ServiceBackupConfiguration>;
+    backupConfiguration?: pulumi.Input<inputs.ServiceBackupConfiguration | undefined>;
     /**
      * ID of the backup to restore when creating new service. If specified, the service will be created as a restore operation
      */
-    backupId?: pulumi.Input<string>;
+    backupId?: pulumi.Input<string | undefined>;
     /**
      * BYOC ID related to the cloud provider account you want to create this service into.
      */
-    byocId?: pulumi.Input<string>;
+    byocId?: pulumi.Input<string | undefined>;
     /**
      * Cloud provider ('aws', 'gcp', or 'azure') in which the service is deployed in.
      */
-    cloudProvider?: pulumi.Input<string>;
+    cloudProvider?: pulumi.Input<string | undefined>;
     /**
      * Compliance type of the service. Can be 'hipaa', 'pci'. Required for organizations that wish to deploy their services in the hipaa/pci compliant environment. NOTE: hipaa/pci compliance should be enabled for your ClickHouse organization before using this field.
      */
-    complianceType?: pulumi.Input<string>;
+    complianceType?: pulumi.Input<string | undefined>;
     /**
      * Double SHA1 hash of password for connecting with the MySQL protocol. Cannot be specified if `password` or `passwordWo` is specified.
      */
-    doubleSha1PasswordHash?: pulumi.Input<string>;
+    doubleSha1PasswordHash?: pulumi.Input<string | undefined>;
     /**
      * Enable core dumps for the service.
      */
-    enableCoreDumps?: pulumi.Input<boolean>;
+    enableCoreDumps?: pulumi.Input<boolean | undefined>;
     /**
      * Custom role identifier ARN.
      */
-    encryptionAssumedRoleIdentifier?: pulumi.Input<string>;
+    encryptionAssumedRoleIdentifier?: pulumi.Input<string | undefined>;
     /**
      * Custom encryption key ARN.
      */
-    encryptionKey?: pulumi.Input<string>;
+    encryptionKey?: pulumi.Input<string | undefined>;
     /**
      * Allow to enable and configure additional endpoints (read protocols) to expose on the ClickHouse service.
      */
-    endpoints?: pulumi.Input<inputs.ServiceEndpoints>;
+    endpoints?: pulumi.Input<inputs.ServiceEndpoints | undefined>;
     /**
      * IAM role used for accessing objects in s3.
      */
-    iamRole?: pulumi.Input<string>;
+    iamRole?: pulumi.Input<string | undefined>;
     /**
      * When set to true the service is allowed to scale down to zero when idle.
      */
-    idleScaling?: pulumi.Input<boolean>;
+    idleScaling?: pulumi.Input<boolean | undefined>;
     /**
      * Set minimum idling timeout (in minutes). Must be greater than or equal to 5 minutes. Must be set if idleScaling is enabled.
      */
-    idleTimeoutMinutes?: pulumi.Input<number>;
+    idleTimeoutMinutes?: pulumi.Input<number | undefined>;
     /**
      * List of IP addresses allowed to access the service.
      */
-    ipAccesses?: pulumi.Input<pulumi.Input<inputs.ServiceIpAccess>[]>;
+    ipAccesses?: pulumi.Input<pulumi.Input<inputs.ServiceIpAccess>[] | undefined>;
     /**
      * If true, it indicates this is a primary service using its own data. If false it means this service is a secondary service, thus using data from a warehouse.
      */
-    isPrimary?: pulumi.Input<boolean>;
+    isPrimary?: pulumi.Input<boolean | undefined>;
     /**
      * Maximum memory of a single replica during auto-scaling in GiB.
      */
-    maxReplicaMemoryGb?: pulumi.Input<number>;
+    maxReplicaMemoryGb?: pulumi.Input<number | undefined>;
     /**
      * Maximum total memory of all workers during auto-scaling in GiB.
      *
      * @deprecated Please use maxReplicaMemoryGb instead
      */
-    maxTotalMemoryGb?: pulumi.Input<number>;
+    maxTotalMemoryGb?: pulumi.Input<number | undefined>;
     /**
      * Minimum memory of a single replica during auto-scaling in GiB.
      */
-    minReplicaMemoryGb?: pulumi.Input<number>;
+    minReplicaMemoryGb?: pulumi.Input<number | undefined>;
     /**
      * Minimum total memory of all workers during auto-scaling in GiB.
      *
      * @deprecated Please use minReplicaMemoryGb instead
      */
-    minTotalMemoryGb?: pulumi.Input<number>;
+    minTotalMemoryGb?: pulumi.Input<number | undefined>;
     /**
      * User defined identifier for the service.
      */
-    name?: pulumi.Input<string>;
+    name?: pulumi.Input<string | undefined>;
     /**
      * Number of replicas for the service.
      */
-    numReplicas?: pulumi.Input<number>;
+    numReplicas?: pulumi.Input<number | undefined>;
     /**
      * Password for the default user. One of either `password`, `passwordWo`, or `passwordHash` must be specified.
      */
-    password?: pulumi.Input<string>;
+    password?: pulumi.Input<string | undefined>;
     /**
      * SHA256 hash of password for the default user. One of either `password`, `passwordWo`, or `passwordHash` must be specified.
      */
-    passwordHash?: pulumi.Input<string>;
+    passwordHash?: pulumi.Input<string | undefined>;
     /**
      * **NOTE:** This field is write-only and its value will not be updated in state as part of read operations.
      * Password for the default user (write-only, not persisted to state). Use this instead of `password` to avoid storing the password hash in Terraform state.
      */
-    passwordWo?: pulumi.Input<string>;
+    passwordWo?: pulumi.Input<string | undefined>;
     /**
      * Version number for password*wo. Increment this to trigger a password update when using password*wo.
      */
-    passwordWoVersion?: pulumi.Input<number>;
+    passwordWoVersion?: pulumi.Input<number | undefined>;
     /**
      * Service config for private endpoints
      */
-    privateEndpointConfig?: pulumi.Input<inputs.ServicePrivateEndpointConfig>;
+    privateEndpointConfig?: pulumi.Input<inputs.ServicePrivateEndpointConfig | undefined>;
     /**
      * Configuration of the query API endpoints feature.
      */
-    queryApiEndpoints?: pulumi.Input<inputs.ServiceQueryApiEndpoints>;
+    queryApiEndpoints?: pulumi.Input<inputs.ServiceQueryApiEndpoints | undefined>;
     /**
      * Indicates if this service should be read only. Only allowed for secondary services, those which share data with another service (i.e. when `warehouseId` field is set).
      */
-    readonly?: pulumi.Input<boolean>;
+    readonly?: pulumi.Input<boolean | undefined>;
     /**
      * Region within the cloud provider in which the service is deployed in.
      */
-    region?: pulumi.Input<string>;
+    region?: pulumi.Input<string | undefined>;
     /**
      * Release channel to use for this service. Can be 'default', 'fast' or 'slow'.
      */
-    releaseChannel?: pulumi.Input<string>;
+    releaseChannel?: pulumi.Input<string | undefined>;
     /**
      * Tags associated with the service as key-value pairs.
      */
-    tags?: pulumi.Input<{[key: string]: pulumi.Input<string>}>;
+    tags?: pulumi.Input<{[key: string]: pulumi.Input<string>} | undefined>;
     /**
      * Tier of the service: 'development', 'production'. Required for organizations using the Legacy ClickHouse Cloud Tiers, must be omitted for organizations using the new ClickHouse Cloud Tiers.
      */
-    tier?: pulumi.Input<string>;
+    tier?: pulumi.Input<string | undefined>;
     /**
      * Configuration of the Transparent Data Encryption (TDE) feature. Requires an organization with the Enterprise plan.
      */
-    transparentDataEncryption?: pulumi.Input<inputs.ServiceTransparentDataEncryption>;
+    transparentDataEncryption?: pulumi.Input<inputs.ServiceTransparentDataEncryption | undefined>;
     /**
      * Set it to the 'warehouse_id' attribute of another service to share the data with it. The service must be in the same cloud and region.
      */
-    warehouseId?: pulumi.Input<string>;
+    warehouseId?: pulumi.Input<string | undefined>;
 }
 
 /**
@@ -473,15 +473,15 @@ export interface ServiceArgs {
     /**
      * Configuration of service backup settings.
      */
-    backupConfiguration?: pulumi.Input<inputs.ServiceBackupConfiguration>;
+    backupConfiguration?: pulumi.Input<inputs.ServiceBackupConfiguration | undefined>;
     /**
      * ID of the backup to restore when creating new service. If specified, the service will be created as a restore operation
      */
-    backupId?: pulumi.Input<string>;
+    backupId?: pulumi.Input<string | undefined>;
     /**
      * BYOC ID related to the cloud provider account you want to create this service into.
      */
-    byocId?: pulumi.Input<string>;
+    byocId?: pulumi.Input<string | undefined>;
     /**
      * Cloud provider ('aws', 'gcp', or 'azure') in which the service is deployed in.
      */
@@ -489,35 +489,35 @@ export interface ServiceArgs {
     /**
      * Compliance type of the service. Can be 'hipaa', 'pci'. Required for organizations that wish to deploy their services in the hipaa/pci compliant environment. NOTE: hipaa/pci compliance should be enabled for your ClickHouse organization before using this field.
      */
-    complianceType?: pulumi.Input<string>;
+    complianceType?: pulumi.Input<string | undefined>;
     /**
      * Double SHA1 hash of password for connecting with the MySQL protocol. Cannot be specified if `password` or `passwordWo` is specified.
      */
-    doubleSha1PasswordHash?: pulumi.Input<string>;
+    doubleSha1PasswordHash?: pulumi.Input<string | undefined>;
     /**
      * Enable core dumps for the service.
      */
-    enableCoreDumps?: pulumi.Input<boolean>;
+    enableCoreDumps?: pulumi.Input<boolean | undefined>;
     /**
      * Custom role identifier ARN.
      */
-    encryptionAssumedRoleIdentifier?: pulumi.Input<string>;
+    encryptionAssumedRoleIdentifier?: pulumi.Input<string | undefined>;
     /**
      * Custom encryption key ARN.
      */
-    encryptionKey?: pulumi.Input<string>;
+    encryptionKey?: pulumi.Input<string | undefined>;
     /**
      * Allow to enable and configure additional endpoints (read protocols) to expose on the ClickHouse service.
      */
-    endpoints?: pulumi.Input<inputs.ServiceEndpoints>;
+    endpoints?: pulumi.Input<inputs.ServiceEndpoints | undefined>;
     /**
      * When set to true the service is allowed to scale down to zero when idle.
      */
-    idleScaling?: pulumi.Input<boolean>;
+    idleScaling?: pulumi.Input<boolean | undefined>;
     /**
      * Set minimum idling timeout (in minutes). Must be greater than or equal to 5 minutes. Must be set if idleScaling is enabled.
      */
-    idleTimeoutMinutes?: pulumi.Input<number>;
+    idleTimeoutMinutes?: pulumi.Input<number | undefined>;
     /**
      * List of IP addresses allowed to access the service.
      */
@@ -525,56 +525,56 @@ export interface ServiceArgs {
     /**
      * Maximum memory of a single replica during auto-scaling in GiB.
      */
-    maxReplicaMemoryGb?: pulumi.Input<number>;
+    maxReplicaMemoryGb?: pulumi.Input<number | undefined>;
     /**
      * Maximum total memory of all workers during auto-scaling in GiB.
      *
      * @deprecated Please use maxReplicaMemoryGb instead
      */
-    maxTotalMemoryGb?: pulumi.Input<number>;
+    maxTotalMemoryGb?: pulumi.Input<number | undefined>;
     /**
      * Minimum memory of a single replica during auto-scaling in GiB.
      */
-    minReplicaMemoryGb?: pulumi.Input<number>;
+    minReplicaMemoryGb?: pulumi.Input<number | undefined>;
     /**
      * Minimum total memory of all workers during auto-scaling in GiB.
      *
      * @deprecated Please use minReplicaMemoryGb instead
      */
-    minTotalMemoryGb?: pulumi.Input<number>;
+    minTotalMemoryGb?: pulumi.Input<number | undefined>;
     /**
      * User defined identifier for the service.
      */
-    name?: pulumi.Input<string>;
+    name?: pulumi.Input<string | undefined>;
     /**
      * Number of replicas for the service.
      */
-    numReplicas?: pulumi.Input<number>;
+    numReplicas?: pulumi.Input<number | undefined>;
     /**
      * Password for the default user. One of either `password`, `passwordWo`, or `passwordHash` must be specified.
      */
-    password?: pulumi.Input<string>;
+    password?: pulumi.Input<string | undefined>;
     /**
      * SHA256 hash of password for the default user. One of either `password`, `passwordWo`, or `passwordHash` must be specified.
      */
-    passwordHash?: pulumi.Input<string>;
+    passwordHash?: pulumi.Input<string | undefined>;
     /**
      * **NOTE:** This field is write-only and its value will not be updated in state as part of read operations.
      * Password for the default user (write-only, not persisted to state). Use this instead of `password` to avoid storing the password hash in Terraform state.
      */
-    passwordWo?: pulumi.Input<string>;
+    passwordWo?: pulumi.Input<string | undefined>;
     /**
      * Version number for password*wo. Increment this to trigger a password update when using password*wo.
      */
-    passwordWoVersion?: pulumi.Input<number>;
+    passwordWoVersion?: pulumi.Input<number | undefined>;
     /**
      * Configuration of the query API endpoints feature.
      */
-    queryApiEndpoints?: pulumi.Input<inputs.ServiceQueryApiEndpoints>;
+    queryApiEndpoints?: pulumi.Input<inputs.ServiceQueryApiEndpoints | undefined>;
     /**
      * Indicates if this service should be read only. Only allowed for secondary services, those which share data with another service (i.e. when `warehouseId` field is set).
      */
-    readonly?: pulumi.Input<boolean>;
+    readonly?: pulumi.Input<boolean | undefined>;
     /**
      * Region within the cloud provider in which the service is deployed in.
      */
@@ -582,21 +582,21 @@ export interface ServiceArgs {
     /**
      * Release channel to use for this service. Can be 'default', 'fast' or 'slow'.
      */
-    releaseChannel?: pulumi.Input<string>;
+    releaseChannel?: pulumi.Input<string | undefined>;
     /**
      * Tags associated with the service as key-value pairs.
      */
-    tags?: pulumi.Input<{[key: string]: pulumi.Input<string>}>;
+    tags?: pulumi.Input<{[key: string]: pulumi.Input<string>} | undefined>;
     /**
      * Tier of the service: 'development', 'production'. Required for organizations using the Legacy ClickHouse Cloud Tiers, must be omitted for organizations using the new ClickHouse Cloud Tiers.
      */
-    tier?: pulumi.Input<string>;
+    tier?: pulumi.Input<string | undefined>;
     /**
      * Configuration of the Transparent Data Encryption (TDE) feature. Requires an organization with the Enterprise plan.
      */
-    transparentDataEncryption?: pulumi.Input<inputs.ServiceTransparentDataEncryption>;
+    transparentDataEncryption?: pulumi.Input<inputs.ServiceTransparentDataEncryption | undefined>;
     /**
      * Set it to the 'warehouse_id' attribute of another service to share the data with it. The service must be in the same cloud and region.
      */
-    warehouseId?: pulumi.Input<string>;
+    warehouseId?: pulumi.Input<string | undefined>;
 }

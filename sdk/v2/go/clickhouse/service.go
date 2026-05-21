@@ -9,7 +9,7 @@ import (
 
 	"errors"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumiverse/pulumi-clickhouse/sdk/go/clickhouse/internal"
+	"github.com/pulumiverse/pulumi-clickhouse/sdk/v2/go/clickhouse/internal"
 )
 
 // You can use the *clickhouse_service* resource to deploy ClickHouse cloud instances on supported cloud providers.
@@ -27,7 +27,7 @@ import (
 // import (
 //
 //	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-//	"github.com/pulumiverse/pulumi-clickhouse/sdk/go/clickhouse"
+//	"github.com/pulumiverse/pulumi-clickhouse/sdk/v2/go/clickhouse"
 //
 // )
 //

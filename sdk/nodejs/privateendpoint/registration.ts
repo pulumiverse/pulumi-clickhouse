@@ -97,19 +97,19 @@ export interface RegistrationState {
     /**
      * Cloud provider of the private endpoint ID
      */
-    cloudProvider?: pulumi.Input<string>;
+    cloudProvider?: pulumi.Input<string | undefined>;
     /**
      * Description of the private endpoint
      */
-    description?: pulumi.Input<string>;
+    description?: pulumi.Input<string | undefined>;
     /**
      * ID of the private endpoint (replaces deprecated attribute `id`)
      */
-    privateEndpointId?: pulumi.Input<string>;
+    privateEndpointId?: pulumi.Input<string | undefined>;
     /**
      * Region of the private endpoint
      */
-    region?: pulumi.Input<string>;
+    region?: pulumi.Input<string | undefined>;
 }
 
 /**
@@ -123,7 +123,7 @@ export interface RegistrationArgs {
     /**
      * Description of the private endpoint
      */
-    description?: pulumi.Input<string>;
+    description?: pulumi.Input<string | undefined>;
     /**
      * ID of the private endpoint (replaces deprecated attribute `id`)
      */

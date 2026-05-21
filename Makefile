@@ -88,8 +88,8 @@ build_dotnet:: install_plugins tfgen # build the dotnet sdk
         dotnet build /p:Version=${DOTNET_VERSION}
 
 build_go:: install_plugins tfgen # build the go sdk
-	$(WORKING_DIR)/bin/$(TFGEN) go --overlays provider/overlays/go --out sdk/go/
-	cd sdk/go/ && \
+	$(WORKING_DIR)/bin/$(TFGEN) go --overlays provider/overlays/go --out sdk/v2/go/
+	cd sdk/v2/go && \
 		go mod tidy
 
 build_java:: PACKAGE_VERSION := $(shell pulumictl get version --language generic)
@@ -118,7 +118,7 @@ help::
  	expand -t20
 
 clean::
-	rm -rf sdk/{dotnet,nodejs,go,python} sdk/go.sum
+	rm -rf sdk/{dotnet,nodejs,go,python,v2} sdk/go.sum sdk/v2/go.sum
 
 .PHONY: fmt
 fmt::

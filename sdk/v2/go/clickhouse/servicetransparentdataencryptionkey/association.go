@@ -9,7 +9,7 @@ import (
 
 	"errors"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumiverse/pulumi-clickhouse/sdk/go/clickhouse/internal"
+	"github.com/pulumiverse/pulumi-clickhouse/sdk/v2/go/clickhouse/internal"
 )
 
 // You can use the *clickhouse_service_transparent_data_encryption_key_association* resource to associate your own Encryption Key with a Clickhouse Service with the Transparent Data Encryption (TDE) feature enabled.

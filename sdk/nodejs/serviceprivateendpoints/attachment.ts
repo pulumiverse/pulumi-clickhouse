@@ -92,11 +92,11 @@ export interface AttachmentState {
     /**
      * List of private endpoint IDs
      */
-    privateEndpointIds?: pulumi.Input<pulumi.Input<string>[]>;
+    privateEndpointIds?: pulumi.Input<pulumi.Input<string>[] | undefined>;
     /**
      * ClickHouse Service ID
      */
-    serviceId?: pulumi.Input<string>;
+    serviceId?: pulumi.Input<string | undefined>;
 }
 
 /**
@@ -106,9 +106,9 @@ export interface AttachmentArgs {
     /**
      * List of private endpoint IDs
      */
-    privateEndpointIds?: pulumi.Input<pulumi.Input<string>[]>;
+    privateEndpointIds?: pulumi.Input<pulumi.Input<string>[] | undefined>;
     /**
      * ClickHouse Service ID
      */
-    serviceId?: pulumi.Input<string>;
+    serviceId?: pulumi.Input<string | undefined>;
 }

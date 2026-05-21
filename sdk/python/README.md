@@ -37,7 +37,7 @@ pip install pulumiverse_clickhouse
 To use from Go, use `go get` to grab the latest version of the library:
 
 ```bash
-go get github.com/pulumiverse/pulumi-clickhouse/sdk/go/...
+go get github.com/pulumiverse/pulumi-clickhouse/sdk/v2/go/...
 ```
 
 ### .NET

@@ -9,32 +9,32 @@ export interface ServiceBackupConfiguration {
     /**
      * Interval in hours between each backup.
      */
-    backupPeriodInHours?: pulumi.Input<number>;
+    backupPeriodInHours?: pulumi.Input<number | undefined>;
     /**
      * How long in hours to keep a backup before deleting it.
      */
-    backupRetentionPeriodInHours?: pulumi.Input<number>;
+    backupRetentionPeriodInHours?: pulumi.Input<number | undefined>;
     /**
      * Time of the day in UTC that indicates the start time of a 2 hours window to be used for backup. If set, backup*period*in_hours must be null and backups are created once a day.
      */
-    backupStartTime?: pulumi.Input<string>;
+    backupStartTime?: pulumi.Input<string | undefined>;
 }
 
 export interface ServiceEndpoints {
-    https?: pulumi.Input<inputs.ServiceEndpointsHttps>;
-    mysql?: pulumi.Input<inputs.ServiceEndpointsMysql>;
-    nativesecure?: pulumi.Input<inputs.ServiceEndpointsNativesecure>;
+    https?: pulumi.Input<inputs.ServiceEndpointsHttps | undefined>;
+    mysql?: pulumi.Input<inputs.ServiceEndpointsMysql | undefined>;
+    nativesecure?: pulumi.Input<inputs.ServiceEndpointsNativesecure | undefined>;
 }
 
 export interface ServiceEndpointsHttps {
     /**
      * Endpoint host.
      */
-    host?: pulumi.Input<string>;
+    host?: pulumi.Input<string | undefined>;
     /**
      * Endpoint port.
      */
-    port?: pulumi.Input<number>;
+    port?: pulumi.Input<number | undefined>;
 }
 
 export interface ServiceEndpointsMysql {
@@ -45,22 +45,22 @@ export interface ServiceEndpointsMysql {
     /**
      * Endpoint host.
      */
-    host?: pulumi.Input<string>;
+    host?: pulumi.Input<string | undefined>;
     /**
      * Endpoint port.
      */
-    port?: pulumi.Input<number>;
+    port?: pulumi.Input<number | undefined>;
 }
 
 export interface ServiceEndpointsNativesecure {
     /**
      * Endpoint host.
      */
-    host?: pulumi.Input<string>;
+    host?: pulumi.Input<string | undefined>;
     /**
      * Endpoint port.
      */
-    port?: pulumi.Input<number>;
+    port?: pulumi.Input<number | undefined>;
 }
 
 export interface ServiceIpAccess {
@@ -78,18 +78,18 @@ export interface ServicePrivateEndpointConfig {
     /**
      * Unique identifier of the interface endpoint you created in your VPC with the AWS(Service Name) or GCP(Target Service) resource.
      */
-    endpointServiceId?: pulumi.Input<string>;
+    endpointServiceId?: pulumi.Input<string | undefined>;
     /**
      * Private DNS Hostname of the VPC you created.
      */
-    privateDnsHostname?: pulumi.Input<string>;
+    privateDnsHostname?: pulumi.Input<string | undefined>;
 }
 
 export interface ServiceQueryApiEndpoints {
     /**
      * Comma separated list of domain names to be allowed cross-origin resource sharing (CORS) access to the query API. Leave this field empty to restrict access to backend servers only
      */
-    allowedOrigins?: pulumi.Input<string>;
+    allowedOrigins?: pulumi.Input<string | undefined>;
     /**
      * The UUIDs of the API Keys to grant access to the query API.
      */
@@ -104,9 +104,9 @@ export interface ServiceTransparentDataEncryption {
     /**
      * If true, TDE is enabled for the service.
      */
-    enabled?: pulumi.Input<boolean>;
+    enabled?: pulumi.Input<boolean | undefined>;
     /**
      * ID of Role to be used for granting access to the Encryption Key. This is an ARN for AWS services and a Service Account Identifier for GCP.
      */
-    roleId?: pulumi.Input<string>;
+    roleId?: pulumi.Input<string | undefined>;
 }

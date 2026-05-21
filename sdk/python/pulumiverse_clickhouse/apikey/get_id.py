@@ -94,7 +94,7 @@ def get_id(name: Optional[_builtins.str] = None,
     return AwaitableGetIdResult(
         id=pulumi.get(__ret__, 'id'),
         name=pulumi.get(__ret__, 'name'))
-def get_id_output(name: Optional[pulumi.Input[Optional[_builtins.str]]] = None,
+def get_id_output(name: pulumi.Input[Optional[Optional[_builtins.str]]] = None,
                   opts: Optional[Union[pulumi.InvokeOptions, pulumi.InvokeOutputOptions]] = None) -> pulumi.Output[GetIdResult]:
     """
     The *clickhouse_api_key_id* data source can be used to retrieve the UUID of a ClickHouse cloud API key.
