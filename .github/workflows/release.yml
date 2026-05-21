@@ -70,7 +70,7 @@ jobs:
       fail-fast: true
       matrix:
         goversion:
-          - 1.22.x
+          - 1.25.x
 
   publish_sdk:
     name: Publish SDKs
@@ -163,7 +163,7 @@ jobs:
         dotnetversion:
           - 6.0.x
         goversion:
-          - 1.22.x
+          - 1.25.x
         nodeversion:
           - 18.x
         pythonversion:

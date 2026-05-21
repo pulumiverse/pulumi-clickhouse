@@ -38,7 +38,7 @@
         },
         "nodejs": {
             "packageName": "@pulumiverse/clickhouse",
-            "packageDescription": "A Pulumi package for creating and managing Clickhouse Cloud resources. Based on terraform-provider-clickhouse: version v1.0.0",
+            "packageDescription": "A Pulumi package for creating and managing Clickhouse Cloud resources. Based on terraform-provider-clickhouse: version v3.11.1",
             "readme": "\u003e This provider is a derived work of the [Terraform Provider](https://github.com/ClickHouse/terraform-provider-clickhouse)\n\u003e distributed under [MPL 2.0](https://www.mozilla.org/en-US/MPL/2.0/). If you encounter a bug or missing feature,\n\u003e first check the [`pulumi-clickhouse` repo](https://github.com/pulumiverse/pulumi-clickhouse/issues); however, if that doesn't turn up anything,\n\u003e please consult the source [`terraform-provider-clickhouse` repo](https://github.com/ClickHouse/terraform-provider-clickhouse/issues).",
             "dependencies": {
                 "@pulumi/pulumi": "^3.0.0"
@@ -64,25 +64,76 @@
         "variables": {
             "apiUrl": {
                 "type": "string",
-                "description": "API URL of the ClickHouse OpenAPI the provider will interact with. Alternatively, can be configured using the\n`CLICKHOUSE_API_URL` environment variable. Only specify if you have a specific deployment of the ClickHouse OpenAPI you\nwant to run against.\n"
+                "description": "API URL of the ClickHouse OpenAPI the provider will interact with. Alternatively, can be configured using the `CLICKHOUSE_API_URL` environment variable. Only specify if you have a specific deployment of the ClickHouse OpenAPI you want to run against."
             },
             "organizationId": {
                 "type": "string",
-                "description": "ID of the organization the provider will create services under. Alternatively, can be configured using the\n`CLICKHOUSE_ORG_ID` environment variable.\n"
+                "description": "ID of the organization the provider will create services under. Alternatively, can be configured using the `CLICKHOUSE_ORG_ID` environment variable."
+            },
+            "timeoutSeconds": {
+                "type": "integer",
+                "description": "Timeout in seconds for the HTTP client."
             },
             "tokenKey": {
                 "type": "string",
-                "description": "Token key of the key/secret pair. Used to authenticate with OpenAPI. Alternatively, can be configured using the\n`CLICKHOUSE_TOKEN_KEY` environment variable.\n"
+                "description": "Token key of the key/secret pair. Used to authenticate with OpenAPI. Alternatively, can be configured using the `CLICKHOUSE_TOKEN_KEY` environment variable."
             },
             "tokenSecret": {
                 "type": "string",
-                "description": "Token secret of the key/secret pair. Used to authenticate with OpenAPI. Alternatively, can be configured using the\n`CLICKHOUSE_TOKEN_SECRET` environment variable.\n",
+                "description": "Token secret of the key/secret pair. Used to authenticate with OpenAPI. Alternatively, can be configured using the `CLICKHOUSE_TOKEN_SECRET` environment variable.",
                 "secret": true
             }
         }
     },
     "types": {
-        "clickhouse:index/ServiceEndpoint:ServiceEndpoint": {
+        "clickhouse:index/ServiceBackupConfiguration:ServiceBackupConfiguration": {
+            "properties": {
+                "backupPeriodInHours": {
+                    "type": "integer",
+                    "description": "Interval in hours between each backup.\n"
+                },
+                "backupRetentionPeriodInHours": {
+                    "type": "integer",
+                    "description": "How long in hours to keep a backup before deleting it.\n"
+                },
+                "backupStartTime": {
+                    "type": "string",
+                    "description": "Time of the day in UTC that indicates the start time of a 2 hours window to be used for backup. If set, backup*period*in_hours must be null and backups are created once a day.\n"
+                }
+            },
+            "type": "object",
+            "language": {
+                "nodejs": {
+                    "requiredOutputs": [
+                        "backupPeriodInHours",
+                        "backupRetentionPeriodInHours"
+                    ]
+                }
+            }
+        },
+        "clickhouse:index/ServiceEndpoints:ServiceEndpoints": {
+            "properties": {
+                "https": {
+                    "$ref": "#/types/clickhouse:index/ServiceEndpointsHttps:ServiceEndpointsHttps"
+                },
+                "mysql": {
+                    "$ref": "#/types/clickhouse:index/ServiceEndpointsMysql:ServiceEndpointsMysql"
+                },
+                "nativesecure": {
+                    "$ref": "#/types/clickhouse:index/ServiceEndpointsNativesecure:ServiceEndpointsNativesecure"
+                }
+            },
+            "type": "object",
+            "language": {
+                "nodejs": {
+                    "requiredOutputs": [
+                        "https",
+                        "nativesecure"
+                    ]
+                }
+            }
+        },
+        "clickhouse:index/ServiceEndpointsHttps:ServiceEndpointsHttps": {
             "properties": {
                 "host": {
                     "type": "string",
@@ -91,10 +142,6 @@
                 "port": {
                     "type": "integer",
                     "description": "Endpoint port.\n"
-                },
-                "protocol": {
-                    "type": "string",
-                    "description": "Endpoint protocol: https or nativesecure\n"
                 }
             },
             "type": "object",
@@ -102,8 +149,57 @@
                 "nodejs": {
                     "requiredOutputs": [
                         "host",
-                        "port",
-                        "protocol"
+                        "port"
+                    ]
+                }
+            }
+        },
+        "clickhouse:index/ServiceEndpointsMysql:ServiceEndpointsMysql": {
+            "properties": {
+                "enabled": {
+                    "type": "boolean",
+                    "description": "Wether to enable the mysql endpoint or not.\n"
+                },
+                "host": {
+                    "type": "string",
+                    "description": "Endpoint host.\n"
+                },
+                "port": {
+                    "type": "integer",
+                    "description": "Endpoint port.\n"
+                }
+            },
+            "type": "object",
+            "required": [
+                "enabled"
+            ],
+            "language": {
+                "nodejs": {
+                    "requiredOutputs": [
+                        "enabled",
+                        "host",
+                        "port"
+                    ]
+                }
+            }
+        },
+        "clickhouse:index/ServiceEndpointsNativesecure:ServiceEndpointsNativesecure": {
+            "properties": {
+                "host": {
+                    "type": "string",
+                    "description": "Endpoint host.\n"
+                },
+                "port": {
+                    "type": "integer",
+                    "description": "Endpoint port.\n"
+                }
+            },
+            "type": "object",
+            "language": {
+                "nodejs": {
+                    "requiredOutputs": [
+                        "host",
+                        "port"
                     ]
                 }
             }
@@ -116,11 +212,12 @@
                 },
                 "source": {
                     "type": "string",
-                    "description": "IP address allowed to access the service. In case you want to set the ip_access to anywhere you should set source to 0.0.0.0/0\n"
+                    "description": "IP address allowed to access the service. In case you want to set the\u003cspan pulumi-lang-nodejs=\" ipAccess \" pulumi-lang-dotnet=\" IpAccess \" pulumi-lang-go=\" ipAccess \" pulumi-lang-python=\" ip_access \" pulumi-lang-yaml=\" ipAccess \" pulumi-lang-java=\" ipAccess \"\u003e ipAccess \u003c/span\u003eto anywhere you should set source to 0.0.0.0/0\n"
                 }
             },
             "type": "object",
             "required": [
+                "description",
                 "source"
             ]
         },
@@ -128,11 +225,11 @@
             "properties": {
                 "endpointServiceId": {
                     "type": "string",
-                    "description": "Unique identifier of the interface endpoint you created in your VPC with the AWS(Service Name) or GCP(Target Service) resource\n"
+                    "description": "Unique identifier of the interface endpoint you created in your VPC with the AWS(Service Name) or GCP(Target Service) resource.\n"
                 },
                 "privateDnsHostname": {
                     "type": "string",
-                    "description": "Private DNS Hostname of the VPC you created\n"
+                    "description": "Private DNS Hostname of the VPC you created.\n"
                 }
             },
             "type": "object",
@@ -144,6 +241,54 @@
                     ]
                 }
             }
+        },
+        "clickhouse:index/ServiceQueryApiEndpoints:ServiceQueryApiEndpoints": {
+            "properties": {
+                "allowedOrigins": {
+                    "type": "string",
+                    "description": "Comma separated list of domain names to be allowed cross-origin resource sharing (CORS) access to the query API. Leave this field empty to restrict access to backend servers only\n"
+                },
+                "apiKeyIds": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "The UUIDs of the API Keys to grant access to the query API.\n"
+                },
+                "roles": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "The Database role that will be used to run the query.\n"
+                }
+            },
+            "type": "object",
+            "required": [
+                "apiKeyIds",
+                "roles"
+            ]
+        },
+        "clickhouse:index/ServiceTransparentDataEncryption:ServiceTransparentDataEncryption": {
+            "properties": {
+                "enabled": {
+                    "type": "boolean",
+                    "description": "If true, TDE is enabled for the service.\n"
+                },
+                "roleId": {
+                    "type": "string",
+                    "description": "ID of Role to be used for granting access to the Encryption Key. This is an ARN for AWS services and a Service Account Identifier for GCP.\n"
+                }
+            },
+            "type": "object",
+            "language": {
+                "nodejs": {
+                    "requiredOutputs": [
+                        "enabled",
+                        "roleId"
+                    ]
+                }
+            }
         }
     },
     "provider": {
@@ -151,45 +296,56 @@
         "properties": {
             "apiUrl": {
                 "type": "string",
-                "description": "API URL of the ClickHouse OpenAPI the provider will interact with. Alternatively, can be configured using the\n`CLICKHOUSE_API_URL` environment variable. Only specify if you have a specific deployment of the ClickHouse OpenAPI you\nwant to run against.\n"
+                "description": "API URL of the ClickHouse OpenAPI the provider will interact with. Alternatively, can be configured using the `CLICKHOUSE_API_URL` environment variable. Only specify if you have a specific deployment of the ClickHouse OpenAPI you want to run against."
             },
             "organizationId": {
                 "type": "string",
-                "description": "ID of the organization the provider will create services under. Alternatively, can be configured using the\n`CLICKHOUSE_ORG_ID` environment variable.\n"
+                "description": "ID of the organization the provider will create services under. Alternatively, can be configured using the `CLICKHOUSE_ORG_ID` environment variable."
+            },
+            "timeoutSeconds": {
+                "type": "integer",
+                "description": "Timeout in seconds for the HTTP client."
             },
             "tokenKey": {
                 "type": "string",
-                "description": "Token key of the key/secret pair. Used to authenticate with OpenAPI. Alternatively, can be configured using the\n`CLICKHOUSE_TOKEN_KEY` environment variable.\n"
+                "description": "Token key of the key/secret pair. Used to authenticate with OpenAPI. Alternatively, can be configured using the `CLICKHOUSE_TOKEN_KEY` environment variable."
             },
             "tokenSecret": {
                 "type": "string",
-                "description": "Token secret of the key/secret pair. Used to authenticate with OpenAPI. Alternatively, can be configured using the\n`CLICKHOUSE_TOKEN_SECRET` environment variable.\n",
+                "description": "Token secret of the key/secret pair. Used to authenticate with OpenAPI. Alternatively, can be configured using the `CLICKHOUSE_TOKEN_SECRET` environment variable.",
                 "secret": true
             }
         },
         "inputProperties": {
             "apiUrl": {
                 "type": "string",
-                "description": "API URL of the ClickHouse OpenAPI the provider will interact with. Alternatively, can be configured using the\n`CLICKHOUSE_API_URL` environment variable. Only specify if you have a specific deployment of the ClickHouse OpenAPI you\nwant to run against.\n"
+                "description": "API URL of the ClickHouse OpenAPI the provider will interact with. Alternatively, can be configured using the `CLICKHOUSE_API_URL` environment variable. Only specify if you have a specific deployment of the ClickHouse OpenAPI you want to run against."
             },
             "organizationId": {
                 "type": "string",
-                "description": "ID of the organization the provider will create services under. Alternatively, can be configured using the\n`CLICKHOUSE_ORG_ID` environment variable.\n"
+                "description": "ID of the organization the provider will create services under. Alternatively, can be configured using the `CLICKHOUSE_ORG_ID` environment variable."
+            },
+            "timeoutSeconds": {
+                "type": "integer",
+                "description": "Timeout in seconds for the HTTP client."
             },
             "tokenKey": {
                 "type": "string",
-                "description": "Token key of the key/secret pair. Used to authenticate with OpenAPI. Alternatively, can be configured using the\n`CLICKHOUSE_TOKEN_KEY` environment variable.\n"
+                "description": "Token key of the key/secret pair. Used to authenticate with OpenAPI. Alternatively, can be configured using the `CLICKHOUSE_TOKEN_KEY` environment variable."
             },
             "tokenSecret": {
                 "type": "string",
-                "description": "Token secret of the key/secret pair. Used to authenticate with OpenAPI. Alternatively, can be configured using the\n`CLICKHOUSE_TOKEN_SECRET` environment variable.\n",
+                "description": "Token secret of the key/secret pair. Used to authenticate with OpenAPI. Alternatively, can be configured using the `CLICKHOUSE_TOKEN_SECRET` environment variable.",
                 "secret": true
             }
+        },
+        "methods": {
+            "terraformConfig": "pulumi:providers:clickhouse/terraformConfig"
         }
     },
     "resources": {
         "clickhouse:PrivateEndpoint/registration:Registration": {
-            "description": "ClickHouse Cloud provides the ability to connect your services to your cloud virtual network through a feature named *Private Link*.\n\nYou can use the *private_endpoint_registration* resource to set up the private link feature.\n\nCheck the [docs](https://clickhouse.com/docs/en/cloud/security/private-link-overview) for more details on *private link*.\n\n## Example Usage\n\n\u003c!--Start PulumiCodeChooser --\u003e\n```typescript\nimport * as pulumi from \"@pulumi/pulumi\";\nimport * as clickhouse from \"@pulumiverse/clickhouse\";\n\nconst endpoint = new clickhouse.privateendpoint.Registration(\"endpoint\", {\n    cloudProvider: \"aws\",\n    description: \"Private Link from VPC foo\",\n    privateEndpointId: \"vpce-...\",\n    region: \"us-west-2\",\n});\n```\n```python\nimport pulumi\nimport pulumiverse_clickhouse as clickhouse\n\nendpoint = clickhouse.private_endpoint.Registration(\"endpoint\",\n    cloud_provider=\"aws\",\n    description=\"Private Link from VPC foo\",\n    private_endpoint_id=\"vpce-...\",\n    region=\"us-west-2\")\n```\n```csharp\nusing System.Collections.Generic;\nusing System.Linq;\nusing Pulumi;\nusing Clickhouse = Pulumiverse.Clickhouse;\n\nreturn await Deployment.RunAsync(() =\u003e \n{\n    var endpoint = new Clickhouse.PrivateEndpoint.Registration(\"endpoint\", new()\n    {\n        CloudProvider = \"aws\",\n        Description = \"Private Link from VPC foo\",\n        PrivateEndpointId = \"vpce-...\",\n        Region = \"us-west-2\",\n    });\n\n});\n```\n```go\npackage main\n\nimport (\n\t\"github.com/pulumi/pulumi/sdk/v3/go/pulumi\"\n\t\"github.com/pulumiverse/pulumi-clickhouse/sdk/go/clickhouse/PrivateEndpoint\"\n)\n\nfunc main() {\n\tpulumi.Run(func(ctx *pulumi.Context) error {\n\t\t_, err := PrivateEndpoint.NewRegistration(ctx, \"endpoint\", \u0026PrivateEndpoint.RegistrationArgs{\n\t\t\tCloudProvider:     pulumi.String(\"aws\"),\n\t\t\tDescription:       pulumi.String(\"Private Link from VPC foo\"),\n\t\t\tPrivateEndpointId: pulumi.String(\"vpce-...\"),\n\t\t\tRegion:            pulumi.String(\"us-west-2\"),\n\t\t})\n\t\tif err != nil {\n\t\t\treturn err\n\t\t}\n\t\treturn nil\n\t})\n}\n```\n```java\npackage generated_program;\n\nimport com.pulumi.Context;\nimport com.pulumi.Pulumi;\nimport com.pulumi.core.Output;\nimport com.pulumi.clickhouse.PrivateEndpoint.Registration;\nimport com.pulumi.clickhouse.PrivateEndpoint.RegistrationArgs;\nimport java.util.List;\nimport java.util.ArrayList;\nimport java.util.Map;\nimport java.io.File;\nimport java.nio.file.Files;\nimport java.nio.file.Paths;\n\npublic class App {\n    public static void main(String[] args) {\n        Pulumi.run(App::stack);\n    }\n\n    public static void stack(Context ctx) {\n        var endpoint = new Registration(\"endpoint\", RegistrationArgs.builder()\n            .cloudProvider(\"aws\")\n            .description(\"Private Link from VPC foo\")\n            .privateEndpointId(\"vpce-...\")\n            .region(\"us-west-2\")\n            .build());\n\n    }\n}\n```\n```yaml\nresources:\n  endpoint:\n    type: clickhouse:PrivateEndpoint:Registration\n    properties:\n      cloudProvider: aws\n      description: Private Link from VPC foo\n      privateEndpointId: vpce-...\n      region: us-west-2\n```\n\u003c!--End PulumiCodeChooser --\u003e\n\n## Import\n\nEndpoint Attachments can be imported by specifying the Cloud provider private endpoint ID\n\nFor example for AWS you could run:\n\n```sh\n$ pulumi import clickhouse:PrivateEndpoint/registration:Registration example vpce-xxxxxx\n```\n\n",
+            "description": "This resource is deprecated since version 3.2.0. Please refer to the docs for migration steps.\n",
             "properties": {
                 "cloudProvider": {
                     "type": "string",
@@ -201,7 +357,7 @@
                 },
                 "privateEndpointId": {
                     "type": "string",
-                    "description": "ID of the private endpoint (replaces deprecated attribute `id`)\n"
+                    "description": "ID of the private endpoint (replaces deprecated attribute \u003cspan pulumi-lang-nodejs=\"`id`\" pulumi-lang-dotnet=\"`Id`\" pulumi-lang-go=\"`id`\" pulumi-lang-python=\"`id`\" pulumi-lang-yaml=\"`id`\" pulumi-lang-java=\"`id`\"\u003e`id`\u003c/span\u003e)\n"
                 },
                 "region": {
                     "type": "string",
@@ -224,7 +380,7 @@
                 },
                 "privateEndpointId": {
                     "type": "string",
-                    "description": "ID of the private endpoint (replaces deprecated attribute `id`)\n"
+                    "description": "ID of the private endpoint (replaces deprecated attribute \u003cspan pulumi-lang-nodejs=\"`id`\" pulumi-lang-dotnet=\"`Id`\" pulumi-lang-go=\"`id`\" pulumi-lang-python=\"`id`\" pulumi-lang-yaml=\"`id`\" pulumi-lang-java=\"`id`\"\u003e`id`\u003c/span\u003e)\n"
                 },
                 "region": {
                     "type": "string",
@@ -249,7 +405,7 @@
                     },
                     "privateEndpointId": {
                         "type": "string",
-                        "description": "ID of the private endpoint (replaces deprecated attribute `id`)\n"
+                        "description": "ID of the private endpoint (replaces deprecated attribute \u003cspan pulumi-lang-nodejs=\"`id`\" pulumi-lang-dotnet=\"`Id`\" pulumi-lang-go=\"`id`\" pulumi-lang-python=\"`id`\" pulumi-lang-yaml=\"`id`\" pulumi-lang-java=\"`id`\"\u003e`id`\u003c/span\u003e)\n"
                     },
                     "region": {
                         "type": "string",
@@ -260,7 +416,7 @@
             }
         },
         "clickhouse:ServicePrivateEndpoints/attachment:Attachment": {
-            "description": "Use the *clickhouse_service_private_endpoints_attachment* resource to attach a ClickHouse *service* to a *Private Endpoint*.\n\nSee private_endpoint_registration for how to create a *private endpoint*.\n\nSee full example on GitHub.\n\n## Import\n\nEndpoint Attachments can be imported by specifying the clickhouse service UUID\n\n```sh\n$ pulumi import clickhouse:ServicePrivateEndpoints/attachment:Attachment example xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx\n```\n\n",
+            "description": "Use the *clickhouse_service_private_endpoints_attachment* resource to attach a ClickHouse *service* to a *Private Endpoint*.\nImportant: Please note that if you want to attach the same ClickHouse *service* to multiple *Private Endpoints* you have to specify all the *Private Endpoint IDs* in a single *clickhouse_service_private_endpoints_attachment* resource.\nHaving multiple *clickhouse_service_private_endpoints_attachment* resources for the same service is unsupported and the outcome is unpredictable.\n\nSee\u003cspan pulumi-lang-nodejs=\" privateEndpointRegistration \" pulumi-lang-dotnet=\" PrivateEndpointRegistration \" pulumi-lang-go=\" privateEndpointRegistration \" pulumi-lang-python=\" private_endpoint_registration \" pulumi-lang-yaml=\" privateEndpointRegistration \" pulumi-lang-java=\" privateEndpointRegistration \"\u003e privateEndpointRegistration \u003c/span\u003efor how to create a *private endpoint*.\n\nSee full example on GitHub.\n\n## Import\n\nThe `pulumi import` command can be used, for example:\n\nEndpoint Attachments can be imported by specifying the clickhouse service UUID\n\n```sh\n$ pulumi import clickhouse:ServicePrivateEndpoints/attachment:Attachment example xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx\n```\n\n",
             "properties": {
                 "privateEndpointIds": {
                     "type": "array",
@@ -271,7 +427,7 @@
                 },
                 "serviceId": {
                     "type": "string",
-                    "description": "ClickHouse Servie ID\n"
+                    "description": "ClickHouse Service ID\n"
                 }
             },
             "required": [
@@ -287,7 +443,7 @@
                 },
                 "serviceId": {
                     "type": "string",
-                    "description": "ClickHouse Servie ID\n"
+                    "description": "ClickHouse Service ID\n"
                 }
             },
             "stateInputs": {
@@ -302,38 +458,100 @@
                     },
                     "serviceId": {
                         "type": "string",
-                        "description": "ClickHouse Servie ID\n"
+                        "description": "ClickHouse Service ID\n"
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "clickhouse:ServiceTransparentDataEncryptionKey/association:Association": {
+            "description": "You can use the *clickhouse_service_transparent_data_encryption_key_association* resource to associate your own Encryption Key with a Clickhouse Service with the Transparent Data Encryption (TDE) feature enabled.\nPlease note that this feature requires an organization with the `Enterprise` plan.\n\n## Import\n\nThe `pulumi import` command can be used, for example:\n\nEndpoint Attachments can be imported by specifying the clickhouse service UUID\n\n```sh\n$ pulumi import clickhouse:ServiceTransparentDataEncryptionKey/association:Association example xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx\n```\n\n",
+            "properties": {
+                "keyId": {
+                    "type": "string",
+                    "description": "ID of the Encryption key to use for data encryption. Must be an ARN for AWS services or a Key Resource Path for GCP services.\n"
+                },
+                "serviceId": {
+                    "type": "string",
+                    "description": "ClickHouse Service ID\n"
+                }
+            },
+            "required": [
+                "keyId",
+                "serviceId"
+            ],
+            "inputProperties": {
+                "keyId": {
+                    "type": "string",
+                    "description": "ID of the Encryption key to use for data encryption. Must be an ARN for AWS services or a Key Resource Path for GCP services.\n"
+                },
+                "serviceId": {
+                    "type": "string",
+                    "description": "ClickHouse Service ID\n"
+                }
+            },
+            "requiredInputs": [
+                "keyId",
+                "serviceId"
+            ],
+            "stateInputs": {
+                "description": "Input properties used for looking up and filtering Association resources.\n",
+                "properties": {
+                    "keyId": {
+                        "type": "string",
+                        "description": "ID of the Encryption key to use for data encryption. Must be an ARN for AWS services or a Key Resource Path for GCP services.\n"
+                    },
+                    "serviceId": {
+                        "type": "string",
+                        "description": "ClickHouse Service ID\n"
                     }
                 },
                 "type": "object"
             }
         },
         "clickhouse:index/service:Service": {
-            "description": "You can use the *clickhouse_service* resource to deploy ClickHouse cloud instances on supported cloud providers.\n\n## Example Usage\n\n\u003c!--Start PulumiCodeChooser --\u003e\n```typescript\nimport * as pulumi from \"@pulumi/pulumi\";\nimport * as clickhouse from \"@pulumiverse/clickhouse\";\n\nconst service = new clickhouse.Service(\"service\", {\n    cloudProvider: \"aws\",\n    idleScaling: true,\n    idleTimeoutMinutes: 5,\n    ipAccesses: [{\n        description: \"Test IP\",\n        source: \"192.168.2.63\",\n    }],\n    maxTotalMemoryGb: 360,\n    minTotalMemoryGb: 24,\n    passwordHash: \"n4bQgYhMfWWaL+qgxVrQFaO/TxsrC4Is0V1sFbDwCgg=\",\n    region: \"us-east-1\",\n    tier: \"production\",\n});\n```\n```python\nimport pulumi\nimport pulumiverse_clickhouse as clickhouse\n\nservice = clickhouse.Service(\"service\",\n    cloud_provider=\"aws\",\n    idle_scaling=True,\n    idle_timeout_minutes=5,\n    ip_accesses=[{\n        \"description\": \"Test IP\",\n        \"source\": \"192.168.2.63\",\n    }],\n    max_total_memory_gb=360,\n    min_total_memory_gb=24,\n    password_hash=\"n4bQgYhMfWWaL+qgxVrQFaO/TxsrC4Is0V1sFbDwCgg=\",\n    region=\"us-east-1\",\n    tier=\"production\")\n```\n```csharp\nusing System.Collections.Generic;\nusing System.Linq;\nusing Pulumi;\nusing Clickhouse = Pulumiverse.Clickhouse;\n\nreturn await Deployment.RunAsync(() =\u003e \n{\n    var service = new Clickhouse.Service(\"service\", new()\n    {\n        CloudProvider = \"aws\",\n        IdleScaling = true,\n        IdleTimeoutMinutes = 5,\n        IpAccesses = new[]\n        {\n            new Clickhouse.Inputs.ServiceIpAccessArgs\n            {\n                Description = \"Test IP\",\n                Source = \"192.168.2.63\",\n            },\n        },\n        MaxTotalMemoryGb = 360,\n        MinTotalMemoryGb = 24,\n        PasswordHash = \"n4bQgYhMfWWaL+qgxVrQFaO/TxsrC4Is0V1sFbDwCgg=\",\n        Region = \"us-east-1\",\n        Tier = \"production\",\n    });\n\n});\n```\n```go\npackage main\n\nimport (\n\t\"github.com/pulumi/pulumi/sdk/v3/go/pulumi\"\n\t\"github.com/pulumiverse/pulumi-clickhouse/sdk/go/clickhouse\"\n)\n\nfunc main() {\n\tpulumi.Run(func(ctx *pulumi.Context) error {\n\t\t_, err := clickhouse.NewService(ctx, \"service\", \u0026clickhouse.ServiceArgs{\n\t\t\tCloudProvider:      pulumi.String(\"aws\"),\n\t\t\tIdleScaling:        pulumi.Bool(true),\n\t\t\tIdleTimeoutMinutes: pulumi.Int(5),\n\t\t\tIpAccesses: clickhouse.ServiceIpAccessArray{\n\t\t\t\t\u0026clickhouse.ServiceIpAccessArgs{\n\t\t\t\t\tDescription: pulumi.String(\"Test IP\"),\n\t\t\t\t\tSource:      pulumi.String(\"192.168.2.63\"),\n\t\t\t\t},\n\t\t\t},\n\t\t\tMaxTotalMemoryGb: pulumi.Int(360),\n\t\t\tMinTotalMemoryGb: pulumi.Int(24),\n\t\t\tPasswordHash:     pulumi.String(\"n4bQgYhMfWWaL+qgxVrQFaO/TxsrC4Is0V1sFbDwCgg=\"),\n\t\t\tRegion:           pulumi.String(\"us-east-1\"),\n\t\t\tTier:             pulumi.String(\"production\"),\n\t\t})\n\t\tif err != nil {\n\t\t\treturn err\n\t\t}\n\t\treturn nil\n\t})\n}\n```\n```java\npackage generated_program;\n\nimport com.pulumi.Context;\nimport com.pulumi.Pulumi;\nimport com.pulumi.core.Output;\nimport com.pulumi.clickhouse.Service;\nimport com.pulumi.clickhouse.ServiceArgs;\nimport com.pulumi.clickhouse.inputs.ServiceIpAccessArgs;\nimport java.util.List;\nimport java.util.ArrayList;\nimport java.util.Map;\nimport java.io.File;\nimport java.nio.file.Files;\nimport java.nio.file.Paths;\n\npublic class App {\n    public static void main(String[] args) {\n        Pulumi.run(App::stack);\n    }\n\n    public static void stack(Context ctx) {\n        var service = new Service(\"service\", ServiceArgs.builder()\n            .cloudProvider(\"aws\")\n            .idleScaling(true)\n            .idleTimeoutMinutes(5)\n            .ipAccesses(ServiceIpAccessArgs.builder()\n                .description(\"Test IP\")\n                .source(\"192.168.2.63\")\n                .build())\n            .maxTotalMemoryGb(360)\n            .minTotalMemoryGb(24)\n            .passwordHash(\"n4bQgYhMfWWaL+qgxVrQFaO/TxsrC4Is0V1sFbDwCgg=\")\n            .region(\"us-east-1\")\n            .tier(\"production\")\n            .build());\n\n    }\n}\n```\n```yaml\nresources:\n  service:\n    type: clickhouse:Service\n    properties:\n      cloudProvider: aws\n      idleScaling: true\n      idleTimeoutMinutes: 5\n      ipAccesses:\n        - description: Test IP\n          source: 192.168.2.63\n      maxTotalMemoryGb: 360\n      minTotalMemoryGb: 24\n      passwordHash: n4bQgYhMfWWaL+qgxVrQFaO/TxsrC4Is0V1sFbDwCgg=\n      # base64 encoded sha256 hash of \"test\"\n      region: us-east-1\n      tier: production\n```\n\u003c!--End PulumiCodeChooser --\u003e\n\n## Import\n\nServices can be imported by specifying the UUID.\n\n```sh\n$ pulumi import clickhouse:index/service:Service example xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx\n```\n\n",
+            "description": "You can use the *clickhouse_service* resource to deploy ClickHouse cloud instances on supported cloud providers.\n\nKnown limitations:\n\n- If you create a service with \u003cspan pulumi-lang-nodejs=\"`warehouseId`\" pulumi-lang-dotnet=\"`WarehouseId`\" pulumi-lang-go=\"`warehouseId`\" pulumi-lang-python=\"`warehouse_id`\" pulumi-lang-yaml=\"`warehouseId`\" pulumi-lang-java=\"`warehouseId`\"\u003e`warehouseId`\u003c/span\u003e set and then remove \u003cspan pulumi-lang-nodejs=\"`warehouseId`\" pulumi-lang-dotnet=\"`WarehouseId`\" pulumi-lang-go=\"`warehouseId`\" pulumi-lang-python=\"`warehouse_id`\" pulumi-lang-yaml=\"`warehouseId`\" pulumi-lang-java=\"`warehouseId`\"\u003e`warehouseId`\u003c/span\u003e attribute completely, the provider won't detect the change. If you want to make a secondary service become primary, remove the \u003cspan pulumi-lang-nodejs=\"`warehouseId`\" pulumi-lang-dotnet=\"`WarehouseId`\" pulumi-lang-go=\"`warehouseId`\" pulumi-lang-python=\"`warehouse_id`\" pulumi-lang-yaml=\"`warehouseId`\" pulumi-lang-java=\"`warehouseId`\"\u003e`warehouseId`\u003c/span\u003e and taint it before applying.\n- If you create a service with \u003cspan pulumi-lang-nodejs=\"`readonly`\" pulumi-lang-dotnet=\"`Readonly`\" pulumi-lang-go=\"`readonly`\" pulumi-lang-python=\"`readonly`\" pulumi-lang-yaml=\"`readonly`\" pulumi-lang-java=\"`readonly`\"\u003e`readonly`\u003c/span\u003e flag set to true and then remove \u003cspan pulumi-lang-nodejs=\"`readonly`\" pulumi-lang-dotnet=\"`Readonly`\" pulumi-lang-go=\"`readonly`\" pulumi-lang-python=\"`readonly`\" pulumi-lang-yaml=\"`readonly`\" pulumi-lang-java=\"`readonly`\"\u003e`readonly`\u003c/span\u003e flag completely, the provider won't detect the change. If you want to make a secondary service read write, explicitly set the \u003cspan pulumi-lang-nodejs=\"`readonly`\" pulumi-lang-dotnet=\"`Readonly`\" pulumi-lang-go=\"`readonly`\" pulumi-lang-python=\"`readonly`\" pulumi-lang-yaml=\"`readonly`\" pulumi-lang-java=\"`readonly`\"\u003e`readonly`\u003c/span\u003e flag to false.\n\n## Example Usage\n\n\u003c!--Start PulumiCodeChooser --\u003e\n```typescript\nimport * as pulumi from \"@pulumi/pulumi\";\nimport * as clickhouse from \"@pulumiverse/clickhouse\";\n\nconst service = new clickhouse.Service(\"service\", {\n    name: \"My Service\",\n    cloudProvider: \"aws\",\n    region: \"us-east-1\",\n    idleScaling: true,\n    ipAccesses: [{\n        source: \"192.168.2.63\",\n        description: \"Test IP\",\n    }],\n    tags: {\n        Environment: \"Staging\",\n    },\n    minTotalMemoryGb: 24,\n    maxTotalMemoryGb: 360,\n    idleTimeoutMinutes: 5,\n    passwordHash: \"n4bQgYhMfWWaL+qgxVrQFaO/TxsrC4Is0V1sFbDwCgg=\",\n});\n```\n```python\nimport pulumi\nimport pulumiverse_clickhouse as clickhouse\n\nservice = clickhouse.Service(\"service\",\n    name=\"My Service\",\n    cloud_provider=\"aws\",\n    region=\"us-east-1\",\n    idle_scaling=True,\n    ip_accesses=[{\n        \"source\": \"192.168.2.63\",\n        \"description\": \"Test IP\",\n    }],\n    tags={\n        \"Environment\": \"Staging\",\n    },\n    min_total_memory_gb=24,\n    max_total_memory_gb=360,\n    idle_timeout_minutes=5,\n    password_hash=\"n4bQgYhMfWWaL+qgxVrQFaO/TxsrC4Is0V1sFbDwCgg=\")\n```\n```csharp\nusing System.Collections.Generic;\nusing System.Linq;\nusing Pulumi;\nusing Clickhouse = Pulumiverse.Clickhouse;\n\nreturn await Deployment.RunAsync(() =\u003e \n{\n    var service = new Clickhouse.Service(\"service\", new()\n    {\n        Name = \"My Service\",\n        CloudProvider = \"aws\",\n        Region = \"us-east-1\",\n        IdleScaling = true,\n        IpAccesses = new[]\n        {\n            new Clickhouse.Inputs.ServiceIpAccessArgs\n            {\n                Source = \"192.168.2.63\",\n                Description = \"Test IP\",\n            },\n        },\n        Tags = \n        {\n            { \"Environment\", \"Staging\" },\n        },\n        MinTotalMemoryGb = 24,\n        MaxTotalMemoryGb = 360,\n        IdleTimeoutMinutes = 5,\n        PasswordHash = \"n4bQgYhMfWWaL+qgxVrQFaO/TxsrC4Is0V1sFbDwCgg=\",\n    });\n\n});\n```\n```go\npackage main\n\nimport (\n\t\"github.com/pulumi/pulumi/sdk/v3/go/pulumi\"\n\t\"github.com/pulumiverse/pulumi-clickhouse/sdk/go/clickhouse\"\n)\n\nfunc main() {\n\tpulumi.Run(func(ctx *pulumi.Context) error {\n\t\t_, err := clickhouse.NewService(ctx, \"service\", \u0026clickhouse.ServiceArgs{\n\t\t\tName:          pulumi.String(\"My Service\"),\n\t\t\tCloudProvider: pulumi.String(\"aws\"),\n\t\t\tRegion:        pulumi.String(\"us-east-1\"),\n\t\t\tIdleScaling:   pulumi.Bool(true),\n\t\t\tIpAccesses: clickhouse.ServiceIpAccessArray{\n\t\t\t\t\u0026clickhouse.ServiceIpAccessArgs{\n\t\t\t\t\tSource:      pulumi.String(\"192.168.2.63\"),\n\t\t\t\t\tDescription: pulumi.String(\"Test IP\"),\n\t\t\t\t},\n\t\t\t},\n\t\t\tTags: pulumi.StringMap{\n\t\t\t\t\"Environment\": pulumi.String(\"Staging\"),\n\t\t\t},\n\t\t\tMinTotalMemoryGb:   pulumi.Int(24),\n\t\t\tMaxTotalMemoryGb:   pulumi.Int(360),\n\t\t\tIdleTimeoutMinutes: pulumi.Int(5),\n\t\t\tPasswordHash:       pulumi.String(\"n4bQgYhMfWWaL+qgxVrQFaO/TxsrC4Is0V1sFbDwCgg=\"),\n\t\t})\n\t\tif err != nil {\n\t\t\treturn err\n\t\t}\n\t\treturn nil\n\t})\n}\n```\n```java\npackage generated_program;\n\nimport com.pulumi.Context;\nimport com.pulumi.Pulumi;\nimport com.pulumi.core.Output;\nimport com.pulumiverse.clickhouse.Service;\nimport com.pulumiverse.clickhouse.ServiceArgs;\nimport com.pulumi.clickhouse.inputs.ServiceIpAccessArgs;\nimport java.util.List;\nimport java.util.ArrayList;\nimport java.util.Map;\nimport java.io.File;\nimport java.nio.file.Files;\nimport java.nio.file.Paths;\n\npublic class App {\n    public static void main(String[] args) {\n        Pulumi.run(App::stack);\n    }\n\n    public static void stack(Context ctx) {\n        var service = new Service(\"service\", ServiceArgs.builder()\n            .name(\"My Service\")\n            .cloudProvider(\"aws\")\n            .region(\"us-east-1\")\n            .idleScaling(true)\n            .ipAccesses(ServiceIpAccessArgs.builder()\n                .source(\"192.168.2.63\")\n                .description(\"Test IP\")\n                .build())\n            .tags(Map.of(\"Environment\", \"Staging\"))\n            .minTotalMemoryGb(24)\n            .maxTotalMemoryGb(360)\n            .idleTimeoutMinutes(5)\n            .passwordHash(\"n4bQgYhMfWWaL+qgxVrQFaO/TxsrC4Is0V1sFbDwCgg=\")\n            .build());\n\n    }\n}\n```\n```yaml\nresources:\n  service:\n    type: clickhouse:Service\n    properties:\n      name: My Service\n      cloudProvider: aws\n      region: us-east-1\n      idleScaling: true\n      ipAccesses:\n        - source: 192.168.2.63\n          description: Test IP\n      tags:\n        Environment: Staging\n      minTotalMemoryGb: 24\n      maxTotalMemoryGb: 360\n      idleTimeoutMinutes: 5\n      passwordHash: n4bQgYhMfWWaL+qgxVrQFaO/TxsrC4Is0V1sFbDwCgg=\n```\n\u003c!--End PulumiCodeChooser --\u003e\n\n## Import\n\nThe `pulumi import` command can be used, for example:\n\nServices can be imported by specifying the UUID.\n\n```sh\n$ pulumi import clickhouse:index/service:Service example xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx\n```\n\n",
             "properties": {
+                "backupConfiguration": {
+                    "$ref": "#/types/clickhouse:index/ServiceBackupConfiguration:ServiceBackupConfiguration",
+                    "description": "Configuration of service backup settings.\n"
+                },
+                "backupId": {
+                    "type": "string",
+                    "description": "ID of the backup to restore when creating new service. If specified, the service will be created as a restore operation\n"
+                },
+                "byocId": {
+                    "type": "string",
+                    "description": "BYOC ID related to the cloud provider account you want to create this service into.\n"
+                },
                 "cloudProvider": {
                     "type": "string",
                     "description": "Cloud provider ('aws', 'gcp', or 'azure') in which the service is deployed in.\n"
                 },
+                "complianceType": {
+                    "type": "string",
+                    "description": "Compliance type of the service. Can be 'hipaa', 'pci'. Required for organizations that wish to deploy their services in the hipaa/pci compliant environment. NOTE: hipaa/pci compliance should be enabled for your ClickHouse organization before using this field.\n"
+                },
                 "doubleSha1PasswordHash": {
                     "type": "string",
-                    "description": "Double SHA1 hash of password for connecting with the MySQL protocol. Cannot be specified if `password` is specified.\n",
+                    "description": "Double SHA1 hash of password for connecting with the MySQL protocol. Cannot be specified if \u003cspan pulumi-lang-nodejs=\"`password`\" pulumi-lang-dotnet=\"`Password`\" pulumi-lang-go=\"`password`\" pulumi-lang-python=\"`password`\" pulumi-lang-yaml=\"`password`\" pulumi-lang-java=\"`password`\"\u003e`password`\u003c/span\u003e or \u003cspan pulumi-lang-nodejs=\"`passwordWo`\" pulumi-lang-dotnet=\"`PasswordWo`\" pulumi-lang-go=\"`passwordWo`\" pulumi-lang-python=\"`password_wo`\" pulumi-lang-yaml=\"`passwordWo`\" pulumi-lang-java=\"`passwordWo`\"\u003e`passwordWo`\u003c/span\u003e is specified.\n",
                     "secret": true
+                },
+                "enableCoreDumps": {
+                    "type": "boolean",
+                    "description": "Enable core dumps for the service.\n"
                 },
                 "encryptionAssumedRoleIdentifier": {
                     "type": "string",
-                    "description": "Custom role identifier arn\n"
+                    "description": "Custom role identifier ARN.\n"
                 },
                 "encryptionKey": {
                     "type": "string",
-                    "description": "Custom encryption key arn\n"
+                    "description": "Custom encryption key ARN.\n"
                 },
                 "endpoints": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/types/clickhouse:index/ServiceEndpoint:ServiceEndpoint"
-                    },
-                    "description": "List of public endpoints.\n"
+                    "$ref": "#/types/clickhouse:index/ServiceEndpoints:ServiceEndpoints",
+                    "description": "Allow to enable and configure additional endpoints (read protocols) to expose on the ClickHouse service.\n"
                 },
                 "iamRole": {
                     "type": "string",
@@ -345,7 +563,7 @@
                 },
                 "idleTimeoutMinutes": {
                     "type": "integer",
-                    "description": "Set minimum idling timeout (in minutes). Must be greater than or equal to 5 minutes. Must be set if idle_scaling is enabled\n"
+                    "description": "Set minimum idling timeout (in minutes). Must be greater than or equal to 5 minutes. Must be set if\u003cspan pulumi-lang-nodejs=\" idleScaling \" pulumi-lang-dotnet=\" IdleScaling \" pulumi-lang-go=\" idleScaling \" pulumi-lang-python=\" idle_scaling \" pulumi-lang-yaml=\" idleScaling \" pulumi-lang-java=\" idleScaling \"\u003e idleScaling \u003c/span\u003eis enabled.\n"
                 },
                 "ipAccesses": {
                     "type": "array",
@@ -354,13 +572,27 @@
                     },
                     "description": "List of IP addresses allowed to access the service.\n"
                 },
+                "isPrimary": {
+                    "type": "boolean",
+                    "description": "If true, it indicates this is a primary service using its own data. If false it means this service is a secondary service, thus using data from a warehouse.\n"
+                },
+                "maxReplicaMemoryGb": {
+                    "type": "integer",
+                    "description": "Maximum memory of a single replica during auto-scaling in GiB.\n"
+                },
                 "maxTotalMemoryGb": {
                     "type": "integer",
-                    "description": "Maximum total memory of all workers during auto-scaling in Gb. Available only for 'production' services. Must be a multiple of 12 and lower than 360 for non paid services or 720 for paid services.\n"
+                    "description": "Maximum total memory of all workers during auto-scaling in GiB.\n",
+                    "deprecationMessage": "Please use\u003cspan pulumi-lang-nodejs=\" maxReplicaMemoryGb \" pulumi-lang-dotnet=\" MaxReplicaMemoryGb \" pulumi-lang-go=\" maxReplicaMemoryGb \" pulumi-lang-python=\" max_replica_memory_gb \" pulumi-lang-yaml=\" maxReplicaMemoryGb \" pulumi-lang-java=\" maxReplicaMemoryGb \"\u003e maxReplicaMemoryGb \u003c/span\u003einstead"
+                },
+                "minReplicaMemoryGb": {
+                    "type": "integer",
+                    "description": "Minimum memory of a single replica during auto-scaling in GiB.\n"
                 },
                 "minTotalMemoryGb": {
                     "type": "integer",
-                    "description": "Minimum total memory of all workers during auto-scaling in Gb. Available only for 'production' services. Must be a multiple of 12 and greater than 24.\n"
+                    "description": "Minimum total memory of all workers during auto-scaling in GiB.\n",
+                    "deprecationMessage": "Please use\u003cspan pulumi-lang-nodejs=\" minReplicaMemoryGb \" pulumi-lang-dotnet=\" MinReplicaMemoryGb \" pulumi-lang-go=\" minReplicaMemoryGb \" pulumi-lang-python=\" min_replica_memory_gb \" pulumi-lang-yaml=\" minReplicaMemoryGb \" pulumi-lang-java=\" minReplicaMemoryGb \"\u003e minReplicaMemoryGb \u003c/span\u003einstead"
                 },
                 "name": {
                     "type": "string",
@@ -368,59 +600,130 @@
                 },
                 "numReplicas": {
                     "type": "integer",
-                    "description": "Number of replicas for the service. Available only for 'production' services. Must be between 3 and 20. Contact support to enable this feature.\n"
+                    "description": "Number of replicas for the service.\n"
                 },
                 "password": {
                     "type": "string",
-                    "description": "Password for the default user. One of either `password` or `password_hash` must be specified.\n",
+                    "description": "Password for the default user. One of either \u003cspan pulumi-lang-nodejs=\"`password`\" pulumi-lang-dotnet=\"`Password`\" pulumi-lang-go=\"`password`\" pulumi-lang-python=\"`password`\" pulumi-lang-yaml=\"`password`\" pulumi-lang-java=\"`password`\"\u003e`password`\u003c/span\u003e, \u003cspan pulumi-lang-nodejs=\"`passwordWo`\" pulumi-lang-dotnet=\"`PasswordWo`\" pulumi-lang-go=\"`passwordWo`\" pulumi-lang-python=\"`password_wo`\" pulumi-lang-yaml=\"`passwordWo`\" pulumi-lang-java=\"`passwordWo`\"\u003e`passwordWo`\u003c/span\u003e, or \u003cspan pulumi-lang-nodejs=\"`passwordHash`\" pulumi-lang-dotnet=\"`PasswordHash`\" pulumi-lang-go=\"`passwordHash`\" pulumi-lang-python=\"`password_hash`\" pulumi-lang-yaml=\"`passwordHash`\" pulumi-lang-java=\"`passwordHash`\"\u003e`passwordHash`\u003c/span\u003e must be specified.\n",
                     "secret": true
                 },
                 "passwordHash": {
                     "type": "string",
-                    "description": "SHA256 hash of password for the default user. One of either `password` or `password_hash` must be specified.\n",
+                    "description": "SHA256 hash of password for the default user. One of either \u003cspan pulumi-lang-nodejs=\"`password`\" pulumi-lang-dotnet=\"`Password`\" pulumi-lang-go=\"`password`\" pulumi-lang-python=\"`password`\" pulumi-lang-yaml=\"`password`\" pulumi-lang-java=\"`password`\"\u003e`password`\u003c/span\u003e, \u003cspan pulumi-lang-nodejs=\"`passwordWo`\" pulumi-lang-dotnet=\"`PasswordWo`\" pulumi-lang-go=\"`passwordWo`\" pulumi-lang-python=\"`password_wo`\" pulumi-lang-yaml=\"`passwordWo`\" pulumi-lang-java=\"`passwordWo`\"\u003e`passwordWo`\u003c/span\u003e, or \u003cspan pulumi-lang-nodejs=\"`passwordHash`\" pulumi-lang-dotnet=\"`PasswordHash`\" pulumi-lang-go=\"`passwordHash`\" pulumi-lang-python=\"`password_hash`\" pulumi-lang-yaml=\"`passwordHash`\" pulumi-lang-java=\"`passwordHash`\"\u003e`passwordHash`\u003c/span\u003e must be specified.\n",
                     "secret": true
+                },
+                "passwordWo": {
+                    "type": "string",
+                    "description": "**NOTE:** This field is write-only and its value will not be updated in state as part of read operations.\nPassword for the default user (write-only, not persisted to state). Use this instead of \u003cspan pulumi-lang-nodejs=\"`password`\" pulumi-lang-dotnet=\"`Password`\" pulumi-lang-go=\"`password`\" pulumi-lang-python=\"`password`\" pulumi-lang-yaml=\"`password`\" pulumi-lang-java=\"`password`\"\u003e`password`\u003c/span\u003e to avoid storing the password hash in Terraform state.\n",
+                    "secret": true
+                },
+                "passwordWoVersion": {
+                    "type": "integer",
+                    "description": "Version number for password*wo. Increment this to trigger a password update when using password*wo.\n"
                 },
                 "privateEndpointConfig": {
                     "$ref": "#/types/clickhouse:index/ServicePrivateEndpointConfig:ServicePrivateEndpointConfig",
-                    "description": "Service config for private endpoints\n",
-                    "deprecationMessage": "Please use the `clickhouse.PrivateEndpoint.getConfig` data source instead."
+                    "description": "Service config for private endpoints\n"
+                },
+                "queryApiEndpoints": {
+                    "$ref": "#/types/clickhouse:index/ServiceQueryApiEndpoints:ServiceQueryApiEndpoints",
+                    "description": "Configuration of the query API endpoints feature.\n"
+                },
+                "readonly": {
+                    "type": "boolean",
+                    "description": "Indicates if this service should be read only. Only allowed for secondary services, those which share data with another service (i.e. when \u003cspan pulumi-lang-nodejs=\"`warehouseId`\" pulumi-lang-dotnet=\"`WarehouseId`\" pulumi-lang-go=\"`warehouseId`\" pulumi-lang-python=\"`warehouse_id`\" pulumi-lang-yaml=\"`warehouseId`\" pulumi-lang-java=\"`warehouseId`\"\u003e`warehouseId`\u003c/span\u003e field is set).\n"
                 },
                 "region": {
                     "type": "string",
                     "description": "Region within the cloud provider in which the service is deployed in.\n"
                 },
+                "releaseChannel": {
+                    "type": "string",
+                    "description": "Release channel to use for this service. Can be 'default', 'fast' or 'slow'.\n"
+                },
+                "tags": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    },
+                    "description": "Tags associated with the service as key-value pairs.\n"
+                },
                 "tier": {
                     "type": "string",
-                    "description": "Tier of the service: 'development', 'production'. Production services scale, Development are fixed size.\n"
+                    "description": "Tier of the service: 'development', 'production'. Required for organizations using the Legacy ClickHouse Cloud Tiers, must be omitted for organizations using the new ClickHouse Cloud Tiers.\n"
+                },
+                "transparentDataEncryption": {
+                    "$ref": "#/types/clickhouse:index/ServiceTransparentDataEncryption:ServiceTransparentDataEncryption",
+                    "description": "Configuration of the Transparent Data Encryption (TDE) feature. Requires an organization with the Enterprise plan.\n"
+                },
+                "warehouseId": {
+                    "type": "string",
+                    "description": "Set it to the 'warehouse_id' attribute of another service to share the data with it. The service must be in the same cloud and region.\n"
                 }
             },
             "required": [
+                "backupConfiguration",
                 "cloudProvider",
+                "enableCoreDumps",
+                "encryptionKey",
                 "endpoints",
                 "iamRole",
+                "idleScaling",
+                "idleTimeoutMinutes",
                 "ipAccesses",
+                "isPrimary",
+                "maxReplicaMemoryGb",
+                "minReplicaMemoryGb",
                 "name",
+                "numReplicas",
                 "privateEndpointConfig",
+                "readonly",
                 "region",
-                "tier"
+                "releaseChannel",
+                "transparentDataEncryption",
+                "warehouseId"
             ],
             "inputProperties": {
+                "backupConfiguration": {
+                    "$ref": "#/types/clickhouse:index/ServiceBackupConfiguration:ServiceBackupConfiguration",
+                    "description": "Configuration of service backup settings.\n"
+                },
+                "backupId": {
+                    "type": "string",
+                    "description": "ID of the backup to restore when creating new service. If specified, the service will be created as a restore operation\n"
+                },
+                "byocId": {
+                    "type": "string",
+                    "description": "BYOC ID related to the cloud provider account you want to create this service into.\n"
+                },
                 "cloudProvider": {
                     "type": "string",
                     "description": "Cloud provider ('aws', 'gcp', or 'azure') in which the service is deployed in.\n"
                 },
+                "complianceType": {
+                    "type": "string",
+                    "description": "Compliance type of the service. Can be 'hipaa', 'pci'. Required for organizations that wish to deploy their services in the hipaa/pci compliant environment. NOTE: hipaa/pci compliance should be enabled for your ClickHouse organization before using this field.\n"
+                },
                 "doubleSha1PasswordHash": {
                     "type": "string",
-                    "description": "Double SHA1 hash of password for connecting with the MySQL protocol. Cannot be specified if `password` is specified.\n",
+                    "description": "Double SHA1 hash of password for connecting with the MySQL protocol. Cannot be specified if \u003cspan pulumi-lang-nodejs=\"`password`\" pulumi-lang-dotnet=\"`Password`\" pulumi-lang-go=\"`password`\" pulumi-lang-python=\"`password`\" pulumi-lang-yaml=\"`password`\" pulumi-lang-java=\"`password`\"\u003e`password`\u003c/span\u003e or \u003cspan pulumi-lang-nodejs=\"`passwordWo`\" pulumi-lang-dotnet=\"`PasswordWo`\" pulumi-lang-go=\"`passwordWo`\" pulumi-lang-python=\"`password_wo`\" pulumi-lang-yaml=\"`passwordWo`\" pulumi-lang-java=\"`passwordWo`\"\u003e`passwordWo`\u003c/span\u003e is specified.\n",
                     "secret": true
+                },
+                "enableCoreDumps": {
+                    "type": "boolean",
+                    "description": "Enable core dumps for the service.\n"
                 },
                 "encryptionAssumedRoleIdentifier": {
                     "type": "string",
-                    "description": "Custom role identifier arn\n"
+                    "description": "Custom role identifier ARN.\n"
                 },
                 "encryptionKey": {
                     "type": "string",
-                    "description": "Custom encryption key arn\n"
+                    "description": "Custom encryption key ARN.\n"
+                },
+                "endpoints": {
+                    "$ref": "#/types/clickhouse:index/ServiceEndpoints:ServiceEndpoints",
+                    "description": "Allow to enable and configure additional endpoints (read protocols) to expose on the ClickHouse service.\n"
                 },
                 "idleScaling": {
                     "type": "boolean",
@@ -428,7 +731,7 @@
                 },
                 "idleTimeoutMinutes": {
                     "type": "integer",
-                    "description": "Set minimum idling timeout (in minutes). Must be greater than or equal to 5 minutes. Must be set if idle_scaling is enabled\n"
+                    "description": "Set minimum idling timeout (in minutes). Must be greater than or equal to 5 minutes. Must be set if\u003cspan pulumi-lang-nodejs=\" idleScaling \" pulumi-lang-dotnet=\" IdleScaling \" pulumi-lang-go=\" idleScaling \" pulumi-lang-python=\" idle_scaling \" pulumi-lang-yaml=\" idleScaling \" pulumi-lang-java=\" idleScaling \"\u003e idleScaling \u003c/span\u003eis enabled.\n"
                 },
                 "ipAccesses": {
                     "type": "array",
@@ -437,13 +740,23 @@
                     },
                     "description": "List of IP addresses allowed to access the service.\n"
                 },
+                "maxReplicaMemoryGb": {
+                    "type": "integer",
+                    "description": "Maximum memory of a single replica during auto-scaling in GiB.\n"
+                },
                 "maxTotalMemoryGb": {
                     "type": "integer",
-                    "description": "Maximum total memory of all workers during auto-scaling in Gb. Available only for 'production' services. Must be a multiple of 12 and lower than 360 for non paid services or 720 for paid services.\n"
+                    "description": "Maximum total memory of all workers during auto-scaling in GiB.\n",
+                    "deprecationMessage": "Please use\u003cspan pulumi-lang-nodejs=\" maxReplicaMemoryGb \" pulumi-lang-dotnet=\" MaxReplicaMemoryGb \" pulumi-lang-go=\" maxReplicaMemoryGb \" pulumi-lang-python=\" max_replica_memory_gb \" pulumi-lang-yaml=\" maxReplicaMemoryGb \" pulumi-lang-java=\" maxReplicaMemoryGb \"\u003e maxReplicaMemoryGb \u003c/span\u003einstead"
+                },
+                "minReplicaMemoryGb": {
+                    "type": "integer",
+                    "description": "Minimum memory of a single replica during auto-scaling in GiB.\n"
                 },
                 "minTotalMemoryGb": {
                     "type": "integer",
-                    "description": "Minimum total memory of all workers during auto-scaling in Gb. Available only for 'production' services. Must be a multiple of 12 and greater than 24.\n"
+                    "description": "Minimum total memory of all workers during auto-scaling in GiB.\n",
+                    "deprecationMessage": "Please use\u003cspan pulumi-lang-nodejs=\" minReplicaMemoryGb \" pulumi-lang-dotnet=\" MinReplicaMemoryGb \" pulumi-lang-go=\" minReplicaMemoryGb \" pulumi-lang-python=\" min_replica_memory_gb \" pulumi-lang-yaml=\" minReplicaMemoryGb \" pulumi-lang-java=\" minReplicaMemoryGb \"\u003e minReplicaMemoryGb \u003c/span\u003einstead"
                 },
                 "name": {
                     "type": "string",
@@ -451,59 +764,111 @@
                 },
                 "numReplicas": {
                     "type": "integer",
-                    "description": "Number of replicas for the service. Available only for 'production' services. Must be between 3 and 20. Contact support to enable this feature.\n"
+                    "description": "Number of replicas for the service.\n"
                 },
                 "password": {
                     "type": "string",
-                    "description": "Password for the default user. One of either `password` or `password_hash` must be specified.\n",
+                    "description": "Password for the default user. One of either \u003cspan pulumi-lang-nodejs=\"`password`\" pulumi-lang-dotnet=\"`Password`\" pulumi-lang-go=\"`password`\" pulumi-lang-python=\"`password`\" pulumi-lang-yaml=\"`password`\" pulumi-lang-java=\"`password`\"\u003e`password`\u003c/span\u003e, \u003cspan pulumi-lang-nodejs=\"`passwordWo`\" pulumi-lang-dotnet=\"`PasswordWo`\" pulumi-lang-go=\"`passwordWo`\" pulumi-lang-python=\"`password_wo`\" pulumi-lang-yaml=\"`passwordWo`\" pulumi-lang-java=\"`passwordWo`\"\u003e`passwordWo`\u003c/span\u003e, or \u003cspan pulumi-lang-nodejs=\"`passwordHash`\" pulumi-lang-dotnet=\"`PasswordHash`\" pulumi-lang-go=\"`passwordHash`\" pulumi-lang-python=\"`password_hash`\" pulumi-lang-yaml=\"`passwordHash`\" pulumi-lang-java=\"`passwordHash`\"\u003e`passwordHash`\u003c/span\u003e must be specified.\n",
                     "secret": true
                 },
                 "passwordHash": {
                     "type": "string",
-                    "description": "SHA256 hash of password for the default user. One of either `password` or `password_hash` must be specified.\n",
+                    "description": "SHA256 hash of password for the default user. One of either \u003cspan pulumi-lang-nodejs=\"`password`\" pulumi-lang-dotnet=\"`Password`\" pulumi-lang-go=\"`password`\" pulumi-lang-python=\"`password`\" pulumi-lang-yaml=\"`password`\" pulumi-lang-java=\"`password`\"\u003e`password`\u003c/span\u003e, \u003cspan pulumi-lang-nodejs=\"`passwordWo`\" pulumi-lang-dotnet=\"`PasswordWo`\" pulumi-lang-go=\"`passwordWo`\" pulumi-lang-python=\"`password_wo`\" pulumi-lang-yaml=\"`passwordWo`\" pulumi-lang-java=\"`passwordWo`\"\u003e`passwordWo`\u003c/span\u003e, or \u003cspan pulumi-lang-nodejs=\"`passwordHash`\" pulumi-lang-dotnet=\"`PasswordHash`\" pulumi-lang-go=\"`passwordHash`\" pulumi-lang-python=\"`password_hash`\" pulumi-lang-yaml=\"`passwordHash`\" pulumi-lang-java=\"`passwordHash`\"\u003e`passwordHash`\u003c/span\u003e must be specified.\n",
                     "secret": true
+                },
+                "passwordWo": {
+                    "type": "string",
+                    "description": "**NOTE:** This field is write-only and its value will not be updated in state as part of read operations.\nPassword for the default user (write-only, not persisted to state). Use this instead of \u003cspan pulumi-lang-nodejs=\"`password`\" pulumi-lang-dotnet=\"`Password`\" pulumi-lang-go=\"`password`\" pulumi-lang-python=\"`password`\" pulumi-lang-yaml=\"`password`\" pulumi-lang-java=\"`password`\"\u003e`password`\u003c/span\u003e to avoid storing the password hash in Terraform state.\n",
+                    "secret": true
+                },
+                "passwordWoVersion": {
+                    "type": "integer",
+                    "description": "Version number for password*wo. Increment this to trigger a password update when using password*wo.\n"
+                },
+                "queryApiEndpoints": {
+                    "$ref": "#/types/clickhouse:index/ServiceQueryApiEndpoints:ServiceQueryApiEndpoints",
+                    "description": "Configuration of the query API endpoints feature.\n"
+                },
+                "readonly": {
+                    "type": "boolean",
+                    "description": "Indicates if this service should be read only. Only allowed for secondary services, those which share data with another service (i.e. when \u003cspan pulumi-lang-nodejs=\"`warehouseId`\" pulumi-lang-dotnet=\"`WarehouseId`\" pulumi-lang-go=\"`warehouseId`\" pulumi-lang-python=\"`warehouse_id`\" pulumi-lang-yaml=\"`warehouseId`\" pulumi-lang-java=\"`warehouseId`\"\u003e`warehouseId`\u003c/span\u003e field is set).\n"
                 },
                 "region": {
                     "type": "string",
                     "description": "Region within the cloud provider in which the service is deployed in.\n"
                 },
+                "releaseChannel": {
+                    "type": "string",
+                    "description": "Release channel to use for this service. Can be 'default', 'fast' or 'slow'.\n"
+                },
+                "tags": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    },
+                    "description": "Tags associated with the service as key-value pairs.\n"
+                },
                 "tier": {
                     "type": "string",
-                    "description": "Tier of the service: 'development', 'production'. Production services scale, Development are fixed size.\n"
+                    "description": "Tier of the service: 'development', 'production'. Required for organizations using the Legacy ClickHouse Cloud Tiers, must be omitted for organizations using the new ClickHouse Cloud Tiers.\n"
+                },
+                "transparentDataEncryption": {
+                    "$ref": "#/types/clickhouse:index/ServiceTransparentDataEncryption:ServiceTransparentDataEncryption",
+                    "description": "Configuration of the Transparent Data Encryption (TDE) feature. Requires an organization with the Enterprise plan.\n"
+                },
+                "warehouseId": {
+                    "type": "string",
+                    "description": "Set it to the 'warehouse_id' attribute of another service to share the data with it. The service must be in the same cloud and region.\n"
                 }
             },
             "requiredInputs": [
                 "cloudProvider",
                 "ipAccesses",
-                "region",
-                "tier"
+                "region"
             ],
             "stateInputs": {
                 "description": "Input properties used for looking up and filtering Service resources.\n",
                 "properties": {
+                    "backupConfiguration": {
+                        "$ref": "#/types/clickhouse:index/ServiceBackupConfiguration:ServiceBackupConfiguration",
+                        "description": "Configuration of service backup settings.\n"
+                    },
+                    "backupId": {
+                        "type": "string",
+                        "description": "ID of the backup to restore when creating new service. If specified, the service will be created as a restore operation\n"
+                    },
+                    "byocId": {
+                        "type": "string",
+                        "description": "BYOC ID related to the cloud provider account you want to create this service into.\n"
+                    },
                     "cloudProvider": {
                         "type": "string",
                         "description": "Cloud provider ('aws', 'gcp', or 'azure') in which the service is deployed in.\n"
                     },
+                    "complianceType": {
+                        "type": "string",
+                        "description": "Compliance type of the service. Can be 'hipaa', 'pci'. Required for organizations that wish to deploy their services in the hipaa/pci compliant environment. NOTE: hipaa/pci compliance should be enabled for your ClickHouse organization before using this field.\n"
+                    },
                     "doubleSha1PasswordHash": {
                         "type": "string",
-                        "description": "Double SHA1 hash of password for connecting with the MySQL protocol. Cannot be specified if `password` is specified.\n",
+                        "description": "Double SHA1 hash of password for connecting with the MySQL protocol. Cannot be specified if \u003cspan pulumi-lang-nodejs=\"`password`\" pulumi-lang-dotnet=\"`Password`\" pulumi-lang-go=\"`password`\" pulumi-lang-python=\"`password`\" pulumi-lang-yaml=\"`password`\" pulumi-lang-java=\"`password`\"\u003e`password`\u003c/span\u003e or \u003cspan pulumi-lang-nodejs=\"`passwordWo`\" pulumi-lang-dotnet=\"`PasswordWo`\" pulumi-lang-go=\"`passwordWo`\" pulumi-lang-python=\"`password_wo`\" pulumi-lang-yaml=\"`passwordWo`\" pulumi-lang-java=\"`passwordWo`\"\u003e`passwordWo`\u003c/span\u003e is specified.\n",
                         "secret": true
+                    },
+                    "enableCoreDumps": {
+                        "type": "boolean",
+                        "description": "Enable core dumps for the service.\n"
                     },
                     "encryptionAssumedRoleIdentifier": {
                         "type": "string",
-                        "description": "Custom role identifier arn\n"
+                        "description": "Custom role identifier ARN.\n"
                     },
                     "encryptionKey": {
                         "type": "string",
-                        "description": "Custom encryption key arn\n"
+                        "description": "Custom encryption key ARN.\n"
                     },
                     "endpoints": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/types/clickhouse:index/ServiceEndpoint:ServiceEndpoint"
-                        },
-                        "description": "List of public endpoints.\n"
+                        "$ref": "#/types/clickhouse:index/ServiceEndpoints:ServiceEndpoints",
+                        "description": "Allow to enable and configure additional endpoints (read protocols) to expose on the ClickHouse service.\n"
                     },
                     "iamRole": {
                         "type": "string",
@@ -515,7 +880,7 @@
                     },
                     "idleTimeoutMinutes": {
                         "type": "integer",
-                        "description": "Set minimum idling timeout (in minutes). Must be greater than or equal to 5 minutes. Must be set if idle_scaling is enabled\n"
+                        "description": "Set minimum idling timeout (in minutes). Must be greater than or equal to 5 minutes. Must be set if\u003cspan pulumi-lang-nodejs=\" idleScaling \" pulumi-lang-dotnet=\" IdleScaling \" pulumi-lang-go=\" idleScaling \" pulumi-lang-python=\" idle_scaling \" pulumi-lang-yaml=\" idleScaling \" pulumi-lang-java=\" idleScaling \"\u003e idleScaling \u003c/span\u003eis enabled.\n"
                     },
                     "ipAccesses": {
                         "type": "array",
@@ -524,13 +889,27 @@
                         },
                         "description": "List of IP addresses allowed to access the service.\n"
                     },
+                    "isPrimary": {
+                        "type": "boolean",
+                        "description": "If true, it indicates this is a primary service using its own data. If false it means this service is a secondary service, thus using data from a warehouse.\n"
+                    },
+                    "maxReplicaMemoryGb": {
+                        "type": "integer",
+                        "description": "Maximum memory of a single replica during auto-scaling in GiB.\n"
+                    },
                     "maxTotalMemoryGb": {
                         "type": "integer",
-                        "description": "Maximum total memory of all workers during auto-scaling in Gb. Available only for 'production' services. Must be a multiple of 12 and lower than 360 for non paid services or 720 for paid services.\n"
+                        "description": "Maximum total memory of all workers during auto-scaling in GiB.\n",
+                        "deprecationMessage": "Please use\u003cspan pulumi-lang-nodejs=\" maxReplicaMemoryGb \" pulumi-lang-dotnet=\" MaxReplicaMemoryGb \" pulumi-lang-go=\" maxReplicaMemoryGb \" pulumi-lang-python=\" max_replica_memory_gb \" pulumi-lang-yaml=\" maxReplicaMemoryGb \" pulumi-lang-java=\" maxReplicaMemoryGb \"\u003e maxReplicaMemoryGb \u003c/span\u003einstead"
+                    },
+                    "minReplicaMemoryGb": {
+                        "type": "integer",
+                        "description": "Minimum memory of a single replica during auto-scaling in GiB.\n"
                     },
                     "minTotalMemoryGb": {
                         "type": "integer",
-                        "description": "Minimum total memory of all workers during auto-scaling in Gb. Available only for 'production' services. Must be a multiple of 12 and greater than 24.\n"
+                        "description": "Minimum total memory of all workers during auto-scaling in GiB.\n",
+                        "deprecationMessage": "Please use\u003cspan pulumi-lang-nodejs=\" minReplicaMemoryGb \" pulumi-lang-dotnet=\" MinReplicaMemoryGb \" pulumi-lang-go=\" minReplicaMemoryGb \" pulumi-lang-python=\" min_replica_memory_gb \" pulumi-lang-yaml=\" minReplicaMemoryGb \" pulumi-lang-java=\" minReplicaMemoryGb \"\u003e minReplicaMemoryGb \u003c/span\u003einstead"
                     },
                     "name": {
                         "type": "string",
@@ -538,30 +917,65 @@
                     },
                     "numReplicas": {
                         "type": "integer",
-                        "description": "Number of replicas for the service. Available only for 'production' services. Must be between 3 and 20. Contact support to enable this feature.\n"
+                        "description": "Number of replicas for the service.\n"
                     },
                     "password": {
                         "type": "string",
-                        "description": "Password for the default user. One of either `password` or `password_hash` must be specified.\n",
+                        "description": "Password for the default user. One of either \u003cspan pulumi-lang-nodejs=\"`password`\" pulumi-lang-dotnet=\"`Password`\" pulumi-lang-go=\"`password`\" pulumi-lang-python=\"`password`\" pulumi-lang-yaml=\"`password`\" pulumi-lang-java=\"`password`\"\u003e`password`\u003c/span\u003e, \u003cspan pulumi-lang-nodejs=\"`passwordWo`\" pulumi-lang-dotnet=\"`PasswordWo`\" pulumi-lang-go=\"`passwordWo`\" pulumi-lang-python=\"`password_wo`\" pulumi-lang-yaml=\"`passwordWo`\" pulumi-lang-java=\"`passwordWo`\"\u003e`passwordWo`\u003c/span\u003e, or \u003cspan pulumi-lang-nodejs=\"`passwordHash`\" pulumi-lang-dotnet=\"`PasswordHash`\" pulumi-lang-go=\"`passwordHash`\" pulumi-lang-python=\"`password_hash`\" pulumi-lang-yaml=\"`passwordHash`\" pulumi-lang-java=\"`passwordHash`\"\u003e`passwordHash`\u003c/span\u003e must be specified.\n",
                         "secret": true
                     },
                     "passwordHash": {
                         "type": "string",
-                        "description": "SHA256 hash of password for the default user. One of either `password` or `password_hash` must be specified.\n",
+                        "description": "SHA256 hash of password for the default user. One of either \u003cspan pulumi-lang-nodejs=\"`password`\" pulumi-lang-dotnet=\"`Password`\" pulumi-lang-go=\"`password`\" pulumi-lang-python=\"`password`\" pulumi-lang-yaml=\"`password`\" pulumi-lang-java=\"`password`\"\u003e`password`\u003c/span\u003e, \u003cspan pulumi-lang-nodejs=\"`passwordWo`\" pulumi-lang-dotnet=\"`PasswordWo`\" pulumi-lang-go=\"`passwordWo`\" pulumi-lang-python=\"`password_wo`\" pulumi-lang-yaml=\"`passwordWo`\" pulumi-lang-java=\"`passwordWo`\"\u003e`passwordWo`\u003c/span\u003e, or \u003cspan pulumi-lang-nodejs=\"`passwordHash`\" pulumi-lang-dotnet=\"`PasswordHash`\" pulumi-lang-go=\"`passwordHash`\" pulumi-lang-python=\"`password_hash`\" pulumi-lang-yaml=\"`passwordHash`\" pulumi-lang-java=\"`passwordHash`\"\u003e`passwordHash`\u003c/span\u003e must be specified.\n",
                         "secret": true
+                    },
+                    "passwordWo": {
+                        "type": "string",
+                        "description": "**NOTE:** This field is write-only and its value will not be updated in state as part of read operations.\nPassword for the default user (write-only, not persisted to state). Use this instead of \u003cspan pulumi-lang-nodejs=\"`password`\" pulumi-lang-dotnet=\"`Password`\" pulumi-lang-go=\"`password`\" pulumi-lang-python=\"`password`\" pulumi-lang-yaml=\"`password`\" pulumi-lang-java=\"`password`\"\u003e`password`\u003c/span\u003e to avoid storing the password hash in Terraform state.\n",
+                        "secret": true
+                    },
+                    "passwordWoVersion": {
+                        "type": "integer",
+                        "description": "Version number for password*wo. Increment this to trigger a password update when using password*wo.\n"
                     },
                     "privateEndpointConfig": {
                         "$ref": "#/types/clickhouse:index/ServicePrivateEndpointConfig:ServicePrivateEndpointConfig",
-                        "description": "Service config for private endpoints\n",
-                        "deprecationMessage": "Please use the `clickhouse.PrivateEndpoint.getConfig` data source instead."
+                        "description": "Service config for private endpoints\n"
+                    },
+                    "queryApiEndpoints": {
+                        "$ref": "#/types/clickhouse:index/ServiceQueryApiEndpoints:ServiceQueryApiEndpoints",
+                        "description": "Configuration of the query API endpoints feature.\n"
+                    },
+                    "readonly": {
+                        "type": "boolean",
+                        "description": "Indicates if this service should be read only. Only allowed for secondary services, those which share data with another service (i.e. when \u003cspan pulumi-lang-nodejs=\"`warehouseId`\" pulumi-lang-dotnet=\"`WarehouseId`\" pulumi-lang-go=\"`warehouseId`\" pulumi-lang-python=\"`warehouse_id`\" pulumi-lang-yaml=\"`warehouseId`\" pulumi-lang-java=\"`warehouseId`\"\u003e`warehouseId`\u003c/span\u003e field is set).\n"
                     },
                     "region": {
                         "type": "string",
                         "description": "Region within the cloud provider in which the service is deployed in.\n"
                     },
+                    "releaseChannel": {
+                        "type": "string",
+                        "description": "Release channel to use for this service. Can be 'default', 'fast' or 'slow'.\n"
+                    },
+                    "tags": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "string"
+                        },
+                        "description": "Tags associated with the service as key-value pairs.\n"
+                    },
                     "tier": {
                         "type": "string",
-                        "description": "Tier of the service: 'development', 'production'. Production services scale, Development are fixed size.\n"
+                        "description": "Tier of the service: 'development', 'production'. Required for organizations using the Legacy ClickHouse Cloud Tiers, must be omitted for organizations using the new ClickHouse Cloud Tiers.\n"
+                    },
+                    "transparentDataEncryption": {
+                        "$ref": "#/types/clickhouse:index/ServiceTransparentDataEncryption:ServiceTransparentDataEncryption",
+                        "description": "Configuration of the Transparent Data Encryption (TDE) feature. Requires an organization with the Enterprise plan.\n"
+                    },
+                    "warehouseId": {
+                        "type": "string",
+                        "description": "Set it to the 'warehouse_id' attribute of another service to share the data with it. The service must be in the same cloud and region.\n"
                     }
                 },
                 "type": "object"
@@ -569,6 +983,37 @@
         }
     },
     "functions": {
+        "clickhouse:ApiKey/getId:getId": {
+            "description": "The *clickhouse_api_key_id* data source can be used to retrieve the UUID of a ClickHouse cloud API key.\nIt is meant to be used in the *clickhouse_service* resource to set the \u003cspan pulumi-lang-nodejs=\"`queryApiEndpoints`\" pulumi-lang-dotnet=\"`QueryApiEndpoints`\" pulumi-lang-go=\"`queryApiEndpoints`\" pulumi-lang-python=\"`query_api_endpoints`\" pulumi-lang-yaml=\"`queryApiEndpoints`\" pulumi-lang-java=\"`queryApiEndpoints`\"\u003e`queryApiEndpoints`\u003c/span\u003e attribute.\n\nIt can be used in two ways:\n\n1) To retrieve information about an API Key, by providing its name\n2) To retrieve information about the API Key currently configured for running the terraform provider\n\nIn both cases the data source will contain the \u003cspan pulumi-lang-nodejs=\"`id`\" pulumi-lang-dotnet=\"`Id`\" pulumi-lang-go=\"`id`\" pulumi-lang-python=\"`id`\" pulumi-lang-yaml=\"`id`\" pulumi-lang-java=\"`id`\"\u003e`id`\u003c/span\u003e and \u003cspan pulumi-lang-nodejs=\"`name`\" pulumi-lang-dotnet=\"`Name`\" pulumi-lang-go=\"`name`\" pulumi-lang-python=\"`name`\" pulumi-lang-yaml=\"`name`\" pulumi-lang-java=\"`name`\"\u003e`name`\u003c/span\u003e attributes.\n\n## Example Usage\n\n\u003c!--Start PulumiCodeChooser --\u003e\n```typescript\nimport * as pulumi from \"@pulumi/pulumi\";\nimport * as clickhouse from \"@pulumiverse/clickhouse\";\n\nconst myApiKey = clickhouse.ApiKey.getId({\n    name: \"my-api-key\",\n});\n```\n```python\nimport pulumi\nimport pulumi_clickhouse as clickhouse\n\nmy_api_key = clickhouse.ApiKey.get_id(name=\"my-api-key\")\n```\n```csharp\nusing System.Collections.Generic;\nusing System.Linq;\nusing Pulumi;\nusing Clickhouse = Pulumiverse.Clickhouse;\n\nreturn await Deployment.RunAsync(() =\u003e \n{\n    var myApiKey = Clickhouse.ApiKey.GetId.Invoke(new()\n    {\n        Name = \"my-api-key\",\n    });\n\n});\n```\n```go\npackage main\n\nimport (\n\t\"github.com/pulumi/pulumi/sdk/v3/go/pulumi\"\n\t\"github.com/pulumiverse/pulumi-clickhouse/sdk/go/clickhouse/apikey\"\n)\n\nfunc main() {\n\tpulumi.Run(func(ctx *pulumi.Context) error {\n\t\t_, err := apikey.GetId(ctx, \u0026apikey.GetIdArgs{\n\t\t\tName: pulumi.StringRef(\"my-api-key\"),\n\t\t}, nil)\n\t\tif err != nil {\n\t\t\treturn err\n\t\t}\n\t\treturn nil\n\t})\n}\n```\n```java\npackage generated_program;\n\nimport com.pulumi.Context;\nimport com.pulumi.Pulumi;\nimport com.pulumi.core.Output;\nimport com.pulumi.clickhouse.ApiKey.ApiKeyFunctions;\nimport com.pulumi.clickhouse.ApiKey.inputs.GetIdArgs;\nimport java.util.List;\nimport java.util.ArrayList;\nimport java.util.Map;\nimport java.io.File;\nimport java.nio.file.Files;\nimport java.nio.file.Paths;\n\npublic class App {\n    public static void main(String[] args) {\n        Pulumi.run(App::stack);\n    }\n\n    public static void stack(Context ctx) {\n        final var myApiKey = ApiKeyFunctions.getId(GetIdArgs.builder()\n            .name(\"my-api-key\")\n            .build());\n\n    }\n}\n```\n```yaml\nvariables:\n  myApiKey:\n    fn::invoke:\n      function: clickhouse:ApiKey:getId\n      arguments:\n        name: my-api-key\n```\n\u003c!--End PulumiCodeChooser --\u003e\n",
+            "inputs": {
+                "description": "A collection of arguments for invoking getId.\n",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "The name of the API key to retrieve information about. If left empty, the API key used by the Terraform provider is used instead.\n"
+                    }
+                },
+                "type": "object"
+            },
+            "outputs": {
+                "description": "A collection of values returned by getId.\n",
+                "properties": {
+                    "id": {
+                        "description": "The ID of the API key used by the provider to connect to the service. This is a read-only attribute.\n",
+                        "type": "string"
+                    },
+                    "name": {
+                        "description": "The name of the API key to retrieve information about. If left empty, the API key used by the Terraform provider is used instead.\n",
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "id",
+                    "name"
+                ],
+                "type": "object"
+            }
+        },
         "clickhouse:PrivateEndpoint/getConfig:getConfig": {
             "inputs": {
                 "description": "A collection of arguments for invoking getConfig.\n",
@@ -592,29 +1037,58 @@
                 "description": "A collection of values returned by getConfig.\n",
                 "properties": {
                     "cloudProvider": {
-                        "type": "string",
-                        "description": "The cloud provider for the private endpoint. Valid values are 'aws', 'gcp', or 'azure'.\n"
+                        "description": "The cloud provider for the private endpoint. Valid values are 'aws', 'gcp', or 'azure'.\n",
+                        "type": "string"
                     },
                     "endpointServiceId": {
-                        "type": "string",
-                        "description": "The ID of the private endpoint that is used to securely connect to ClickHouse. This is a read-only attribute.\n"
+                        "description": "The ID of the private endpoint that is used to securely connect to ClickHouse. This is a read-only attribute.\n",
+                        "type": "string"
                     },
                     "id": {
-                        "type": "string",
-                        "description": "The provider-assigned unique ID for this managed resource.\n"
+                        "description": "The provider-assigned unique ID for this managed resource.",
+                        "type": "string"
                     },
                     "region": {
-                        "type": "string",
-                        "description": "The region for the private endpoint. Valid values are specific to the cloud provider i.e. us-east-2\n"
+                        "description": "The region for the private endpoint. Valid values are specific to the cloud provider i.e. us-east-2\n",
+                        "type": "string"
                     }
                 },
-                "type": "object",
                 "required": [
                     "cloudProvider",
                     "endpointServiceId",
                     "region",
                     "id"
+                ],
+                "type": "object"
+            }
+        },
+        "pulumi:providers:clickhouse/terraformConfig": {
+            "description": "This function returns a Terraform config object with terraform-namecased keys,to be used with the Terraform Module Provider.",
+            "inputs": {
+                "properties": {
+                    "__self__": {
+                        "type": "ref",
+                        "$ref": "#/provider"
+                    }
+                },
+                "type": "pulumi:providers:clickhouse/terraformConfig",
+                "required": [
+                    "__self__"
                 ]
+            },
+            "outputs": {
+                "properties": {
+                    "result": {
+                        "additionalProperties": {
+                            "$ref": "pulumi.json#/Any"
+                        },
+                        "type": "object"
+                    }
+                },
+                "required": [
+                    "result"
+                ],
+                "type": "object"
             }
         }
     }

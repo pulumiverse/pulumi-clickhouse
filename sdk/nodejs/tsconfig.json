@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
         "outDir": "bin",
-        "target": "es2016",
+        "target": "ES2020",
         "module": "commonjs",
         "moduleResolution": "node",
         "declaration": true,
@@ -13,6 +13,8 @@
         "strict": true
     },
     "files": [
+        "apikey/getId.ts",
+        "apikey/index.ts",
         "config/index.ts",
         "config/vars.ts",
         "index.ts",
@@ -23,6 +25,8 @@
         "service.ts",
         "serviceprivateendpoints/attachment.ts",
         "serviceprivateendpoints/index.ts",
+        "servicetransparentdataencryptionkey/association.ts",
+        "servicetransparentdataencryptionkey/index.ts",
         "types/index.ts",
         "types/input.ts",
         "types/output.ts",

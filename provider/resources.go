@@ -23,9 +23,10 @@ import (
 	"unicode"
 
 	"github.com/ClickHouse/terraform-provider-clickhouse/pkg/provider"
+	upstreamresource "github.com/ClickHouse/terraform-provider-clickhouse/pkg/resource"
 
 	"github.com/ettle/strcase"
-	pf "github.com/pulumi/pulumi-terraform-bridge/pf/tfbridge"
+	pf "github.com/pulumi/pulumi-terraform-bridge/v3/pkg/pf/tfbridge"
 	"github.com/pulumi/pulumi-terraform-bridge/v3/pkg/tfbridge"
 	shim "github.com/pulumi/pulumi-terraform-bridge/v3/pkg/tfshim"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/resource"
@@ -109,7 +110,7 @@ func preConfigureCallback(vars resource.PropertyMap, c shim.ResourceConfig) erro
 // Provider returns additional overlaid schema and metadata associated with the provider..
 func Provider() tfbridge.ProviderInfo {
 	// Instantiate the Terraform provider
-	p := pf.ShimProvider(provider.New())
+	p := pf.ShimProvider(provider.NewBuilder(upstreamresource.GetResourceFactories())())
 
 	// Create a Pulumi provider mapping
 	prov := tfbridge.ProviderInfo{
@@ -150,7 +151,7 @@ func Provider() tfbridge.ProviderInfo {
 		Version:           version.Version,
 		GitHubOrg:         "ClickHouse",
 		MetadataInfo:      tfbridge.NewProviderMetadata(bridgeMetadata),
-		TFProviderVersion: "1.0.0",
+		TFProviderVersion: "3.11.1",
 		UpstreamRepoPath:  "./upstream",
 		Config:            map[string]*tfbridge.SchemaInfo{
 			// Add any required configuration here, or remove the example below if
@@ -189,6 +190,16 @@ func Provider() tfbridge.ProviderInfo {
 					}
 
 					return resource.ID(strings.Join(idParts, ":")), nil
+				},
+			},
+			"clickhouse_service_transparent_data_encryption_key_association": {
+				Tok: makeResource("clickhouse_service_transparent_data_encryption_key_association"),
+				ComputeID: func(ctx context.Context, state resource.PropertyMap) (resource.ID, error) {
+					serviceId := state["serviceId"]
+					if serviceId.IsNull() {
+						return "", fmt.Errorf("serviceId is required")
+					}
+					return resource.ID(serviceId.StringValue()), nil
 				},
 			},
 			"clickhouse_private_endpoint_registration": {

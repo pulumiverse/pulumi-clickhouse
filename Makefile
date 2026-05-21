@@ -4,7 +4,7 @@ PROJECT          := github.com/pulumiverse/pulumi-clickhouse
 NODE_MODULE_NAME := @pulumiverse/clickhouse
 TF_NAME          := clickhouse
 PROVIDER_PATH    := provider
-PROVIDER_VERSION := 1.0.0
+PROVIDER_VERSION := 3.11.1
 VERSION_PATH     := ${PROVIDER_PATH}/pkg/version.Version
 
 JAVA_GEN         := pulumi-java-gen
@@ -24,8 +24,8 @@ GO_MINOR_VERSION := $(shell go version | cut -c 14- | cut -d' ' -f1 | cut -d'.' 
 # the (local) version must match the version specified in .github/workflows/release.yml
 # otherwise publkishing the Go SDK of the provider will fail
 REQUIRED_GO_MAJOR_VERSION := 1
-REQUIRED_GO_MINOR_VERSION := 22
-GO_VERSION_VALIDATION_ERR_MSG := Golang version $(REQUIRED_GO_MAJOR_VERSION).$(REQUIRED_GO_MINOR_VERSION) is required
+REQUIRED_GO_MINOR_VERSION := 25
+GO_VERSION_VALIDATION_ERR_MSG := Golang version >= $(REQUIRED_GO_MAJOR_VERSION).$(REQUIRED_GO_MINOR_VERSION) is required
 
 .PHONY: development provider build_sdks build_nodejs build_dotnet build_go build_python cleanup validate_go_version
 
@@ -34,7 +34,7 @@ validate_go_version: ## Validates the installed version of go
 		echo '$(GO_VERSION_VALIDATION_ERR_MSG)';\
 		exit 1 ;\
 	fi
-	@if [ $(GO_MINOR_VERSION) -ne $(REQUIRED_GO_MINOR_VERSION) ]; then \
+	@if [ $(GO_MINOR_VERSION) -lt $(REQUIRED_GO_MINOR_VERSION) ]; then \
 		echo '$(GO_VERSION_VALIDATION_ERR_MSG)';\
 		exit 1 ;\
 	fi
