@@ -158,7 +158,8 @@ jobs:
           echo "done publishing packages"
 
     strategy:
-      fail-fast: true
+      # Publish each SDK independently so one registry failure does not cancel the rest.
+      fail-fast: false
       matrix:
         dotnetversion:
           - 8.0.x

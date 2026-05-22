@@ -28,5 +28,5 @@ changelog:
 release:
   disable: false
   prerelease: auto
-snapshot:
-  name_template: '{{ .Tag }}-SNAPSHOT'
+  # Allow re-running release on the same tag without 422 already_exists on assets.
+  replace_existing_artifacts: true
