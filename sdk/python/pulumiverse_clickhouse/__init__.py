@@ -6,8 +6,24 @@ import builtins as _builtins
 from . import _utilities
 import typing
 # Export this package's modules as members:
+from .clickpipe import *
+from .clickpipe_cdc_infrastructure import *
+from .clickpipes_reverse_private_endpoint import *
+from .clickpipes_reverse_private_endpoint_custom_private_dns import *
+from .get_postgres_service import *
+from .get_postgres_service_ca_certificates import *
+from .get_postgres_services import *
+from .get_role import *
+from .get_roles import *
+from .get_user import *
+from .organization_settings import *
+from .postgres_service import *
 from .provider import *
+from .role import *
+from .role_assignment import *
 from .service import *
+from .service_scheduled_scaling import *
+from .service_upgrade_window import *
 from ._inputs import *
 from . import outputs
 
@@ -59,10 +75,90 @@ _utilities.register(
  },
  {
   "pkg": "clickhouse",
+  "mod": "index/clickpipe",
+  "fqn": "pulumiverse_clickhouse",
+  "classes": {
+   "clickhouse:index/clickpipe:Clickpipe": "Clickpipe"
+  }
+ },
+ {
+  "pkg": "clickhouse",
+  "mod": "index/clickpipeCdcInfrastructure",
+  "fqn": "pulumiverse_clickhouse",
+  "classes": {
+   "clickhouse:index/clickpipeCdcInfrastructure:ClickpipeCdcInfrastructure": "ClickpipeCdcInfrastructure"
+  }
+ },
+ {
+  "pkg": "clickhouse",
+  "mod": "index/clickpipesReversePrivateEndpoint",
+  "fqn": "pulumiverse_clickhouse",
+  "classes": {
+   "clickhouse:index/clickpipesReversePrivateEndpoint:ClickpipesReversePrivateEndpoint": "ClickpipesReversePrivateEndpoint"
+  }
+ },
+ {
+  "pkg": "clickhouse",
+  "mod": "index/clickpipesReversePrivateEndpointCustomPrivateDns",
+  "fqn": "pulumiverse_clickhouse",
+  "classes": {
+   "clickhouse:index/clickpipesReversePrivateEndpointCustomPrivateDns:ClickpipesReversePrivateEndpointCustomPrivateDns": "ClickpipesReversePrivateEndpointCustomPrivateDns"
+  }
+ },
+ {
+  "pkg": "clickhouse",
+  "mod": "index/organizationSettings",
+  "fqn": "pulumiverse_clickhouse",
+  "classes": {
+   "clickhouse:index/organizationSettings:OrganizationSettings": "OrganizationSettings"
+  }
+ },
+ {
+  "pkg": "clickhouse",
+  "mod": "index/postgresService",
+  "fqn": "pulumiverse_clickhouse",
+  "classes": {
+   "clickhouse:index/postgresService:PostgresService": "PostgresService"
+  }
+ },
+ {
+  "pkg": "clickhouse",
+  "mod": "index/role",
+  "fqn": "pulumiverse_clickhouse",
+  "classes": {
+   "clickhouse:index/role:Role": "Role"
+  }
+ },
+ {
+  "pkg": "clickhouse",
+  "mod": "index/roleAssignment",
+  "fqn": "pulumiverse_clickhouse",
+  "classes": {
+   "clickhouse:index/roleAssignment:RoleAssignment": "RoleAssignment"
+  }
+ },
+ {
+  "pkg": "clickhouse",
   "mod": "index/service",
   "fqn": "pulumiverse_clickhouse",
   "classes": {
    "clickhouse:index/service:Service": "Service"
+  }
+ },
+ {
+  "pkg": "clickhouse",
+  "mod": "index/serviceScheduledScaling",
+  "fqn": "pulumiverse_clickhouse",
+  "classes": {
+   "clickhouse:index/serviceScheduledScaling:ServiceScheduledScaling": "ServiceScheduledScaling"
+  }
+ },
+ {
+  "pkg": "clickhouse",
+  "mod": "index/serviceUpgradeWindow",
+  "fqn": "pulumiverse_clickhouse",
+  "classes": {
+   "clickhouse:index/serviceUpgradeWindow:ServiceUpgradeWindow": "ServiceUpgradeWindow"
   }
  }
 ]

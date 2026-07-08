@@ -5,6 +5,1140 @@ import * as pulumi from "@pulumi/pulumi";
 import * as inputs from "../types/input";
 import * as outputs from "../types/output";
 
+export interface ClickpipeDestination {
+    /**
+     * The list of columns for the ClickHouse table. Required for all sources except Postgres CDC (where columns are determined from source tables).
+     */
+    columns?: outputs.ClickpipeDestinationColumn[];
+    /**
+     * The name of the ClickHouse database. Default is `default`.
+     */
+    database: string;
+    /**
+     * Whether the table is managed by ClickHouse Cloud. If `false`, the table must exist in the database. Default is `true`. **Not applicable to database/CDC pipes** (Postgres, MySQL, BigQuery, MongoDB): for those sources destination tables are always managed per-table via `tableMappings`, so this field is ignored and not sent to the API.
+     */
+    managedTable: boolean;
+    /**
+     * ClickPipe will create a ClickHouse user with these roles. Add your custom roles here if required.
+     */
+    roles?: string[];
+    /**
+     * The name of the ClickHouse table. Required for all sources except Postgres CDC (where tables are created from table_mappings).
+     */
+    table?: string;
+    /**
+     * Definition of the destination table. Required for ClickPipes managed tables. **Not supported for database/CDC pipes** (Postgres, MySQL, BigQuery, MongoDB): for those sources destination tables are defined per-table via `tableMappings` (each mapping's `targetTable`, `tableEngine`, `sortingKeys`, etc.), so configuring this is rejected at plan time.
+     */
+    tableDefinition?: outputs.ClickpipeDestinationTableDefinition;
+}
+
+export interface ClickpipeDestinationColumn {
+    /**
+     * The name of the column.
+     */
+    name: string;
+    /**
+     * The type of the column.
+     */
+    type: string;
+}
+
+export interface ClickpipeDestinationTableDefinition {
+    /**
+     * The engine of the ClickHouse table.
+     */
+    engine: outputs.ClickpipeDestinationTableDefinitionEngine;
+    /**
+     * The column to partition the table by.
+     */
+    partitionBy?: string;
+    /**
+     * The primary key of the table.
+     */
+    primaryKey?: string;
+    /**
+     * The list of columns for the sorting key.
+     */
+    sortingKeys: string[];
+}
+
+export interface ClickpipeDestinationTableDefinitionEngine {
+    /**
+     * Column IDs to sum for SummingMergeTree engine. Required when engine type is `SummingMergeTree`.
+     */
+    columnIds?: string[];
+    /**
+     * The type of the engine. Supported engines: `MergeTree`, `ReplacingMergeTree`, `SummingMergeTree`, `Null`.
+     */
+    type: string;
+    /**
+     * Column ID to use as version for ReplacingMergeTree engine. Required when engine type is `ReplacingMergeTree`.
+     */
+    versionColumnId?: string;
+}
+
+export interface ClickpipeFieldMapping {
+    /**
+     * The name of the column in destination table.
+     */
+    destinationField: string;
+    /**
+     * The name of the source field.
+     */
+    sourceField: string;
+}
+
+export interface ClickpipeScaling {
+    /**
+     * The CPU allocation per replica in millicores. Must be between 125 and 2000.
+     */
+    replicaCpuMillicores: number;
+    /**
+     * The memory allocation per replica in GB. Must be between 0.5 and 8.0.
+     */
+    replicaMemoryGb: number;
+    /**
+     * The number of desired replicas for the ClickPipe. Default is 1. The maximum value is 10.
+     */
+    replicas: number;
+}
+
+export interface ClickpipeSource {
+    /**
+     * The BigQuery source configuration for the ClickPipe.
+     */
+    bigquery?: outputs.ClickpipeSourceBigquery;
+    /**
+     * The Kafka source configuration for the ClickPipe.
+     */
+    kafka?: outputs.ClickpipeSourceKafka;
+    /**
+     * The Kinesis source configuration for the ClickPipe. Only `authentication`, `iamRole` and `accessKey` can be updated in place; changing any other field forces resource replacement (destroy and recreate).
+     */
+    kinesis?: outputs.ClickpipeSourceKinesis;
+    /**
+     * The MongoDB CDC source configuration for the ClickPipe.
+     */
+    mongodb?: outputs.ClickpipeSourceMongodb;
+    /**
+     * The MySQL CDC source configuration for the ClickPipe.
+     */
+    mysql?: outputs.ClickpipeSourceMysql;
+    /**
+     * The compatible object storage source configuration for the ClickPipe.
+     */
+    objectStorage?: outputs.ClickpipeSourceObjectStorage;
+    /**
+     * The Postgres CDC source configuration for the ClickPipe.
+     */
+    postgres?: outputs.ClickpipeSourcePostgres;
+    /**
+     * The GCP Pub/Sub source configuration for the ClickPipe.
+     */
+    pubsub?: outputs.ClickpipeSourcePubsub;
+}
+
+export interface ClickpipeSourceBigquery {
+    /**
+     * The credentials for BigQuery access.
+     */
+    credentials: outputs.ClickpipeSourceBigqueryCredentials;
+    /**
+     * Settings for the BigQuery pipe.
+     */
+    settings: outputs.ClickpipeSourceBigquerySettings;
+    /**
+     * GCS bucket path for staging snapshot data (e.g., gs://my-bucket/staging/). Data will be automatically cleaned up after initial load.
+     */
+    snapshotStagingPath: string;
+    /**
+     * Table mappings from BigQuery source to ClickHouse destination.
+     */
+    tableMappings: outputs.ClickpipeSourceBigqueryTableMapping[];
+}
+
+export interface ClickpipeSourceBigqueryCredentials {
+    /**
+     * Google Cloud service account JSON key file content, base64 encoded.
+     */
+    serviceAccountFile: string;
+}
+
+export interface ClickpipeSourceBigquerySettings {
+    /**
+     * Allow nullable columns in the destination table.
+     */
+    allowNullableColumns: boolean;
+    /**
+     * Number of parallel workers during initial load.
+     */
+    initialLoadParallelism: number;
+    /**
+     * Replication mode for the BigQuery pipe. (`snapshot`)
+     */
+    replicationMode: string;
+    /**
+     * Number of rows to snapshot per partition.
+     */
+    snapshotNumRowsPerPartition: number;
+    /**
+     * Number of parallel tables to snapshot.
+     */
+    snapshotNumberOfParallelTables: number;
+}
+
+export interface ClickpipeSourceBigqueryTableMapping {
+    /**
+     * Columns to exclude from replication.
+     */
+    excludedColumns: string[];
+    /**
+     * Ordered list of columns to use as sorting key for the target table. Required when use*custom*sorting_key is true.
+     */
+    sortingKeys: string[];
+    /**
+     * Source BigQuery dataset name.
+     */
+    sourceDatasetName: string;
+    /**
+     * Source table name in BigQuery.
+     */
+    sourceTable: string;
+    /**
+     * Table engine to use for the target table. (`MergeTree`, `ReplacingMergeTree`, `Null`)
+     */
+    tableEngine: string;
+    /**
+     * Target table name in ClickHouse.
+     */
+    targetTable: string;
+    /**
+     * Whether to use a custom sorting key for the target table.
+     */
+    useCustomSortingKey: boolean;
+}
+
+export interface ClickpipeSourceKafka {
+    /**
+     * The authentication method for the Kafka source. (`PLAIN`, `SCRAM-SHA-256`, `SCRAM-SHA-512`, `IAM_ROLE`, `IAM_USER`, `MUTUAL_TLS`). Default is `PLAIN`.
+     */
+    authentication: string;
+    /**
+     * The list of Kafka bootstrap brokers. (comma separated)
+     */
+    brokers: string;
+    /**
+     * PEM encoded CA certificates to validate the broker's certificate.
+     */
+    caCertificate?: string;
+    /**
+     * Consumer group of the Kafka source. If not provided `clickpipes-<ID>` will be used.
+     */
+    consumerGroup: string;
+    /**
+     * The credentials for the Kafka source.
+     */
+    credentials?: outputs.ClickpipeSourceKafkaCredentials;
+    /**
+     * Enable exactly-once delivery. Guarantees every Kafka record is inserted exactly once across restarts and rebalances.
+     */
+    exactlyOnce?: boolean;
+    /**
+     * The format of the Kafka source. (`JSONEachRow`, `Avro`, `AvroConfluent`, `Protobuf`)
+     */
+    format: string;
+    /**
+     * The IAM role for the Kafka source. Use with `IAM_ROLE` authentication. It can be used with AWS ClickHouse service only. Read more at https://clickhouse.com/docs/en/integrations/clickpipes/kafka#iam
+     */
+    iamRole?: string;
+    /**
+     * The Kafka offset.
+     */
+    offset?: outputs.ClickpipeSourceKafkaOffset;
+    /**
+     * The list of reverse private endpoint IDs for the Kafka source. (comma separated)
+     */
+    reversePrivateEndpointIds?: string[];
+    /**
+     * The schema registry for the Kafka source.
+     */
+    schemaRegistry?: outputs.ClickpipeSourceKafkaSchemaRegistry;
+    /**
+     * The list of Kafka topics. (comma separated)
+     */
+    topics: string;
+    /**
+     * The type of the Kafka source. (`kafka`, `redpanda`, `confluent`, `msk`, `warpstream`, `azureeventhub`, `gcmk`). Default is `kafka`.
+     */
+    type: string;
+}
+
+export interface ClickpipeSourceKafkaCredentials {
+    /**
+     * The access key ID for the Kafka source. Use with `IAM_USER` authentication.
+     */
+    accessKeyId?: string;
+    /**
+     * PEM encoded client certificate for mTLS authentication. Use with `MUTUAL_TLS` authentication.
+     */
+    certificate?: string;
+    /**
+     * The connection string for the Kafka source. Use with `azureeventhub` Kafka source type. Use with `PLAIN` authentication.
+     */
+    connectionString?: string;
+    /**
+     * The password for the Kafka source. Use `passwordWo` instead to keep the value out of state.
+     */
+    password?: string;
+    /**
+     * **NOTE:** This field is write-only and its value will not be updated in state as part of read operations.
+     * Write-only password for the Kafka source. Not persisted to state. Pair with `passwordWoVersion` to trigger updates.
+     */
+    passwordWo?: string;
+    /**
+     * Version trigger for `passwordWo`. Increment to push a new password to the API.
+     */
+    passwordWoVersion?: number;
+    /**
+     * PEM encoded client private key for mTLS authentication. Use with `MUTUAL_TLS` authentication.
+     */
+    privateKey?: string;
+    /**
+     * The secret key for the Kafka source. Use with `IAM_USER` authentication.
+     */
+    secretKey?: string;
+    /**
+     * The username for the Kafka source.
+     */
+    username?: string;
+}
+
+export interface ClickpipeSourceKafkaOffset {
+    /**
+     * The offset strategy for the Kafka source. (`fromBeginning`, `fromLatest`, `fromTimestamp`)
+     */
+    strategy: string;
+    /**
+     * The timestamp for the Kafka offset. Use with `fromTimestamp` offset strategy. (format `2021-01-01T00:00`)
+     */
+    timestamp?: string;
+}
+
+export interface ClickpipeSourceKafkaSchemaRegistry {
+    /**
+     * The authentication method for the Schema Registry. Only supported is `PLAIN`.
+     */
+    authentication: string;
+    /**
+     * The credentials for the Schema Registry.
+     */
+    credentials: outputs.ClickpipeSourceKafkaSchemaRegistryCredentials;
+    /**
+     * The URL of the schema registry.
+     */
+    url: string;
+}
+
+export interface ClickpipeSourceKafkaSchemaRegistryCredentials {
+    /**
+     * The password for the Schema Registry. Either `password` or `passwordWo` must be provided.
+     */
+    password?: string;
+    /**
+     * **NOTE:** This field is write-only and its value will not be updated in state as part of read operations.
+     * Write-only password for the Schema Registry. Not persisted to state. Pair with `passwordWoVersion` to trigger updates.
+     */
+    passwordWo?: string;
+    /**
+     * Version trigger for `passwordWo`. Increment to push a new password to the API.
+     */
+    passwordWoVersion?: number;
+    /**
+     * The username for the Schema Registry.
+     */
+    username: string;
+}
+
+export interface ClickpipeSourceKinesis {
+    /**
+     * The access key for the Kinesis source. Use with `IAM_USER` authentication. Can be rotated in place via an update.
+     */
+    accessKey?: outputs.ClickpipeSourceKinesisAccessKey;
+    /**
+     * The authentication method for the Kinesis source. (`IAM_ROLE`, `IAM_USER`).
+     */
+    authentication: string;
+    /**
+     * The format of the Kinesis source. (`JSONEachRow`, `Avro`, `AvroConfluent`)
+     */
+    format: string;
+    /**
+     * The IAM role for the Kinesis source. Use with `IAM_ROLE` authentication. It can be used with AWS ClickHouse service only. Read more at https://clickhouse.com/docs/en/integrations/clickpipes/kinesis.
+     */
+    iamRole?: string;
+    /**
+     * The iterator type for the Kinesis source. (`TRIM_HORIZON`, `LATEST`, `AT_TIMESTAMP`)
+     */
+    iteratorType: string;
+    /**
+     * The AWS region of the Kinesis stream.
+     */
+    region: string;
+    /**
+     * The name of the Kinesis stream.
+     */
+    streamName: string;
+    /**
+     * The timestamp for the Kinesis source. Use with `AT_TIMESTAMP` iterator type. (format `2021-01-01T00:00`)
+     */
+    timestamp?: string;
+    /**
+     * Whether to use enhanced fan-out consumer.
+     */
+    useEnhancedFanOut: boolean;
+}
+
+export interface ClickpipeSourceKinesisAccessKey {
+    /**
+     * The access key ID for the Kinesis source.
+     */
+    accessKeyId: string;
+    /**
+     * The secret key for the Kinesis source.
+     */
+    secretKey: string;
+}
+
+export interface ClickpipeSourceMongodb {
+    /**
+     * PEM encoded CA certificate to validate the MongoDB server certificate.
+     */
+    caCertificate?: string;
+    /**
+     * The credentials for the MongoDB instance (username and password). Optional if credentials are embedded in the URI.
+     */
+    credentials?: outputs.ClickpipeSourceMongodbCredentials;
+    /**
+     * Disable TLS for the MongoDB connection. Defaults to false (TLS enabled).
+     */
+    disableTls: boolean;
+    /**
+     * MongoDB read preference for replica set reads. (`primary`, `primaryPreferred`, `secondary`, `secondaryPreferred`, `nearest`)
+     */
+    readPreference: string;
+    /**
+     * Settings for the MongoDB CDC pipe.
+     */
+    settings: outputs.ClickpipeSourceMongodbSettings;
+    /**
+     * Collection mappings from MongoDB source to ClickHouse destination.
+     */
+    tableMappings: outputs.ClickpipeSourceMongodbTableMapping[];
+    /**
+     * TLS/SSL host for secure connections.
+     */
+    tlsHost?: string;
+    /**
+     * MongoDB connection URI. Supports both standard URIs (mongodb://...) and SRV URIs (mongodb+srv://...).
+     */
+    uri: string;
+}
+
+export interface ClickpipeSourceMongodbCredentials {
+    /**
+     * The password for the MongoDB instance. Use `passwordWo` instead to keep the value out of state.
+     */
+    password?: string;
+    /**
+     * **NOTE:** This field is write-only and its value will not be updated in state as part of read operations.
+     * Write-only password for the MongoDB instance. Not persisted to state. Pair with `passwordWoVersion` to trigger updates.
+     */
+    passwordWo?: string;
+    /**
+     * Version trigger for `passwordWo`. Increment to push a new password to the API.
+     */
+    passwordWoVersion?: number;
+    /**
+     * The username for the MongoDB instance.
+     */
+    username: string;
+}
+
+export interface ClickpipeSourceMongodbSettings {
+    /**
+     * Enable hard delete behavior in ReplacingMergeTree for MongoDB DELETE operations.
+     */
+    deleteOnMerge: boolean;
+    /**
+     * Number of rows to pull in each batch during CDC replication.
+     */
+    pullBatchSize: number;
+    /**
+     * Replication mode for the MongoDB pipe. (`cdc`, `snapshot`, `cdcOnly`)
+     */
+    replicationMode: string;
+    /**
+     * Number of rows per partition during the snapshot phase.
+     */
+    snapshotNumRowsPerPartition: number;
+    /**
+     * Number of collections to snapshot in parallel during the initial load phase.
+     */
+    snapshotNumberOfParallelTables: number;
+    /**
+     * Interval in seconds to sync data from MongoDB during CDC replication.
+     */
+    syncIntervalSeconds: number;
+    /**
+     * Store JSON values in native ClickHouse JSON format. When disabled, JSON data is stored as String.
+     */
+    useJsonNativeFormat: boolean;
+}
+
+export interface ClickpipeSourceMongodbTableMapping {
+    /**
+     * MongoDB source collection name.
+     */
+    sourceCollection: string;
+    /**
+     * MongoDB source database name.
+     */
+    sourceDatabaseName: string;
+    /**
+     * Table engine to use for the target table. (`MergeTree`, `ReplacingMergeTree`, `Null`)
+     */
+    tableEngine?: string;
+    /**
+     * ClickHouse target table name. The table will be created automatically if it does not exist.
+     */
+    targetTable: string;
+}
+
+export interface ClickpipeSourceMysql {
+    /**
+     * Authentication method for MySQL connection. Supported values: `basic`, `IAM_ROLE`. Default is `basic`.
+     */
+    authentication: string;
+    /**
+     * PEM encoded CA certificate to validate the MySQL server certificate.
+     */
+    caCertificate?: string;
+    /**
+     * The credentials for the MySQL instance. Username is always required. For `basic` authentication, supply either `password` or `passwordWo`. For `IAM_ROLE` authentication, password is optional.
+     */
+    credentials: outputs.ClickpipeSourceMysqlCredentials;
+    /**
+     * Disable TLS for the MySQL connection.
+     */
+    disableTls: boolean;
+    /**
+     * The hostname of the MySQL instance.
+     */
+    host: string;
+    /**
+     * IAM role ARN for IAM authentication. Required when authentication is set to `IAM_ROLE`.
+     */
+    iamRole?: string;
+    /**
+     * The port of the MySQL instance. Default is 3306.
+     */
+    port: number;
+    /**
+     * Settings for the MySQL CDC pipe.
+     */
+    settings: outputs.ClickpipeSourceMysqlSettings;
+    /**
+     * Skip certificate verification for the MySQL connection.
+     */
+    skipCertVerification: boolean;
+    /**
+     * Table mappings from MySQL source to ClickHouse destination.
+     */
+    tableMappings: outputs.ClickpipeSourceMysqlTableMapping[];
+    /**
+     * TLS/SSL host for secure connections. Used to verify the server certificate.
+     */
+    tlsHost?: string;
+    /**
+     * The type of MySQL-compatible source. (`mysql`, `rdsmysql`, `auroramysql`, `planetscalevitess`, `mariadb`, `rdsmariadb`). Default is `mysql`.
+     */
+    type: string;
+}
+
+export interface ClickpipeSourceMysqlCredentials {
+    /**
+     * The password for the MySQL instance. Use `passwordWo` instead to keep the value out of state.
+     */
+    password?: string;
+    /**
+     * **NOTE:** This field is write-only and its value will not be updated in state as part of read operations.
+     * Write-only password for the MySQL instance. Not persisted to state. Pair with `passwordWoVersion` to trigger updates.
+     */
+    passwordWo?: string;
+    /**
+     * Version trigger for `passwordWo`. Increment to push a new password to the API.
+     */
+    passwordWoVersion?: number;
+    /**
+     * The username for the MySQL instance.
+     */
+    username: string;
+}
+
+export interface ClickpipeSourceMysqlSettings {
+    /**
+     * Allow nullable columns in the destination table.
+     */
+    allowNullableColumns: boolean;
+    /**
+     * Enable hard delete behavior in ReplacingMergeTree for MySQL DELETE operations.
+     */
+    deleteOnMerge: boolean;
+    /**
+     * Number of parallel connections to use during initial load.
+     */
+    initialLoadParallelism: number;
+    /**
+     * Number of rows to pull in each batch.
+     */
+    pullBatchSize: number;
+    /**
+     * Replication mechanism for the MySQL pipe. (`GTID`, `FILE_POS`). Default is `GTID`. Mechanisms other than `GTID` (e.g. `FILE_POS`) must be enabled for your organization; contact ClickHouse support to enable this feature.
+     */
+    replicationMechanism: string;
+    /**
+     * Replication mode for the MySQL pipe. (`cdc`, `snapshot`, `cdcOnly`)
+     */
+    replicationMode: string;
+    /**
+     * Number of rows to snapshot per partition.
+     */
+    snapshotNumRowsPerPartition: number;
+    /**
+     * Number of parallel tables to snapshot.
+     */
+    snapshotNumberOfParallelTables: number;
+    /**
+     * Interval in seconds to sync data from MySQL.
+     */
+    syncIntervalSeconds: number;
+    /**
+     * Enable compression for the MySQL replication connection.
+     */
+    useCompression: boolean;
+}
+
+export interface ClickpipeSourceMysqlTableMapping {
+    /**
+     * Columns to exclude from replication.
+     */
+    excludedColumns?: string[];
+    /**
+     * Custom partitioning column used for parallel snapshotting. Must be an indexed column of integer, date, datetime, or timestamp type.
+     */
+    partitionKey?: string;
+    /**
+     * Ordered list of columns to use as sorting key for the target table. Required when use*custom*sorting_key is true.
+     */
+    sortingKeys?: string[];
+    /**
+     * Source schema (database) name in MySQL.
+     */
+    sourceSchemaName: string;
+    /**
+     * Source table name in MySQL.
+     */
+    sourceTable: string;
+    /**
+     * Table engine to use for the target table. (`MergeTree`, `ReplacingMergeTree`, `Null`)
+     */
+    tableEngine?: string;
+    /**
+     * Target table name in ClickHouse.
+     */
+    targetTable: string;
+    /**
+     * Whether to use a custom sorting key for the target table.
+     */
+    useCustomSortingKey: boolean;
+}
+
+export interface ClickpipeSourceObjectStorage {
+    /**
+     * Access key
+     */
+    accessKey?: outputs.ClickpipeSourceObjectStorageAccessKey;
+    /**
+     * CONNECTION*STRING is for Azure Blob Storage. IAM*ROLE and IAM*USER are for AWS S3. IAM*USER and SERVICE_ACCOUNT are for GCS. If not provided, no authentication is used
+     */
+    authentication?: string;
+    /**
+     * Container name for Azure Blob Storage. Required when type is azureblobstorage. Example: `mycontainer`
+     */
+    azureContainerName?: string;
+    /**
+     * Compression algorithm used for the files.. (`none`, `auto`, `gzip`, `brotli`, `br`, `xz`, `LZMA`, `zstd`)
+     */
+    compression?: string;
+    /**
+     * Connection string for Azure Blob Storage authentication. Required when authentication is CONNECTION_STRING. Example: `DefaultEndpointsProtocol=https;AccountName=myaccount;AccountKey=mykey;EndpointSuffix=core.windows.net`
+     */
+    connectionString?: string;
+    /**
+     * The delimiter for the S3 source. Default is `,`.
+     */
+    delimiter?: string;
+    /**
+     * The format of the S3 objects. (`JSONEachRow`, `CSV`, `CSVWithNames`, `Parquet`, `Avro`)
+     */
+    format: string;
+    /**
+     * The IAM role for the S3 source. Use with `IAM_ROLE` authentication. It can be used with AWS ClickHouse service only. Read more at https://clickhouse.com/docs/en/integrations/clickpipes/object-storage#authentication
+     */
+    iamRole?: string;
+    /**
+     * If set to true, the pipe will continuously read new files from the source. If set to false, the pipe will read the files only once. New files have to be uploaded lexically order.
+     */
+    isContinuous: boolean;
+    /**
+     * Path to the file(s) within the Azure container. Used for Azure Blob Storage sources. You can specify multiple files using bash-like wildcards. For more information, see the documentation on using wildcards in path: https://clickhouse.com/docs/en/integrations/clickpipes/object-storage#limitations. Example: `data/logs/*.json`
+     */
+    path?: string;
+    /**
+     * Queue URL for event-based continuous ingestion. When provided, files are ingested based on event notifications rather than lexicographical order. Only applicable when `isContinuous` is `true` and authentication is provided. For S3: SQS URL in the format `https://sqs.{region}.amazonaws.com/{account-id}/{queue-name}`. For GCS: Pub/Sub subscription in the format `projects/{project}/subscriptions/{subscription}`.
+     */
+    queueUrl?: string;
+    /**
+     * Base64-encoded GCP service account JSON key for GCS authentication. Required when authentication is `SERVICE_ACCOUNT`.
+     */
+    serviceAccountKey?: string;
+    /**
+     * If set to true, skips the initial load and only ingests files delivered by queue notifications. Only applicable when `queueUrl` is provided.
+     */
+    skipInitialLoad?: boolean;
+    /**
+     * Start continuous ingestion after this object key. Cannot be provided when `skipInitialLoad` is true.
+     */
+    startAfter?: string;
+    /**
+     * The type of the S3-compatible source (`s3`, `gcs`, `azureblobstorage`). Default is `s3`.
+     */
+    type: string;
+    /**
+     * The URL of the S3/GCS bucket. Required for S3 and GCS types. Not used for Azure Blob Storage (use path and azure*container*name instead). You can specify multiple files using bash-like wildcards. For more information, see the documentation on using wildcards in path: https://clickhouse.com/docs/en/integrations/clickpipes/object-storage#limitations
+     */
+    url?: string;
+}
+
+export interface ClickpipeSourceObjectStorageAccessKey {
+    /**
+     * The access key ID for the S3 source. Use with `IAM_USER` authentication.
+     */
+    accessKeyId?: string;
+    /**
+     * The secret key for the S3 source. Use with `IAM_USER` authentication.
+     */
+    secretKey?: string;
+}
+
+export interface ClickpipeSourcePostgres {
+    /**
+     * Authentication method for Postgres connection. Supported values: `basic`, `iamRole`. Default is `basic`.
+     */
+    authentication: string;
+    /**
+     * PEM encoded CA certificate to validate the Postgres server certificate.
+     */
+    caCertificate?: string;
+    /**
+     * The credentials for the Postgres instance. Username is always required. For `basic` authentication, supply either `password` or `passwordWo`. For `iamRole` authentication, password is optional.
+     */
+    credentials: outputs.ClickpipeSourcePostgresCredentials;
+    /**
+     * The database name of the Postgres instance.
+     */
+    database: string;
+    /**
+     * The hostname of the Postgres instance.
+     */
+    host: string;
+    /**
+     * IAM role ARN for IAM authentication. Required when authentication is set to `iamRole`.
+     */
+    iamRole?: string;
+    /**
+     * The port of the Postgres instance. Default is 5432.
+     */
+    port: number;
+    /**
+     * Settings for the Postgres CDC pipe.
+     */
+    settings: outputs.ClickpipeSourcePostgresSettings;
+    /**
+     * Table mappings from Postgres source to ClickHouse destination.
+     */
+    tableMappings: outputs.ClickpipeSourcePostgresTableMapping[];
+    /**
+     * TLS/SSL host for secure connections. Used to verify the server certificate.
+     */
+    tlsHost?: string;
+    /**
+     * The type of the Postgres source. (`postgres`, `supabase`, `neon`, `alloydb`, `planetscale`, `rdspostgres`, `aurorapostgres`, `cloudsqlpostgres`, `azurepostgres`, `crunchybridge`, `tigerdata`). Default is `postgres`.
+     */
+    type: string;
+}
+
+export interface ClickpipeSourcePostgresCredentials {
+    /**
+     * The password for the Postgres instance. Use `passwordWo` instead to keep the value out of state.
+     */
+    password?: string;
+    /**
+     * **NOTE:** This field is write-only and its value will not be updated in state as part of read operations.
+     * Write-only password for the Postgres instance. Not persisted to state. Pair with `passwordWoVersion` to trigger updates.
+     */
+    passwordWo?: string;
+    /**
+     * Version trigger for `passwordWo`. Increment to push a new password to the API.
+     */
+    passwordWoVersion?: number;
+    /**
+     * The username for the Postgres instance.
+     */
+    username: string;
+}
+
+export interface ClickpipeSourcePostgresSettings {
+    /**
+     * Allow nullable columns in the destination table.
+     */
+    allowNullableColumns: boolean;
+    /**
+     * Enable hard delete behavior in ReplacingMergeTree for PostgreSQL DELETE operations.
+     */
+    deleteOnMerge: boolean;
+    /**
+     * Enable failover for created replication slot. Requires a replication slot to NOT be set.
+     */
+    enableFailoverSlots: boolean;
+    /**
+     * Number of parallel connections to use during initial load.
+     */
+    initialLoadParallelism: number;
+    /**
+     * Publication name to use for replication. If not provided, ClickPipes will create one.
+     */
+    publicationName?: string;
+    /**
+     * Number of rows to pull in each batch.
+     */
+    pullBatchSize: number;
+    /**
+     * Replication mode for the Postgres pipe. (`cdc`, `snapshot`, `cdcOnly`)
+     */
+    replicationMode: string;
+    /**
+     * Replication slot name to use for replication. Only applicable when replicationMode is `cdcOnly`.
+     */
+    replicationSlotName?: string;
+    /**
+     * Number of rows to snapshot per partition.
+     */
+    snapshotNumRowsPerPartition: number;
+    /**
+     * Number of parallel tables to snapshot.
+     */
+    snapshotNumberOfParallelTables: number;
+    /**
+     * Interval in seconds to sync data from Postgres.
+     */
+    syncIntervalSeconds: number;
+}
+
+export interface ClickpipeSourcePostgresTableMapping {
+    /**
+     * Columns to exclude from replication.
+     */
+    excludedColumns?: string[];
+    /**
+     * Custom partitioning column used for parallel snapshotting. Only beneficial for PostgreSQL 13 (no benefit for PG14+, which supports indexed ctid scans). Must be an indexed column of type: `smallint`, `integer`, `bigint`, `timestamp without time zone`, or `timestamp with time zone`. Unrelated to ClickHouse partitioning.
+     */
+    partitionKey?: string;
+    /**
+     * Ordered list of columns to use as sorting key for the target table. Required when use*custom*sorting_key is true.
+     */
+    sortingKeys?: string[];
+    /**
+     * Source schema name in Postgres.
+     */
+    sourceSchemaName: string;
+    /**
+     * Source table name in Postgres.
+     */
+    sourceTable: string;
+    /**
+     * Table engine to use for the target table. (`MergeTree`, `ReplacingMergeTree`, `Null`)
+     */
+    tableEngine?: string;
+    /**
+     * Target table name in ClickHouse.
+     */
+    targetTable: string;
+    /**
+     * Whether to use a custom sorting key for the target table.
+     */
+    useCustomSortingKey: boolean;
+}
+
+export interface ClickpipeSourcePubsub {
+    /**
+     * Acknowledgement deadline in seconds (10–600).
+     */
+    ackDeadline?: number;
+    /**
+     * The authentication method for the Pub/Sub source. Currently only `SERVICE_ACCOUNT` is supported.
+     */
+    authentication: string;
+    /**
+     * Whether to enable ordered message delivery. Immutable — changing it requires destroy+create because ordered delivery is a property of the subscription at creation time.
+     */
+    enableOrdering?: boolean;
+    /**
+     * Optional Pub/Sub subscription filter expression (CEL). Max 256 characters. Immutable — changing it requires destroy+create because the underlying subscription filter cannot be edited in place.
+     */
+    filter?: string;
+    /**
+     * The message format of the Pub/Sub topic. (`JSONEachRow`, `Avro`, `Protobuf`)
+     */
+    format: string;
+    /**
+     * The GCP project ID that owns the Pub/Sub topic.
+     */
+    projectId: string;
+    /**
+     * RFC 3339 timestamp (e.g. `2026-04-10T12:00:00Z`). Required when `seekType = "timestamp"`; must be omitted otherwise.
+     */
+    seekTimestamp?: string;
+    /**
+     * The starting position for consuming the subscription. (`latest`, `earliest`, `timestamp`)
+     */
+    seekType: string;
+    /**
+     * GCP service account credentials. Required on create; provide a new value on update to rotate the key.
+     */
+    serviceAccountKey: outputs.ClickpipeSourcePubsubServiceAccountKey;
+    /**
+     * The Pub/Sub topic name (not the fully-qualified path).
+     */
+    topic: string;
+}
+
+export interface ClickpipeSourcePubsubServiceAccountKey {
+    /**
+     * Base64-encoded GCP service account JSON key file contents.
+     */
+    serviceAccountFile: string;
+}
+
+export interface ClickpipesReversePrivateEndpointCustomPrivateDnsMapping {
+    /**
+     * Custom private DNS name managed by ClickHouse Cloud.
+     */
+    privateDnsName: string;
+}
+
+export interface GetPostgresServicesService {
+    cloudProvider: string;
+    createdAt: string;
+    haType: string;
+    id: string;
+    isPrimary: boolean;
+    name: string;
+    postgresVersion: string;
+    region: string;
+    size: string;
+    state: string;
+}
+
+export interface GetRolePolicy {
+    /**
+     * Whether this policy allows or denies the specified permissions.
+     */
+    effect: string;
+    /**
+     * Server-assigned policy ID.
+     */
+    id: string;
+    /**
+     * List of permission strings.
+     */
+    permissions: string[];
+    /**
+     * List of resources this policy applies to.
+     */
+    resources: string[];
+    /**
+     * ID of the role this policy belongs to.
+     */
+    roleId: string;
+    /**
+     * Optional tags for additional policy metadata.
+     */
+    tags: outputs.GetRolePolicyTags;
+    /**
+     * Tenant ID that owns this policy.
+     */
+    tenantId: string;
+}
+
+export interface GetRolePolicyTags {
+    /**
+     * SQL console role level for passwordless DB access. One of: sql-console-admin (full access), sql-console-readonly (read-only).
+     */
+    role: string;
+}
+
+export interface GetRolesRole {
+    /**
+     * List of actors assigned to this role.
+     */
+    actors: string[];
+    /**
+     * Timestamp when the role was created.
+     */
+    createdAt: string;
+    /**
+     * Unique identifier for the role.
+     */
+    id: string;
+    /**
+     * Name of the role.
+     */
+    name: string;
+    /**
+     * Owner ID of this role.
+     */
+    ownerId: string;
+    /**
+     * List of policies attached to this role.
+     */
+    policies: outputs.GetRolesRolePolicy[];
+    /**
+     * Tenant ID that owns this role.
+     */
+    tenantId: string;
+    /**
+     * Type of the role: 'system' or 'custom'.
+     */
+    type: string;
+    /**
+     * Timestamp when the role was last updated.
+     */
+    updatedAt: string;
+}
+
+export interface GetRolesRolePolicy {
+    /**
+     * Whether this policy allows or denies the specified permissions.
+     */
+    effect: string;
+    /**
+     * Server-assigned policy ID.
+     */
+    id: string;
+    /**
+     * List of permission strings.
+     */
+    permissions: string[];
+    /**
+     * List of resources this policy applies to.
+     */
+    resources: string[];
+    /**
+     * ID of the role this policy belongs to.
+     */
+    roleId: string;
+    /**
+     * Optional tags for additional policy metadata.
+     */
+    tags: outputs.GetRolesRolePolicyTags;
+    /**
+     * Tenant ID that owns this policy.
+     */
+    tenantId: string;
+}
+
+export interface GetRolesRolePolicyTags {
+    /**
+     * SQL console role level for passwordless DB access. One of: sql-console-admin (full access), sql-console-readonly (read-only).
+     */
+    role: string;
+}
+
+export interface GetUserAssignedRole {
+    /**
+     * The ID of the assigned role.
+     */
+    id: string;
+    /**
+     * The name of the assigned role.
+     */
+    name: string;
+    /**
+     * The type of the assigned role (system or custom).
+     */
+    type: string;
+}
+
+export interface PostgresServiceRestoreToPointInTime {
+    /**
+     * RFC3339 timestamp to restore to (e.g. '2026-06-01T12:00:00Z'). The server restores to the closest available recovery point at or before this time.
+     */
+    restoreTarget: string;
+    /**
+     * ID of the source instance whose backup to restore from.
+     */
+    sourceId: string;
+}
+
+export interface RolePolicy {
+    /**
+     * Whether this policy allows or denies the specified permissions.
+     */
+    effect: string;
+    /**
+     * Server-assigned policy ID. Changes on every update since the server replaces all policies on PATCH.
+     */
+    id: string;
+    /**
+     * List of permission strings granted or denied by this policy.
+     */
+    permissions: string[];
+    /**
+     * List of resources this policy applies to. Format: 'instance/\n\n' or 'instance/*'.
+     */
+    resources: string[];
+    /**
+     * ID of the role this policy belongs to.
+     */
+    roleId: string;
+    /**
+     * Optional tags for additional policy metadata.
+     */
+    tags?: outputs.RolePolicyTags;
+    /**
+     * Tenant ID that owns this policy.
+     */
+    tenantId: string;
+}
+
+export interface RolePolicyTags {
+    /**
+     * SQL console role level for passwordless DB access. One of: sql-console-admin (full access), sql-console-readonly (read-only).
+     */
+    role: string;
+}
+
 export interface ServiceBackupConfiguration {
     /**
      * Interval in hours between each backup.
@@ -98,6 +1232,58 @@ export interface ServiceQueryApiEndpoints {
      * The Database role that will be used to run the query.
      */
     roles: string[];
+}
+
+export interface ServiceScheduledScalingBaseConfig {
+    idleScaling: boolean;
+    idleTimeoutMinutes: number;
+    maxReplicaMemoryGb: number;
+    maxReplicas: number;
+    minReplicaMemoryGb: number;
+    minReplicas: number;
+}
+
+export interface ServiceScheduledScalingEntry {
+    /**
+     * End hour in UTC (1-24). Must differ from start*hour*utc. Note the asymmetric range: end*hour*utc=0 is invalid; use end*hour*utc=24 to mean midnight at end of day.
+     */
+    endHourUtc: number;
+    /**
+     * Whether idle scaling is enabled while the window is active.
+     */
+    idleScaling: boolean;
+    /**
+     * Minutes of inactivity before the service scales to zero. Must be at least 5. Only meaningful when idleScaling is true.
+     */
+    idleTimeoutMinutes: number;
+    /**
+     * Maximum memory per replica in GiB. Must be set together with min*replica*memory_gb.
+     */
+    maxReplicaMemoryGb: number;
+    /**
+     * Maximum replica count while the window is active. Currently the server requires min*replicas == max*replicas.
+     */
+    maxReplicas: number;
+    /**
+     * Minimum memory per replica in GiB. Must be set together with max*replica*memory_gb.
+     */
+    minReplicaMemoryGb: number;
+    /**
+     * Minimum replica count while the window is active. Currently the server requires min*replicas == max*replicas.
+     */
+    minReplicas: number;
+    /**
+     * Human-readable name for the entry (e.g. "Business hours").
+     */
+    name: string;
+    /**
+     * Start hour in UTC (0-23). If end*hour*utc < start*hour*utc the window wraps overnight. Set start*hour*utc=0 and end*hour*utc=24 for a 24-hour window.
+     */
+    startHourUtc: number;
+    /**
+     * Weekdays this entry covers. 0 = Sunday … 6 = Saturday.
+     */
+    weekdays: number[];
 }
 
 export interface ServiceTransparentDataEncryption {

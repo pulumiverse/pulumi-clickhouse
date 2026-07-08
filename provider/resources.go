@@ -40,6 +40,7 @@ var bridgeMetadata []byte
 
 // all of the token components used below.
 const (
+	providerName = "clickhouse"
 	// This variable controls the default name of the package in the package
 	mainMod = "index" // the clickhouse module
 )
@@ -51,7 +52,7 @@ var name_overrides = map[string]string{}
 func convertName(tfname string) (module string, name string) {
 	tfNameItems := strings.Split(tfname, "_")
 	contract.Assertf(len(tfNameItems) >= 2, "Invalid snake case name %s", tfname)
-	contract.Assertf(tfNameItems[0] == "clickhouse", "Invalid snake case name %s. Does not start with clickhouse", tfname)
+	contract.Assertf(tfNameItems[0] == providerName, "Invalid snake case name %s. Does not start with clickhouse", tfname)
 	if len(tfNameItems) == 2 {
 		module = mainMod
 		name = tfNameItems[1]
@@ -74,12 +75,22 @@ func convertName(tfname string) (module string, name string) {
 
 func makeDataSource(ds string) tokens.ModuleMember {
 	mod, name := convertName(ds)
-	return tfbridge.MakeDataSource("clickhouse", mod, "get"+name)
+	return tfbridge.MakeDataSource(providerName, mod, "get"+name)
 }
 
 func makeResource(res string) tokens.Type {
 	mod, name := convertName(res)
-	return tfbridge.MakeResource("clickhouse", mod, name)
+	return tfbridge.MakeResource(providerName, mod, name)
+}
+
+// makeIndexResource creates a resource token in the top-level index module,
+// used for resources added after v3.11.1 (see Resources map below).
+func makeIndexResource(name string) tokens.Type {
+	return tfbridge.MakeResource(providerName, mainMod, name)
+}
+
+func makeIndexDataSource(name string) tokens.ModuleMember {
+	return tfbridge.MakeDataSource(providerName, mainMod, name)
 }
 
 func moduleComputeStrategy() tfbridge.Strategy {
@@ -115,7 +126,7 @@ func Provider() tfbridge.ProviderInfo {
 	// Create a Pulumi provider mapping
 	prov := tfbridge.ProviderInfo{
 		P:    p,
-		Name: "clickhouse",
+		Name: providerName,
 		// DisplayName is a way to be able to change the casing of the provider
 		// name when being displayed on the Pulumi registry
 		DisplayName: "Clickhouse",
@@ -151,7 +162,7 @@ func Provider() tfbridge.ProviderInfo {
 		Version:           version.Version,
 		GitHubOrg:         "ClickHouse",
 		MetadataInfo:      tfbridge.NewProviderMetadata(bridgeMetadata),
-		TFProviderVersion: "3.11.1",
+		TFProviderVersion: "3.18.0",
 		UpstreamRepoPath:  "./upstream",
 		Config:            map[string]*tfbridge.SchemaInfo{
 			// Add any required configuration here, or remove the example below if
@@ -202,6 +213,19 @@ func Provider() tfbridge.ProviderInfo {
 					return resource.ID(serviceId.StringValue()), nil
 				},
 			},
+			// New resources introduced after v3.11.1 are flattened into the
+			// index module with their full upstream name, instead of the
+			// mechanical module/name split used for the original resources.
+			"clickhouse_clickpipe_cdc_infrastructure": {
+				Tok: makeIndexResource("ClickpipeCdcInfrastructure"),
+				ComputeID: func(ctx context.Context, state resource.PropertyMap) (resource.ID, error) {
+					serviceId := state["serviceId"]
+					if serviceId.IsNull() {
+						return "", fmt.Errorf("serviceId is required")
+					}
+					return resource.ID(serviceId.StringValue()), nil
+				},
+			},
 			"clickhouse_private_endpoint_registration": {
 				Tok: makeResource("clickhouse_private_endpoint_registration"),
 				ComputeID: func(ctx context.Context, state resource.PropertyMap) (resource.ID, error) {
@@ -213,13 +237,40 @@ func Provider() tfbridge.ProviderInfo {
 					return resource.ID(fmt.Sprintf("%s-%s", cloudProvider.StringValue(), privateEndpointId.StringValue())), nil
 				},
 			},
+			"clickhouse_clickpipes_reverse_private_endpoint": {
+				Tok: makeIndexResource("ClickpipesReversePrivateEndpoint"),
+			},
+			"clickhouse_clickpipes_reverse_private_endpoint_custom_private_dns": {
+				Tok: makeIndexResource("ClickpipesReversePrivateEndpointCustomPrivateDns"),
+			},
+			"clickhouse_organization_settings": {
+				Tok: makeIndexResource("OrganizationSettings"),
+			},
+			"clickhouse_postgres_service": {
+				Tok: makeIndexResource("PostgresService"),
+			},
+			"clickhouse_role_assignment": {
+				Tok: makeIndexResource("RoleAssignment"),
+			},
+			"clickhouse_service_scheduled_scaling": {
+				Tok: makeIndexResource("ServiceScheduledScaling"),
+			},
+			"clickhouse_service_upgrade_window": {
+				Tok: makeIndexResource("ServiceUpgradeWindow"),
+			},
 		},
 		DataSources: map[string]*tfbridge.DataSourceInfo{
-			// Map each data source in the Terraform provider to a Pulumi function.
-			//
-			// "aws_ami": {
-			//	Tok: makeDataSource(mainMod, "aws_ami"),
-			// },
+			// New data sources introduced after v3.11.1 are flattened into
+			// the index module with their full upstream name.
+			"clickhouse_postgres_service": {
+				Tok: makeIndexDataSource("getPostgresService"),
+			},
+			"clickhouse_postgres_services": {
+				Tok: makeIndexDataSource("getPostgresServices"),
+			},
+			"clickhouse_postgres_service_ca_certificates": {
+				Tok: makeIndexDataSource("getPostgresServiceCaCertificates"),
+			},
 		},
 		JavaScript: &tfbridge.JavaScriptInfo{
 			PackageName: "@pulumiverse/clickhouse",

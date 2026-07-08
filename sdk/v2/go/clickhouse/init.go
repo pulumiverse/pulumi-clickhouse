@@ -21,8 +21,28 @@ func (m *module) Version() semver.Version {
 
 func (m *module) Construct(ctx *pulumi.Context, name, typ, urn string) (r pulumi.Resource, err error) {
 	switch typ {
+	case "clickhouse:index/clickpipe:Clickpipe":
+		r = &Clickpipe{}
+	case "clickhouse:index/clickpipeCdcInfrastructure:ClickpipeCdcInfrastructure":
+		r = &ClickpipeCdcInfrastructure{}
+	case "clickhouse:index/clickpipesReversePrivateEndpoint:ClickpipesReversePrivateEndpoint":
+		r = &ClickpipesReversePrivateEndpoint{}
+	case "clickhouse:index/clickpipesReversePrivateEndpointCustomPrivateDns:ClickpipesReversePrivateEndpointCustomPrivateDns":
+		r = &ClickpipesReversePrivateEndpointCustomPrivateDns{}
+	case "clickhouse:index/organizationSettings:OrganizationSettings":
+		r = &OrganizationSettings{}
+	case "clickhouse:index/postgresService:PostgresService":
+		r = &PostgresService{}
+	case "clickhouse:index/role:Role":
+		r = &Role{}
+	case "clickhouse:index/roleAssignment:RoleAssignment":
+		r = &RoleAssignment{}
 	case "clickhouse:index/service:Service":
 		r = &Service{}
+	case "clickhouse:index/serviceScheduledScaling:ServiceScheduledScaling":
+		r = &ServiceScheduledScaling{}
+	case "clickhouse:index/serviceUpgradeWindow:ServiceUpgradeWindow":
+		r = &ServiceUpgradeWindow{}
 	default:
 		return nil, fmt.Errorf("unknown resource type: %s", typ)
 	}
@@ -56,7 +76,57 @@ func init() {
 	}
 	pulumi.RegisterResourceModule(
 		"clickhouse",
+		"index/clickpipe",
+		&module{version},
+	)
+	pulumi.RegisterResourceModule(
+		"clickhouse",
+		"index/clickpipeCdcInfrastructure",
+		&module{version},
+	)
+	pulumi.RegisterResourceModule(
+		"clickhouse",
+		"index/clickpipesReversePrivateEndpoint",
+		&module{version},
+	)
+	pulumi.RegisterResourceModule(
+		"clickhouse",
+		"index/clickpipesReversePrivateEndpointCustomPrivateDns",
+		&module{version},
+	)
+	pulumi.RegisterResourceModule(
+		"clickhouse",
+		"index/organizationSettings",
+		&module{version},
+	)
+	pulumi.RegisterResourceModule(
+		"clickhouse",
+		"index/postgresService",
+		&module{version},
+	)
+	pulumi.RegisterResourceModule(
+		"clickhouse",
+		"index/role",
+		&module{version},
+	)
+	pulumi.RegisterResourceModule(
+		"clickhouse",
+		"index/roleAssignment",
+		&module{version},
+	)
+	pulumi.RegisterResourceModule(
+		"clickhouse",
 		"index/service",
+		&module{version},
+	)
+	pulumi.RegisterResourceModule(
+		"clickhouse",
+		"index/serviceScheduledScaling",
+		&module{version},
+	)
+	pulumi.RegisterResourceModule(
+		"clickhouse",
+		"index/serviceUpgradeWindow",
 		&module{version},
 	)
 	pulumi.RegisterResourcePackage(

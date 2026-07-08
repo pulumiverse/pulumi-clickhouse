@@ -70,7 +70,7 @@ jobs:
       fail-fast: true
       matrix:
         goversion:
-          - 1.25.x
+          - 1.26.x
 
   publish_sdk:
     name: Publish SDKs
@@ -95,6 +95,10 @@ jobs:
 
       - name: Install pulumi
         uses: pulumi/actions@v6
+        with:
+          # Keep in sync with pull-request.yml: the CLI version determines
+          # SDK codegen output via `pulumi package gen-sdk`.
+          pulumi-version: 3.237.0
 
       - if: ${{ matrix.language == 'nodejs'}}
         name: Setup Node
@@ -164,9 +168,9 @@ jobs:
         dotnetversion:
           - 8.0.x
         goversion:
-          - 1.25.x
+          - 1.26.x
         nodeversion:
-          - 20.x
+          - 22.x
         pythonversion:
           - "3.11"
         javaversion:

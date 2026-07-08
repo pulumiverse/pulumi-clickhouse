@@ -179,7 +179,7 @@ export class Service extends pulumi.CustomResource {
      */
     declare public readonly passwordWo: pulumi.Output<string | undefined>;
     /**
-     * Version number for password*wo. Increment this to trigger a password update when using password*wo.
+     * Version number for password_wo. Increment this to trigger a password update when using password_wo.
      */
     declare public readonly passwordWoVersion: pulumi.Output<number | undefined>;
     /**
@@ -425,7 +425,7 @@ export interface ServiceState {
      */
     passwordWo?: pulumi.Input<string | undefined>;
     /**
-     * Version number for password*wo. Increment this to trigger a password update when using password*wo.
+     * Version number for password_wo. Increment this to trigger a password update when using password_wo.
      */
     passwordWoVersion?: pulumi.Input<number | undefined>;
     /**
@@ -564,7 +564,7 @@ export interface ServiceArgs {
      */
     passwordWo?: pulumi.Input<string | undefined>;
     /**
-     * Version number for password*wo. Increment this to trigger a password update when using password*wo.
+     * Version number for password_wo. Increment this to trigger a password update when using password_wo.
      */
     passwordWoVersion?: pulumi.Input<number | undefined>;
     /**

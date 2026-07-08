@@ -30,8 +30,8 @@ class ProviderArgs:
         :param pulumi.Input[_builtins.str] api_url: API URL of the ClickHouse OpenAPI the provider will interact with. Alternatively, can be configured using the `CLICKHOUSE_API_URL` environment variable. Only specify if you have a specific deployment of the ClickHouse OpenAPI you want to run against.
         :param pulumi.Input[_builtins.str] organization_id: ID of the organization the provider will create services under. Alternatively, can be configured using the `CLICKHOUSE_ORG_ID` environment variable.
         :param pulumi.Input[_builtins.int] timeout_seconds: Timeout in seconds for the HTTP client.
-        :param pulumi.Input[_builtins.str] token_key: Token key of the key/secret pair. Used to authenticate with OpenAPI. Alternatively, can be configured using the `CLICKHOUSE_TOKEN_KEY` environment variable.
-        :param pulumi.Input[_builtins.str] token_secret: Token secret of the key/secret pair. Used to authenticate with OpenAPI. Alternatively, can be configured using the `CLICKHOUSE_TOKEN_SECRET` environment variable.
+        :param pulumi.Input[_builtins.str] token_key: Token key of the key/secret pair. Used to authenticate with OpenAPI. Alternatively, can be configured using the `CLICKHOUSE_CLOUD_API_KEY` environment variable.
+        :param pulumi.Input[_builtins.str] token_secret: Token secret of the key/secret pair. Used to authenticate with OpenAPI. Alternatively, can be configured using the `CLICKHOUSE_CLOUD_API_SECRET` environment variable.
         """
         if api_url is not None:
             pulumi.set(__self__, "api_url", api_url)
@@ -84,7 +84,7 @@ class ProviderArgs:
     @pulumi.getter(name="tokenKey")
     def token_key(self) -> pulumi.Input[Optional[_builtins.str]]:
         """
-        Token key of the key/secret pair. Used to authenticate with OpenAPI. Alternatively, can be configured using the `CLICKHOUSE_TOKEN_KEY` environment variable.
+        Token key of the key/secret pair. Used to authenticate with OpenAPI. Alternatively, can be configured using the `CLICKHOUSE_CLOUD_API_KEY` environment variable.
         """
         return pulumi.get(self, "token_key")
 
@@ -96,7 +96,7 @@ class ProviderArgs:
     @pulumi.getter(name="tokenSecret")
     def token_secret(self) -> pulumi.Input[Optional[_builtins.str]]:
         """
-        Token secret of the key/secret pair. Used to authenticate with OpenAPI. Alternatively, can be configured using the `CLICKHOUSE_TOKEN_SECRET` environment variable.
+        Token secret of the key/secret pair. Used to authenticate with OpenAPI. Alternatively, can be configured using the `CLICKHOUSE_CLOUD_API_SECRET` environment variable.
         """
         return pulumi.get(self, "token_secret")
 
@@ -129,8 +129,8 @@ class Provider(pulumi.ProviderResource):
         :param pulumi.Input[_builtins.str] api_url: API URL of the ClickHouse OpenAPI the provider will interact with. Alternatively, can be configured using the `CLICKHOUSE_API_URL` environment variable. Only specify if you have a specific deployment of the ClickHouse OpenAPI you want to run against.
         :param pulumi.Input[_builtins.str] organization_id: ID of the organization the provider will create services under. Alternatively, can be configured using the `CLICKHOUSE_ORG_ID` environment variable.
         :param pulumi.Input[_builtins.int] timeout_seconds: Timeout in seconds for the HTTP client.
-        :param pulumi.Input[_builtins.str] token_key: Token key of the key/secret pair. Used to authenticate with OpenAPI. Alternatively, can be configured using the `CLICKHOUSE_TOKEN_KEY` environment variable.
-        :param pulumi.Input[_builtins.str] token_secret: Token secret of the key/secret pair. Used to authenticate with OpenAPI. Alternatively, can be configured using the `CLICKHOUSE_TOKEN_SECRET` environment variable.
+        :param pulumi.Input[_builtins.str] token_key: Token key of the key/secret pair. Used to authenticate with OpenAPI. Alternatively, can be configured using the `CLICKHOUSE_CLOUD_API_KEY` environment variable.
+        :param pulumi.Input[_builtins.str] token_secret: Token secret of the key/secret pair. Used to authenticate with OpenAPI. Alternatively, can be configured using the `CLICKHOUSE_CLOUD_API_SECRET` environment variable.
         """
         ...
     @overload
@@ -207,7 +207,7 @@ class Provider(pulumi.ProviderResource):
     @pulumi.getter(name="tokenKey")
     def token_key(self) -> pulumi.Output[Optional[_builtins.str]]:
         """
-        Token key of the key/secret pair. Used to authenticate with OpenAPI. Alternatively, can be configured using the `CLICKHOUSE_TOKEN_KEY` environment variable.
+        Token key of the key/secret pair. Used to authenticate with OpenAPI. Alternatively, can be configured using the `CLICKHOUSE_CLOUD_API_KEY` environment variable.
         """
         return pulumi.get(self, "token_key")
 
@@ -215,7 +215,7 @@ class Provider(pulumi.ProviderResource):
     @pulumi.getter(name="tokenSecret")
     def token_secret(self) -> pulumi.Output[Optional[_builtins.str]]:
         """
-        Token secret of the key/secret pair. Used to authenticate with OpenAPI. Alternatively, can be configured using the `CLICKHOUSE_TOKEN_SECRET` environment variable.
+        Token secret of the key/secret pair. Used to authenticate with OpenAPI. Alternatively, can be configured using the `CLICKHOUSE_CLOUD_API_SECRET` environment variable.
         """
         return pulumi.get(self, "token_secret")
 

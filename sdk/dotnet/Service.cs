@@ -214,7 +214,7 @@ namespace Pulumiverse.Clickhouse
         public Output<string?> PasswordWo { get; private set; } = null!;
 
         /// <summary>
-        /// Version number for password*wo. Increment this to trigger a password update when using password*wo.
+        /// Version number for password_wo. Increment this to trigger a password update when using password_wo.
         /// </summary>
         [Output("passwordWoVersion")]
         public Output<int?> PasswordWoVersion { get; private set; } = null!;
@@ -507,7 +507,7 @@ namespace Pulumiverse.Clickhouse
         }
 
         /// <summary>
-        /// Version number for password*wo. Increment this to trigger a password update when using password*wo.
+        /// Version number for password_wo. Increment this to trigger a password update when using password_wo.
         /// </summary>
         [Input("passwordWoVersion")]
         public Input<int>? PasswordWoVersion { get; set; }
@@ -766,7 +766,7 @@ namespace Pulumiverse.Clickhouse
         }
 
         /// <summary>
-        /// Version number for password*wo. Increment this to trigger a password update when using password*wo.
+        /// Version number for password_wo. Increment this to trigger a password update when using password_wo.
         /// </summary>
         [Input("passwordWoVersion")]
         public Input<int>? PasswordWoVersion { get; set; }

@@ -5,13 +5,93 @@ import * as pulumi from "@pulumi/pulumi";
 import * as utilities from "./utilities";
 
 // Export members:
+export { ClickpipeArgs, ClickpipeState } from "./clickpipe";
+export type Clickpipe = import("./clickpipe").Clickpipe;
+export const Clickpipe: typeof import("./clickpipe").Clickpipe = null as any;
+utilities.lazyLoad(exports, ["Clickpipe"], () => require("./clickpipe"));
+
+export { ClickpipeCdcInfrastructureArgs, ClickpipeCdcInfrastructureState } from "./clickpipeCdcInfrastructure";
+export type ClickpipeCdcInfrastructure = import("./clickpipeCdcInfrastructure").ClickpipeCdcInfrastructure;
+export const ClickpipeCdcInfrastructure: typeof import("./clickpipeCdcInfrastructure").ClickpipeCdcInfrastructure = null as any;
+utilities.lazyLoad(exports, ["ClickpipeCdcInfrastructure"], () => require("./clickpipeCdcInfrastructure"));
+
+export { ClickpipesReversePrivateEndpointArgs, ClickpipesReversePrivateEndpointState } from "./clickpipesReversePrivateEndpoint";
+export type ClickpipesReversePrivateEndpoint = import("./clickpipesReversePrivateEndpoint").ClickpipesReversePrivateEndpoint;
+export const ClickpipesReversePrivateEndpoint: typeof import("./clickpipesReversePrivateEndpoint").ClickpipesReversePrivateEndpoint = null as any;
+utilities.lazyLoad(exports, ["ClickpipesReversePrivateEndpoint"], () => require("./clickpipesReversePrivateEndpoint"));
+
+export { ClickpipesReversePrivateEndpointCustomPrivateDnsArgs, ClickpipesReversePrivateEndpointCustomPrivateDnsState } from "./clickpipesReversePrivateEndpointCustomPrivateDns";
+export type ClickpipesReversePrivateEndpointCustomPrivateDns = import("./clickpipesReversePrivateEndpointCustomPrivateDns").ClickpipesReversePrivateEndpointCustomPrivateDns;
+export const ClickpipesReversePrivateEndpointCustomPrivateDns: typeof import("./clickpipesReversePrivateEndpointCustomPrivateDns").ClickpipesReversePrivateEndpointCustomPrivateDns = null as any;
+utilities.lazyLoad(exports, ["ClickpipesReversePrivateEndpointCustomPrivateDns"], () => require("./clickpipesReversePrivateEndpointCustomPrivateDns"));
+
+export { GetPostgresServiceArgs, GetPostgresServiceResult, GetPostgresServiceOutputArgs } from "./getPostgresService";
+export const getPostgresService: typeof import("./getPostgresService").getPostgresService = null as any;
+export const getPostgresServiceOutput: typeof import("./getPostgresService").getPostgresServiceOutput = null as any;
+utilities.lazyLoad(exports, ["getPostgresService","getPostgresServiceOutput"], () => require("./getPostgresService"));
+
+export { GetPostgresServiceCaCertificatesArgs, GetPostgresServiceCaCertificatesResult, GetPostgresServiceCaCertificatesOutputArgs } from "./getPostgresServiceCaCertificates";
+export const getPostgresServiceCaCertificates: typeof import("./getPostgresServiceCaCertificates").getPostgresServiceCaCertificates = null as any;
+export const getPostgresServiceCaCertificatesOutput: typeof import("./getPostgresServiceCaCertificates").getPostgresServiceCaCertificatesOutput = null as any;
+utilities.lazyLoad(exports, ["getPostgresServiceCaCertificates","getPostgresServiceCaCertificatesOutput"], () => require("./getPostgresServiceCaCertificates"));
+
+export { GetPostgresServicesResult } from "./getPostgresServices";
+export const getPostgresServices: typeof import("./getPostgresServices").getPostgresServices = null as any;
+export const getPostgresServicesOutput: typeof import("./getPostgresServices").getPostgresServicesOutput = null as any;
+utilities.lazyLoad(exports, ["getPostgresServices","getPostgresServicesOutput"], () => require("./getPostgresServices"));
+
+export { GetRoleArgs, GetRoleResult, GetRoleOutputArgs } from "./getRole";
+export const getRole: typeof import("./getRole").getRole = null as any;
+export const getRoleOutput: typeof import("./getRole").getRoleOutput = null as any;
+utilities.lazyLoad(exports, ["getRole","getRoleOutput"], () => require("./getRole"));
+
+export { GetRolesResult } from "./getRoles";
+export const getRoles: typeof import("./getRoles").getRoles = null as any;
+export const getRolesOutput: typeof import("./getRoles").getRolesOutput = null as any;
+utilities.lazyLoad(exports, ["getRoles","getRolesOutput"], () => require("./getRoles"));
+
+export { GetUserArgs, GetUserResult, GetUserOutputArgs } from "./getUser";
+export const getUser: typeof import("./getUser").getUser = null as any;
+export const getUserOutput: typeof import("./getUser").getUserOutput = null as any;
+utilities.lazyLoad(exports, ["getUser","getUserOutput"], () => require("./getUser"));
+
+export { OrganizationSettingsArgs, OrganizationSettingsState } from "./organizationSettings";
+export type OrganizationSettings = import("./organizationSettings").OrganizationSettings;
+export const OrganizationSettings: typeof import("./organizationSettings").OrganizationSettings = null as any;
+utilities.lazyLoad(exports, ["OrganizationSettings"], () => require("./organizationSettings"));
+
+export { PostgresServiceArgs, PostgresServiceState } from "./postgresService";
+export type PostgresService = import("./postgresService").PostgresService;
+export const PostgresService: typeof import("./postgresService").PostgresService = null as any;
+utilities.lazyLoad(exports, ["PostgresService"], () => require("./postgresService"));
+
 export * from "./provider";
 import { Provider } from "./provider";
+
+export { RoleArgs, RoleState } from "./role";
+export type Role = import("./role").Role;
+export const Role: typeof import("./role").Role = null as any;
+utilities.lazyLoad(exports, ["Role"], () => require("./role"));
+
+export { RoleAssignmentArgs, RoleAssignmentState } from "./roleAssignment";
+export type RoleAssignment = import("./roleAssignment").RoleAssignment;
+export const RoleAssignment: typeof import("./roleAssignment").RoleAssignment = null as any;
+utilities.lazyLoad(exports, ["RoleAssignment"], () => require("./roleAssignment"));
 
 export { ServiceArgs, ServiceState } from "./service";
 export type Service = import("./service").Service;
 export const Service: typeof import("./service").Service = null as any;
 utilities.lazyLoad(exports, ["Service"], () => require("./service"));
+
+export { ServiceScheduledScalingArgs, ServiceScheduledScalingState } from "./serviceScheduledScaling";
+export type ServiceScheduledScaling = import("./serviceScheduledScaling").ServiceScheduledScaling;
+export const ServiceScheduledScaling: typeof import("./serviceScheduledScaling").ServiceScheduledScaling = null as any;
+utilities.lazyLoad(exports, ["ServiceScheduledScaling"], () => require("./serviceScheduledScaling"));
+
+export { ServiceUpgradeWindowArgs, ServiceUpgradeWindowState } from "./serviceUpgradeWindow";
+export type ServiceUpgradeWindow = import("./serviceUpgradeWindow").ServiceUpgradeWindow;
+export const ServiceUpgradeWindow: typeof import("./serviceUpgradeWindow").ServiceUpgradeWindow = null as any;
+utilities.lazyLoad(exports, ["ServiceUpgradeWindow"], () => require("./serviceUpgradeWindow"));
 
 
 // Export sub-modules:
@@ -35,14 +115,44 @@ const _module = {
     version: utilities.getVersion(),
     construct: (name: string, type: string, urn: string): pulumi.Resource => {
         switch (type) {
+            case "clickhouse:index/clickpipe:Clickpipe":
+                return new Clickpipe(name, <any>undefined, { urn })
+            case "clickhouse:index/clickpipeCdcInfrastructure:ClickpipeCdcInfrastructure":
+                return new ClickpipeCdcInfrastructure(name, <any>undefined, { urn })
+            case "clickhouse:index/clickpipesReversePrivateEndpoint:ClickpipesReversePrivateEndpoint":
+                return new ClickpipesReversePrivateEndpoint(name, <any>undefined, { urn })
+            case "clickhouse:index/clickpipesReversePrivateEndpointCustomPrivateDns:ClickpipesReversePrivateEndpointCustomPrivateDns":
+                return new ClickpipesReversePrivateEndpointCustomPrivateDns(name, <any>undefined, { urn })
+            case "clickhouse:index/organizationSettings:OrganizationSettings":
+                return new OrganizationSettings(name, <any>undefined, { urn })
+            case "clickhouse:index/postgresService:PostgresService":
+                return new PostgresService(name, <any>undefined, { urn })
+            case "clickhouse:index/role:Role":
+                return new Role(name, <any>undefined, { urn })
+            case "clickhouse:index/roleAssignment:RoleAssignment":
+                return new RoleAssignment(name, <any>undefined, { urn })
             case "clickhouse:index/service:Service":
                 return new Service(name, <any>undefined, { urn })
+            case "clickhouse:index/serviceScheduledScaling:ServiceScheduledScaling":
+                return new ServiceScheduledScaling(name, <any>undefined, { urn })
+            case "clickhouse:index/serviceUpgradeWindow:ServiceUpgradeWindow":
+                return new ServiceUpgradeWindow(name, <any>undefined, { urn })
             default:
                 throw new Error(`unknown resource type ${type}`);
         }
     },
 };
+pulumi.runtime.registerResourceModule("clickhouse", "index/clickpipe", _module)
+pulumi.runtime.registerResourceModule("clickhouse", "index/clickpipeCdcInfrastructure", _module)
+pulumi.runtime.registerResourceModule("clickhouse", "index/clickpipesReversePrivateEndpoint", _module)
+pulumi.runtime.registerResourceModule("clickhouse", "index/clickpipesReversePrivateEndpointCustomPrivateDns", _module)
+pulumi.runtime.registerResourceModule("clickhouse", "index/organizationSettings", _module)
+pulumi.runtime.registerResourceModule("clickhouse", "index/postgresService", _module)
+pulumi.runtime.registerResourceModule("clickhouse", "index/role", _module)
+pulumi.runtime.registerResourceModule("clickhouse", "index/roleAssignment", _module)
 pulumi.runtime.registerResourceModule("clickhouse", "index/service", _module)
+pulumi.runtime.registerResourceModule("clickhouse", "index/serviceScheduledScaling", _module)
+pulumi.runtime.registerResourceModule("clickhouse", "index/serviceUpgradeWindow", _module)
 pulumi.runtime.registerResourcePackage("clickhouse", {
     version: utilities.getVersion(),
     constructProvider: (name: string, type: string, urn: string): pulumi.ProviderResource => {

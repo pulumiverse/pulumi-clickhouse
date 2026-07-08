@@ -15,6 +15,82 @@ else:
 from . import _utilities
 
 __all__ = [
+    'ClickpipeDestinationArgs',
+    'ClickpipeDestinationArgsDict',
+    'ClickpipeDestinationColumnArgs',
+    'ClickpipeDestinationColumnArgsDict',
+    'ClickpipeDestinationTableDefinitionArgs',
+    'ClickpipeDestinationTableDefinitionArgsDict',
+    'ClickpipeDestinationTableDefinitionEngineArgs',
+    'ClickpipeDestinationTableDefinitionEngineArgsDict',
+    'ClickpipeFieldMappingArgs',
+    'ClickpipeFieldMappingArgsDict',
+    'ClickpipeScalingArgs',
+    'ClickpipeScalingArgsDict',
+    'ClickpipeSourceArgs',
+    'ClickpipeSourceArgsDict',
+    'ClickpipeSourceBigqueryArgs',
+    'ClickpipeSourceBigqueryArgsDict',
+    'ClickpipeSourceBigqueryCredentialsArgs',
+    'ClickpipeSourceBigqueryCredentialsArgsDict',
+    'ClickpipeSourceBigquerySettingsArgs',
+    'ClickpipeSourceBigquerySettingsArgsDict',
+    'ClickpipeSourceBigqueryTableMappingArgs',
+    'ClickpipeSourceBigqueryTableMappingArgsDict',
+    'ClickpipeSourceKafkaArgs',
+    'ClickpipeSourceKafkaArgsDict',
+    'ClickpipeSourceKafkaCredentialsArgs',
+    'ClickpipeSourceKafkaCredentialsArgsDict',
+    'ClickpipeSourceKafkaOffsetArgs',
+    'ClickpipeSourceKafkaOffsetArgsDict',
+    'ClickpipeSourceKafkaSchemaRegistryArgs',
+    'ClickpipeSourceKafkaSchemaRegistryArgsDict',
+    'ClickpipeSourceKafkaSchemaRegistryCredentialsArgs',
+    'ClickpipeSourceKafkaSchemaRegistryCredentialsArgsDict',
+    'ClickpipeSourceKinesisArgs',
+    'ClickpipeSourceKinesisArgsDict',
+    'ClickpipeSourceKinesisAccessKeyArgs',
+    'ClickpipeSourceKinesisAccessKeyArgsDict',
+    'ClickpipeSourceMongodbArgs',
+    'ClickpipeSourceMongodbArgsDict',
+    'ClickpipeSourceMongodbCredentialsArgs',
+    'ClickpipeSourceMongodbCredentialsArgsDict',
+    'ClickpipeSourceMongodbSettingsArgs',
+    'ClickpipeSourceMongodbSettingsArgsDict',
+    'ClickpipeSourceMongodbTableMappingArgs',
+    'ClickpipeSourceMongodbTableMappingArgsDict',
+    'ClickpipeSourceMysqlArgs',
+    'ClickpipeSourceMysqlArgsDict',
+    'ClickpipeSourceMysqlCredentialsArgs',
+    'ClickpipeSourceMysqlCredentialsArgsDict',
+    'ClickpipeSourceMysqlSettingsArgs',
+    'ClickpipeSourceMysqlSettingsArgsDict',
+    'ClickpipeSourceMysqlTableMappingArgs',
+    'ClickpipeSourceMysqlTableMappingArgsDict',
+    'ClickpipeSourceObjectStorageArgs',
+    'ClickpipeSourceObjectStorageArgsDict',
+    'ClickpipeSourceObjectStorageAccessKeyArgs',
+    'ClickpipeSourceObjectStorageAccessKeyArgsDict',
+    'ClickpipeSourcePostgresArgs',
+    'ClickpipeSourcePostgresArgsDict',
+    'ClickpipeSourcePostgresCredentialsArgs',
+    'ClickpipeSourcePostgresCredentialsArgsDict',
+    'ClickpipeSourcePostgresSettingsArgs',
+    'ClickpipeSourcePostgresSettingsArgsDict',
+    'ClickpipeSourcePostgresTableMappingArgs',
+    'ClickpipeSourcePostgresTableMappingArgsDict',
+    'ClickpipeSourcePubsubArgs',
+    'ClickpipeSourcePubsubArgsDict',
+    'ClickpipeSourcePubsubServiceAccountKeyArgs',
+    'ClickpipeSourcePubsubServiceAccountKeyArgsDict',
+    'ClickpipesReversePrivateEndpointCustomPrivateDnsMappingArgs',
+    'ClickpipesReversePrivateEndpointCustomPrivateDnsMappingArgsDict',
+    'PostgresServiceRestoreToPointInTimeArgs',
+    'PostgresServiceRestoreToPointInTimeArgsDict',
+    'RolePolicyArgs',
+    'RolePolicyArgsDict',
+    'RolePolicyTagsArgs',
+    'RolePolicyTagsArgsDict',
     'ServiceBackupConfigurationArgs',
     'ServiceBackupConfigurationArgsDict',
     'ServiceEndpointsArgs',
@@ -31,9 +107,4657 @@ __all__ = [
     'ServicePrivateEndpointConfigArgsDict',
     'ServiceQueryApiEndpointsArgs',
     'ServiceQueryApiEndpointsArgsDict',
+    'ServiceScheduledScalingBaseConfigArgs',
+    'ServiceScheduledScalingBaseConfigArgsDict',
+    'ServiceScheduledScalingEntryArgs',
+    'ServiceScheduledScalingEntryArgsDict',
     'ServiceTransparentDataEncryptionArgs',
     'ServiceTransparentDataEncryptionArgsDict',
 ]
+
+class ClickpipeDestinationArgsDict(TypedDict):
+    columns: NotRequired[pulumi.Input[Optional[Sequence[pulumi.Input['ClickpipeDestinationColumnArgs']]]]]
+    """
+    The list of columns for the ClickHouse table. Required for all sources except Postgres CDC (where columns are determined from source tables).
+    """
+    database: NotRequired[pulumi.Input[Optional[_builtins.str]]]
+    """
+    The name of the ClickHouse database. Default is `default`.
+    """
+    managed_table: NotRequired[pulumi.Input[Optional[_builtins.bool]]]
+    """
+    Whether the table is managed by ClickHouse Cloud. If `false`, the table must exist in the database. Default is `true`. **Not applicable to database/CDC pipes** (Postgres, MySQL, BigQuery, MongoDB): for those sources destination tables are always managed per-table via `table_mappings`, so this field is ignored and not sent to the API.
+    """
+    roles: NotRequired[pulumi.Input[Optional[Sequence[pulumi.Input[_builtins.str]]]]]
+    """
+    ClickPipe will create a ClickHouse user with these roles. Add your custom roles here if required.
+    """
+    table: NotRequired[pulumi.Input[Optional[_builtins.str]]]
+    """
+    The name of the ClickHouse table. Required for all sources except Postgres CDC (where tables are created from table_mappings).
+    """
+    table_definition: NotRequired[pulumi.Input[Optional['ClickpipeDestinationTableDefinitionArgs']]]
+    """
+    Definition of the destination table. Required for ClickPipes managed tables. **Not supported for database/CDC pipes** (Postgres, MySQL, BigQuery, MongoDB): for those sources destination tables are defined per-table via `table_mappings` (each mapping's `target_table`, `table_engine`, `sorting_keys`, etc.), so configuring this is rejected at plan time.
+    """
+
+@pulumi.input_type
+class ClickpipeDestinationArgs:
+    def __init__(__self__, *,
+                 columns: pulumi.Input[Optional[Sequence[pulumi.Input['ClickpipeDestinationColumnArgs']]]] = None,
+                 database: pulumi.Input[Optional[_builtins.str]] = None,
+                 managed_table: pulumi.Input[Optional[_builtins.bool]] = None,
+                 roles: pulumi.Input[Optional[Sequence[pulumi.Input[_builtins.str]]]] = None,
+                 table: pulumi.Input[Optional[_builtins.str]] = None,
+                 table_definition: pulumi.Input[Optional['ClickpipeDestinationTableDefinitionArgs']] = None):
+        """
+        :param pulumi.Input[Sequence[pulumi.Input['ClickpipeDestinationColumnArgs']]] columns: The list of columns for the ClickHouse table. Required for all sources except Postgres CDC (where columns are determined from source tables).
+        :param pulumi.Input[_builtins.str] database: The name of the ClickHouse database. Default is `default`.
+        :param pulumi.Input[_builtins.bool] managed_table: Whether the table is managed by ClickHouse Cloud. If `false`, the table must exist in the database. Default is `true`. **Not applicable to database/CDC pipes** (Postgres, MySQL, BigQuery, MongoDB): for those sources destination tables are always managed per-table via `table_mappings`, so this field is ignored and not sent to the API.
+        :param pulumi.Input[Sequence[pulumi.Input[_builtins.str]]] roles: ClickPipe will create a ClickHouse user with these roles. Add your custom roles here if required.
+        :param pulumi.Input[_builtins.str] table: The name of the ClickHouse table. Required for all sources except Postgres CDC (where tables are created from table_mappings).
+        :param pulumi.Input['ClickpipeDestinationTableDefinitionArgs'] table_definition: Definition of the destination table. Required for ClickPipes managed tables. **Not supported for database/CDC pipes** (Postgres, MySQL, BigQuery, MongoDB): for those sources destination tables are defined per-table via `table_mappings` (each mapping's `target_table`, `table_engine`, `sorting_keys`, etc.), so configuring this is rejected at plan time.
+        """
+        if columns is not None:
+            pulumi.set(__self__, "columns", columns)
+        if database is not None:
+            pulumi.set(__self__, "database", database)
+        if managed_table is not None:
+            pulumi.set(__self__, "managed_table", managed_table)
+        if roles is not None:
+            pulumi.set(__self__, "roles", roles)
+        if table is not None:
+            pulumi.set(__self__, "table", table)
+        if table_definition is not None:
+            pulumi.set(__self__, "table_definition", table_definition)
+
+    @_builtins.property
+    @pulumi.getter
+    def columns(self) -> pulumi.Input[Optional[Sequence[pulumi.Input['ClickpipeDestinationColumnArgs']]]]:
+        """
+        The list of columns for the ClickHouse table. Required for all sources except Postgres CDC (where columns are determined from source tables).
+        """
+        return pulumi.get(self, "columns")
+
+    @columns.setter
+    def columns(self, value: pulumi.Input[Optional[Sequence[pulumi.Input['ClickpipeDestinationColumnArgs']]]]):
+        pulumi.set(self, "columns", value)
+
+    @_builtins.property
+    @pulumi.getter
+    def database(self) -> pulumi.Input[Optional[_builtins.str]]:
+        """
+        The name of the ClickHouse database. Default is `default`.
+        """
+        return pulumi.get(self, "database")
+
+    @database.setter
+    def database(self, value: pulumi.Input[Optional[_builtins.str]]):
+        pulumi.set(self, "database", value)
+
+    @_builtins.property
+    @pulumi.getter(name="managedTable")
+    def managed_table(self) -> pulumi.Input[Optional[_builtins.bool]]:
+        """
+        Whether the table is managed by ClickHouse Cloud. If `false`, the table must exist in the database. Default is `true`. **Not applicable to database/CDC pipes** (Postgres, MySQL, BigQuery, MongoDB): for those sources destination tables are always managed per-table via `table_mappings`, so this field is ignored and not sent to the API.
+        """
+        return pulumi.get(self, "managed_table")
+
+    @managed_table.setter
+    def managed_table(self, value: pulumi.Input[Optional[_builtins.bool]]):
+        pulumi.set(self, "managed_table", value)
+
+    @_builtins.property
+    @pulumi.getter
+    def roles(self) -> pulumi.Input[Optional[Sequence[pulumi.Input[_builtins.str]]]]:
+        """
+        ClickPipe will create a ClickHouse user with these roles. Add your custom roles here if required.
+        """
+        return pulumi.get(self, "roles")
+
+    @roles.setter
+    def roles(self, value: pulumi.Input[Optional[Sequence[pulumi.Input[_builtins.str]]]]):
+        pulumi.set(self, "roles", value)
+
+    @_builtins.property
+    @pulumi.getter
+    def table(self) -> pulumi.Input[Optional[_builtins.str]]:
+        """
+        The name of the ClickHouse table. Required for all sources except Postgres CDC (where tables are created from table_mappings).
+        """
+        return pulumi.get(self, "table")
+
+    @table.setter
+    def table(self, value: pulumi.Input[Optional[_builtins.str]]):
+        pulumi.set(self, "table", value)
+
+    @_builtins.property
+    @pulumi.getter(name="tableDefinition")
+    def table_definition(self) -> pulumi.Input[Optional['ClickpipeDestinationTableDefinitionArgs']]:
+        """
+        Definition of the destination table. Required for ClickPipes managed tables. **Not supported for database/CDC pipes** (Postgres, MySQL, BigQuery, MongoDB): for those sources destination tables are defined per-table via `table_mappings` (each mapping's `target_table`, `table_engine`, `sorting_keys`, etc.), so configuring this is rejected at plan time.
+        """
+        return pulumi.get(self, "table_definition")
+
+    @table_definition.setter
+    def table_definition(self, value: pulumi.Input[Optional['ClickpipeDestinationTableDefinitionArgs']]):
+        pulumi.set(self, "table_definition", value)
+
+
+class ClickpipeDestinationColumnArgsDict(TypedDict):
+    name: pulumi.Input[_builtins.str]
+    """
+    The name of the column.
+    """
+    type: pulumi.Input[_builtins.str]
+    """
+    The type of the column.
+    """
+
+@pulumi.input_type
+class ClickpipeDestinationColumnArgs:
+    def __init__(__self__, *,
+                 name: pulumi.Input[_builtins.str],
+                 type: pulumi.Input[_builtins.str]):
+        """
+        :param pulumi.Input[_builtins.str] name: The name of the column.
+        :param pulumi.Input[_builtins.str] type: The type of the column.
+        """
+        pulumi.set(__self__, "name", name)
+        pulumi.set(__self__, "type", type)
+
+    @_builtins.property
+    @pulumi.getter
+    def name(self) -> pulumi.Input[_builtins.str]:
+        """
+        The name of the column.
+        """
+        return pulumi.get(self, "name")
+
+    @name.setter
+    def name(self, value: pulumi.Input[_builtins.str]):
+        pulumi.set(self, "name", value)
+
+    @_builtins.property
+    @pulumi.getter
+    def type(self) -> pulumi.Input[_builtins.str]:
+        """
+        The type of the column.
+        """
+        return pulumi.get(self, "type")
+
+    @type.setter
+    def type(self, value: pulumi.Input[_builtins.str]):
+        pulumi.set(self, "type", value)
+
+
+class ClickpipeDestinationTableDefinitionArgsDict(TypedDict):
+    engine: pulumi.Input['ClickpipeDestinationTableDefinitionEngineArgsDict']
+    """
+    The engine of the ClickHouse table.
+    """
+    partition_by: NotRequired[pulumi.Input[Optional[_builtins.str]]]
+    """
+    The column to partition the table by.
+    """
+    primary_key: NotRequired[pulumi.Input[Optional[_builtins.str]]]
+    """
+    The primary key of the table.
+    """
+    sorting_keys: NotRequired[pulumi.Input[Optional[Sequence[pulumi.Input[_builtins.str]]]]]
+    """
+    The list of columns for the sorting key.
+    """
+
+@pulumi.input_type
+class ClickpipeDestinationTableDefinitionArgs:
+    def __init__(__self__, *,
+                 engine: pulumi.Input['ClickpipeDestinationTableDefinitionEngineArgs'],
+                 partition_by: pulumi.Input[Optional[_builtins.str]] = None,
+                 primary_key: pulumi.Input[Optional[_builtins.str]] = None,
+                 sorting_keys: pulumi.Input[Optional[Sequence[pulumi.Input[_builtins.str]]]] = None):
+        """
+        :param pulumi.Input['ClickpipeDestinationTableDefinitionEngineArgs'] engine: The engine of the ClickHouse table.
+        :param pulumi.Input[_builtins.str] partition_by: The column to partition the table by.
+        :param pulumi.Input[_builtins.str] primary_key: The primary key of the table.
+        :param pulumi.Input[Sequence[pulumi.Input[_builtins.str]]] sorting_keys: The list of columns for the sorting key.
+        """
+        pulumi.set(__self__, "engine", engine)
+        if partition_by is not None:
+            pulumi.set(__self__, "partition_by", partition_by)
+        if primary_key is not None:
+            pulumi.set(__self__, "primary_key", primary_key)
+        if sorting_keys is not None:
+            pulumi.set(__self__, "sorting_keys", sorting_keys)
+
+    @_builtins.property
+    @pulumi.getter
+    def engine(self) -> pulumi.Input['ClickpipeDestinationTableDefinitionEngineArgs']:
+        """
+        The engine of the ClickHouse table.
+        """
+        return pulumi.get(self, "engine")
+
+    @engine.setter
+    def engine(self, value: pulumi.Input['ClickpipeDestinationTableDefinitionEngineArgs']):
+        pulumi.set(self, "engine", value)
+
+    @_builtins.property
+    @pulumi.getter(name="partitionBy")
+    def partition_by(self) -> pulumi.Input[Optional[_builtins.str]]:
+        """
+        The column to partition the table by.
+        """
+        return pulumi.get(self, "partition_by")
+
+    @partition_by.setter
+    def partition_by(self, value: pulumi.Input[Optional[_builtins.str]]):
+        pulumi.set(self, "partition_by", value)
+
+    @_builtins.property
+    @pulumi.getter(name="primaryKey")
+    def primary_key(self) -> pulumi.Input[Optional[_builtins.str]]:
+        """
+        The primary key of the table.
+        """
+        return pulumi.get(self, "primary_key")
+
+    @primary_key.setter
+    def primary_key(self, value: pulumi.Input[Optional[_builtins.str]]):
+        pulumi.set(self, "primary_key", value)
+
+    @_builtins.property
+    @pulumi.getter(name="sortingKeys")
+    def sorting_keys(self) -> pulumi.Input[Optional[Sequence[pulumi.Input[_builtins.str]]]]:
+        """
+        The list of columns for the sorting key.
+        """
+        return pulumi.get(self, "sorting_keys")
+
+    @sorting_keys.setter
+    def sorting_keys(self, value: pulumi.Input[Optional[Sequence[pulumi.Input[_builtins.str]]]]):
+        pulumi.set(self, "sorting_keys", value)
+
+
+class ClickpipeDestinationTableDefinitionEngineArgsDict(TypedDict):
+    type: pulumi.Input[_builtins.str]
+    """
+    The type of the engine. Supported engines: `MergeTree`, `ReplacingMergeTree`, `SummingMergeTree`, `Null`.
+    """
+    column_ids: NotRequired[pulumi.Input[Optional[Sequence[pulumi.Input[_builtins.str]]]]]
+    """
+    Column IDs to sum for SummingMergeTree engine. Required when engine type is `SummingMergeTree`.
+    """
+    version_column_id: NotRequired[pulumi.Input[Optional[_builtins.str]]]
+    """
+    Column ID to use as version for ReplacingMergeTree engine. Required when engine type is `ReplacingMergeTree`.
+    """
+
+@pulumi.input_type
+class ClickpipeDestinationTableDefinitionEngineArgs:
+    def __init__(__self__, *,
+                 type: pulumi.Input[_builtins.str],
+                 column_ids: pulumi.Input[Optional[Sequence[pulumi.Input[_builtins.str]]]] = None,
+                 version_column_id: pulumi.Input[Optional[_builtins.str]] = None):
+        """
+        :param pulumi.Input[_builtins.str] type: The type of the engine. Supported engines: `MergeTree`, `ReplacingMergeTree`, `SummingMergeTree`, `Null`.
+        :param pulumi.Input[Sequence[pulumi.Input[_builtins.str]]] column_ids: Column IDs to sum for SummingMergeTree engine. Required when engine type is `SummingMergeTree`.
+        :param pulumi.Input[_builtins.str] version_column_id: Column ID to use as version for ReplacingMergeTree engine. Required when engine type is `ReplacingMergeTree`.
+        """
+        pulumi.set(__self__, "type", type)
+        if column_ids is not None:
+            pulumi.set(__self__, "column_ids", column_ids)
+        if version_column_id is not None:
+            pulumi.set(__self__, "version_column_id", version_column_id)
+
+    @_builtins.property
+    @pulumi.getter
+    def type(self) -> pulumi.Input[_builtins.str]:
+        """
+        The type of the engine. Supported engines: `MergeTree`, `ReplacingMergeTree`, `SummingMergeTree`, `Null`.
+        """
+        return pulumi.get(self, "type")
+
+    @type.setter
+    def type(self, value: pulumi.Input[_builtins.str]):
+        pulumi.set(self, "type", value)
+
+    @_builtins.property
+    @pulumi.getter(name="columnIds")
+    def column_ids(self) -> pulumi.Input[Optional[Sequence[pulumi.Input[_builtins.str]]]]:
+        """
+        Column IDs to sum for SummingMergeTree engine. Required when engine type is `SummingMergeTree`.
+        """
+        return pulumi.get(self, "column_ids")
+
+    @column_ids.setter
+    def column_ids(self, value: pulumi.Input[Optional[Sequence[pulumi.Input[_builtins.str]]]]):
+        pulumi.set(self, "column_ids", value)
+
+    @_builtins.property
+    @pulumi.getter(name="versionColumnId")
+    def version_column_id(self) -> pulumi.Input[Optional[_builtins.str]]:
+        """
+        Column ID to use as version for ReplacingMergeTree engine. Required when engine type is `ReplacingMergeTree`.
+        """
+        return pulumi.get(self, "version_column_id")
+
+    @version_column_id.setter
+    def version_column_id(self, value: pulumi.Input[Optional[_builtins.str]]):
+        pulumi.set(self, "version_column_id", value)
+
+
+class ClickpipeFieldMappingArgsDict(TypedDict):
+    destination_field: pulumi.Input[_builtins.str]
+    """
+    The name of the column in destination table.
+    """
+    source_field: pulumi.Input[_builtins.str]
+    """
+    The name of the source field.
+    """
+
+@pulumi.input_type
+class ClickpipeFieldMappingArgs:
+    def __init__(__self__, *,
+                 destination_field: pulumi.Input[_builtins.str],
+                 source_field: pulumi.Input[_builtins.str]):
+        """
+        :param pulumi.Input[_builtins.str] destination_field: The name of the column in destination table.
+        :param pulumi.Input[_builtins.str] source_field: The name of the source field.
+        """
+        pulumi.set(__self__, "destination_field", destination_field)
+        pulumi.set(__self__, "source_field", source_field)
+
+    @_builtins.property
+    @pulumi.getter(name="destinationField")
+    def destination_field(self) -> pulumi.Input[_builtins.str]:
+        """
+        The name of the column in destination table.
+        """
+        return pulumi.get(self, "destination_field")
+
+    @destination_field.setter
+    def destination_field(self, value: pulumi.Input[_builtins.str]):
+        pulumi.set(self, "destination_field", value)
+
+    @_builtins.property
+    @pulumi.getter(name="sourceField")
+    def source_field(self) -> pulumi.Input[_builtins.str]:
+        """
+        The name of the source field.
+        """
+        return pulumi.get(self, "source_field")
+
+    @source_field.setter
+    def source_field(self, value: pulumi.Input[_builtins.str]):
+        pulumi.set(self, "source_field", value)
+
+
+class ClickpipeScalingArgsDict(TypedDict):
+    replica_cpu_millicores: NotRequired[pulumi.Input[Optional[_builtins.int]]]
+    """
+    The CPU allocation per replica in millicores. Must be between 125 and 2000.
+    """
+    replica_memory_gb: NotRequired[pulumi.Input[Optional[_builtins.float]]]
+    """
+    The memory allocation per replica in GB. Must be between 0.5 and 8.0.
+    """
+    replicas: NotRequired[pulumi.Input[Optional[_builtins.int]]]
+    """
+    The number of desired replicas for the ClickPipe. Default is 1. The maximum value is 10.
+    """
+
+@pulumi.input_type
+class ClickpipeScalingArgs:
+    def __init__(__self__, *,
+                 replica_cpu_millicores: pulumi.Input[Optional[_builtins.int]] = None,
+                 replica_memory_gb: pulumi.Input[Optional[_builtins.float]] = None,
+                 replicas: pulumi.Input[Optional[_builtins.int]] = None):
+        """
+        :param pulumi.Input[_builtins.int] replica_cpu_millicores: The CPU allocation per replica in millicores. Must be between 125 and 2000.
+        :param pulumi.Input[_builtins.float] replica_memory_gb: The memory allocation per replica in GB. Must be between 0.5 and 8.0.
+        :param pulumi.Input[_builtins.int] replicas: The number of desired replicas for the ClickPipe. Default is 1. The maximum value is 10.
+        """
+        if replica_cpu_millicores is not None:
+            pulumi.set(__self__, "replica_cpu_millicores", replica_cpu_millicores)
+        if replica_memory_gb is not None:
+            pulumi.set(__self__, "replica_memory_gb", replica_memory_gb)
+        if replicas is not None:
+            pulumi.set(__self__, "replicas", replicas)
+
+    @_builtins.property
+    @pulumi.getter(name="replicaCpuMillicores")
+    def replica_cpu_millicores(self) -> pulumi.Input[Optional[_builtins.int]]:
+        """
+        The CPU allocation per replica in millicores. Must be between 125 and 2000.
+        """
+        return pulumi.get(self, "replica_cpu_millicores")
+
+    @replica_cpu_millicores.setter
+    def replica_cpu_millicores(self, value: pulumi.Input[Optional[_builtins.int]]):
+        pulumi.set(self, "replica_cpu_millicores", value)
+
+    @_builtins.property
+    @pulumi.getter(name="replicaMemoryGb")
+    def replica_memory_gb(self) -> pulumi.Input[Optional[_builtins.float]]:
+        """
+        The memory allocation per replica in GB. Must be between 0.5 and 8.0.
+        """
+        return pulumi.get(self, "replica_memory_gb")
+
+    @replica_memory_gb.setter
+    def replica_memory_gb(self, value: pulumi.Input[Optional[_builtins.float]]):
+        pulumi.set(self, "replica_memory_gb", value)
+
+    @_builtins.property
+    @pulumi.getter
+    def replicas(self) -> pulumi.Input[Optional[_builtins.int]]:
+        """
+        The number of desired replicas for the ClickPipe. Default is 1. The maximum value is 10.
+        """
+        return pulumi.get(self, "replicas")
+
+    @replicas.setter
+    def replicas(self, value: pulumi.Input[Optional[_builtins.int]]):
+        pulumi.set(self, "replicas", value)
+
+
+class ClickpipeSourceArgsDict(TypedDict):
+    bigquery: NotRequired[pulumi.Input[Optional['ClickpipeSourceBigqueryArgs']]]
+    """
+    The BigQuery source configuration for the ClickPipe.
+    """
+    kafka: NotRequired[pulumi.Input[Optional['ClickpipeSourceKafkaArgs']]]
+    """
+    The Kafka source configuration for the ClickPipe.
+    """
+    kinesis: NotRequired[pulumi.Input[Optional['ClickpipeSourceKinesisArgs']]]
+    """
+    The Kinesis source configuration for the ClickPipe. Only `authentication`, `iam_role` and `access_key` can be updated in place; changing any other field forces resource replacement (destroy and recreate).
+    """
+    mongodb: NotRequired[pulumi.Input[Optional['ClickpipeSourceMongodbArgs']]]
+    """
+    The MongoDB CDC source configuration for the ClickPipe.
+    """
+    mysql: NotRequired[pulumi.Input[Optional['ClickpipeSourceMysqlArgs']]]
+    """
+    The MySQL CDC source configuration for the ClickPipe.
+    """
+    object_storage: NotRequired[pulumi.Input[Optional['ClickpipeSourceObjectStorageArgs']]]
+    """
+    The compatible object storage source configuration for the ClickPipe.
+    """
+    postgres: NotRequired[pulumi.Input[Optional['ClickpipeSourcePostgresArgs']]]
+    """
+    The Postgres CDC source configuration for the ClickPipe.
+    """
+    pubsub: NotRequired[pulumi.Input[Optional['ClickpipeSourcePubsubArgs']]]
+    """
+    The GCP Pub/Sub source configuration for the ClickPipe.
+    """
+
+@pulumi.input_type
+class ClickpipeSourceArgs:
+    def __init__(__self__, *,
+                 bigquery: pulumi.Input[Optional['ClickpipeSourceBigqueryArgs']] = None,
+                 kafka: pulumi.Input[Optional['ClickpipeSourceKafkaArgs']] = None,
+                 kinesis: pulumi.Input[Optional['ClickpipeSourceKinesisArgs']] = None,
+                 mongodb: pulumi.Input[Optional['ClickpipeSourceMongodbArgs']] = None,
+                 mysql: pulumi.Input[Optional['ClickpipeSourceMysqlArgs']] = None,
+                 object_storage: pulumi.Input[Optional['ClickpipeSourceObjectStorageArgs']] = None,
+                 postgres: pulumi.Input[Optional['ClickpipeSourcePostgresArgs']] = None,
+                 pubsub: pulumi.Input[Optional['ClickpipeSourcePubsubArgs']] = None):
+        """
+        :param pulumi.Input['ClickpipeSourceBigqueryArgs'] bigquery: The BigQuery source configuration for the ClickPipe.
+        :param pulumi.Input['ClickpipeSourceKafkaArgs'] kafka: The Kafka source configuration for the ClickPipe.
+        :param pulumi.Input['ClickpipeSourceKinesisArgs'] kinesis: The Kinesis source configuration for the ClickPipe. Only `authentication`, `iam_role` and `access_key` can be updated in place; changing any other field forces resource replacement (destroy and recreate).
+        :param pulumi.Input['ClickpipeSourceMongodbArgs'] mongodb: The MongoDB CDC source configuration for the ClickPipe.
+        :param pulumi.Input['ClickpipeSourceMysqlArgs'] mysql: The MySQL CDC source configuration for the ClickPipe.
+        :param pulumi.Input['ClickpipeSourceObjectStorageArgs'] object_storage: The compatible object storage source configuration for the ClickPipe.
+        :param pulumi.Input['ClickpipeSourcePostgresArgs'] postgres: The Postgres CDC source configuration for the ClickPipe.
+        :param pulumi.Input['ClickpipeSourcePubsubArgs'] pubsub: The GCP Pub/Sub source configuration for the ClickPipe.
+        """
+        if bigquery is not None:
+            pulumi.set(__self__, "bigquery", bigquery)
+        if kafka is not None:
+            pulumi.set(__self__, "kafka", kafka)
+        if kinesis is not None:
+            pulumi.set(__self__, "kinesis", kinesis)
+        if mongodb is not None:
+            pulumi.set(__self__, "mongodb", mongodb)
+        if mysql is not None:
+            pulumi.set(__self__, "mysql", mysql)
+        if object_storage is not None:
+            pulumi.set(__self__, "object_storage", object_storage)
+        if postgres is not None:
+            pulumi.set(__self__, "postgres", postgres)
+        if pubsub is not None:
+            pulumi.set(__self__, "pubsub", pubsub)
+
+    @_builtins.property
+    @pulumi.getter
+    def bigquery(self) -> pulumi.Input[Optional['ClickpipeSourceBigqueryArgs']]:
+        """
+        The BigQuery source configuration for the ClickPipe.
+        """
+        return pulumi.get(self, "bigquery")
+
+    @bigquery.setter
+    def bigquery(self, value: pulumi.Input[Optional['ClickpipeSourceBigqueryArgs']]):
+        pulumi.set(self, "bigquery", value)
+
+    @_builtins.property
+    @pulumi.getter
+    def kafka(self) -> pulumi.Input[Optional['ClickpipeSourceKafkaArgs']]:
+        """
+        The Kafka source configuration for the ClickPipe.
+        """
+        return pulumi.get(self, "kafka")
+
+    @kafka.setter
+    def kafka(self, value: pulumi.Input[Optional['ClickpipeSourceKafkaArgs']]):
+        pulumi.set(self, "kafka", value)
+
+    @_builtins.property
+    @pulumi.getter
+    def kinesis(self) -> pulumi.Input[Optional['ClickpipeSourceKinesisArgs']]:
+        """
+        The Kinesis source configuration for the ClickPipe. Only `authentication`, `iam_role` and `access_key` can be updated in place; changing any other field forces resource replacement (destroy and recreate).
+        """
+        return pulumi.get(self, "kinesis")
+
+    @kinesis.setter
+    def kinesis(self, value: pulumi.Input[Optional['ClickpipeSourceKinesisArgs']]):
+        pulumi.set(self, "kinesis", value)
+
+    @_builtins.property
+    @pulumi.getter
+    def mongodb(self) -> pulumi.Input[Optional['ClickpipeSourceMongodbArgs']]:
+        """
+        The MongoDB CDC source configuration for the ClickPipe.
+        """
+        return pulumi.get(self, "mongodb")
+
+    @mongodb.setter
+    def mongodb(self, value: pulumi.Input[Optional['ClickpipeSourceMongodbArgs']]):
+        pulumi.set(self, "mongodb", value)
+
+    @_builtins.property
+    @pulumi.getter
+    def mysql(self) -> pulumi.Input[Optional['ClickpipeSourceMysqlArgs']]:
+        """
+        The MySQL CDC source configuration for the ClickPipe.
+        """
+        return pulumi.get(self, "mysql")
+
+    @mysql.setter
+    def mysql(self, value: pulumi.Input[Optional['ClickpipeSourceMysqlArgs']]):
+        pulumi.set(self, "mysql", value)
+
+    @_builtins.property
+    @pulumi.getter(name="objectStorage")
+    def object_storage(self) -> pulumi.Input[Optional['ClickpipeSourceObjectStorageArgs']]:
+        """
+        The compatible object storage source configuration for the ClickPipe.
+        """
+        return pulumi.get(self, "object_storage")
+
+    @object_storage.setter
+    def object_storage(self, value: pulumi.Input[Optional['ClickpipeSourceObjectStorageArgs']]):
+        pulumi.set(self, "object_storage", value)
+
+    @_builtins.property
+    @pulumi.getter
+    def postgres(self) -> pulumi.Input[Optional['ClickpipeSourcePostgresArgs']]:
+        """
+        The Postgres CDC source configuration for the ClickPipe.
+        """
+        return pulumi.get(self, "postgres")
+
+    @postgres.setter
+    def postgres(self, value: pulumi.Input[Optional['ClickpipeSourcePostgresArgs']]):
+        pulumi.set(self, "postgres", value)
+
+    @_builtins.property
+    @pulumi.getter
+    def pubsub(self) -> pulumi.Input[Optional['ClickpipeSourcePubsubArgs']]:
+        """
+        The GCP Pub/Sub source configuration for the ClickPipe.
+        """
+        return pulumi.get(self, "pubsub")
+
+    @pubsub.setter
+    def pubsub(self, value: pulumi.Input[Optional['ClickpipeSourcePubsubArgs']]):
+        pulumi.set(self, "pubsub", value)
+
+
+class ClickpipeSourceBigqueryArgsDict(TypedDict):
+    credentials: pulumi.Input['ClickpipeSourceBigqueryCredentialsArgsDict']
+    """
+    The credentials for BigQuery access.
+    """
+    settings: pulumi.Input['ClickpipeSourceBigquerySettingsArgsDict']
+    """
+    Settings for the BigQuery pipe.
+    """
+    snapshot_staging_path: pulumi.Input[_builtins.str]
+    """
+    GCS bucket path for staging snapshot data (e.g., gs://my-bucket/staging/). Data will be automatically cleaned up after initial load.
+    """
+    table_mappings: pulumi.Input[Sequence[pulumi.Input['ClickpipeSourceBigqueryTableMappingArgsDict']]]
+    """
+    Table mappings from BigQuery source to ClickHouse destination.
+    """
+
+@pulumi.input_type
+class ClickpipeSourceBigqueryArgs:
+    def __init__(__self__, *,
+                 credentials: pulumi.Input['ClickpipeSourceBigqueryCredentialsArgs'],
+                 settings: pulumi.Input['ClickpipeSourceBigquerySettingsArgs'],
+                 snapshot_staging_path: pulumi.Input[_builtins.str],
+                 table_mappings: pulumi.Input[Sequence[pulumi.Input['ClickpipeSourceBigqueryTableMappingArgs']]]):
+        """
+        :param pulumi.Input['ClickpipeSourceBigqueryCredentialsArgs'] credentials: The credentials for BigQuery access.
+        :param pulumi.Input['ClickpipeSourceBigquerySettingsArgs'] settings: Settings for the BigQuery pipe.
+        :param pulumi.Input[_builtins.str] snapshot_staging_path: GCS bucket path for staging snapshot data (e.g., gs://my-bucket/staging/). Data will be automatically cleaned up after initial load.
+        :param pulumi.Input[Sequence[pulumi.Input['ClickpipeSourceBigqueryTableMappingArgs']]] table_mappings: Table mappings from BigQuery source to ClickHouse destination.
+        """
+        pulumi.set(__self__, "credentials", credentials)
+        pulumi.set(__self__, "settings", settings)
+        pulumi.set(__self__, "snapshot_staging_path", snapshot_staging_path)
+        pulumi.set(__self__, "table_mappings", table_mappings)
+
+    @_builtins.property
+    @pulumi.getter
+    def credentials(self) -> pulumi.Input['ClickpipeSourceBigqueryCredentialsArgs']:
+        """
+        The credentials for BigQuery access.
+        """
+        return pulumi.get(self, "credentials")
+
+    @credentials.setter
+    def credentials(self, value: pulumi.Input['ClickpipeSourceBigqueryCredentialsArgs']):
+        pulumi.set(self, "credentials", value)
+
+    @_builtins.property
+    @pulumi.getter
+    def settings(self) -> pulumi.Input['ClickpipeSourceBigquerySettingsArgs']:
+        """
+        Settings for the BigQuery pipe.
+        """
+        return pulumi.get(self, "settings")
+
+    @settings.setter
+    def settings(self, value: pulumi.Input['ClickpipeSourceBigquerySettingsArgs']):
+        pulumi.set(self, "settings", value)
+
+    @_builtins.property
+    @pulumi.getter(name="snapshotStagingPath")
+    def snapshot_staging_path(self) -> pulumi.Input[_builtins.str]:
+        """
+        GCS bucket path for staging snapshot data (e.g., gs://my-bucket/staging/). Data will be automatically cleaned up after initial load.
+        """
+        return pulumi.get(self, "snapshot_staging_path")
+
+    @snapshot_staging_path.setter
+    def snapshot_staging_path(self, value: pulumi.Input[_builtins.str]):
+        pulumi.set(self, "snapshot_staging_path", value)
+
+    @_builtins.property
+    @pulumi.getter(name="tableMappings")
+    def table_mappings(self) -> pulumi.Input[Sequence[pulumi.Input['ClickpipeSourceBigqueryTableMappingArgs']]]:
+        """
+        Table mappings from BigQuery source to ClickHouse destination.
+        """
+        return pulumi.get(self, "table_mappings")
+
+    @table_mappings.setter
+    def table_mappings(self, value: pulumi.Input[Sequence[pulumi.Input['ClickpipeSourceBigqueryTableMappingArgs']]]):
+        pulumi.set(self, "table_mappings", value)
+
+
+class ClickpipeSourceBigqueryCredentialsArgsDict(TypedDict):
+    service_account_file: pulumi.Input[_builtins.str]
+    """
+    Google Cloud service account JSON key file content, base64 encoded.
+    """
+
+@pulumi.input_type
+class ClickpipeSourceBigqueryCredentialsArgs:
+    def __init__(__self__, *,
+                 service_account_file: pulumi.Input[_builtins.str]):
+        """
+        :param pulumi.Input[_builtins.str] service_account_file: Google Cloud service account JSON key file content, base64 encoded.
+        """
+        pulumi.set(__self__, "service_account_file", service_account_file)
+
+    @_builtins.property
+    @pulumi.getter(name="serviceAccountFile")
+    def service_account_file(self) -> pulumi.Input[_builtins.str]:
+        """
+        Google Cloud service account JSON key file content, base64 encoded.
+        """
+        return pulumi.get(self, "service_account_file")
+
+    @service_account_file.setter
+    def service_account_file(self, value: pulumi.Input[_builtins.str]):
+        pulumi.set(self, "service_account_file", value)
+
+
+class ClickpipeSourceBigquerySettingsArgsDict(TypedDict):
+    replication_mode: pulumi.Input[_builtins.str]
+    """
+    Replication mode for the BigQuery pipe. (`snapshot`)
+    """
+    allow_nullable_columns: NotRequired[pulumi.Input[Optional[_builtins.bool]]]
+    """
+    Allow nullable columns in the destination table.
+    """
+    initial_load_parallelism: NotRequired[pulumi.Input[Optional[_builtins.int]]]
+    """
+    Number of parallel workers during initial load.
+    """
+    snapshot_num_rows_per_partition: NotRequired[pulumi.Input[Optional[_builtins.int]]]
+    """
+    Number of rows to snapshot per partition.
+    """
+    snapshot_number_of_parallel_tables: NotRequired[pulumi.Input[Optional[_builtins.int]]]
+    """
+    Number of parallel tables to snapshot.
+    """
+
+@pulumi.input_type
+class ClickpipeSourceBigquerySettingsArgs:
+    def __init__(__self__, *,
+                 replication_mode: pulumi.Input[_builtins.str],
+                 allow_nullable_columns: pulumi.Input[Optional[_builtins.bool]] = None,
+                 initial_load_parallelism: pulumi.Input[Optional[_builtins.int]] = None,
+                 snapshot_num_rows_per_partition: pulumi.Input[Optional[_builtins.int]] = None,
+                 snapshot_number_of_parallel_tables: pulumi.Input[Optional[_builtins.int]] = None):
+        """
+        :param pulumi.Input[_builtins.str] replication_mode: Replication mode for the BigQuery pipe. (`snapshot`)
+        :param pulumi.Input[_builtins.bool] allow_nullable_columns: Allow nullable columns in the destination table.
+        :param pulumi.Input[_builtins.int] initial_load_parallelism: Number of parallel workers during initial load.
+        :param pulumi.Input[_builtins.int] snapshot_num_rows_per_partition: Number of rows to snapshot per partition.
+        :param pulumi.Input[_builtins.int] snapshot_number_of_parallel_tables: Number of parallel tables to snapshot.
+        """
+        pulumi.set(__self__, "replication_mode", replication_mode)
+        if allow_nullable_columns is not None:
+            pulumi.set(__self__, "allow_nullable_columns", allow_nullable_columns)
+        if initial_load_parallelism is not None:
+            pulumi.set(__self__, "initial_load_parallelism", initial_load_parallelism)
+        if snapshot_num_rows_per_partition is not None:
+            pulumi.set(__self__, "snapshot_num_rows_per_partition", snapshot_num_rows_per_partition)
+        if snapshot_number_of_parallel_tables is not None:
+            pulumi.set(__self__, "snapshot_number_of_parallel_tables", snapshot_number_of_parallel_tables)
+
+    @_builtins.property
+    @pulumi.getter(name="replicationMode")
+    def replication_mode(self) -> pulumi.Input[_builtins.str]:
+        """
+        Replication mode for the BigQuery pipe. (`snapshot`)
+        """
+        return pulumi.get(self, "replication_mode")
+
+    @replication_mode.setter
+    def replication_mode(self, value: pulumi.Input[_builtins.str]):
+        pulumi.set(self, "replication_mode", value)
+
+    @_builtins.property
+    @pulumi.getter(name="allowNullableColumns")
+    def allow_nullable_columns(self) -> pulumi.Input[Optional[_builtins.bool]]:
+        """
+        Allow nullable columns in the destination table.
+        """
+        return pulumi.get(self, "allow_nullable_columns")
+
+    @allow_nullable_columns.setter
+    def allow_nullable_columns(self, value: pulumi.Input[Optional[_builtins.bool]]):
+        pulumi.set(self, "allow_nullable_columns", value)
+
+    @_builtins.property
+    @pulumi.getter(name="initialLoadParallelism")
+    def initial_load_parallelism(self) -> pulumi.Input[Optional[_builtins.int]]:
+        """
+        Number of parallel workers during initial load.
+        """
+        return pulumi.get(self, "initial_load_parallelism")
+
+    @initial_load_parallelism.setter
+    def initial_load_parallelism(self, value: pulumi.Input[Optional[_builtins.int]]):
+        pulumi.set(self, "initial_load_parallelism", value)
+
+    @_builtins.property
+    @pulumi.getter(name="snapshotNumRowsPerPartition")
+    def snapshot_num_rows_per_partition(self) -> pulumi.Input[Optional[_builtins.int]]:
+        """
+        Number of rows to snapshot per partition.
+        """
+        return pulumi.get(self, "snapshot_num_rows_per_partition")
+
+    @snapshot_num_rows_per_partition.setter
+    def snapshot_num_rows_per_partition(self, value: pulumi.Input[Optional[_builtins.int]]):
+        pulumi.set(self, "snapshot_num_rows_per_partition", value)
+
+    @_builtins.property
+    @pulumi.getter(name="snapshotNumberOfParallelTables")
+    def snapshot_number_of_parallel_tables(self) -> pulumi.Input[Optional[_builtins.int]]:
+        """
+        Number of parallel tables to snapshot.
+        """
+        return pulumi.get(self, "snapshot_number_of_parallel_tables")
+
+    @snapshot_number_of_parallel_tables.setter
+    def snapshot_number_of_parallel_tables(self, value: pulumi.Input[Optional[_builtins.int]]):
+        pulumi.set(self, "snapshot_number_of_parallel_tables", value)
+
+
+class ClickpipeSourceBigqueryTableMappingArgsDict(TypedDict):
+    source_dataset_name: pulumi.Input[_builtins.str]
+    """
+    Source BigQuery dataset name.
+    """
+    source_table: pulumi.Input[_builtins.str]
+    """
+    Source table name in BigQuery.
+    """
+    target_table: pulumi.Input[_builtins.str]
+    """
+    Target table name in ClickHouse.
+    """
+    excluded_columns: NotRequired[pulumi.Input[Optional[Sequence[pulumi.Input[_builtins.str]]]]]
+    """
+    Columns to exclude from replication.
+    """
+    sorting_keys: NotRequired[pulumi.Input[Optional[Sequence[pulumi.Input[_builtins.str]]]]]
+    """
+    Ordered list of columns to use as sorting key for the target table. Required when use*custom*sorting_key is true.
+    """
+    table_engine: NotRequired[pulumi.Input[Optional[_builtins.str]]]
+    """
+    Table engine to use for the target table. (`MergeTree`, `ReplacingMergeTree`, `Null`)
+    """
+    use_custom_sorting_key: NotRequired[pulumi.Input[Optional[_builtins.bool]]]
+    """
+    Whether to use a custom sorting key for the target table.
+    """
+
+@pulumi.input_type
+class ClickpipeSourceBigqueryTableMappingArgs:
+    def __init__(__self__, *,
+                 source_dataset_name: pulumi.Input[_builtins.str],
+                 source_table: pulumi.Input[_builtins.str],
+                 target_table: pulumi.Input[_builtins.str],
+                 excluded_columns: pulumi.Input[Optional[Sequence[pulumi.Input[_builtins.str]]]] = None,
+                 sorting_keys: pulumi.Input[Optional[Sequence[pulumi.Input[_builtins.str]]]] = None,
+                 table_engine: pulumi.Input[Optional[_builtins.str]] = None,
+                 use_custom_sorting_key: pulumi.Input[Optional[_builtins.bool]] = None):
+        """
+        :param pulumi.Input[_builtins.str] source_dataset_name: Source BigQuery dataset name.
+        :param pulumi.Input[_builtins.str] source_table: Source table name in BigQuery.
+        :param pulumi.Input[_builtins.str] target_table: Target table name in ClickHouse.
+        :param pulumi.Input[Sequence[pulumi.Input[_builtins.str]]] excluded_columns: Columns to exclude from replication.
+        :param pulumi.Input[Sequence[pulumi.Input[_builtins.str]]] sorting_keys: Ordered list of columns to use as sorting key for the target table. Required when use*custom*sorting_key is true.
+        :param pulumi.Input[_builtins.str] table_engine: Table engine to use for the target table. (`MergeTree`, `ReplacingMergeTree`, `Null`)
+        :param pulumi.Input[_builtins.bool] use_custom_sorting_key: Whether to use a custom sorting key for the target table.
+        """
+        pulumi.set(__self__, "source_dataset_name", source_dataset_name)
+        pulumi.set(__self__, "source_table", source_table)
+        pulumi.set(__self__, "target_table", target_table)
+        if excluded_columns is not None:
+            pulumi.set(__self__, "excluded_columns", excluded_columns)
+        if sorting_keys is not None:
+            pulumi.set(__self__, "sorting_keys", sorting_keys)
+        if table_engine is not None:
+            pulumi.set(__self__, "table_engine", table_engine)
+        if use_custom_sorting_key is not None:
+            pulumi.set(__self__, "use_custom_sorting_key", use_custom_sorting_key)
+
+    @_builtins.property
+    @pulumi.getter(name="sourceDatasetName")
+    def source_dataset_name(self) -> pulumi.Input[_builtins.str]:
+        """
+        Source BigQuery dataset name.
+        """
+        return pulumi.get(self, "source_dataset_name")
+
+    @source_dataset_name.setter
+    def source_dataset_name(self, value: pulumi.Input[_builtins.str]):
+        pulumi.set(self, "source_dataset_name", value)
+
+    @_builtins.property
+    @pulumi.getter(name="sourceTable")
+    def source_table(self) -> pulumi.Input[_builtins.str]:
+        """
+        Source table name in BigQuery.
+        """
+        return pulumi.get(self, "source_table")
+
+    @source_table.setter
+    def source_table(self, value: pulumi.Input[_builtins.str]):
+        pulumi.set(self, "source_table", value)
+
+    @_builtins.property
+    @pulumi.getter(name="targetTable")
+    def target_table(self) -> pulumi.Input[_builtins.str]:
+        """
+        Target table name in ClickHouse.
+        """
+        return pulumi.get(self, "target_table")
+
+    @target_table.setter
+    def target_table(self, value: pulumi.Input[_builtins.str]):
+        pulumi.set(self, "target_table", value)
+
+    @_builtins.property
+    @pulumi.getter(name="excludedColumns")
+    def excluded_columns(self) -> pulumi.Input[Optional[Sequence[pulumi.Input[_builtins.str]]]]:
+        """
+        Columns to exclude from replication.
+        """
+        return pulumi.get(self, "excluded_columns")
+
+    @excluded_columns.setter
+    def excluded_columns(self, value: pulumi.Input[Optional[Sequence[pulumi.Input[_builtins.str]]]]):
+        pulumi.set(self, "excluded_columns", value)
+
+    @_builtins.property
+    @pulumi.getter(name="sortingKeys")
+    def sorting_keys(self) -> pulumi.Input[Optional[Sequence[pulumi.Input[_builtins.str]]]]:
+        """
+        Ordered list of columns to use as sorting key for the target table. Required when use*custom*sorting_key is true.
+        """
+        return pulumi.get(self, "sorting_keys")
+
+    @sorting_keys.setter
+    def sorting_keys(self, value: pulumi.Input[Optional[Sequence[pulumi.Input[_builtins.str]]]]):
+        pulumi.set(self, "sorting_keys", value)
+
+    @_builtins.property
+    @pulumi.getter(name="tableEngine")
+    def table_engine(self) -> pulumi.Input[Optional[_builtins.str]]:
+        """
+        Table engine to use for the target table. (`MergeTree`, `ReplacingMergeTree`, `Null`)
+        """
+        return pulumi.get(self, "table_engine")
+
+    @table_engine.setter
+    def table_engine(self, value: pulumi.Input[Optional[_builtins.str]]):
+        pulumi.set(self, "table_engine", value)
+
+    @_builtins.property
+    @pulumi.getter(name="useCustomSortingKey")
+    def use_custom_sorting_key(self) -> pulumi.Input[Optional[_builtins.bool]]:
+        """
+        Whether to use a custom sorting key for the target table.
+        """
+        return pulumi.get(self, "use_custom_sorting_key")
+
+    @use_custom_sorting_key.setter
+    def use_custom_sorting_key(self, value: pulumi.Input[Optional[_builtins.bool]]):
+        pulumi.set(self, "use_custom_sorting_key", value)
+
+
+class ClickpipeSourceKafkaArgsDict(TypedDict):
+    brokers: pulumi.Input[_builtins.str]
+    """
+    The list of Kafka bootstrap brokers. (comma separated)
+    """
+    format: pulumi.Input[_builtins.str]
+    """
+    The format of the Kafka source. (`JSONEachRow`, `Avro`, `AvroConfluent`, `Protobuf`)
+    """
+    topics: pulumi.Input[_builtins.str]
+    """
+    The list of Kafka topics. (comma separated)
+    """
+    authentication: NotRequired[pulumi.Input[Optional[_builtins.str]]]
+    """
+    The authentication method for the Kafka source. (`PLAIN`, `SCRAM-SHA-256`, `SCRAM-SHA-512`, `IAM_ROLE`, `IAM_USER`, `MUTUAL_TLS`). Default is `PLAIN`.
+    """
+    ca_certificate: NotRequired[pulumi.Input[Optional[_builtins.str]]]
+    """
+    PEM encoded CA certificates to validate the broker's certificate.
+    """
+    consumer_group: NotRequired[pulumi.Input[Optional[_builtins.str]]]
+    """
+    Consumer group of the Kafka source. If not provided `clickpipes-<ID>` will be used.
+    """
+    credentials: NotRequired[pulumi.Input[Optional['ClickpipeSourceKafkaCredentialsArgs']]]
+    """
+    The credentials for the Kafka source.
+    """
+    exactly_once: NotRequired[pulumi.Input[Optional[_builtins.bool]]]
+    """
+    Enable exactly-once delivery. Guarantees every Kafka record is inserted exactly once across restarts and rebalances.
+    """
+    iam_role: NotRequired[pulumi.Input[Optional[_builtins.str]]]
+    """
+    The IAM role for the Kafka source. Use with `IAM_ROLE` authentication. It can be used with AWS ClickHouse service only. Read more at https://clickhouse.com/docs/en/integrations/clickpipes/kafka#iam
+    """
+    offset: NotRequired[pulumi.Input[Optional['ClickpipeSourceKafkaOffsetArgs']]]
+    """
+    The Kafka offset.
+    """
+    reverse_private_endpoint_ids: NotRequired[pulumi.Input[Optional[Sequence[pulumi.Input[_builtins.str]]]]]
+    """
+    The list of reverse private endpoint IDs for the Kafka source. (comma separated)
+    """
+    schema_registry: NotRequired[pulumi.Input[Optional['ClickpipeSourceKafkaSchemaRegistryArgs']]]
+    """
+    The schema registry for the Kafka source.
+    """
+    type: NotRequired[pulumi.Input[Optional[_builtins.str]]]
+    """
+    The type of the Kafka source. (`kafka`, `redpanda`, `confluent`, `msk`, `warpstream`, `azureeventhub`, `gcmk`). Default is `kafka`.
+    """
+
+@pulumi.input_type
+class ClickpipeSourceKafkaArgs:
+    def __init__(__self__, *,
+                 brokers: pulumi.Input[_builtins.str],
+                 format: pulumi.Input[_builtins.str],
+                 topics: pulumi.Input[_builtins.str],
+                 authentication: pulumi.Input[Optional[_builtins.str]] = None,
+                 ca_certificate: pulumi.Input[Optional[_builtins.str]] = None,
+                 consumer_group: pulumi.Input[Optional[_builtins.str]] = None,
+                 credentials: pulumi.Input[Optional['ClickpipeSourceKafkaCredentialsArgs']] = None,
+                 exactly_once: pulumi.Input[Optional[_builtins.bool]] = None,
+                 iam_role: pulumi.Input[Optional[_builtins.str]] = None,
+                 offset: pulumi.Input[Optional['ClickpipeSourceKafkaOffsetArgs']] = None,
+                 reverse_private_endpoint_ids: pulumi.Input[Optional[Sequence[pulumi.Input[_builtins.str]]]] = None,
+                 schema_registry: pulumi.Input[Optional['ClickpipeSourceKafkaSchemaRegistryArgs']] = None,
+                 type: pulumi.Input[Optional[_builtins.str]] = None):
+        """
+        :param pulumi.Input[_builtins.str] brokers: The list of Kafka bootstrap brokers. (comma separated)
+        :param pulumi.Input[_builtins.str] format: The format of the Kafka source. (`JSONEachRow`, `Avro`, `AvroConfluent`, `Protobuf`)
+        :param pulumi.Input[_builtins.str] topics: The list of Kafka topics. (comma separated)
+        :param pulumi.Input[_builtins.str] authentication: The authentication method for the Kafka source. (`PLAIN`, `SCRAM-SHA-256`, `SCRAM-SHA-512`, `IAM_ROLE`, `IAM_USER`, `MUTUAL_TLS`). Default is `PLAIN`.
+        :param pulumi.Input[_builtins.str] ca_certificate: PEM encoded CA certificates to validate the broker's certificate.
+        :param pulumi.Input[_builtins.str] consumer_group: Consumer group of the Kafka source. If not provided `clickpipes-<ID>` will be used.
+        :param pulumi.Input['ClickpipeSourceKafkaCredentialsArgs'] credentials: The credentials for the Kafka source.
+        :param pulumi.Input[_builtins.bool] exactly_once: Enable exactly-once delivery. Guarantees every Kafka record is inserted exactly once across restarts and rebalances.
+        :param pulumi.Input[_builtins.str] iam_role: The IAM role for the Kafka source. Use with `IAM_ROLE` authentication. It can be used with AWS ClickHouse service only. Read more at https://clickhouse.com/docs/en/integrations/clickpipes/kafka#iam
+        :param pulumi.Input['ClickpipeSourceKafkaOffsetArgs'] offset: The Kafka offset.
+        :param pulumi.Input[Sequence[pulumi.Input[_builtins.str]]] reverse_private_endpoint_ids: The list of reverse private endpoint IDs for the Kafka source. (comma separated)
+        :param pulumi.Input['ClickpipeSourceKafkaSchemaRegistryArgs'] schema_registry: The schema registry for the Kafka source.
+        :param pulumi.Input[_builtins.str] type: The type of the Kafka source. (`kafka`, `redpanda`, `confluent`, `msk`, `warpstream`, `azureeventhub`, `gcmk`). Default is `kafka`.
+        """
+        pulumi.set(__self__, "brokers", brokers)
+        pulumi.set(__self__, "format", format)
+        pulumi.set(__self__, "topics", topics)
+        if authentication is not None:
+            pulumi.set(__self__, "authentication", authentication)
+        if ca_certificate is not None:
+            pulumi.set(__self__, "ca_certificate", ca_certificate)
+        if consumer_group is not None:
+            pulumi.set(__self__, "consumer_group", consumer_group)
+        if credentials is not None:
+            pulumi.set(__self__, "credentials", credentials)
+        if exactly_once is not None:
+            pulumi.set(__self__, "exactly_once", exactly_once)
+        if iam_role is not None:
+            pulumi.set(__self__, "iam_role", iam_role)
+        if offset is not None:
+            pulumi.set(__self__, "offset", offset)
+        if reverse_private_endpoint_ids is not None:
+            pulumi.set(__self__, "reverse_private_endpoint_ids", reverse_private_endpoint_ids)
+        if schema_registry is not None:
+            pulumi.set(__self__, "schema_registry", schema_registry)
+        if type is not None:
+            pulumi.set(__self__, "type", type)
+
+    @_builtins.property
+    @pulumi.getter
+    def brokers(self) -> pulumi.Input[_builtins.str]:
+        """
+        The list of Kafka bootstrap brokers. (comma separated)
+        """
+        return pulumi.get(self, "brokers")
+
+    @brokers.setter
+    def brokers(self, value: pulumi.Input[_builtins.str]):
+        pulumi.set(self, "brokers", value)
+
+    @_builtins.property
+    @pulumi.getter
+    def format(self) -> pulumi.Input[_builtins.str]:
+        """
+        The format of the Kafka source. (`JSONEachRow`, `Avro`, `AvroConfluent`, `Protobuf`)
+        """
+        return pulumi.get(self, "format")
+
+    @format.setter
+    def format(self, value: pulumi.Input[_builtins.str]):
+        pulumi.set(self, "format", value)
+
+    @_builtins.property
+    @pulumi.getter
+    def topics(self) -> pulumi.Input[_builtins.str]:
+        """
+        The list of Kafka topics. (comma separated)
+        """
+        return pulumi.get(self, "topics")
+
+    @topics.setter
+    def topics(self, value: pulumi.Input[_builtins.str]):
+        pulumi.set(self, "topics", value)
+
+    @_builtins.property
+    @pulumi.getter
+    def authentication(self) -> pulumi.Input[Optional[_builtins.str]]:
+        """
+        The authentication method for the Kafka source. (`PLAIN`, `SCRAM-SHA-256`, `SCRAM-SHA-512`, `IAM_ROLE`, `IAM_USER`, `MUTUAL_TLS`). Default is `PLAIN`.
+        """
+        return pulumi.get(self, "authentication")
+
+    @authentication.setter
+    def authentication(self, value: pulumi.Input[Optional[_builtins.str]]):
+        pulumi.set(self, "authentication", value)
+
+    @_builtins.property
+    @pulumi.getter(name="caCertificate")
+    def ca_certificate(self) -> pulumi.Input[Optional[_builtins.str]]:
+        """
+        PEM encoded CA certificates to validate the broker's certificate.
+        """
+        return pulumi.get(self, "ca_certificate")
+
+    @ca_certificate.setter
+    def ca_certificate(self, value: pulumi.Input[Optional[_builtins.str]]):
+        pulumi.set(self, "ca_certificate", value)
+
+    @_builtins.property
+    @pulumi.getter(name="consumerGroup")
+    def consumer_group(self) -> pulumi.Input[Optional[_builtins.str]]:
+        """
+        Consumer group of the Kafka source. If not provided `clickpipes-<ID>` will be used.
+        """
+        return pulumi.get(self, "consumer_group")
+
+    @consumer_group.setter
+    def consumer_group(self, value: pulumi.Input[Optional[_builtins.str]]):
+        pulumi.set(self, "consumer_group", value)
+
+    @_builtins.property
+    @pulumi.getter
+    def credentials(self) -> pulumi.Input[Optional['ClickpipeSourceKafkaCredentialsArgs']]:
+        """
+        The credentials for the Kafka source.
+        """
+        return pulumi.get(self, "credentials")
+
+    @credentials.setter
+    def credentials(self, value: pulumi.Input[Optional['ClickpipeSourceKafkaCredentialsArgs']]):
+        pulumi.set(self, "credentials", value)
+
+    @_builtins.property
+    @pulumi.getter(name="exactlyOnce")
+    def exactly_once(self) -> pulumi.Input[Optional[_builtins.bool]]:
+        """
+        Enable exactly-once delivery. Guarantees every Kafka record is inserted exactly once across restarts and rebalances.
+        """
+        return pulumi.get(self, "exactly_once")
+
+    @exactly_once.setter
+    def exactly_once(self, value: pulumi.Input[Optional[_builtins.bool]]):
+        pulumi.set(self, "exactly_once", value)
+
+    @_builtins.property
+    @pulumi.getter(name="iamRole")
+    def iam_role(self) -> pulumi.Input[Optional[_builtins.str]]:
+        """
+        The IAM role for the Kafka source. Use with `IAM_ROLE` authentication. It can be used with AWS ClickHouse service only. Read more at https://clickhouse.com/docs/en/integrations/clickpipes/kafka#iam
+        """
+        return pulumi.get(self, "iam_role")
+
+    @iam_role.setter
+    def iam_role(self, value: pulumi.Input[Optional[_builtins.str]]):
+        pulumi.set(self, "iam_role", value)
+
+    @_builtins.property
+    @pulumi.getter
+    def offset(self) -> pulumi.Input[Optional['ClickpipeSourceKafkaOffsetArgs']]:
+        """
+        The Kafka offset.
+        """
+        return pulumi.get(self, "offset")
+
+    @offset.setter
+    def offset(self, value: pulumi.Input[Optional['ClickpipeSourceKafkaOffsetArgs']]):
+        pulumi.set(self, "offset", value)
+
+    @_builtins.property
+    @pulumi.getter(name="reversePrivateEndpointIds")
+    def reverse_private_endpoint_ids(self) -> pulumi.Input[Optional[Sequence[pulumi.Input[_builtins.str]]]]:
+        """
+        The list of reverse private endpoint IDs for the Kafka source. (comma separated)
+        """
+        return pulumi.get(self, "reverse_private_endpoint_ids")
+
+    @reverse_private_endpoint_ids.setter
+    def reverse_private_endpoint_ids(self, value: pulumi.Input[Optional[Sequence[pulumi.Input[_builtins.str]]]]):
+        pulumi.set(self, "reverse_private_endpoint_ids", value)
+
+    @_builtins.property
+    @pulumi.getter(name="schemaRegistry")
+    def schema_registry(self) -> pulumi.Input[Optional['ClickpipeSourceKafkaSchemaRegistryArgs']]:
+        """
+        The schema registry for the Kafka source.
+        """
+        return pulumi.get(self, "schema_registry")
+
+    @schema_registry.setter
+    def schema_registry(self, value: pulumi.Input[Optional['ClickpipeSourceKafkaSchemaRegistryArgs']]):
+        pulumi.set(self, "schema_registry", value)
+
+    @_builtins.property
+    @pulumi.getter
+    def type(self) -> pulumi.Input[Optional[_builtins.str]]:
+        """
+        The type of the Kafka source. (`kafka`, `redpanda`, `confluent`, `msk`, `warpstream`, `azureeventhub`, `gcmk`). Default is `kafka`.
+        """
+        return pulumi.get(self, "type")
+
+    @type.setter
+    def type(self, value: pulumi.Input[Optional[_builtins.str]]):
+        pulumi.set(self, "type", value)
+
+
+class ClickpipeSourceKafkaCredentialsArgsDict(TypedDict):
+    access_key_id: NotRequired[pulumi.Input[Optional[_builtins.str]]]
+    """
+    The access key ID for the Kafka source. Use with `IAM_USER` authentication.
+    """
+    certificate: NotRequired[pulumi.Input[Optional[_builtins.str]]]
+    """
+    PEM encoded client certificate for mTLS authentication. Use with `MUTUAL_TLS` authentication.
+    """
+    connection_string: NotRequired[pulumi.Input[Optional[_builtins.str]]]
+    """
+    The connection string for the Kafka source. Use with `azureeventhub` Kafka source type. Use with `PLAIN` authentication.
+    """
+    password: NotRequired[pulumi.Input[Optional[_builtins.str]]]
+    """
+    The password for the Kafka source. Use `password_wo` instead to keep the value out of state.
+    """
+    password_wo: NotRequired[pulumi.Input[Optional[_builtins.str]]]
+    """
+    **NOTE:** This field is write-only and its value will not be updated in state as part of read operations.
+    Write-only password for the Kafka source. Not persisted to state. Pair with `password_wo_version` to trigger updates.
+    """
+    password_wo_version: NotRequired[pulumi.Input[Optional[_builtins.int]]]
+    """
+    Version trigger for `password_wo`. Increment to push a new password to the API.
+    """
+    private_key: NotRequired[pulumi.Input[Optional[_builtins.str]]]
+    """
+    PEM encoded client private key for mTLS authentication. Use with `MUTUAL_TLS` authentication.
+    """
+    secret_key: NotRequired[pulumi.Input[Optional[_builtins.str]]]
+    """
+    The secret key for the Kafka source. Use with `IAM_USER` authentication.
+    """
+    username: NotRequired[pulumi.Input[Optional[_builtins.str]]]
+    """
+    The username for the Kafka source.
+    """
+
+@pulumi.input_type
+class ClickpipeSourceKafkaCredentialsArgs:
+    def __init__(__self__, *,
+                 access_key_id: pulumi.Input[Optional[_builtins.str]] = None,
+                 certificate: pulumi.Input[Optional[_builtins.str]] = None,
+                 connection_string: pulumi.Input[Optional[_builtins.str]] = None,
+                 password: pulumi.Input[Optional[_builtins.str]] = None,
+                 password_wo: pulumi.Input[Optional[_builtins.str]] = None,
+                 password_wo_version: pulumi.Input[Optional[_builtins.int]] = None,
+                 private_key: pulumi.Input[Optional[_builtins.str]] = None,
+                 secret_key: pulumi.Input[Optional[_builtins.str]] = None,
+                 username: pulumi.Input[Optional[_builtins.str]] = None):
+        """
+        :param pulumi.Input[_builtins.str] access_key_id: The access key ID for the Kafka source. Use with `IAM_USER` authentication.
+        :param pulumi.Input[_builtins.str] certificate: PEM encoded client certificate for mTLS authentication. Use with `MUTUAL_TLS` authentication.
+        :param pulumi.Input[_builtins.str] connection_string: The connection string for the Kafka source. Use with `azureeventhub` Kafka source type. Use with `PLAIN` authentication.
+        :param pulumi.Input[_builtins.str] password: The password for the Kafka source. Use `password_wo` instead to keep the value out of state.
+        :param pulumi.Input[_builtins.str] password_wo: **NOTE:** This field is write-only and its value will not be updated in state as part of read operations.
+               Write-only password for the Kafka source. Not persisted to state. Pair with `password_wo_version` to trigger updates.
+        :param pulumi.Input[_builtins.int] password_wo_version: Version trigger for `password_wo`. Increment to push a new password to the API.
+        :param pulumi.Input[_builtins.str] private_key: PEM encoded client private key for mTLS authentication. Use with `MUTUAL_TLS` authentication.
+        :param pulumi.Input[_builtins.str] secret_key: The secret key for the Kafka source. Use with `IAM_USER` authentication.
+        :param pulumi.Input[_builtins.str] username: The username for the Kafka source.
+        """
+        if access_key_id is not None:
+            pulumi.set(__self__, "access_key_id", access_key_id)
+        if certificate is not None:
+            pulumi.set(__self__, "certificate", certificate)
+        if connection_string is not None:
+            pulumi.set(__self__, "connection_string", connection_string)
+        if password is not None:
+            pulumi.set(__self__, "password", password)
+        if password_wo is not None:
+            pulumi.set(__self__, "password_wo", password_wo)
+        if password_wo_version is not None:
+            pulumi.set(__self__, "password_wo_version", password_wo_version)
+        if private_key is not None:
+            pulumi.set(__self__, "private_key", private_key)
+        if secret_key is not None:
+            pulumi.set(__self__, "secret_key", secret_key)
+        if username is not None:
+            pulumi.set(__self__, "username", username)
+
+    @_builtins.property
+    @pulumi.getter(name="accessKeyId")
+    def access_key_id(self) -> pulumi.Input[Optional[_builtins.str]]:
+        """
+        The access key ID for the Kafka source. Use with `IAM_USER` authentication.
+        """
+        return pulumi.get(self, "access_key_id")
+
+    @access_key_id.setter
+    def access_key_id(self, value: pulumi.Input[Optional[_builtins.str]]):
+        pulumi.set(self, "access_key_id", value)
+
+    @_builtins.property
+    @pulumi.getter
+    def certificate(self) -> pulumi.Input[Optional[_builtins.str]]:
+        """
+        PEM encoded client certificate for mTLS authentication. Use with `MUTUAL_TLS` authentication.
+        """
+        return pulumi.get(self, "certificate")
+
+    @certificate.setter
+    def certificate(self, value: pulumi.Input[Optional[_builtins.str]]):
+        pulumi.set(self, "certificate", value)
+
+    @_builtins.property
+    @pulumi.getter(name="connectionString")
+    def connection_string(self) -> pulumi.Input[Optional[_builtins.str]]:
+        """
+        The connection string for the Kafka source. Use with `azureeventhub` Kafka source type. Use with `PLAIN` authentication.
+        """
+        return pulumi.get(self, "connection_string")
+
+    @connection_string.setter
+    def connection_string(self, value: pulumi.Input[Optional[_builtins.str]]):
+        pulumi.set(self, "connection_string", value)
+
+    @_builtins.property
+    @pulumi.getter
+    def password(self) -> pulumi.Input[Optional[_builtins.str]]:
+        """
+        The password for the Kafka source. Use `password_wo` instead to keep the value out of state.
+        """
+        return pulumi.get(self, "password")
+
+    @password.setter
+    def password(self, value: pulumi.Input[Optional[_builtins.str]]):
+        pulumi.set(self, "password", value)
+
+    @_builtins.property
+    @pulumi.getter(name="passwordWo")
+    def password_wo(self) -> pulumi.Input[Optional[_builtins.str]]:
+        """
+        **NOTE:** This field is write-only and its value will not be updated in state as part of read operations.
+        Write-only password for the Kafka source. Not persisted to state. Pair with `password_wo_version` to trigger updates.
+        """
+        return pulumi.get(self, "password_wo")
+
+    @password_wo.setter
+    def password_wo(self, value: pulumi.Input[Optional[_builtins.str]]):
+        pulumi.set(self, "password_wo", value)
+
+    @_builtins.property
+    @pulumi.getter(name="passwordWoVersion")
+    def password_wo_version(self) -> pulumi.Input[Optional[_builtins.int]]:
+        """
+        Version trigger for `password_wo`. Increment to push a new password to the API.
+        """
+        return pulumi.get(self, "password_wo_version")
+
+    @password_wo_version.setter
+    def password_wo_version(self, value: pulumi.Input[Optional[_builtins.int]]):
+        pulumi.set(self, "password_wo_version", value)
+
+    @_builtins.property
+    @pulumi.getter(name="privateKey")
+    def private_key(self) -> pulumi.Input[Optional[_builtins.str]]:
+        """
+        PEM encoded client private key for mTLS authentication. Use with `MUTUAL_TLS` authentication.
+        """
+        return pulumi.get(self, "private_key")
+
+    @private_key.setter
+    def private_key(self, value: pulumi.Input[Optional[_builtins.str]]):
+        pulumi.set(self, "private_key", value)
+
+    @_builtins.property
+    @pulumi.getter(name="secretKey")
+    def secret_key(self) -> pulumi.Input[Optional[_builtins.str]]:
+        """
+        The secret key for the Kafka source. Use with `IAM_USER` authentication.
+        """
+        return pulumi.get(self, "secret_key")
+
+    @secret_key.setter
+    def secret_key(self, value: pulumi.Input[Optional[_builtins.str]]):
+        pulumi.set(self, "secret_key", value)
+
+    @_builtins.property
+    @pulumi.getter
+    def username(self) -> pulumi.Input[Optional[_builtins.str]]:
+        """
+        The username for the Kafka source.
+        """
+        return pulumi.get(self, "username")
+
+    @username.setter
+    def username(self, value: pulumi.Input[Optional[_builtins.str]]):
+        pulumi.set(self, "username", value)
+
+
+class ClickpipeSourceKafkaOffsetArgsDict(TypedDict):
+    strategy: pulumi.Input[_builtins.str]
+    """
+    The offset strategy for the Kafka source. (`from_beginning`, `from_latest`, `from_timestamp`)
+    """
+    timestamp: NotRequired[pulumi.Input[Optional[_builtins.str]]]
+    """
+    The timestamp for the Kafka offset. Use with `from_timestamp` offset strategy. (format `2021-01-01T00:00`)
+    """
+
+@pulumi.input_type
+class ClickpipeSourceKafkaOffsetArgs:
+    def __init__(__self__, *,
+                 strategy: pulumi.Input[_builtins.str],
+                 timestamp: pulumi.Input[Optional[_builtins.str]] = None):
+        """
+        :param pulumi.Input[_builtins.str] strategy: The offset strategy for the Kafka source. (`from_beginning`, `from_latest`, `from_timestamp`)
+        :param pulumi.Input[_builtins.str] timestamp: The timestamp for the Kafka offset. Use with `from_timestamp` offset strategy. (format `2021-01-01T00:00`)
+        """
+        pulumi.set(__self__, "strategy", strategy)
+        if timestamp is not None:
+            pulumi.set(__self__, "timestamp", timestamp)
+
+    @_builtins.property
+    @pulumi.getter
+    def strategy(self) -> pulumi.Input[_builtins.str]:
+        """
+        The offset strategy for the Kafka source. (`from_beginning`, `from_latest`, `from_timestamp`)
+        """
+        return pulumi.get(self, "strategy")
+
+    @strategy.setter
+    def strategy(self, value: pulumi.Input[_builtins.str]):
+        pulumi.set(self, "strategy", value)
+
+    @_builtins.property
+    @pulumi.getter
+    def timestamp(self) -> pulumi.Input[Optional[_builtins.str]]:
+        """
+        The timestamp for the Kafka offset. Use with `from_timestamp` offset strategy. (format `2021-01-01T00:00`)
+        """
+        return pulumi.get(self, "timestamp")
+
+    @timestamp.setter
+    def timestamp(self, value: pulumi.Input[Optional[_builtins.str]]):
+        pulumi.set(self, "timestamp", value)
+
+
+class ClickpipeSourceKafkaSchemaRegistryArgsDict(TypedDict):
+    authentication: pulumi.Input[_builtins.str]
+    """
+    The authentication method for the Schema Registry. Only supported is `PLAIN`.
+    """
+    credentials: pulumi.Input['ClickpipeSourceKafkaSchemaRegistryCredentialsArgsDict']
+    """
+    The credentials for the Schema Registry.
+    """
+    url: pulumi.Input[_builtins.str]
+    """
+    The URL of the schema registry.
+    """
+
+@pulumi.input_type
+class ClickpipeSourceKafkaSchemaRegistryArgs:
+    def __init__(__self__, *,
+                 authentication: pulumi.Input[_builtins.str],
+                 credentials: pulumi.Input['ClickpipeSourceKafkaSchemaRegistryCredentialsArgs'],
+                 url: pulumi.Input[_builtins.str]):
+        """
+        :param pulumi.Input[_builtins.str] authentication: The authentication method for the Schema Registry. Only supported is `PLAIN`.
+        :param pulumi.Input['ClickpipeSourceKafkaSchemaRegistryCredentialsArgs'] credentials: The credentials for the Schema Registry.
+        :param pulumi.Input[_builtins.str] url: The URL of the schema registry.
+        """
+        pulumi.set(__self__, "authentication", authentication)
+        pulumi.set(__self__, "credentials", credentials)
+        pulumi.set(__self__, "url", url)
+
+    @_builtins.property
+    @pulumi.getter
+    def authentication(self) -> pulumi.Input[_builtins.str]:
+        """
+        The authentication method for the Schema Registry. Only supported is `PLAIN`.
+        """
+        return pulumi.get(self, "authentication")
+
+    @authentication.setter
+    def authentication(self, value: pulumi.Input[_builtins.str]):
+        pulumi.set(self, "authentication", value)
+
+    @_builtins.property
+    @pulumi.getter
+    def credentials(self) -> pulumi.Input['ClickpipeSourceKafkaSchemaRegistryCredentialsArgs']:
+        """
+        The credentials for the Schema Registry.
+        """
+        return pulumi.get(self, "credentials")
+
+    @credentials.setter
+    def credentials(self, value: pulumi.Input['ClickpipeSourceKafkaSchemaRegistryCredentialsArgs']):
+        pulumi.set(self, "credentials", value)
+
+    @_builtins.property
+    @pulumi.getter
+    def url(self) -> pulumi.Input[_builtins.str]:
+        """
+        The URL of the schema registry.
+        """
+        return pulumi.get(self, "url")
+
+    @url.setter
+    def url(self, value: pulumi.Input[_builtins.str]):
+        pulumi.set(self, "url", value)
+
+
+class ClickpipeSourceKafkaSchemaRegistryCredentialsArgsDict(TypedDict):
+    username: pulumi.Input[_builtins.str]
+    """
+    The username for the Schema Registry.
+    """
+    password: NotRequired[pulumi.Input[Optional[_builtins.str]]]
+    """
+    The password for the Schema Registry. Either `password` or `password_wo` must be provided.
+    """
+    password_wo: NotRequired[pulumi.Input[Optional[_builtins.str]]]
+    """
+    **NOTE:** This field is write-only and its value will not be updated in state as part of read operations.
+    Write-only password for the Schema Registry. Not persisted to state. Pair with `password_wo_version` to trigger updates.
+    """
+    password_wo_version: NotRequired[pulumi.Input[Optional[_builtins.int]]]
+    """
+    Version trigger for `password_wo`. Increment to push a new password to the API.
+    """
+
+@pulumi.input_type
+class ClickpipeSourceKafkaSchemaRegistryCredentialsArgs:
+    def __init__(__self__, *,
+                 username: pulumi.Input[_builtins.str],
+                 password: pulumi.Input[Optional[_builtins.str]] = None,
+                 password_wo: pulumi.Input[Optional[_builtins.str]] = None,
+                 password_wo_version: pulumi.Input[Optional[_builtins.int]] = None):
+        """
+        :param pulumi.Input[_builtins.str] username: The username for the Schema Registry.
+        :param pulumi.Input[_builtins.str] password: The password for the Schema Registry. Either `password` or `password_wo` must be provided.
+        :param pulumi.Input[_builtins.str] password_wo: **NOTE:** This field is write-only and its value will not be updated in state as part of read operations.
+               Write-only password for the Schema Registry. Not persisted to state. Pair with `password_wo_version` to trigger updates.
+        :param pulumi.Input[_builtins.int] password_wo_version: Version trigger for `password_wo`. Increment to push a new password to the API.
+        """
+        pulumi.set(__self__, "username", username)
+        if password is not None:
+            pulumi.set(__self__, "password", password)
+        if password_wo is not None:
+            pulumi.set(__self__, "password_wo", password_wo)
+        if password_wo_version is not None:
+            pulumi.set(__self__, "password_wo_version", password_wo_version)
+
+    @_builtins.property
+    @pulumi.getter
+    def username(self) -> pulumi.Input[_builtins.str]:
+        """
+        The username for the Schema Registry.
+        """
+        return pulumi.get(self, "username")
+
+    @username.setter
+    def username(self, value: pulumi.Input[_builtins.str]):
+        pulumi.set(self, "username", value)
+
+    @_builtins.property
+    @pulumi.getter
+    def password(self) -> pulumi.Input[Optional[_builtins.str]]:
+        """
+        The password for the Schema Registry. Either `password` or `password_wo` must be provided.
+        """
+        return pulumi.get(self, "password")
+
+    @password.setter
+    def password(self, value: pulumi.Input[Optional[_builtins.str]]):
+        pulumi.set(self, "password", value)
+
+    @_builtins.property
+    @pulumi.getter(name="passwordWo")
+    def password_wo(self) -> pulumi.Input[Optional[_builtins.str]]:
+        """
+        **NOTE:** This field is write-only and its value will not be updated in state as part of read operations.
+        Write-only password for the Schema Registry. Not persisted to state. Pair with `password_wo_version` to trigger updates.
+        """
+        return pulumi.get(self, "password_wo")
+
+    @password_wo.setter
+    def password_wo(self, value: pulumi.Input[Optional[_builtins.str]]):
+        pulumi.set(self, "password_wo", value)
+
+    @_builtins.property
+    @pulumi.getter(name="passwordWoVersion")
+    def password_wo_version(self) -> pulumi.Input[Optional[_builtins.int]]:
+        """
+        Version trigger for `password_wo`. Increment to push a new password to the API.
+        """
+        return pulumi.get(self, "password_wo_version")
+
+    @password_wo_version.setter
+    def password_wo_version(self, value: pulumi.Input[Optional[_builtins.int]]):
+        pulumi.set(self, "password_wo_version", value)
+
+
+class ClickpipeSourceKinesisArgsDict(TypedDict):
+    authentication: pulumi.Input[_builtins.str]
+    """
+    The authentication method for the Kinesis source. (`IAM_ROLE`, `IAM_USER`).
+    """
+    format: pulumi.Input[_builtins.str]
+    """
+    The format of the Kinesis source. (`JSONEachRow`, `Avro`, `AvroConfluent`)
+    """
+    iterator_type: pulumi.Input[_builtins.str]
+    """
+    The iterator type for the Kinesis source. (`TRIM_HORIZON`, `LATEST`, `AT_TIMESTAMP`)
+    """
+    region: pulumi.Input[_builtins.str]
+    """
+    The AWS region of the Kinesis stream.
+    """
+    stream_name: pulumi.Input[_builtins.str]
+    """
+    The name of the Kinesis stream.
+    """
+    access_key: NotRequired[pulumi.Input[Optional['ClickpipeSourceKinesisAccessKeyArgs']]]
+    """
+    The access key for the Kinesis source. Use with `IAM_USER` authentication. Can be rotated in place via an update.
+    """
+    iam_role: NotRequired[pulumi.Input[Optional[_builtins.str]]]
+    """
+    The IAM role for the Kinesis source. Use with `IAM_ROLE` authentication. It can be used with AWS ClickHouse service only. Read more at https://clickhouse.com/docs/en/integrations/clickpipes/kinesis.
+    """
+    timestamp: NotRequired[pulumi.Input[Optional[_builtins.str]]]
+    """
+    The timestamp for the Kinesis source. Use with `AT_TIMESTAMP` iterator type. (format `2021-01-01T00:00`)
+    """
+    use_enhanced_fan_out: NotRequired[pulumi.Input[Optional[_builtins.bool]]]
+    """
+    Whether to use enhanced fan-out consumer.
+    """
+
+@pulumi.input_type
+class ClickpipeSourceKinesisArgs:
+    def __init__(__self__, *,
+                 authentication: pulumi.Input[_builtins.str],
+                 format: pulumi.Input[_builtins.str],
+                 iterator_type: pulumi.Input[_builtins.str],
+                 region: pulumi.Input[_builtins.str],
+                 stream_name: pulumi.Input[_builtins.str],
+                 access_key: pulumi.Input[Optional['ClickpipeSourceKinesisAccessKeyArgs']] = None,
+                 iam_role: pulumi.Input[Optional[_builtins.str]] = None,
+                 timestamp: pulumi.Input[Optional[_builtins.str]] = None,
+                 use_enhanced_fan_out: pulumi.Input[Optional[_builtins.bool]] = None):
+        """
+        :param pulumi.Input[_builtins.str] authentication: The authentication method for the Kinesis source. (`IAM_ROLE`, `IAM_USER`).
+        :param pulumi.Input[_builtins.str] format: The format of the Kinesis source. (`JSONEachRow`, `Avro`, `AvroConfluent`)
+        :param pulumi.Input[_builtins.str] iterator_type: The iterator type for the Kinesis source. (`TRIM_HORIZON`, `LATEST`, `AT_TIMESTAMP`)
+        :param pulumi.Input[_builtins.str] region: The AWS region of the Kinesis stream.
+        :param pulumi.Input[_builtins.str] stream_name: The name of the Kinesis stream.
+        :param pulumi.Input['ClickpipeSourceKinesisAccessKeyArgs'] access_key: The access key for the Kinesis source. Use with `IAM_USER` authentication. Can be rotated in place via an update.
+        :param pulumi.Input[_builtins.str] iam_role: The IAM role for the Kinesis source. Use with `IAM_ROLE` authentication. It can be used with AWS ClickHouse service only. Read more at https://clickhouse.com/docs/en/integrations/clickpipes/kinesis.
+        :param pulumi.Input[_builtins.str] timestamp: The timestamp for the Kinesis source. Use with `AT_TIMESTAMP` iterator type. (format `2021-01-01T00:00`)
+        :param pulumi.Input[_builtins.bool] use_enhanced_fan_out: Whether to use enhanced fan-out consumer.
+        """
+        pulumi.set(__self__, "authentication", authentication)
+        pulumi.set(__self__, "format", format)
+        pulumi.set(__self__, "iterator_type", iterator_type)
+        pulumi.set(__self__, "region", region)
+        pulumi.set(__self__, "stream_name", stream_name)
+        if access_key is not None:
+            pulumi.set(__self__, "access_key", access_key)
+        if iam_role is not None:
+            pulumi.set(__self__, "iam_role", iam_role)
+        if timestamp is not None:
+            pulumi.set(__self__, "timestamp", timestamp)
+        if use_enhanced_fan_out is not None:
+            pulumi.set(__self__, "use_enhanced_fan_out", use_enhanced_fan_out)
+
+    @_builtins.property
+    @pulumi.getter
+    def authentication(self) -> pulumi.Input[_builtins.str]:
+        """
+        The authentication method for the Kinesis source. (`IAM_ROLE`, `IAM_USER`).
+        """
+        return pulumi.get(self, "authentication")
+
+    @authentication.setter
+    def authentication(self, value: pulumi.Input[_builtins.str]):
+        pulumi.set(self, "authentication", value)
+
+    @_builtins.property
+    @pulumi.getter
+    def format(self) -> pulumi.Input[_builtins.str]:
+        """
+        The format of the Kinesis source. (`JSONEachRow`, `Avro`, `AvroConfluent`)
+        """
+        return pulumi.get(self, "format")
+
+    @format.setter
+    def format(self, value: pulumi.Input[_builtins.str]):
+        pulumi.set(self, "format", value)
+
+    @_builtins.property
+    @pulumi.getter(name="iteratorType")
+    def iterator_type(self) -> pulumi.Input[_builtins.str]:
+        """
+        The iterator type for the Kinesis source. (`TRIM_HORIZON`, `LATEST`, `AT_TIMESTAMP`)
+        """
+        return pulumi.get(self, "iterator_type")
+
+    @iterator_type.setter
+    def iterator_type(self, value: pulumi.Input[_builtins.str]):
+        pulumi.set(self, "iterator_type", value)
+
+    @_builtins.property
+    @pulumi.getter
+    def region(self) -> pulumi.Input[_builtins.str]:
+        """
+        The AWS region of the Kinesis stream.
+        """
+        return pulumi.get(self, "region")
+
+    @region.setter
+    def region(self, value: pulumi.Input[_builtins.str]):
+        pulumi.set(self, "region", value)
+
+    @_builtins.property
+    @pulumi.getter(name="streamName")
+    def stream_name(self) -> pulumi.Input[_builtins.str]:
+        """
+        The name of the Kinesis stream.
+        """
+        return pulumi.get(self, "stream_name")
+
+    @stream_name.setter
+    def stream_name(self, value: pulumi.Input[_builtins.str]):
+        pulumi.set(self, "stream_name", value)
+
+    @_builtins.property
+    @pulumi.getter(name="accessKey")
+    def access_key(self) -> pulumi.Input[Optional['ClickpipeSourceKinesisAccessKeyArgs']]:
+        """
+        The access key for the Kinesis source. Use with `IAM_USER` authentication. Can be rotated in place via an update.
+        """
+        return pulumi.get(self, "access_key")
+
+    @access_key.setter
+    def access_key(self, value: pulumi.Input[Optional['ClickpipeSourceKinesisAccessKeyArgs']]):
+        pulumi.set(self, "access_key", value)
+
+    @_builtins.property
+    @pulumi.getter(name="iamRole")
+    def iam_role(self) -> pulumi.Input[Optional[_builtins.str]]:
+        """
+        The IAM role for the Kinesis source. Use with `IAM_ROLE` authentication. It can be used with AWS ClickHouse service only. Read more at https://clickhouse.com/docs/en/integrations/clickpipes/kinesis.
+        """
+        return pulumi.get(self, "iam_role")
+
+    @iam_role.setter
+    def iam_role(self, value: pulumi.Input[Optional[_builtins.str]]):
+        pulumi.set(self, "iam_role", value)
+
+    @_builtins.property
+    @pulumi.getter
+    def timestamp(self) -> pulumi.Input[Optional[_builtins.str]]:
+        """
+        The timestamp for the Kinesis source. Use with `AT_TIMESTAMP` iterator type. (format `2021-01-01T00:00`)
+        """
+        return pulumi.get(self, "timestamp")
+
+    @timestamp.setter
+    def timestamp(self, value: pulumi.Input[Optional[_builtins.str]]):
+        pulumi.set(self, "timestamp", value)
+
+    @_builtins.property
+    @pulumi.getter(name="useEnhancedFanOut")
+    def use_enhanced_fan_out(self) -> pulumi.Input[Optional[_builtins.bool]]:
+        """
+        Whether to use enhanced fan-out consumer.
+        """
+        return pulumi.get(self, "use_enhanced_fan_out")
+
+    @use_enhanced_fan_out.setter
+    def use_enhanced_fan_out(self, value: pulumi.Input[Optional[_builtins.bool]]):
+        pulumi.set(self, "use_enhanced_fan_out", value)
+
+
+class ClickpipeSourceKinesisAccessKeyArgsDict(TypedDict):
+    access_key_id: pulumi.Input[_builtins.str]
+    """
+    The access key ID for the Kinesis source.
+    """
+    secret_key: pulumi.Input[_builtins.str]
+    """
+    The secret key for the Kinesis source.
+    """
+
+@pulumi.input_type
+class ClickpipeSourceKinesisAccessKeyArgs:
+    def __init__(__self__, *,
+                 access_key_id: pulumi.Input[_builtins.str],
+                 secret_key: pulumi.Input[_builtins.str]):
+        """
+        :param pulumi.Input[_builtins.str] access_key_id: The access key ID for the Kinesis source.
+        :param pulumi.Input[_builtins.str] secret_key: The secret key for the Kinesis source.
+        """
+        pulumi.set(__self__, "access_key_id", access_key_id)
+        pulumi.set(__self__, "secret_key", secret_key)
+
+    @_builtins.property
+    @pulumi.getter(name="accessKeyId")
+    def access_key_id(self) -> pulumi.Input[_builtins.str]:
+        """
+        The access key ID for the Kinesis source.
+        """
+        return pulumi.get(self, "access_key_id")
+
+    @access_key_id.setter
+    def access_key_id(self, value: pulumi.Input[_builtins.str]):
+        pulumi.set(self, "access_key_id", value)
+
+    @_builtins.property
+    @pulumi.getter(name="secretKey")
+    def secret_key(self) -> pulumi.Input[_builtins.str]:
+        """
+        The secret key for the Kinesis source.
+        """
+        return pulumi.get(self, "secret_key")
+
+    @secret_key.setter
+    def secret_key(self, value: pulumi.Input[_builtins.str]):
+        pulumi.set(self, "secret_key", value)
+
+
+class ClickpipeSourceMongodbArgsDict(TypedDict):
+    read_preference: pulumi.Input[_builtins.str]
+    """
+    MongoDB read preference for replica set reads. (`primary`, `primaryPreferred`, `secondary`, `secondaryPreferred`, `nearest`)
+    """
+    settings: pulumi.Input['ClickpipeSourceMongodbSettingsArgsDict']
+    """
+    Settings for the MongoDB CDC pipe.
+    """
+    table_mappings: pulumi.Input[Sequence[pulumi.Input['ClickpipeSourceMongodbTableMappingArgsDict']]]
+    """
+    Collection mappings from MongoDB source to ClickHouse destination.
+    """
+    uri: pulumi.Input[_builtins.str]
+    """
+    MongoDB connection URI. Supports both standard URIs (mongodb://...) and SRV URIs (mongodb+srv://...).
+    """
+    ca_certificate: NotRequired[pulumi.Input[Optional[_builtins.str]]]
+    """
+    PEM encoded CA certificate to validate the MongoDB server certificate.
+    """
+    credentials: NotRequired[pulumi.Input[Optional['ClickpipeSourceMongodbCredentialsArgs']]]
+    """
+    The credentials for the MongoDB instance (username and password). Optional if credentials are embedded in the URI.
+    """
+    disable_tls: NotRequired[pulumi.Input[Optional[_builtins.bool]]]
+    """
+    Disable TLS for the MongoDB connection. Defaults to false (TLS enabled).
+    """
+    tls_host: NotRequired[pulumi.Input[Optional[_builtins.str]]]
+    """
+    TLS/SSL host for secure connections.
+    """
+
+@pulumi.input_type
+class ClickpipeSourceMongodbArgs:
+    def __init__(__self__, *,
+                 read_preference: pulumi.Input[_builtins.str],
+                 settings: pulumi.Input['ClickpipeSourceMongodbSettingsArgs'],
+                 table_mappings: pulumi.Input[Sequence[pulumi.Input['ClickpipeSourceMongodbTableMappingArgs']]],
+                 uri: pulumi.Input[_builtins.str],
+                 ca_certificate: pulumi.Input[Optional[_builtins.str]] = None,
+                 credentials: pulumi.Input[Optional['ClickpipeSourceMongodbCredentialsArgs']] = None,
+                 disable_tls: pulumi.Input[Optional[_builtins.bool]] = None,
+                 tls_host: pulumi.Input[Optional[_builtins.str]] = None):
+        """
+        :param pulumi.Input[_builtins.str] read_preference: MongoDB read preference for replica set reads. (`primary`, `primaryPreferred`, `secondary`, `secondaryPreferred`, `nearest`)
+        :param pulumi.Input['ClickpipeSourceMongodbSettingsArgs'] settings: Settings for the MongoDB CDC pipe.
+        :param pulumi.Input[Sequence[pulumi.Input['ClickpipeSourceMongodbTableMappingArgs']]] table_mappings: Collection mappings from MongoDB source to ClickHouse destination.
+        :param pulumi.Input[_builtins.str] uri: MongoDB connection URI. Supports both standard URIs (mongodb://...) and SRV URIs (mongodb+srv://...).
+        :param pulumi.Input[_builtins.str] ca_certificate: PEM encoded CA certificate to validate the MongoDB server certificate.
+        :param pulumi.Input['ClickpipeSourceMongodbCredentialsArgs'] credentials: The credentials for the MongoDB instance (username and password). Optional if credentials are embedded in the URI.
+        :param pulumi.Input[_builtins.bool] disable_tls: Disable TLS for the MongoDB connection. Defaults to false (TLS enabled).
+        :param pulumi.Input[_builtins.str] tls_host: TLS/SSL host for secure connections.
+        """
+        pulumi.set(__self__, "read_preference", read_preference)
+        pulumi.set(__self__, "settings", settings)
+        pulumi.set(__self__, "table_mappings", table_mappings)
+        pulumi.set(__self__, "uri", uri)
+        if ca_certificate is not None:
+            pulumi.set(__self__, "ca_certificate", ca_certificate)
+        if credentials is not None:
+            pulumi.set(__self__, "credentials", credentials)
+        if disable_tls is not None:
+            pulumi.set(__self__, "disable_tls", disable_tls)
+        if tls_host is not None:
+            pulumi.set(__self__, "tls_host", tls_host)
+
+    @_builtins.property
+    @pulumi.getter(name="readPreference")
+    def read_preference(self) -> pulumi.Input[_builtins.str]:
+        """
+        MongoDB read preference for replica set reads. (`primary`, `primaryPreferred`, `secondary`, `secondaryPreferred`, `nearest`)
+        """
+        return pulumi.get(self, "read_preference")
+
+    @read_preference.setter
+    def read_preference(self, value: pulumi.Input[_builtins.str]):
+        pulumi.set(self, "read_preference", value)
+
+    @_builtins.property
+    @pulumi.getter
+    def settings(self) -> pulumi.Input['ClickpipeSourceMongodbSettingsArgs']:
+        """
+        Settings for the MongoDB CDC pipe.
+        """
+        return pulumi.get(self, "settings")
+
+    @settings.setter
+    def settings(self, value: pulumi.Input['ClickpipeSourceMongodbSettingsArgs']):
+        pulumi.set(self, "settings", value)
+
+    @_builtins.property
+    @pulumi.getter(name="tableMappings")
+    def table_mappings(self) -> pulumi.Input[Sequence[pulumi.Input['ClickpipeSourceMongodbTableMappingArgs']]]:
+        """
+        Collection mappings from MongoDB source to ClickHouse destination.
+        """
+        return pulumi.get(self, "table_mappings")
+
+    @table_mappings.setter
+    def table_mappings(self, value: pulumi.Input[Sequence[pulumi.Input['ClickpipeSourceMongodbTableMappingArgs']]]):
+        pulumi.set(self, "table_mappings", value)
+
+    @_builtins.property
+    @pulumi.getter
+    def uri(self) -> pulumi.Input[_builtins.str]:
+        """
+        MongoDB connection URI. Supports both standard URIs (mongodb://...) and SRV URIs (mongodb+srv://...).
+        """
+        return pulumi.get(self, "uri")
+
+    @uri.setter
+    def uri(self, value: pulumi.Input[_builtins.str]):
+        pulumi.set(self, "uri", value)
+
+    @_builtins.property
+    @pulumi.getter(name="caCertificate")
+    def ca_certificate(self) -> pulumi.Input[Optional[_builtins.str]]:
+        """
+        PEM encoded CA certificate to validate the MongoDB server certificate.
+        """
+        return pulumi.get(self, "ca_certificate")
+
+    @ca_certificate.setter
+    def ca_certificate(self, value: pulumi.Input[Optional[_builtins.str]]):
+        pulumi.set(self, "ca_certificate", value)
+
+    @_builtins.property
+    @pulumi.getter
+    def credentials(self) -> pulumi.Input[Optional['ClickpipeSourceMongodbCredentialsArgs']]:
+        """
+        The credentials for the MongoDB instance (username and password). Optional if credentials are embedded in the URI.
+        """
+        return pulumi.get(self, "credentials")
+
+    @credentials.setter
+    def credentials(self, value: pulumi.Input[Optional['ClickpipeSourceMongodbCredentialsArgs']]):
+        pulumi.set(self, "credentials", value)
+
+    @_builtins.property
+    @pulumi.getter(name="disableTls")
+    def disable_tls(self) -> pulumi.Input[Optional[_builtins.bool]]:
+        """
+        Disable TLS for the MongoDB connection. Defaults to false (TLS enabled).
+        """
+        return pulumi.get(self, "disable_tls")
+
+    @disable_tls.setter
+    def disable_tls(self, value: pulumi.Input[Optional[_builtins.bool]]):
+        pulumi.set(self, "disable_tls", value)
+
+    @_builtins.property
+    @pulumi.getter(name="tlsHost")
+    def tls_host(self) -> pulumi.Input[Optional[_builtins.str]]:
+        """
+        TLS/SSL host for secure connections.
+        """
+        return pulumi.get(self, "tls_host")
+
+    @tls_host.setter
+    def tls_host(self, value: pulumi.Input[Optional[_builtins.str]]):
+        pulumi.set(self, "tls_host", value)
+
+
+class ClickpipeSourceMongodbCredentialsArgsDict(TypedDict):
+    username: pulumi.Input[_builtins.str]
+    """
+    The username for the MongoDB instance.
+    """
+    password: NotRequired[pulumi.Input[Optional[_builtins.str]]]
+    """
+    The password for the MongoDB instance. Use `password_wo` instead to keep the value out of state.
+    """
+    password_wo: NotRequired[pulumi.Input[Optional[_builtins.str]]]
+    """
+    **NOTE:** This field is write-only and its value will not be updated in state as part of read operations.
+    Write-only password for the MongoDB instance. Not persisted to state. Pair with `password_wo_version` to trigger updates.
+    """
+    password_wo_version: NotRequired[pulumi.Input[Optional[_builtins.int]]]
+    """
+    Version trigger for `password_wo`. Increment to push a new password to the API.
+    """
+
+@pulumi.input_type
+class ClickpipeSourceMongodbCredentialsArgs:
+    def __init__(__self__, *,
+                 username: pulumi.Input[_builtins.str],
+                 password: pulumi.Input[Optional[_builtins.str]] = None,
+                 password_wo: pulumi.Input[Optional[_builtins.str]] = None,
+                 password_wo_version: pulumi.Input[Optional[_builtins.int]] = None):
+        """
+        :param pulumi.Input[_builtins.str] username: The username for the MongoDB instance.
+        :param pulumi.Input[_builtins.str] password: The password for the MongoDB instance. Use `password_wo` instead to keep the value out of state.
+        :param pulumi.Input[_builtins.str] password_wo: **NOTE:** This field is write-only and its value will not be updated in state as part of read operations.
+               Write-only password for the MongoDB instance. Not persisted to state. Pair with `password_wo_version` to trigger updates.
+        :param pulumi.Input[_builtins.int] password_wo_version: Version trigger for `password_wo`. Increment to push a new password to the API.
+        """
+        pulumi.set(__self__, "username", username)
+        if password is not None:
+            pulumi.set(__self__, "password", password)
+        if password_wo is not None:
+            pulumi.set(__self__, "password_wo", password_wo)
+        if password_wo_version is not None:
+            pulumi.set(__self__, "password_wo_version", password_wo_version)
+
+    @_builtins.property
+    @pulumi.getter
+    def username(self) -> pulumi.Input[_builtins.str]:
+        """
+        The username for the MongoDB instance.
+        """
+        return pulumi.get(self, "username")
+
+    @username.setter
+    def username(self, value: pulumi.Input[_builtins.str]):
+        pulumi.set(self, "username", value)
+
+    @_builtins.property
+    @pulumi.getter
+    def password(self) -> pulumi.Input[Optional[_builtins.str]]:
+        """
+        The password for the MongoDB instance. Use `password_wo` instead to keep the value out of state.
+        """
+        return pulumi.get(self, "password")
+
+    @password.setter
+    def password(self, value: pulumi.Input[Optional[_builtins.str]]):
+        pulumi.set(self, "password", value)
+
+    @_builtins.property
+    @pulumi.getter(name="passwordWo")
+    def password_wo(self) -> pulumi.Input[Optional[_builtins.str]]:
+        """
+        **NOTE:** This field is write-only and its value will not be updated in state as part of read operations.
+        Write-only password for the MongoDB instance. Not persisted to state. Pair with `password_wo_version` to trigger updates.
+        """
+        return pulumi.get(self, "password_wo")
+
+    @password_wo.setter
+    def password_wo(self, value: pulumi.Input[Optional[_builtins.str]]):
+        pulumi.set(self, "password_wo", value)
+
+    @_builtins.property
+    @pulumi.getter(name="passwordWoVersion")
+    def password_wo_version(self) -> pulumi.Input[Optional[_builtins.int]]:
+        """
+        Version trigger for `password_wo`. Increment to push a new password to the API.
+        """
+        return pulumi.get(self, "password_wo_version")
+
+    @password_wo_version.setter
+    def password_wo_version(self, value: pulumi.Input[Optional[_builtins.int]]):
+        pulumi.set(self, "password_wo_version", value)
+
+
+class ClickpipeSourceMongodbSettingsArgsDict(TypedDict):
+    replication_mode: pulumi.Input[_builtins.str]
+    """
+    Replication mode for the MongoDB pipe. (`cdc`, `snapshot`, `cdc_only`)
+    """
+    delete_on_merge: NotRequired[pulumi.Input[Optional[_builtins.bool]]]
+    """
+    Enable hard delete behavior in ReplacingMergeTree for MongoDB DELETE operations.
+    """
+    pull_batch_size: NotRequired[pulumi.Input[Optional[_builtins.int]]]
+    """
+    Number of rows to pull in each batch during CDC replication.
+    """
+    snapshot_num_rows_per_partition: NotRequired[pulumi.Input[Optional[_builtins.int]]]
+    """
+    Number of rows per partition during the snapshot phase.
+    """
+    snapshot_number_of_parallel_tables: NotRequired[pulumi.Input[Optional[_builtins.int]]]
+    """
+    Number of collections to snapshot in parallel during the initial load phase.
+    """
+    sync_interval_seconds: NotRequired[pulumi.Input[Optional[_builtins.int]]]
+    """
+    Interval in seconds to sync data from MongoDB during CDC replication.
+    """
+    use_json_native_format: NotRequired[pulumi.Input[Optional[_builtins.bool]]]
+    """
+    Store JSON values in native ClickHouse JSON format. When disabled, JSON data is stored as String.
+    """
+
+@pulumi.input_type
+class ClickpipeSourceMongodbSettingsArgs:
+    def __init__(__self__, *,
+                 replication_mode: pulumi.Input[_builtins.str],
+                 delete_on_merge: pulumi.Input[Optional[_builtins.bool]] = None,
+                 pull_batch_size: pulumi.Input[Optional[_builtins.int]] = None,
+                 snapshot_num_rows_per_partition: pulumi.Input[Optional[_builtins.int]] = None,
+                 snapshot_number_of_parallel_tables: pulumi.Input[Optional[_builtins.int]] = None,
+                 sync_interval_seconds: pulumi.Input[Optional[_builtins.int]] = None,
+                 use_json_native_format: pulumi.Input[Optional[_builtins.bool]] = None):
+        """
+        :param pulumi.Input[_builtins.str] replication_mode: Replication mode for the MongoDB pipe. (`cdc`, `snapshot`, `cdc_only`)
+        :param pulumi.Input[_builtins.bool] delete_on_merge: Enable hard delete behavior in ReplacingMergeTree for MongoDB DELETE operations.
+        :param pulumi.Input[_builtins.int] pull_batch_size: Number of rows to pull in each batch during CDC replication.
+        :param pulumi.Input[_builtins.int] snapshot_num_rows_per_partition: Number of rows per partition during the snapshot phase.
+        :param pulumi.Input[_builtins.int] snapshot_number_of_parallel_tables: Number of collections to snapshot in parallel during the initial load phase.
+        :param pulumi.Input[_builtins.int] sync_interval_seconds: Interval in seconds to sync data from MongoDB during CDC replication.
+        :param pulumi.Input[_builtins.bool] use_json_native_format: Store JSON values in native ClickHouse JSON format. When disabled, JSON data is stored as String.
+        """
+        pulumi.set(__self__, "replication_mode", replication_mode)
+        if delete_on_merge is not None:
+            pulumi.set(__self__, "delete_on_merge", delete_on_merge)
+        if pull_batch_size is not None:
+            pulumi.set(__self__, "pull_batch_size", pull_batch_size)
+        if snapshot_num_rows_per_partition is not None:
+            pulumi.set(__self__, "snapshot_num_rows_per_partition", snapshot_num_rows_per_partition)
+        if snapshot_number_of_parallel_tables is not None:
+            pulumi.set(__self__, "snapshot_number_of_parallel_tables", snapshot_number_of_parallel_tables)
+        if sync_interval_seconds is not None:
+            pulumi.set(__self__, "sync_interval_seconds", sync_interval_seconds)
+        if use_json_native_format is not None:
+            pulumi.set(__self__, "use_json_native_format", use_json_native_format)
+
+    @_builtins.property
+    @pulumi.getter(name="replicationMode")
+    def replication_mode(self) -> pulumi.Input[_builtins.str]:
+        """
+        Replication mode for the MongoDB pipe. (`cdc`, `snapshot`, `cdc_only`)
+        """
+        return pulumi.get(self, "replication_mode")
+
+    @replication_mode.setter
+    def replication_mode(self, value: pulumi.Input[_builtins.str]):
+        pulumi.set(self, "replication_mode", value)
+
+    @_builtins.property
+    @pulumi.getter(name="deleteOnMerge")
+    def delete_on_merge(self) -> pulumi.Input[Optional[_builtins.bool]]:
+        """
+        Enable hard delete behavior in ReplacingMergeTree for MongoDB DELETE operations.
+        """
+        return pulumi.get(self, "delete_on_merge")
+
+    @delete_on_merge.setter
+    def delete_on_merge(self, value: pulumi.Input[Optional[_builtins.bool]]):
+        pulumi.set(self, "delete_on_merge", value)
+
+    @_builtins.property
+    @pulumi.getter(name="pullBatchSize")
+    def pull_batch_size(self) -> pulumi.Input[Optional[_builtins.int]]:
+        """
+        Number of rows to pull in each batch during CDC replication.
+        """
+        return pulumi.get(self, "pull_batch_size")
+
+    @pull_batch_size.setter
+    def pull_batch_size(self, value: pulumi.Input[Optional[_builtins.int]]):
+        pulumi.set(self, "pull_batch_size", value)
+
+    @_builtins.property
+    @pulumi.getter(name="snapshotNumRowsPerPartition")
+    def snapshot_num_rows_per_partition(self) -> pulumi.Input[Optional[_builtins.int]]:
+        """
+        Number of rows per partition during the snapshot phase.
+        """
+        return pulumi.get(self, "snapshot_num_rows_per_partition")
+
+    @snapshot_num_rows_per_partition.setter
+    def snapshot_num_rows_per_partition(self, value: pulumi.Input[Optional[_builtins.int]]):
+        pulumi.set(self, "snapshot_num_rows_per_partition", value)
+
+    @_builtins.property
+    @pulumi.getter(name="snapshotNumberOfParallelTables")
+    def snapshot_number_of_parallel_tables(self) -> pulumi.Input[Optional[_builtins.int]]:
+        """
+        Number of collections to snapshot in parallel during the initial load phase.
+        """
+        return pulumi.get(self, "snapshot_number_of_parallel_tables")
+
+    @snapshot_number_of_parallel_tables.setter
+    def snapshot_number_of_parallel_tables(self, value: pulumi.Input[Optional[_builtins.int]]):
+        pulumi.set(self, "snapshot_number_of_parallel_tables", value)
+
+    @_builtins.property
+    @pulumi.getter(name="syncIntervalSeconds")
+    def sync_interval_seconds(self) -> pulumi.Input[Optional[_builtins.int]]:
+        """
+        Interval in seconds to sync data from MongoDB during CDC replication.
+        """
+        return pulumi.get(self, "sync_interval_seconds")
+
+    @sync_interval_seconds.setter
+    def sync_interval_seconds(self, value: pulumi.Input[Optional[_builtins.int]]):
+        pulumi.set(self, "sync_interval_seconds", value)
+
+    @_builtins.property
+    @pulumi.getter(name="useJsonNativeFormat")
+    def use_json_native_format(self) -> pulumi.Input[Optional[_builtins.bool]]:
+        """
+        Store JSON values in native ClickHouse JSON format. When disabled, JSON data is stored as String.
+        """
+        return pulumi.get(self, "use_json_native_format")
+
+    @use_json_native_format.setter
+    def use_json_native_format(self, value: pulumi.Input[Optional[_builtins.bool]]):
+        pulumi.set(self, "use_json_native_format", value)
+
+
+class ClickpipeSourceMongodbTableMappingArgsDict(TypedDict):
+    source_collection: pulumi.Input[_builtins.str]
+    """
+    MongoDB source collection name.
+    """
+    source_database_name: pulumi.Input[_builtins.str]
+    """
+    MongoDB source database name.
+    """
+    target_table: pulumi.Input[_builtins.str]
+    """
+    ClickHouse target table name. The table will be created automatically if it does not exist.
+    """
+    table_engine: NotRequired[pulumi.Input[Optional[_builtins.str]]]
+    """
+    Table engine to use for the target table. (`MergeTree`, `ReplacingMergeTree`, `Null`)
+    """
+
+@pulumi.input_type
+class ClickpipeSourceMongodbTableMappingArgs:
+    def __init__(__self__, *,
+                 source_collection: pulumi.Input[_builtins.str],
+                 source_database_name: pulumi.Input[_builtins.str],
+                 target_table: pulumi.Input[_builtins.str],
+                 table_engine: pulumi.Input[Optional[_builtins.str]] = None):
+        """
+        :param pulumi.Input[_builtins.str] source_collection: MongoDB source collection name.
+        :param pulumi.Input[_builtins.str] source_database_name: MongoDB source database name.
+        :param pulumi.Input[_builtins.str] target_table: ClickHouse target table name. The table will be created automatically if it does not exist.
+        :param pulumi.Input[_builtins.str] table_engine: Table engine to use for the target table. (`MergeTree`, `ReplacingMergeTree`, `Null`)
+        """
+        pulumi.set(__self__, "source_collection", source_collection)
+        pulumi.set(__self__, "source_database_name", source_database_name)
+        pulumi.set(__self__, "target_table", target_table)
+        if table_engine is not None:
+            pulumi.set(__self__, "table_engine", table_engine)
+
+    @_builtins.property
+    @pulumi.getter(name="sourceCollection")
+    def source_collection(self) -> pulumi.Input[_builtins.str]:
+        """
+        MongoDB source collection name.
+        """
+        return pulumi.get(self, "source_collection")
+
+    @source_collection.setter
+    def source_collection(self, value: pulumi.Input[_builtins.str]):
+        pulumi.set(self, "source_collection", value)
+
+    @_builtins.property
+    @pulumi.getter(name="sourceDatabaseName")
+    def source_database_name(self) -> pulumi.Input[_builtins.str]:
+        """
+        MongoDB source database name.
+        """
+        return pulumi.get(self, "source_database_name")
+
+    @source_database_name.setter
+    def source_database_name(self, value: pulumi.Input[_builtins.str]):
+        pulumi.set(self, "source_database_name", value)
+
+    @_builtins.property
+    @pulumi.getter(name="targetTable")
+    def target_table(self) -> pulumi.Input[_builtins.str]:
+        """
+        ClickHouse target table name. The table will be created automatically if it does not exist.
+        """
+        return pulumi.get(self, "target_table")
+
+    @target_table.setter
+    def target_table(self, value: pulumi.Input[_builtins.str]):
+        pulumi.set(self, "target_table", value)
+
+    @_builtins.property
+    @pulumi.getter(name="tableEngine")
+    def table_engine(self) -> pulumi.Input[Optional[_builtins.str]]:
+        """
+        Table engine to use for the target table. (`MergeTree`, `ReplacingMergeTree`, `Null`)
+        """
+        return pulumi.get(self, "table_engine")
+
+    @table_engine.setter
+    def table_engine(self, value: pulumi.Input[Optional[_builtins.str]]):
+        pulumi.set(self, "table_engine", value)
+
+
+class ClickpipeSourceMysqlArgsDict(TypedDict):
+    credentials: pulumi.Input['ClickpipeSourceMysqlCredentialsArgsDict']
+    """
+    The credentials for the MySQL instance. Username is always required. For `basic` authentication, supply either `password` or `password_wo`. For `IAM_ROLE` authentication, password is optional.
+    """
+    host: pulumi.Input[_builtins.str]
+    """
+    The hostname of the MySQL instance.
+    """
+    settings: pulumi.Input['ClickpipeSourceMysqlSettingsArgsDict']
+    """
+    Settings for the MySQL CDC pipe.
+    """
+    table_mappings: pulumi.Input[Sequence[pulumi.Input['ClickpipeSourceMysqlTableMappingArgsDict']]]
+    """
+    Table mappings from MySQL source to ClickHouse destination.
+    """
+    authentication: NotRequired[pulumi.Input[Optional[_builtins.str]]]
+    """
+    Authentication method for MySQL connection. Supported values: `basic`, `IAM_ROLE`. Default is `basic`.
+    """
+    ca_certificate: NotRequired[pulumi.Input[Optional[_builtins.str]]]
+    """
+    PEM encoded CA certificate to validate the MySQL server certificate.
+    """
+    disable_tls: NotRequired[pulumi.Input[Optional[_builtins.bool]]]
+    """
+    Disable TLS for the MySQL connection.
+    """
+    iam_role: NotRequired[pulumi.Input[Optional[_builtins.str]]]
+    """
+    IAM role ARN for IAM authentication. Required when authentication is set to `IAM_ROLE`.
+    """
+    port: NotRequired[pulumi.Input[Optional[_builtins.int]]]
+    """
+    The port of the MySQL instance. Default is 3306.
+    """
+    skip_cert_verification: NotRequired[pulumi.Input[Optional[_builtins.bool]]]
+    """
+    Skip certificate verification for the MySQL connection.
+    """
+    tls_host: NotRequired[pulumi.Input[Optional[_builtins.str]]]
+    """
+    TLS/SSL host for secure connections. Used to verify the server certificate.
+    """
+    type: NotRequired[pulumi.Input[Optional[_builtins.str]]]
+    """
+    The type of MySQL-compatible source. (`mysql`, `rdsmysql`, `auroramysql`, `planetscalevitess`, `mariadb`, `rdsmariadb`). Default is `mysql`.
+    """
+
+@pulumi.input_type
+class ClickpipeSourceMysqlArgs:
+    def __init__(__self__, *,
+                 credentials: pulumi.Input['ClickpipeSourceMysqlCredentialsArgs'],
+                 host: pulumi.Input[_builtins.str],
+                 settings: pulumi.Input['ClickpipeSourceMysqlSettingsArgs'],
+                 table_mappings: pulumi.Input[Sequence[pulumi.Input['ClickpipeSourceMysqlTableMappingArgs']]],
+                 authentication: pulumi.Input[Optional[_builtins.str]] = None,
+                 ca_certificate: pulumi.Input[Optional[_builtins.str]] = None,
+                 disable_tls: pulumi.Input[Optional[_builtins.bool]] = None,
+                 iam_role: pulumi.Input[Optional[_builtins.str]] = None,
+                 port: pulumi.Input[Optional[_builtins.int]] = None,
+                 skip_cert_verification: pulumi.Input[Optional[_builtins.bool]] = None,
+                 tls_host: pulumi.Input[Optional[_builtins.str]] = None,
+                 type: pulumi.Input[Optional[_builtins.str]] = None):
+        """
+        :param pulumi.Input['ClickpipeSourceMysqlCredentialsArgs'] credentials: The credentials for the MySQL instance. Username is always required. For `basic` authentication, supply either `password` or `password_wo`. For `IAM_ROLE` authentication, password is optional.
+        :param pulumi.Input[_builtins.str] host: The hostname of the MySQL instance.
+        :param pulumi.Input['ClickpipeSourceMysqlSettingsArgs'] settings: Settings for the MySQL CDC pipe.
+        :param pulumi.Input[Sequence[pulumi.Input['ClickpipeSourceMysqlTableMappingArgs']]] table_mappings: Table mappings from MySQL source to ClickHouse destination.
+        :param pulumi.Input[_builtins.str] authentication: Authentication method for MySQL connection. Supported values: `basic`, `IAM_ROLE`. Default is `basic`.
+        :param pulumi.Input[_builtins.str] ca_certificate: PEM encoded CA certificate to validate the MySQL server certificate.
+        :param pulumi.Input[_builtins.bool] disable_tls: Disable TLS for the MySQL connection.
+        :param pulumi.Input[_builtins.str] iam_role: IAM role ARN for IAM authentication. Required when authentication is set to `IAM_ROLE`.
+        :param pulumi.Input[_builtins.int] port: The port of the MySQL instance. Default is 3306.
+        :param pulumi.Input[_builtins.bool] skip_cert_verification: Skip certificate verification for the MySQL connection.
+        :param pulumi.Input[_builtins.str] tls_host: TLS/SSL host for secure connections. Used to verify the server certificate.
+        :param pulumi.Input[_builtins.str] type: The type of MySQL-compatible source. (`mysql`, `rdsmysql`, `auroramysql`, `planetscalevitess`, `mariadb`, `rdsmariadb`). Default is `mysql`.
+        """
+        pulumi.set(__self__, "credentials", credentials)
+        pulumi.set(__self__, "host", host)
+        pulumi.set(__self__, "settings", settings)
+        pulumi.set(__self__, "table_mappings", table_mappings)
+        if authentication is not None:
+            pulumi.set(__self__, "authentication", authentication)
+        if ca_certificate is not None:
+            pulumi.set(__self__, "ca_certificate", ca_certificate)
+        if disable_tls is not None:
+            pulumi.set(__self__, "disable_tls", disable_tls)
+        if iam_role is not None:
+            pulumi.set(__self__, "iam_role", iam_role)
+        if port is not None:
+            pulumi.set(__self__, "port", port)
+        if skip_cert_verification is not None:
+            pulumi.set(__self__, "skip_cert_verification", skip_cert_verification)
+        if tls_host is not None:
+            pulumi.set(__self__, "tls_host", tls_host)
+        if type is not None:
+            pulumi.set(__self__, "type", type)
+
+    @_builtins.property
+    @pulumi.getter
+    def credentials(self) -> pulumi.Input['ClickpipeSourceMysqlCredentialsArgs']:
+        """
+        The credentials for the MySQL instance. Username is always required. For `basic` authentication, supply either `password` or `password_wo`. For `IAM_ROLE` authentication, password is optional.
+        """
+        return pulumi.get(self, "credentials")
+
+    @credentials.setter
+    def credentials(self, value: pulumi.Input['ClickpipeSourceMysqlCredentialsArgs']):
+        pulumi.set(self, "credentials", value)
+
+    @_builtins.property
+    @pulumi.getter
+    def host(self) -> pulumi.Input[_builtins.str]:
+        """
+        The hostname of the MySQL instance.
+        """
+        return pulumi.get(self, "host")
+
+    @host.setter
+    def host(self, value: pulumi.Input[_builtins.str]):
+        pulumi.set(self, "host", value)
+
+    @_builtins.property
+    @pulumi.getter
+    def settings(self) -> pulumi.Input['ClickpipeSourceMysqlSettingsArgs']:
+        """
+        Settings for the MySQL CDC pipe.
+        """
+        return pulumi.get(self, "settings")
+
+    @settings.setter
+    def settings(self, value: pulumi.Input['ClickpipeSourceMysqlSettingsArgs']):
+        pulumi.set(self, "settings", value)
+
+    @_builtins.property
+    @pulumi.getter(name="tableMappings")
+    def table_mappings(self) -> pulumi.Input[Sequence[pulumi.Input['ClickpipeSourceMysqlTableMappingArgs']]]:
+        """
+        Table mappings from MySQL source to ClickHouse destination.
+        """
+        return pulumi.get(self, "table_mappings")
+
+    @table_mappings.setter
+    def table_mappings(self, value: pulumi.Input[Sequence[pulumi.Input['ClickpipeSourceMysqlTableMappingArgs']]]):
+        pulumi.set(self, "table_mappings", value)
+
+    @_builtins.property
+    @pulumi.getter
+    def authentication(self) -> pulumi.Input[Optional[_builtins.str]]:
+        """
+        Authentication method for MySQL connection. Supported values: `basic`, `IAM_ROLE`. Default is `basic`.
+        """
+        return pulumi.get(self, "authentication")
+
+    @authentication.setter
+    def authentication(self, value: pulumi.Input[Optional[_builtins.str]]):
+        pulumi.set(self, "authentication", value)
+
+    @_builtins.property
+    @pulumi.getter(name="caCertificate")
+    def ca_certificate(self) -> pulumi.Input[Optional[_builtins.str]]:
+        """
+        PEM encoded CA certificate to validate the MySQL server certificate.
+        """
+        return pulumi.get(self, "ca_certificate")
+
+    @ca_certificate.setter
+    def ca_certificate(self, value: pulumi.Input[Optional[_builtins.str]]):
+        pulumi.set(self, "ca_certificate", value)
+
+    @_builtins.property
+    @pulumi.getter(name="disableTls")
+    def disable_tls(self) -> pulumi.Input[Optional[_builtins.bool]]:
+        """
+        Disable TLS for the MySQL connection.
+        """
+        return pulumi.get(self, "disable_tls")
+
+    @disable_tls.setter
+    def disable_tls(self, value: pulumi.Input[Optional[_builtins.bool]]):
+        pulumi.set(self, "disable_tls", value)
+
+    @_builtins.property
+    @pulumi.getter(name="iamRole")
+    def iam_role(self) -> pulumi.Input[Optional[_builtins.str]]:
+        """
+        IAM role ARN for IAM authentication. Required when authentication is set to `IAM_ROLE`.
+        """
+        return pulumi.get(self, "iam_role")
+
+    @iam_role.setter
+    def iam_role(self, value: pulumi.Input[Optional[_builtins.str]]):
+        pulumi.set(self, "iam_role", value)
+
+    @_builtins.property
+    @pulumi.getter
+    def port(self) -> pulumi.Input[Optional[_builtins.int]]:
+        """
+        The port of the MySQL instance. Default is 3306.
+        """
+        return pulumi.get(self, "port")
+
+    @port.setter
+    def port(self, value: pulumi.Input[Optional[_builtins.int]]):
+        pulumi.set(self, "port", value)
+
+    @_builtins.property
+    @pulumi.getter(name="skipCertVerification")
+    def skip_cert_verification(self) -> pulumi.Input[Optional[_builtins.bool]]:
+        """
+        Skip certificate verification for the MySQL connection.
+        """
+        return pulumi.get(self, "skip_cert_verification")
+
+    @skip_cert_verification.setter
+    def skip_cert_verification(self, value: pulumi.Input[Optional[_builtins.bool]]):
+        pulumi.set(self, "skip_cert_verification", value)
+
+    @_builtins.property
+    @pulumi.getter(name="tlsHost")
+    def tls_host(self) -> pulumi.Input[Optional[_builtins.str]]:
+        """
+        TLS/SSL host for secure connections. Used to verify the server certificate.
+        """
+        return pulumi.get(self, "tls_host")
+
+    @tls_host.setter
+    def tls_host(self, value: pulumi.Input[Optional[_builtins.str]]):
+        pulumi.set(self, "tls_host", value)
+
+    @_builtins.property
+    @pulumi.getter
+    def type(self) -> pulumi.Input[Optional[_builtins.str]]:
+        """
+        The type of MySQL-compatible source. (`mysql`, `rdsmysql`, `auroramysql`, `planetscalevitess`, `mariadb`, `rdsmariadb`). Default is `mysql`.
+        """
+        return pulumi.get(self, "type")
+
+    @type.setter
+    def type(self, value: pulumi.Input[Optional[_builtins.str]]):
+        pulumi.set(self, "type", value)
+
+
+class ClickpipeSourceMysqlCredentialsArgsDict(TypedDict):
+    username: pulumi.Input[_builtins.str]
+    """
+    The username for the MySQL instance.
+    """
+    password: NotRequired[pulumi.Input[Optional[_builtins.str]]]
+    """
+    The password for the MySQL instance. Use `password_wo` instead to keep the value out of state.
+    """
+    password_wo: NotRequired[pulumi.Input[Optional[_builtins.str]]]
+    """
+    **NOTE:** This field is write-only and its value will not be updated in state as part of read operations.
+    Write-only password for the MySQL instance. Not persisted to state. Pair with `password_wo_version` to trigger updates.
+    """
+    password_wo_version: NotRequired[pulumi.Input[Optional[_builtins.int]]]
+    """
+    Version trigger for `password_wo`. Increment to push a new password to the API.
+    """
+
+@pulumi.input_type
+class ClickpipeSourceMysqlCredentialsArgs:
+    def __init__(__self__, *,
+                 username: pulumi.Input[_builtins.str],
+                 password: pulumi.Input[Optional[_builtins.str]] = None,
+                 password_wo: pulumi.Input[Optional[_builtins.str]] = None,
+                 password_wo_version: pulumi.Input[Optional[_builtins.int]] = None):
+        """
+        :param pulumi.Input[_builtins.str] username: The username for the MySQL instance.
+        :param pulumi.Input[_builtins.str] password: The password for the MySQL instance. Use `password_wo` instead to keep the value out of state.
+        :param pulumi.Input[_builtins.str] password_wo: **NOTE:** This field is write-only and its value will not be updated in state as part of read operations.
+               Write-only password for the MySQL instance. Not persisted to state. Pair with `password_wo_version` to trigger updates.
+        :param pulumi.Input[_builtins.int] password_wo_version: Version trigger for `password_wo`. Increment to push a new password to the API.
+        """
+        pulumi.set(__self__, "username", username)
+        if password is not None:
+            pulumi.set(__self__, "password", password)
+        if password_wo is not None:
+            pulumi.set(__self__, "password_wo", password_wo)
+        if password_wo_version is not None:
+            pulumi.set(__self__, "password_wo_version", password_wo_version)
+
+    @_builtins.property
+    @pulumi.getter
+    def username(self) -> pulumi.Input[_builtins.str]:
+        """
+        The username for the MySQL instance.
+        """
+        return pulumi.get(self, "username")
+
+    @username.setter
+    def username(self, value: pulumi.Input[_builtins.str]):
+        pulumi.set(self, "username", value)
+
+    @_builtins.property
+    @pulumi.getter
+    def password(self) -> pulumi.Input[Optional[_builtins.str]]:
+        """
+        The password for the MySQL instance. Use `password_wo` instead to keep the value out of state.
+        """
+        return pulumi.get(self, "password")
+
+    @password.setter
+    def password(self, value: pulumi.Input[Optional[_builtins.str]]):
+        pulumi.set(self, "password", value)
+
+    @_builtins.property
+    @pulumi.getter(name="passwordWo")
+    def password_wo(self) -> pulumi.Input[Optional[_builtins.str]]:
+        """
+        **NOTE:** This field is write-only and its value will not be updated in state as part of read operations.
+        Write-only password for the MySQL instance. Not persisted to state. Pair with `password_wo_version` to trigger updates.
+        """
+        return pulumi.get(self, "password_wo")
+
+    @password_wo.setter
+    def password_wo(self, value: pulumi.Input[Optional[_builtins.str]]):
+        pulumi.set(self, "password_wo", value)
+
+    @_builtins.property
+    @pulumi.getter(name="passwordWoVersion")
+    def password_wo_version(self) -> pulumi.Input[Optional[_builtins.int]]:
+        """
+        Version trigger for `password_wo`. Increment to push a new password to the API.
+        """
+        return pulumi.get(self, "password_wo_version")
+
+    @password_wo_version.setter
+    def password_wo_version(self, value: pulumi.Input[Optional[_builtins.int]]):
+        pulumi.set(self, "password_wo_version", value)
+
+
+class ClickpipeSourceMysqlSettingsArgsDict(TypedDict):
+    replication_mode: pulumi.Input[_builtins.str]
+    """
+    Replication mode for the MySQL pipe. (`cdc`, `snapshot`, `cdc_only`)
+    """
+    allow_nullable_columns: NotRequired[pulumi.Input[Optional[_builtins.bool]]]
+    """
+    Allow nullable columns in the destination table.
+    """
+    delete_on_merge: NotRequired[pulumi.Input[Optional[_builtins.bool]]]
+    """
+    Enable hard delete behavior in ReplacingMergeTree for MySQL DELETE operations.
+    """
+    initial_load_parallelism: NotRequired[pulumi.Input[Optional[_builtins.int]]]
+    """
+    Number of parallel connections to use during initial load.
+    """
+    pull_batch_size: NotRequired[pulumi.Input[Optional[_builtins.int]]]
+    """
+    Number of rows to pull in each batch.
+    """
+    replication_mechanism: NotRequired[pulumi.Input[Optional[_builtins.str]]]
+    """
+    Replication mechanism for the MySQL pipe. (`GTID`, `FILE_POS`). Default is `GTID`. Mechanisms other than `GTID` (e.g. `FILE_POS`) must be enabled for your organization; contact ClickHouse support to enable this feature.
+    """
+    snapshot_num_rows_per_partition: NotRequired[pulumi.Input[Optional[_builtins.int]]]
+    """
+    Number of rows to snapshot per partition.
+    """
+    snapshot_number_of_parallel_tables: NotRequired[pulumi.Input[Optional[_builtins.int]]]
+    """
+    Number of parallel tables to snapshot.
+    """
+    sync_interval_seconds: NotRequired[pulumi.Input[Optional[_builtins.int]]]
+    """
+    Interval in seconds to sync data from MySQL.
+    """
+    use_compression: NotRequired[pulumi.Input[Optional[_builtins.bool]]]
+    """
+    Enable compression for the MySQL replication connection.
+    """
+
+@pulumi.input_type
+class ClickpipeSourceMysqlSettingsArgs:
+    def __init__(__self__, *,
+                 replication_mode: pulumi.Input[_builtins.str],
+                 allow_nullable_columns: pulumi.Input[Optional[_builtins.bool]] = None,
+                 delete_on_merge: pulumi.Input[Optional[_builtins.bool]] = None,
+                 initial_load_parallelism: pulumi.Input[Optional[_builtins.int]] = None,
+                 pull_batch_size: pulumi.Input[Optional[_builtins.int]] = None,
+                 replication_mechanism: pulumi.Input[Optional[_builtins.str]] = None,
+                 snapshot_num_rows_per_partition: pulumi.Input[Optional[_builtins.int]] = None,
+                 snapshot_number_of_parallel_tables: pulumi.Input[Optional[_builtins.int]] = None,
+                 sync_interval_seconds: pulumi.Input[Optional[_builtins.int]] = None,
+                 use_compression: pulumi.Input[Optional[_builtins.bool]] = None):
+        """
+        :param pulumi.Input[_builtins.str] replication_mode: Replication mode for the MySQL pipe. (`cdc`, `snapshot`, `cdc_only`)
+        :param pulumi.Input[_builtins.bool] allow_nullable_columns: Allow nullable columns in the destination table.
+        :param pulumi.Input[_builtins.bool] delete_on_merge: Enable hard delete behavior in ReplacingMergeTree for MySQL DELETE operations.
+        :param pulumi.Input[_builtins.int] initial_load_parallelism: Number of parallel connections to use during initial load.
+        :param pulumi.Input[_builtins.int] pull_batch_size: Number of rows to pull in each batch.
+        :param pulumi.Input[_builtins.str] replication_mechanism: Replication mechanism for the MySQL pipe. (`GTID`, `FILE_POS`). Default is `GTID`. Mechanisms other than `GTID` (e.g. `FILE_POS`) must be enabled for your organization; contact ClickHouse support to enable this feature.
+        :param pulumi.Input[_builtins.int] snapshot_num_rows_per_partition: Number of rows to snapshot per partition.
+        :param pulumi.Input[_builtins.int] snapshot_number_of_parallel_tables: Number of parallel tables to snapshot.
+        :param pulumi.Input[_builtins.int] sync_interval_seconds: Interval in seconds to sync data from MySQL.
+        :param pulumi.Input[_builtins.bool] use_compression: Enable compression for the MySQL replication connection.
+        """
+        pulumi.set(__self__, "replication_mode", replication_mode)
+        if allow_nullable_columns is not None:
+            pulumi.set(__self__, "allow_nullable_columns", allow_nullable_columns)
+        if delete_on_merge is not None:
+            pulumi.set(__self__, "delete_on_merge", delete_on_merge)
+        if initial_load_parallelism is not None:
+            pulumi.set(__self__, "initial_load_parallelism", initial_load_parallelism)
+        if pull_batch_size is not None:
+            pulumi.set(__self__, "pull_batch_size", pull_batch_size)
+        if replication_mechanism is not None:
+            pulumi.set(__self__, "replication_mechanism", replication_mechanism)
+        if snapshot_num_rows_per_partition is not None:
+            pulumi.set(__self__, "snapshot_num_rows_per_partition", snapshot_num_rows_per_partition)
+        if snapshot_number_of_parallel_tables is not None:
+            pulumi.set(__self__, "snapshot_number_of_parallel_tables", snapshot_number_of_parallel_tables)
+        if sync_interval_seconds is not None:
+            pulumi.set(__self__, "sync_interval_seconds", sync_interval_seconds)
+        if use_compression is not None:
+            pulumi.set(__self__, "use_compression", use_compression)
+
+    @_builtins.property
+    @pulumi.getter(name="replicationMode")
+    def replication_mode(self) -> pulumi.Input[_builtins.str]:
+        """
+        Replication mode for the MySQL pipe. (`cdc`, `snapshot`, `cdc_only`)
+        """
+        return pulumi.get(self, "replication_mode")
+
+    @replication_mode.setter
+    def replication_mode(self, value: pulumi.Input[_builtins.str]):
+        pulumi.set(self, "replication_mode", value)
+
+    @_builtins.property
+    @pulumi.getter(name="allowNullableColumns")
+    def allow_nullable_columns(self) -> pulumi.Input[Optional[_builtins.bool]]:
+        """
+        Allow nullable columns in the destination table.
+        """
+        return pulumi.get(self, "allow_nullable_columns")
+
+    @allow_nullable_columns.setter
+    def allow_nullable_columns(self, value: pulumi.Input[Optional[_builtins.bool]]):
+        pulumi.set(self, "allow_nullable_columns", value)
+
+    @_builtins.property
+    @pulumi.getter(name="deleteOnMerge")
+    def delete_on_merge(self) -> pulumi.Input[Optional[_builtins.bool]]:
+        """
+        Enable hard delete behavior in ReplacingMergeTree for MySQL DELETE operations.
+        """
+        return pulumi.get(self, "delete_on_merge")
+
+    @delete_on_merge.setter
+    def delete_on_merge(self, value: pulumi.Input[Optional[_builtins.bool]]):
+        pulumi.set(self, "delete_on_merge", value)
+
+    @_builtins.property
+    @pulumi.getter(name="initialLoadParallelism")
+    def initial_load_parallelism(self) -> pulumi.Input[Optional[_builtins.int]]:
+        """
+        Number of parallel connections to use during initial load.
+        """
+        return pulumi.get(self, "initial_load_parallelism")
+
+    @initial_load_parallelism.setter
+    def initial_load_parallelism(self, value: pulumi.Input[Optional[_builtins.int]]):
+        pulumi.set(self, "initial_load_parallelism", value)
+
+    @_builtins.property
+    @pulumi.getter(name="pullBatchSize")
+    def pull_batch_size(self) -> pulumi.Input[Optional[_builtins.int]]:
+        """
+        Number of rows to pull in each batch.
+        """
+        return pulumi.get(self, "pull_batch_size")
+
+    @pull_batch_size.setter
+    def pull_batch_size(self, value: pulumi.Input[Optional[_builtins.int]]):
+        pulumi.set(self, "pull_batch_size", value)
+
+    @_builtins.property
+    @pulumi.getter(name="replicationMechanism")
+    def replication_mechanism(self) -> pulumi.Input[Optional[_builtins.str]]:
+        """
+        Replication mechanism for the MySQL pipe. (`GTID`, `FILE_POS`). Default is `GTID`. Mechanisms other than `GTID` (e.g. `FILE_POS`) must be enabled for your organization; contact ClickHouse support to enable this feature.
+        """
+        return pulumi.get(self, "replication_mechanism")
+
+    @replication_mechanism.setter
+    def replication_mechanism(self, value: pulumi.Input[Optional[_builtins.str]]):
+        pulumi.set(self, "replication_mechanism", value)
+
+    @_builtins.property
+    @pulumi.getter(name="snapshotNumRowsPerPartition")
+    def snapshot_num_rows_per_partition(self) -> pulumi.Input[Optional[_builtins.int]]:
+        """
+        Number of rows to snapshot per partition.
+        """
+        return pulumi.get(self, "snapshot_num_rows_per_partition")
+
+    @snapshot_num_rows_per_partition.setter
+    def snapshot_num_rows_per_partition(self, value: pulumi.Input[Optional[_builtins.int]]):
+        pulumi.set(self, "snapshot_num_rows_per_partition", value)
+
+    @_builtins.property
+    @pulumi.getter(name="snapshotNumberOfParallelTables")
+    def snapshot_number_of_parallel_tables(self) -> pulumi.Input[Optional[_builtins.int]]:
+        """
+        Number of parallel tables to snapshot.
+        """
+        return pulumi.get(self, "snapshot_number_of_parallel_tables")
+
+    @snapshot_number_of_parallel_tables.setter
+    def snapshot_number_of_parallel_tables(self, value: pulumi.Input[Optional[_builtins.int]]):
+        pulumi.set(self, "snapshot_number_of_parallel_tables", value)
+
+    @_builtins.property
+    @pulumi.getter(name="syncIntervalSeconds")
+    def sync_interval_seconds(self) -> pulumi.Input[Optional[_builtins.int]]:
+        """
+        Interval in seconds to sync data from MySQL.
+        """
+        return pulumi.get(self, "sync_interval_seconds")
+
+    @sync_interval_seconds.setter
+    def sync_interval_seconds(self, value: pulumi.Input[Optional[_builtins.int]]):
+        pulumi.set(self, "sync_interval_seconds", value)
+
+    @_builtins.property
+    @pulumi.getter(name="useCompression")
+    def use_compression(self) -> pulumi.Input[Optional[_builtins.bool]]:
+        """
+        Enable compression for the MySQL replication connection.
+        """
+        return pulumi.get(self, "use_compression")
+
+    @use_compression.setter
+    def use_compression(self, value: pulumi.Input[Optional[_builtins.bool]]):
+        pulumi.set(self, "use_compression", value)
+
+
+class ClickpipeSourceMysqlTableMappingArgsDict(TypedDict):
+    source_schema_name: pulumi.Input[_builtins.str]
+    """
+    Source schema (database) name in MySQL.
+    """
+    source_table: pulumi.Input[_builtins.str]
+    """
+    Source table name in MySQL.
+    """
+    target_table: pulumi.Input[_builtins.str]
+    """
+    Target table name in ClickHouse.
+    """
+    excluded_columns: NotRequired[pulumi.Input[Optional[Sequence[pulumi.Input[_builtins.str]]]]]
+    """
+    Columns to exclude from replication.
+    """
+    partition_key: NotRequired[pulumi.Input[Optional[_builtins.str]]]
+    """
+    Custom partitioning column used for parallel snapshotting. Must be an indexed column of integer, date, datetime, or timestamp type.
+    """
+    sorting_keys: NotRequired[pulumi.Input[Optional[Sequence[pulumi.Input[_builtins.str]]]]]
+    """
+    Ordered list of columns to use as sorting key for the target table. Required when use*custom*sorting_key is true.
+    """
+    table_engine: NotRequired[pulumi.Input[Optional[_builtins.str]]]
+    """
+    Table engine to use for the target table. (`MergeTree`, `ReplacingMergeTree`, `Null`)
+    """
+    use_custom_sorting_key: NotRequired[pulumi.Input[Optional[_builtins.bool]]]
+    """
+    Whether to use a custom sorting key for the target table.
+    """
+
+@pulumi.input_type
+class ClickpipeSourceMysqlTableMappingArgs:
+    def __init__(__self__, *,
+                 source_schema_name: pulumi.Input[_builtins.str],
+                 source_table: pulumi.Input[_builtins.str],
+                 target_table: pulumi.Input[_builtins.str],
+                 excluded_columns: pulumi.Input[Optional[Sequence[pulumi.Input[_builtins.str]]]] = None,
+                 partition_key: pulumi.Input[Optional[_builtins.str]] = None,
+                 sorting_keys: pulumi.Input[Optional[Sequence[pulumi.Input[_builtins.str]]]] = None,
+                 table_engine: pulumi.Input[Optional[_builtins.str]] = None,
+                 use_custom_sorting_key: pulumi.Input[Optional[_builtins.bool]] = None):
+        """
+        :param pulumi.Input[_builtins.str] source_schema_name: Source schema (database) name in MySQL.
+        :param pulumi.Input[_builtins.str] source_table: Source table name in MySQL.
+        :param pulumi.Input[_builtins.str] target_table: Target table name in ClickHouse.
+        :param pulumi.Input[Sequence[pulumi.Input[_builtins.str]]] excluded_columns: Columns to exclude from replication.
+        :param pulumi.Input[_builtins.str] partition_key: Custom partitioning column used for parallel snapshotting. Must be an indexed column of integer, date, datetime, or timestamp type.
+        :param pulumi.Input[Sequence[pulumi.Input[_builtins.str]]] sorting_keys: Ordered list of columns to use as sorting key for the target table. Required when use*custom*sorting_key is true.
+        :param pulumi.Input[_builtins.str] table_engine: Table engine to use for the target table. (`MergeTree`, `ReplacingMergeTree`, `Null`)
+        :param pulumi.Input[_builtins.bool] use_custom_sorting_key: Whether to use a custom sorting key for the target table.
+        """
+        pulumi.set(__self__, "source_schema_name", source_schema_name)
+        pulumi.set(__self__, "source_table", source_table)
+        pulumi.set(__self__, "target_table", target_table)
+        if excluded_columns is not None:
+            pulumi.set(__self__, "excluded_columns", excluded_columns)
+        if partition_key is not None:
+            pulumi.set(__self__, "partition_key", partition_key)
+        if sorting_keys is not None:
+            pulumi.set(__self__, "sorting_keys", sorting_keys)
+        if table_engine is not None:
+            pulumi.set(__self__, "table_engine", table_engine)
+        if use_custom_sorting_key is not None:
+            pulumi.set(__self__, "use_custom_sorting_key", use_custom_sorting_key)
+
+    @_builtins.property
+    @pulumi.getter(name="sourceSchemaName")
+    def source_schema_name(self) -> pulumi.Input[_builtins.str]:
+        """
+        Source schema (database) name in MySQL.
+        """
+        return pulumi.get(self, "source_schema_name")
+
+    @source_schema_name.setter
+    def source_schema_name(self, value: pulumi.Input[_builtins.str]):
+        pulumi.set(self, "source_schema_name", value)
+
+    @_builtins.property
+    @pulumi.getter(name="sourceTable")
+    def source_table(self) -> pulumi.Input[_builtins.str]:
+        """
+        Source table name in MySQL.
+        """
+        return pulumi.get(self, "source_table")
+
+    @source_table.setter
+    def source_table(self, value: pulumi.Input[_builtins.str]):
+        pulumi.set(self, "source_table", value)
+
+    @_builtins.property
+    @pulumi.getter(name="targetTable")
+    def target_table(self) -> pulumi.Input[_builtins.str]:
+        """
+        Target table name in ClickHouse.
+        """
+        return pulumi.get(self, "target_table")
+
+    @target_table.setter
+    def target_table(self, value: pulumi.Input[_builtins.str]):
+        pulumi.set(self, "target_table", value)
+
+    @_builtins.property
+    @pulumi.getter(name="excludedColumns")
+    def excluded_columns(self) -> pulumi.Input[Optional[Sequence[pulumi.Input[_builtins.str]]]]:
+        """
+        Columns to exclude from replication.
+        """
+        return pulumi.get(self, "excluded_columns")
+
+    @excluded_columns.setter
+    def excluded_columns(self, value: pulumi.Input[Optional[Sequence[pulumi.Input[_builtins.str]]]]):
+        pulumi.set(self, "excluded_columns", value)
+
+    @_builtins.property
+    @pulumi.getter(name="partitionKey")
+    def partition_key(self) -> pulumi.Input[Optional[_builtins.str]]:
+        """
+        Custom partitioning column used for parallel snapshotting. Must be an indexed column of integer, date, datetime, or timestamp type.
+        """
+        return pulumi.get(self, "partition_key")
+
+    @partition_key.setter
+    def partition_key(self, value: pulumi.Input[Optional[_builtins.str]]):
+        pulumi.set(self, "partition_key", value)
+
+    @_builtins.property
+    @pulumi.getter(name="sortingKeys")
+    def sorting_keys(self) -> pulumi.Input[Optional[Sequence[pulumi.Input[_builtins.str]]]]:
+        """
+        Ordered list of columns to use as sorting key for the target table. Required when use*custom*sorting_key is true.
+        """
+        return pulumi.get(self, "sorting_keys")
+
+    @sorting_keys.setter
+    def sorting_keys(self, value: pulumi.Input[Optional[Sequence[pulumi.Input[_builtins.str]]]]):
+        pulumi.set(self, "sorting_keys", value)
+
+    @_builtins.property
+    @pulumi.getter(name="tableEngine")
+    def table_engine(self) -> pulumi.Input[Optional[_builtins.str]]:
+        """
+        Table engine to use for the target table. (`MergeTree`, `ReplacingMergeTree`, `Null`)
+        """
+        return pulumi.get(self, "table_engine")
+
+    @table_engine.setter
+    def table_engine(self, value: pulumi.Input[Optional[_builtins.str]]):
+        pulumi.set(self, "table_engine", value)
+
+    @_builtins.property
+    @pulumi.getter(name="useCustomSortingKey")
+    def use_custom_sorting_key(self) -> pulumi.Input[Optional[_builtins.bool]]:
+        """
+        Whether to use a custom sorting key for the target table.
+        """
+        return pulumi.get(self, "use_custom_sorting_key")
+
+    @use_custom_sorting_key.setter
+    def use_custom_sorting_key(self, value: pulumi.Input[Optional[_builtins.bool]]):
+        pulumi.set(self, "use_custom_sorting_key", value)
+
+
+class ClickpipeSourceObjectStorageArgsDict(TypedDict):
+    format: pulumi.Input[_builtins.str]
+    """
+    The format of the S3 objects. (`JSONEachRow`, `CSV`, `CSVWithNames`, `Parquet`, `Avro`)
+    """
+    access_key: NotRequired[pulumi.Input[Optional['ClickpipeSourceObjectStorageAccessKeyArgs']]]
+    """
+    Access key
+    """
+    authentication: NotRequired[pulumi.Input[Optional[_builtins.str]]]
+    """
+    CONNECTION*STRING is for Azure Blob Storage. IAM*ROLE and IAM*USER are for AWS S3. IAM*USER and SERVICE_ACCOUNT are for GCS. If not provided, no authentication is used
+    """
+    azure_container_name: NotRequired[pulumi.Input[Optional[_builtins.str]]]
+    """
+    Container name for Azure Blob Storage. Required when type is azureblobstorage. Example: `mycontainer`
+    """
+    compression: NotRequired[pulumi.Input[Optional[_builtins.str]]]
+    """
+    Compression algorithm used for the files.. (`none`, `auto`, `gzip`, `brotli`, `br`, `xz`, `LZMA`, `zstd`)
+    """
+    connection_string: NotRequired[pulumi.Input[Optional[_builtins.str]]]
+    """
+    Connection string for Azure Blob Storage authentication. Required when authentication is CONNECTION_STRING. Example: `DefaultEndpointsProtocol=https;AccountName=myaccount;AccountKey=mykey;EndpointSuffix=core.windows.net`
+    """
+    delimiter: NotRequired[pulumi.Input[Optional[_builtins.str]]]
+    """
+    The delimiter for the S3 source. Default is `,`.
+    """
+    iam_role: NotRequired[pulumi.Input[Optional[_builtins.str]]]
+    """
+    The IAM role for the S3 source. Use with `IAM_ROLE` authentication. It can be used with AWS ClickHouse service only. Read more at https://clickhouse.com/docs/en/integrations/clickpipes/object-storage#authentication
+    """
+    is_continuous: NotRequired[pulumi.Input[Optional[_builtins.bool]]]
+    """
+    If set to true, the pipe will continuously read new files from the source. If set to false, the pipe will read the files only once. New files have to be uploaded lexically order.
+    """
+    path: NotRequired[pulumi.Input[Optional[_builtins.str]]]
+    """
+    Path to the file(s) within the Azure container. Used for Azure Blob Storage sources. You can specify multiple files using bash-like wildcards. For more information, see the documentation on using wildcards in path: https://clickhouse.com/docs/en/integrations/clickpipes/object-storage#limitations. Example: `data/logs/*.json`
+    """
+    queue_url: NotRequired[pulumi.Input[Optional[_builtins.str]]]
+    """
+    Queue URL for event-based continuous ingestion. When provided, files are ingested based on event notifications rather than lexicographical order. Only applicable when `is_continuous` is `true` and authentication is provided. For S3: SQS URL in the format `https://sqs.{region}.amazonaws.com/{account-id}/{queue-name}`. For GCS: Pub/Sub subscription in the format `projects/{project}/subscriptions/{subscription}`.
+    """
+    service_account_key: NotRequired[pulumi.Input[Optional[_builtins.str]]]
+    """
+    Base64-encoded GCP service account JSON key for GCS authentication. Required when authentication is `SERVICE_ACCOUNT`.
+    """
+    skip_initial_load: NotRequired[pulumi.Input[Optional[_builtins.bool]]]
+    """
+    If set to true, skips the initial load and only ingests files delivered by queue notifications. Only applicable when `queue_url` is provided.
+    """
+    start_after: NotRequired[pulumi.Input[Optional[_builtins.str]]]
+    """
+    Start continuous ingestion after this object key. Cannot be provided when `skip_initial_load` is true.
+    """
+    type: NotRequired[pulumi.Input[Optional[_builtins.str]]]
+    """
+    The type of the S3-compatible source (`s3`, `gcs`, `azureblobstorage`). Default is `s3`.
+    """
+    url: NotRequired[pulumi.Input[Optional[_builtins.str]]]
+    """
+    The URL of the S3/GCS bucket. Required for S3 and GCS types. Not used for Azure Blob Storage (use path and azure*container*name instead). You can specify multiple files using bash-like wildcards. For more information, see the documentation on using wildcards in path: https://clickhouse.com/docs/en/integrations/clickpipes/object-storage#limitations
+    """
+
+@pulumi.input_type
+class ClickpipeSourceObjectStorageArgs:
+    def __init__(__self__, *,
+                 format: pulumi.Input[_builtins.str],
+                 access_key: pulumi.Input[Optional['ClickpipeSourceObjectStorageAccessKeyArgs']] = None,
+                 authentication: pulumi.Input[Optional[_builtins.str]] = None,
+                 azure_container_name: pulumi.Input[Optional[_builtins.str]] = None,
+                 compression: pulumi.Input[Optional[_builtins.str]] = None,
+                 connection_string: pulumi.Input[Optional[_builtins.str]] = None,
+                 delimiter: pulumi.Input[Optional[_builtins.str]] = None,
+                 iam_role: pulumi.Input[Optional[_builtins.str]] = None,
+                 is_continuous: pulumi.Input[Optional[_builtins.bool]] = None,
+                 path: pulumi.Input[Optional[_builtins.str]] = None,
+                 queue_url: pulumi.Input[Optional[_builtins.str]] = None,
+                 service_account_key: pulumi.Input[Optional[_builtins.str]] = None,
+                 skip_initial_load: pulumi.Input[Optional[_builtins.bool]] = None,
+                 start_after: pulumi.Input[Optional[_builtins.str]] = None,
+                 type: pulumi.Input[Optional[_builtins.str]] = None,
+                 url: pulumi.Input[Optional[_builtins.str]] = None):
+        """
+        :param pulumi.Input[_builtins.str] format: The format of the S3 objects. (`JSONEachRow`, `CSV`, `CSVWithNames`, `Parquet`, `Avro`)
+        :param pulumi.Input['ClickpipeSourceObjectStorageAccessKeyArgs'] access_key: Access key
+        :param pulumi.Input[_builtins.str] authentication: CONNECTION*STRING is for Azure Blob Storage. IAM*ROLE and IAM*USER are for AWS S3. IAM*USER and SERVICE_ACCOUNT are for GCS. If not provided, no authentication is used
+        :param pulumi.Input[_builtins.str] azure_container_name: Container name for Azure Blob Storage. Required when type is azureblobstorage. Example: `mycontainer`
+        :param pulumi.Input[_builtins.str] compression: Compression algorithm used for the files.. (`none`, `auto`, `gzip`, `brotli`, `br`, `xz`, `LZMA`, `zstd`)
+        :param pulumi.Input[_builtins.str] connection_string: Connection string for Azure Blob Storage authentication. Required when authentication is CONNECTION_STRING. Example: `DefaultEndpointsProtocol=https;AccountName=myaccount;AccountKey=mykey;EndpointSuffix=core.windows.net`
+        :param pulumi.Input[_builtins.str] delimiter: The delimiter for the S3 source. Default is `,`.
+        :param pulumi.Input[_builtins.str] iam_role: The IAM role for the S3 source. Use with `IAM_ROLE` authentication. It can be used with AWS ClickHouse service only. Read more at https://clickhouse.com/docs/en/integrations/clickpipes/object-storage#authentication
+        :param pulumi.Input[_builtins.bool] is_continuous: If set to true, the pipe will continuously read new files from the source. If set to false, the pipe will read the files only once. New files have to be uploaded lexically order.
+        :param pulumi.Input[_builtins.str] path: Path to the file(s) within the Azure container. Used for Azure Blob Storage sources. You can specify multiple files using bash-like wildcards. For more information, see the documentation on using wildcards in path: https://clickhouse.com/docs/en/integrations/clickpipes/object-storage#limitations. Example: `data/logs/*.json`
+        :param pulumi.Input[_builtins.str] queue_url: Queue URL for event-based continuous ingestion. When provided, files are ingested based on event notifications rather than lexicographical order. Only applicable when `is_continuous` is `true` and authentication is provided. For S3: SQS URL in the format `https://sqs.{region}.amazonaws.com/{account-id}/{queue-name}`. For GCS: Pub/Sub subscription in the format `projects/{project}/subscriptions/{subscription}`.
+        :param pulumi.Input[_builtins.str] service_account_key: Base64-encoded GCP service account JSON key for GCS authentication. Required when authentication is `SERVICE_ACCOUNT`.
+        :param pulumi.Input[_builtins.bool] skip_initial_load: If set to true, skips the initial load and only ingests files delivered by queue notifications. Only applicable when `queue_url` is provided.
+        :param pulumi.Input[_builtins.str] start_after: Start continuous ingestion after this object key. Cannot be provided when `skip_initial_load` is true.
+        :param pulumi.Input[_builtins.str] type: The type of the S3-compatible source (`s3`, `gcs`, `azureblobstorage`). Default is `s3`.
+        :param pulumi.Input[_builtins.str] url: The URL of the S3/GCS bucket. Required for S3 and GCS types. Not used for Azure Blob Storage (use path and azure*container*name instead). You can specify multiple files using bash-like wildcards. For more information, see the documentation on using wildcards in path: https://clickhouse.com/docs/en/integrations/clickpipes/object-storage#limitations
+        """
+        pulumi.set(__self__, "format", format)
+        if access_key is not None:
+            pulumi.set(__self__, "access_key", access_key)
+        if authentication is not None:
+            pulumi.set(__self__, "authentication", authentication)
+        if azure_container_name is not None:
+            pulumi.set(__self__, "azure_container_name", azure_container_name)
+        if compression is not None:
+            pulumi.set(__self__, "compression", compression)
+        if connection_string is not None:
+            pulumi.set(__self__, "connection_string", connection_string)
+        if delimiter is not None:
+            pulumi.set(__self__, "delimiter", delimiter)
+        if iam_role is not None:
+            pulumi.set(__self__, "iam_role", iam_role)
+        if is_continuous is not None:
+            pulumi.set(__self__, "is_continuous", is_continuous)
+        if path is not None:
+            pulumi.set(__self__, "path", path)
+        if queue_url is not None:
+            pulumi.set(__self__, "queue_url", queue_url)
+        if service_account_key is not None:
+            pulumi.set(__self__, "service_account_key", service_account_key)
+        if skip_initial_load is not None:
+            pulumi.set(__self__, "skip_initial_load", skip_initial_load)
+        if start_after is not None:
+            pulumi.set(__self__, "start_after", start_after)
+        if type is not None:
+            pulumi.set(__self__, "type", type)
+        if url is not None:
+            pulumi.set(__self__, "url", url)
+
+    @_builtins.property
+    @pulumi.getter
+    def format(self) -> pulumi.Input[_builtins.str]:
+        """
+        The format of the S3 objects. (`JSONEachRow`, `CSV`, `CSVWithNames`, `Parquet`, `Avro`)
+        """
+        return pulumi.get(self, "format")
+
+    @format.setter
+    def format(self, value: pulumi.Input[_builtins.str]):
+        pulumi.set(self, "format", value)
+
+    @_builtins.property
+    @pulumi.getter(name="accessKey")
+    def access_key(self) -> pulumi.Input[Optional['ClickpipeSourceObjectStorageAccessKeyArgs']]:
+        """
+        Access key
+        """
+        return pulumi.get(self, "access_key")
+
+    @access_key.setter
+    def access_key(self, value: pulumi.Input[Optional['ClickpipeSourceObjectStorageAccessKeyArgs']]):
+        pulumi.set(self, "access_key", value)
+
+    @_builtins.property
+    @pulumi.getter
+    def authentication(self) -> pulumi.Input[Optional[_builtins.str]]:
+        """
+        CONNECTION*STRING is for Azure Blob Storage. IAM*ROLE and IAM*USER are for AWS S3. IAM*USER and SERVICE_ACCOUNT are for GCS. If not provided, no authentication is used
+        """
+        return pulumi.get(self, "authentication")
+
+    @authentication.setter
+    def authentication(self, value: pulumi.Input[Optional[_builtins.str]]):
+        pulumi.set(self, "authentication", value)
+
+    @_builtins.property
+    @pulumi.getter(name="azureContainerName")
+    def azure_container_name(self) -> pulumi.Input[Optional[_builtins.str]]:
+        """
+        Container name for Azure Blob Storage. Required when type is azureblobstorage. Example: `mycontainer`
+        """
+        return pulumi.get(self, "azure_container_name")
+
+    @azure_container_name.setter
+    def azure_container_name(self, value: pulumi.Input[Optional[_builtins.str]]):
+        pulumi.set(self, "azure_container_name", value)
+
+    @_builtins.property
+    @pulumi.getter
+    def compression(self) -> pulumi.Input[Optional[_builtins.str]]:
+        """
+        Compression algorithm used for the files.. (`none`, `auto`, `gzip`, `brotli`, `br`, `xz`, `LZMA`, `zstd`)
+        """
+        return pulumi.get(self, "compression")
+
+    @compression.setter
+    def compression(self, value: pulumi.Input[Optional[_builtins.str]]):
+        pulumi.set(self, "compression", value)
+
+    @_builtins.property
+    @pulumi.getter(name="connectionString")
+    def connection_string(self) -> pulumi.Input[Optional[_builtins.str]]:
+        """
+        Connection string for Azure Blob Storage authentication. Required when authentication is CONNECTION_STRING. Example: `DefaultEndpointsProtocol=https;AccountName=myaccount;AccountKey=mykey;EndpointSuffix=core.windows.net`
+        """
+        return pulumi.get(self, "connection_string")
+
+    @connection_string.setter
+    def connection_string(self, value: pulumi.Input[Optional[_builtins.str]]):
+        pulumi.set(self, "connection_string", value)
+
+    @_builtins.property
+    @pulumi.getter
+    def delimiter(self) -> pulumi.Input[Optional[_builtins.str]]:
+        """
+        The delimiter for the S3 source. Default is `,`.
+        """
+        return pulumi.get(self, "delimiter")
+
+    @delimiter.setter
+    def delimiter(self, value: pulumi.Input[Optional[_builtins.str]]):
+        pulumi.set(self, "delimiter", value)
+
+    @_builtins.property
+    @pulumi.getter(name="iamRole")
+    def iam_role(self) -> pulumi.Input[Optional[_builtins.str]]:
+        """
+        The IAM role for the S3 source. Use with `IAM_ROLE` authentication. It can be used with AWS ClickHouse service only. Read more at https://clickhouse.com/docs/en/integrations/clickpipes/object-storage#authentication
+        """
+        return pulumi.get(self, "iam_role")
+
+    @iam_role.setter
+    def iam_role(self, value: pulumi.Input[Optional[_builtins.str]]):
+        pulumi.set(self, "iam_role", value)
+
+    @_builtins.property
+    @pulumi.getter(name="isContinuous")
+    def is_continuous(self) -> pulumi.Input[Optional[_builtins.bool]]:
+        """
+        If set to true, the pipe will continuously read new files from the source. If set to false, the pipe will read the files only once. New files have to be uploaded lexically order.
+        """
+        return pulumi.get(self, "is_continuous")
+
+    @is_continuous.setter
+    def is_continuous(self, value: pulumi.Input[Optional[_builtins.bool]]):
+        pulumi.set(self, "is_continuous", value)
+
+    @_builtins.property
+    @pulumi.getter
+    def path(self) -> pulumi.Input[Optional[_builtins.str]]:
+        """
+        Path to the file(s) within the Azure container. Used for Azure Blob Storage sources. You can specify multiple files using bash-like wildcards. For more information, see the documentation on using wildcards in path: https://clickhouse.com/docs/en/integrations/clickpipes/object-storage#limitations. Example: `data/logs/*.json`
+        """
+        return pulumi.get(self, "path")
+
+    @path.setter
+    def path(self, value: pulumi.Input[Optional[_builtins.str]]):
+        pulumi.set(self, "path", value)
+
+    @_builtins.property
+    @pulumi.getter(name="queueUrl")
+    def queue_url(self) -> pulumi.Input[Optional[_builtins.str]]:
+        """
+        Queue URL for event-based continuous ingestion. When provided, files are ingested based on event notifications rather than lexicographical order. Only applicable when `is_continuous` is `true` and authentication is provided. For S3: SQS URL in the format `https://sqs.{region}.amazonaws.com/{account-id}/{queue-name}`. For GCS: Pub/Sub subscription in the format `projects/{project}/subscriptions/{subscription}`.
+        """
+        return pulumi.get(self, "queue_url")
+
+    @queue_url.setter
+    def queue_url(self, value: pulumi.Input[Optional[_builtins.str]]):
+        pulumi.set(self, "queue_url", value)
+
+    @_builtins.property
+    @pulumi.getter(name="serviceAccountKey")
+    def service_account_key(self) -> pulumi.Input[Optional[_builtins.str]]:
+        """
+        Base64-encoded GCP service account JSON key for GCS authentication. Required when authentication is `SERVICE_ACCOUNT`.
+        """
+        return pulumi.get(self, "service_account_key")
+
+    @service_account_key.setter
+    def service_account_key(self, value: pulumi.Input[Optional[_builtins.str]]):
+        pulumi.set(self, "service_account_key", value)
+
+    @_builtins.property
+    @pulumi.getter(name="skipInitialLoad")
+    def skip_initial_load(self) -> pulumi.Input[Optional[_builtins.bool]]:
+        """
+        If set to true, skips the initial load and only ingests files delivered by queue notifications. Only applicable when `queue_url` is provided.
+        """
+        return pulumi.get(self, "skip_initial_load")
+
+    @skip_initial_load.setter
+    def skip_initial_load(self, value: pulumi.Input[Optional[_builtins.bool]]):
+        pulumi.set(self, "skip_initial_load", value)
+
+    @_builtins.property
+    @pulumi.getter(name="startAfter")
+    def start_after(self) -> pulumi.Input[Optional[_builtins.str]]:
+        """
+        Start continuous ingestion after this object key. Cannot be provided when `skip_initial_load` is true.
+        """
+        return pulumi.get(self, "start_after")
+
+    @start_after.setter
+    def start_after(self, value: pulumi.Input[Optional[_builtins.str]]):
+        pulumi.set(self, "start_after", value)
+
+    @_builtins.property
+    @pulumi.getter
+    def type(self) -> pulumi.Input[Optional[_builtins.str]]:
+        """
+        The type of the S3-compatible source (`s3`, `gcs`, `azureblobstorage`). Default is `s3`.
+        """
+        return pulumi.get(self, "type")
+
+    @type.setter
+    def type(self, value: pulumi.Input[Optional[_builtins.str]]):
+        pulumi.set(self, "type", value)
+
+    @_builtins.property
+    @pulumi.getter
+    def url(self) -> pulumi.Input[Optional[_builtins.str]]:
+        """
+        The URL of the S3/GCS bucket. Required for S3 and GCS types. Not used for Azure Blob Storage (use path and azure*container*name instead). You can specify multiple files using bash-like wildcards. For more information, see the documentation on using wildcards in path: https://clickhouse.com/docs/en/integrations/clickpipes/object-storage#limitations
+        """
+        return pulumi.get(self, "url")
+
+    @url.setter
+    def url(self, value: pulumi.Input[Optional[_builtins.str]]):
+        pulumi.set(self, "url", value)
+
+
+class ClickpipeSourceObjectStorageAccessKeyArgsDict(TypedDict):
+    access_key_id: NotRequired[pulumi.Input[Optional[_builtins.str]]]
+    """
+    The access key ID for the S3 source. Use with `IAM_USER` authentication.
+    """
+    secret_key: NotRequired[pulumi.Input[Optional[_builtins.str]]]
+    """
+    The secret key for the S3 source. Use with `IAM_USER` authentication.
+    """
+
+@pulumi.input_type
+class ClickpipeSourceObjectStorageAccessKeyArgs:
+    def __init__(__self__, *,
+                 access_key_id: pulumi.Input[Optional[_builtins.str]] = None,
+                 secret_key: pulumi.Input[Optional[_builtins.str]] = None):
+        """
+        :param pulumi.Input[_builtins.str] access_key_id: The access key ID for the S3 source. Use with `IAM_USER` authentication.
+        :param pulumi.Input[_builtins.str] secret_key: The secret key for the S3 source. Use with `IAM_USER` authentication.
+        """
+        if access_key_id is not None:
+            pulumi.set(__self__, "access_key_id", access_key_id)
+        if secret_key is not None:
+            pulumi.set(__self__, "secret_key", secret_key)
+
+    @_builtins.property
+    @pulumi.getter(name="accessKeyId")
+    def access_key_id(self) -> pulumi.Input[Optional[_builtins.str]]:
+        """
+        The access key ID for the S3 source. Use with `IAM_USER` authentication.
+        """
+        return pulumi.get(self, "access_key_id")
+
+    @access_key_id.setter
+    def access_key_id(self, value: pulumi.Input[Optional[_builtins.str]]):
+        pulumi.set(self, "access_key_id", value)
+
+    @_builtins.property
+    @pulumi.getter(name="secretKey")
+    def secret_key(self) -> pulumi.Input[Optional[_builtins.str]]:
+        """
+        The secret key for the S3 source. Use with `IAM_USER` authentication.
+        """
+        return pulumi.get(self, "secret_key")
+
+    @secret_key.setter
+    def secret_key(self, value: pulumi.Input[Optional[_builtins.str]]):
+        pulumi.set(self, "secret_key", value)
+
+
+class ClickpipeSourcePostgresArgsDict(TypedDict):
+    credentials: pulumi.Input['ClickpipeSourcePostgresCredentialsArgsDict']
+    """
+    The credentials for the Postgres instance. Username is always required. For `basic` authentication, supply either `password` or `password_wo`. For `iam_role` authentication, password is optional.
+    """
+    database: pulumi.Input[_builtins.str]
+    """
+    The database name of the Postgres instance.
+    """
+    host: pulumi.Input[_builtins.str]
+    """
+    The hostname of the Postgres instance.
+    """
+    settings: pulumi.Input['ClickpipeSourcePostgresSettingsArgsDict']
+    """
+    Settings for the Postgres CDC pipe.
+    """
+    table_mappings: pulumi.Input[Sequence[pulumi.Input['ClickpipeSourcePostgresTableMappingArgsDict']]]
+    """
+    Table mappings from Postgres source to ClickHouse destination.
+    """
+    authentication: NotRequired[pulumi.Input[Optional[_builtins.str]]]
+    """
+    Authentication method for Postgres connection. Supported values: `basic`, `iam_role`. Default is `basic`.
+    """
+    ca_certificate: NotRequired[pulumi.Input[Optional[_builtins.str]]]
+    """
+    PEM encoded CA certificate to validate the Postgres server certificate.
+    """
+    iam_role: NotRequired[pulumi.Input[Optional[_builtins.str]]]
+    """
+    IAM role ARN for IAM authentication. Required when authentication is set to `iam_role`.
+    """
+    port: NotRequired[pulumi.Input[Optional[_builtins.int]]]
+    """
+    The port of the Postgres instance. Default is 5432.
+    """
+    tls_host: NotRequired[pulumi.Input[Optional[_builtins.str]]]
+    """
+    TLS/SSL host for secure connections. Used to verify the server certificate.
+    """
+    type: NotRequired[pulumi.Input[Optional[_builtins.str]]]
+    """
+    The type of the Postgres source. (`postgres`, `supabase`, `neon`, `alloydb`, `planetscale`, `rdspostgres`, `aurorapostgres`, `cloudsqlpostgres`, `azurepostgres`, `crunchybridge`, `tigerdata`). Default is `postgres`.
+    """
+
+@pulumi.input_type
+class ClickpipeSourcePostgresArgs:
+    def __init__(__self__, *,
+                 credentials: pulumi.Input['ClickpipeSourcePostgresCredentialsArgs'],
+                 database: pulumi.Input[_builtins.str],
+                 host: pulumi.Input[_builtins.str],
+                 settings: pulumi.Input['ClickpipeSourcePostgresSettingsArgs'],
+                 table_mappings: pulumi.Input[Sequence[pulumi.Input['ClickpipeSourcePostgresTableMappingArgs']]],
+                 authentication: pulumi.Input[Optional[_builtins.str]] = None,
+                 ca_certificate: pulumi.Input[Optional[_builtins.str]] = None,
+                 iam_role: pulumi.Input[Optional[_builtins.str]] = None,
+                 port: pulumi.Input[Optional[_builtins.int]] = None,
+                 tls_host: pulumi.Input[Optional[_builtins.str]] = None,
+                 type: pulumi.Input[Optional[_builtins.str]] = None):
+        """
+        :param pulumi.Input['ClickpipeSourcePostgresCredentialsArgs'] credentials: The credentials for the Postgres instance. Username is always required. For `basic` authentication, supply either `password` or `password_wo`. For `iam_role` authentication, password is optional.
+        :param pulumi.Input[_builtins.str] database: The database name of the Postgres instance.
+        :param pulumi.Input[_builtins.str] host: The hostname of the Postgres instance.
+        :param pulumi.Input['ClickpipeSourcePostgresSettingsArgs'] settings: Settings for the Postgres CDC pipe.
+        :param pulumi.Input[Sequence[pulumi.Input['ClickpipeSourcePostgresTableMappingArgs']]] table_mappings: Table mappings from Postgres source to ClickHouse destination.
+        :param pulumi.Input[_builtins.str] authentication: Authentication method for Postgres connection. Supported values: `basic`, `iam_role`. Default is `basic`.
+        :param pulumi.Input[_builtins.str] ca_certificate: PEM encoded CA certificate to validate the Postgres server certificate.
+        :param pulumi.Input[_builtins.str] iam_role: IAM role ARN for IAM authentication. Required when authentication is set to `iam_role`.
+        :param pulumi.Input[_builtins.int] port: The port of the Postgres instance. Default is 5432.
+        :param pulumi.Input[_builtins.str] tls_host: TLS/SSL host for secure connections. Used to verify the server certificate.
+        :param pulumi.Input[_builtins.str] type: The type of the Postgres source. (`postgres`, `supabase`, `neon`, `alloydb`, `planetscale`, `rdspostgres`, `aurorapostgres`, `cloudsqlpostgres`, `azurepostgres`, `crunchybridge`, `tigerdata`). Default is `postgres`.
+        """
+        pulumi.set(__self__, "credentials", credentials)
+        pulumi.set(__self__, "database", database)
+        pulumi.set(__self__, "host", host)
+        pulumi.set(__self__, "settings", settings)
+        pulumi.set(__self__, "table_mappings", table_mappings)
+        if authentication is not None:
+            pulumi.set(__self__, "authentication", authentication)
+        if ca_certificate is not None:
+            pulumi.set(__self__, "ca_certificate", ca_certificate)
+        if iam_role is not None:
+            pulumi.set(__self__, "iam_role", iam_role)
+        if port is not None:
+            pulumi.set(__self__, "port", port)
+        if tls_host is not None:
+            pulumi.set(__self__, "tls_host", tls_host)
+        if type is not None:
+            pulumi.set(__self__, "type", type)
+
+    @_builtins.property
+    @pulumi.getter
+    def credentials(self) -> pulumi.Input['ClickpipeSourcePostgresCredentialsArgs']:
+        """
+        The credentials for the Postgres instance. Username is always required. For `basic` authentication, supply either `password` or `password_wo`. For `iam_role` authentication, password is optional.
+        """
+        return pulumi.get(self, "credentials")
+
+    @credentials.setter
+    def credentials(self, value: pulumi.Input['ClickpipeSourcePostgresCredentialsArgs']):
+        pulumi.set(self, "credentials", value)
+
+    @_builtins.property
+    @pulumi.getter
+    def database(self) -> pulumi.Input[_builtins.str]:
+        """
+        The database name of the Postgres instance.
+        """
+        return pulumi.get(self, "database")
+
+    @database.setter
+    def database(self, value: pulumi.Input[_builtins.str]):
+        pulumi.set(self, "database", value)
+
+    @_builtins.property
+    @pulumi.getter
+    def host(self) -> pulumi.Input[_builtins.str]:
+        """
+        The hostname of the Postgres instance.
+        """
+        return pulumi.get(self, "host")
+
+    @host.setter
+    def host(self, value: pulumi.Input[_builtins.str]):
+        pulumi.set(self, "host", value)
+
+    @_builtins.property
+    @pulumi.getter
+    def settings(self) -> pulumi.Input['ClickpipeSourcePostgresSettingsArgs']:
+        """
+        Settings for the Postgres CDC pipe.
+        """
+        return pulumi.get(self, "settings")
+
+    @settings.setter
+    def settings(self, value: pulumi.Input['ClickpipeSourcePostgresSettingsArgs']):
+        pulumi.set(self, "settings", value)
+
+    @_builtins.property
+    @pulumi.getter(name="tableMappings")
+    def table_mappings(self) -> pulumi.Input[Sequence[pulumi.Input['ClickpipeSourcePostgresTableMappingArgs']]]:
+        """
+        Table mappings from Postgres source to ClickHouse destination.
+        """
+        return pulumi.get(self, "table_mappings")
+
+    @table_mappings.setter
+    def table_mappings(self, value: pulumi.Input[Sequence[pulumi.Input['ClickpipeSourcePostgresTableMappingArgs']]]):
+        pulumi.set(self, "table_mappings", value)
+
+    @_builtins.property
+    @pulumi.getter
+    def authentication(self) -> pulumi.Input[Optional[_builtins.str]]:
+        """
+        Authentication method for Postgres connection. Supported values: `basic`, `iam_role`. Default is `basic`.
+        """
+        return pulumi.get(self, "authentication")
+
+    @authentication.setter
+    def authentication(self, value: pulumi.Input[Optional[_builtins.str]]):
+        pulumi.set(self, "authentication", value)
+
+    @_builtins.property
+    @pulumi.getter(name="caCertificate")
+    def ca_certificate(self) -> pulumi.Input[Optional[_builtins.str]]:
+        """
+        PEM encoded CA certificate to validate the Postgres server certificate.
+        """
+        return pulumi.get(self, "ca_certificate")
+
+    @ca_certificate.setter
+    def ca_certificate(self, value: pulumi.Input[Optional[_builtins.str]]):
+        pulumi.set(self, "ca_certificate", value)
+
+    @_builtins.property
+    @pulumi.getter(name="iamRole")
+    def iam_role(self) -> pulumi.Input[Optional[_builtins.str]]:
+        """
+        IAM role ARN for IAM authentication. Required when authentication is set to `iam_role`.
+        """
+        return pulumi.get(self, "iam_role")
+
+    @iam_role.setter
+    def iam_role(self, value: pulumi.Input[Optional[_builtins.str]]):
+        pulumi.set(self, "iam_role", value)
+
+    @_builtins.property
+    @pulumi.getter
+    def port(self) -> pulumi.Input[Optional[_builtins.int]]:
+        """
+        The port of the Postgres instance. Default is 5432.
+        """
+        return pulumi.get(self, "port")
+
+    @port.setter
+    def port(self, value: pulumi.Input[Optional[_builtins.int]]):
+        pulumi.set(self, "port", value)
+
+    @_builtins.property
+    @pulumi.getter(name="tlsHost")
+    def tls_host(self) -> pulumi.Input[Optional[_builtins.str]]:
+        """
+        TLS/SSL host for secure connections. Used to verify the server certificate.
+        """
+        return pulumi.get(self, "tls_host")
+
+    @tls_host.setter
+    def tls_host(self, value: pulumi.Input[Optional[_builtins.str]]):
+        pulumi.set(self, "tls_host", value)
+
+    @_builtins.property
+    @pulumi.getter
+    def type(self) -> pulumi.Input[Optional[_builtins.str]]:
+        """
+        The type of the Postgres source. (`postgres`, `supabase`, `neon`, `alloydb`, `planetscale`, `rdspostgres`, `aurorapostgres`, `cloudsqlpostgres`, `azurepostgres`, `crunchybridge`, `tigerdata`). Default is `postgres`.
+        """
+        return pulumi.get(self, "type")
+
+    @type.setter
+    def type(self, value: pulumi.Input[Optional[_builtins.str]]):
+        pulumi.set(self, "type", value)
+
+
+class ClickpipeSourcePostgresCredentialsArgsDict(TypedDict):
+    username: pulumi.Input[_builtins.str]
+    """
+    The username for the Postgres instance.
+    """
+    password: NotRequired[pulumi.Input[Optional[_builtins.str]]]
+    """
+    The password for the Postgres instance. Use `password_wo` instead to keep the value out of state.
+    """
+    password_wo: NotRequired[pulumi.Input[Optional[_builtins.str]]]
+    """
+    **NOTE:** This field is write-only and its value will not be updated in state as part of read operations.
+    Write-only password for the Postgres instance. Not persisted to state. Pair with `password_wo_version` to trigger updates.
+    """
+    password_wo_version: NotRequired[pulumi.Input[Optional[_builtins.int]]]
+    """
+    Version trigger for `password_wo`. Increment to push a new password to the API.
+    """
+
+@pulumi.input_type
+class ClickpipeSourcePostgresCredentialsArgs:
+    def __init__(__self__, *,
+                 username: pulumi.Input[_builtins.str],
+                 password: pulumi.Input[Optional[_builtins.str]] = None,
+                 password_wo: pulumi.Input[Optional[_builtins.str]] = None,
+                 password_wo_version: pulumi.Input[Optional[_builtins.int]] = None):
+        """
+        :param pulumi.Input[_builtins.str] username: The username for the Postgres instance.
+        :param pulumi.Input[_builtins.str] password: The password for the Postgres instance. Use `password_wo` instead to keep the value out of state.
+        :param pulumi.Input[_builtins.str] password_wo: **NOTE:** This field is write-only and its value will not be updated in state as part of read operations.
+               Write-only password for the Postgres instance. Not persisted to state. Pair with `password_wo_version` to trigger updates.
+        :param pulumi.Input[_builtins.int] password_wo_version: Version trigger for `password_wo`. Increment to push a new password to the API.
+        """
+        pulumi.set(__self__, "username", username)
+        if password is not None:
+            pulumi.set(__self__, "password", password)
+        if password_wo is not None:
+            pulumi.set(__self__, "password_wo", password_wo)
+        if password_wo_version is not None:
+            pulumi.set(__self__, "password_wo_version", password_wo_version)
+
+    @_builtins.property
+    @pulumi.getter
+    def username(self) -> pulumi.Input[_builtins.str]:
+        """
+        The username for the Postgres instance.
+        """
+        return pulumi.get(self, "username")
+
+    @username.setter
+    def username(self, value: pulumi.Input[_builtins.str]):
+        pulumi.set(self, "username", value)
+
+    @_builtins.property
+    @pulumi.getter
+    def password(self) -> pulumi.Input[Optional[_builtins.str]]:
+        """
+        The password for the Postgres instance. Use `password_wo` instead to keep the value out of state.
+        """
+        return pulumi.get(self, "password")
+
+    @password.setter
+    def password(self, value: pulumi.Input[Optional[_builtins.str]]):
+        pulumi.set(self, "password", value)
+
+    @_builtins.property
+    @pulumi.getter(name="passwordWo")
+    def password_wo(self) -> pulumi.Input[Optional[_builtins.str]]:
+        """
+        **NOTE:** This field is write-only and its value will not be updated in state as part of read operations.
+        Write-only password for the Postgres instance. Not persisted to state. Pair with `password_wo_version` to trigger updates.
+        """
+        return pulumi.get(self, "password_wo")
+
+    @password_wo.setter
+    def password_wo(self, value: pulumi.Input[Optional[_builtins.str]]):
+        pulumi.set(self, "password_wo", value)
+
+    @_builtins.property
+    @pulumi.getter(name="passwordWoVersion")
+    def password_wo_version(self) -> pulumi.Input[Optional[_builtins.int]]:
+        """
+        Version trigger for `password_wo`. Increment to push a new password to the API.
+        """
+        return pulumi.get(self, "password_wo_version")
+
+    @password_wo_version.setter
+    def password_wo_version(self, value: pulumi.Input[Optional[_builtins.int]]):
+        pulumi.set(self, "password_wo_version", value)
+
+
+class ClickpipeSourcePostgresSettingsArgsDict(TypedDict):
+    replication_mode: pulumi.Input[_builtins.str]
+    """
+    Replication mode for the Postgres pipe. (`cdc`, `snapshot`, `cdc_only`)
+    """
+    allow_nullable_columns: NotRequired[pulumi.Input[Optional[_builtins.bool]]]
+    """
+    Allow nullable columns in the destination table.
+    """
+    delete_on_merge: NotRequired[pulumi.Input[Optional[_builtins.bool]]]
+    """
+    Enable hard delete behavior in ReplacingMergeTree for PostgreSQL DELETE operations.
+    """
+    enable_failover_slots: NotRequired[pulumi.Input[Optional[_builtins.bool]]]
+    """
+    Enable failover for created replication slot. Requires a replication slot to NOT be set.
+    """
+    initial_load_parallelism: NotRequired[pulumi.Input[Optional[_builtins.int]]]
+    """
+    Number of parallel connections to use during initial load.
+    """
+    publication_name: NotRequired[pulumi.Input[Optional[_builtins.str]]]
+    """
+    Publication name to use for replication. If not provided, ClickPipes will create one.
+    """
+    pull_batch_size: NotRequired[pulumi.Input[Optional[_builtins.int]]]
+    """
+    Number of rows to pull in each batch.
+    """
+    replication_slot_name: NotRequired[pulumi.Input[Optional[_builtins.str]]]
+    """
+    Replication slot name to use for replication. Only applicable when replication_mode is `cdc_only`.
+    """
+    snapshot_num_rows_per_partition: NotRequired[pulumi.Input[Optional[_builtins.int]]]
+    """
+    Number of rows to snapshot per partition.
+    """
+    snapshot_number_of_parallel_tables: NotRequired[pulumi.Input[Optional[_builtins.int]]]
+    """
+    Number of parallel tables to snapshot.
+    """
+    sync_interval_seconds: NotRequired[pulumi.Input[Optional[_builtins.int]]]
+    """
+    Interval in seconds to sync data from Postgres.
+    """
+
+@pulumi.input_type
+class ClickpipeSourcePostgresSettingsArgs:
+    def __init__(__self__, *,
+                 replication_mode: pulumi.Input[_builtins.str],
+                 allow_nullable_columns: pulumi.Input[Optional[_builtins.bool]] = None,
+                 delete_on_merge: pulumi.Input[Optional[_builtins.bool]] = None,
+                 enable_failover_slots: pulumi.Input[Optional[_builtins.bool]] = None,
+                 initial_load_parallelism: pulumi.Input[Optional[_builtins.int]] = None,
+                 publication_name: pulumi.Input[Optional[_builtins.str]] = None,
+                 pull_batch_size: pulumi.Input[Optional[_builtins.int]] = None,
+                 replication_slot_name: pulumi.Input[Optional[_builtins.str]] = None,
+                 snapshot_num_rows_per_partition: pulumi.Input[Optional[_builtins.int]] = None,
+                 snapshot_number_of_parallel_tables: pulumi.Input[Optional[_builtins.int]] = None,
+                 sync_interval_seconds: pulumi.Input[Optional[_builtins.int]] = None):
+        """
+        :param pulumi.Input[_builtins.str] replication_mode: Replication mode for the Postgres pipe. (`cdc`, `snapshot`, `cdc_only`)
+        :param pulumi.Input[_builtins.bool] allow_nullable_columns: Allow nullable columns in the destination table.
+        :param pulumi.Input[_builtins.bool] delete_on_merge: Enable hard delete behavior in ReplacingMergeTree for PostgreSQL DELETE operations.
+        :param pulumi.Input[_builtins.bool] enable_failover_slots: Enable failover for created replication slot. Requires a replication slot to NOT be set.
+        :param pulumi.Input[_builtins.int] initial_load_parallelism: Number of parallel connections to use during initial load.
+        :param pulumi.Input[_builtins.str] publication_name: Publication name to use for replication. If not provided, ClickPipes will create one.
+        :param pulumi.Input[_builtins.int] pull_batch_size: Number of rows to pull in each batch.
+        :param pulumi.Input[_builtins.str] replication_slot_name: Replication slot name to use for replication. Only applicable when replication_mode is `cdc_only`.
+        :param pulumi.Input[_builtins.int] snapshot_num_rows_per_partition: Number of rows to snapshot per partition.
+        :param pulumi.Input[_builtins.int] snapshot_number_of_parallel_tables: Number of parallel tables to snapshot.
+        :param pulumi.Input[_builtins.int] sync_interval_seconds: Interval in seconds to sync data from Postgres.
+        """
+        pulumi.set(__self__, "replication_mode", replication_mode)
+        if allow_nullable_columns is not None:
+            pulumi.set(__self__, "allow_nullable_columns", allow_nullable_columns)
+        if delete_on_merge is not None:
+            pulumi.set(__self__, "delete_on_merge", delete_on_merge)
+        if enable_failover_slots is not None:
+            pulumi.set(__self__, "enable_failover_slots", enable_failover_slots)
+        if initial_load_parallelism is not None:
+            pulumi.set(__self__, "initial_load_parallelism", initial_load_parallelism)
+        if publication_name is not None:
+            pulumi.set(__self__, "publication_name", publication_name)
+        if pull_batch_size is not None:
+            pulumi.set(__self__, "pull_batch_size", pull_batch_size)
+        if replication_slot_name is not None:
+            pulumi.set(__self__, "replication_slot_name", replication_slot_name)
+        if snapshot_num_rows_per_partition is not None:
+            pulumi.set(__self__, "snapshot_num_rows_per_partition", snapshot_num_rows_per_partition)
+        if snapshot_number_of_parallel_tables is not None:
+            pulumi.set(__self__, "snapshot_number_of_parallel_tables", snapshot_number_of_parallel_tables)
+        if sync_interval_seconds is not None:
+            pulumi.set(__self__, "sync_interval_seconds", sync_interval_seconds)
+
+    @_builtins.property
+    @pulumi.getter(name="replicationMode")
+    def replication_mode(self) -> pulumi.Input[_builtins.str]:
+        """
+        Replication mode for the Postgres pipe. (`cdc`, `snapshot`, `cdc_only`)
+        """
+        return pulumi.get(self, "replication_mode")
+
+    @replication_mode.setter
+    def replication_mode(self, value: pulumi.Input[_builtins.str]):
+        pulumi.set(self, "replication_mode", value)
+
+    @_builtins.property
+    @pulumi.getter(name="allowNullableColumns")
+    def allow_nullable_columns(self) -> pulumi.Input[Optional[_builtins.bool]]:
+        """
+        Allow nullable columns in the destination table.
+        """
+        return pulumi.get(self, "allow_nullable_columns")
+
+    @allow_nullable_columns.setter
+    def allow_nullable_columns(self, value: pulumi.Input[Optional[_builtins.bool]]):
+        pulumi.set(self, "allow_nullable_columns", value)
+
+    @_builtins.property
+    @pulumi.getter(name="deleteOnMerge")
+    def delete_on_merge(self) -> pulumi.Input[Optional[_builtins.bool]]:
+        """
+        Enable hard delete behavior in ReplacingMergeTree for PostgreSQL DELETE operations.
+        """
+        return pulumi.get(self, "delete_on_merge")
+
+    @delete_on_merge.setter
+    def delete_on_merge(self, value: pulumi.Input[Optional[_builtins.bool]]):
+        pulumi.set(self, "delete_on_merge", value)
+
+    @_builtins.property
+    @pulumi.getter(name="enableFailoverSlots")
+    def enable_failover_slots(self) -> pulumi.Input[Optional[_builtins.bool]]:
+        """
+        Enable failover for created replication slot. Requires a replication slot to NOT be set.
+        """
+        return pulumi.get(self, "enable_failover_slots")
+
+    @enable_failover_slots.setter
+    def enable_failover_slots(self, value: pulumi.Input[Optional[_builtins.bool]]):
+        pulumi.set(self, "enable_failover_slots", value)
+
+    @_builtins.property
+    @pulumi.getter(name="initialLoadParallelism")
+    def initial_load_parallelism(self) -> pulumi.Input[Optional[_builtins.int]]:
+        """
+        Number of parallel connections to use during initial load.
+        """
+        return pulumi.get(self, "initial_load_parallelism")
+
+    @initial_load_parallelism.setter
+    def initial_load_parallelism(self, value: pulumi.Input[Optional[_builtins.int]]):
+        pulumi.set(self, "initial_load_parallelism", value)
+
+    @_builtins.property
+    @pulumi.getter(name="publicationName")
+    def publication_name(self) -> pulumi.Input[Optional[_builtins.str]]:
+        """
+        Publication name to use for replication. If not provided, ClickPipes will create one.
+        """
+        return pulumi.get(self, "publication_name")
+
+    @publication_name.setter
+    def publication_name(self, value: pulumi.Input[Optional[_builtins.str]]):
+        pulumi.set(self, "publication_name", value)
+
+    @_builtins.property
+    @pulumi.getter(name="pullBatchSize")
+    def pull_batch_size(self) -> pulumi.Input[Optional[_builtins.int]]:
+        """
+        Number of rows to pull in each batch.
+        """
+        return pulumi.get(self, "pull_batch_size")
+
+    @pull_batch_size.setter
+    def pull_batch_size(self, value: pulumi.Input[Optional[_builtins.int]]):
+        pulumi.set(self, "pull_batch_size", value)
+
+    @_builtins.property
+    @pulumi.getter(name="replicationSlotName")
+    def replication_slot_name(self) -> pulumi.Input[Optional[_builtins.str]]:
+        """
+        Replication slot name to use for replication. Only applicable when replication_mode is `cdc_only`.
+        """
+        return pulumi.get(self, "replication_slot_name")
+
+    @replication_slot_name.setter
+    def replication_slot_name(self, value: pulumi.Input[Optional[_builtins.str]]):
+        pulumi.set(self, "replication_slot_name", value)
+
+    @_builtins.property
+    @pulumi.getter(name="snapshotNumRowsPerPartition")
+    def snapshot_num_rows_per_partition(self) -> pulumi.Input[Optional[_builtins.int]]:
+        """
+        Number of rows to snapshot per partition.
+        """
+        return pulumi.get(self, "snapshot_num_rows_per_partition")
+
+    @snapshot_num_rows_per_partition.setter
+    def snapshot_num_rows_per_partition(self, value: pulumi.Input[Optional[_builtins.int]]):
+        pulumi.set(self, "snapshot_num_rows_per_partition", value)
+
+    @_builtins.property
+    @pulumi.getter(name="snapshotNumberOfParallelTables")
+    def snapshot_number_of_parallel_tables(self) -> pulumi.Input[Optional[_builtins.int]]:
+        """
+        Number of parallel tables to snapshot.
+        """
+        return pulumi.get(self, "snapshot_number_of_parallel_tables")
+
+    @snapshot_number_of_parallel_tables.setter
+    def snapshot_number_of_parallel_tables(self, value: pulumi.Input[Optional[_builtins.int]]):
+        pulumi.set(self, "snapshot_number_of_parallel_tables", value)
+
+    @_builtins.property
+    @pulumi.getter(name="syncIntervalSeconds")
+    def sync_interval_seconds(self) -> pulumi.Input[Optional[_builtins.int]]:
+        """
+        Interval in seconds to sync data from Postgres.
+        """
+        return pulumi.get(self, "sync_interval_seconds")
+
+    @sync_interval_seconds.setter
+    def sync_interval_seconds(self, value: pulumi.Input[Optional[_builtins.int]]):
+        pulumi.set(self, "sync_interval_seconds", value)
+
+
+class ClickpipeSourcePostgresTableMappingArgsDict(TypedDict):
+    source_schema_name: pulumi.Input[_builtins.str]
+    """
+    Source schema name in Postgres.
+    """
+    source_table: pulumi.Input[_builtins.str]
+    """
+    Source table name in Postgres.
+    """
+    target_table: pulumi.Input[_builtins.str]
+    """
+    Target table name in ClickHouse.
+    """
+    excluded_columns: NotRequired[pulumi.Input[Optional[Sequence[pulumi.Input[_builtins.str]]]]]
+    """
+    Columns to exclude from replication.
+    """
+    partition_key: NotRequired[pulumi.Input[Optional[_builtins.str]]]
+    """
+    Custom partitioning column used for parallel snapshotting. Only beneficial for PostgreSQL 13 (no benefit for PG14+, which supports indexed ctid scans). Must be an indexed column of type: `smallint`, `integer`, `bigint`, `timestamp without time zone`, or `timestamp with time zone`. Unrelated to ClickHouse partitioning.
+    """
+    sorting_keys: NotRequired[pulumi.Input[Optional[Sequence[pulumi.Input[_builtins.str]]]]]
+    """
+    Ordered list of columns to use as sorting key for the target table. Required when use*custom*sorting_key is true.
+    """
+    table_engine: NotRequired[pulumi.Input[Optional[_builtins.str]]]
+    """
+    Table engine to use for the target table. (`MergeTree`, `ReplacingMergeTree`, `Null`)
+    """
+    use_custom_sorting_key: NotRequired[pulumi.Input[Optional[_builtins.bool]]]
+    """
+    Whether to use a custom sorting key for the target table.
+    """
+
+@pulumi.input_type
+class ClickpipeSourcePostgresTableMappingArgs:
+    def __init__(__self__, *,
+                 source_schema_name: pulumi.Input[_builtins.str],
+                 source_table: pulumi.Input[_builtins.str],
+                 target_table: pulumi.Input[_builtins.str],
+                 excluded_columns: pulumi.Input[Optional[Sequence[pulumi.Input[_builtins.str]]]] = None,
+                 partition_key: pulumi.Input[Optional[_builtins.str]] = None,
+                 sorting_keys: pulumi.Input[Optional[Sequence[pulumi.Input[_builtins.str]]]] = None,
+                 table_engine: pulumi.Input[Optional[_builtins.str]] = None,
+                 use_custom_sorting_key: pulumi.Input[Optional[_builtins.bool]] = None):
+        """
+        :param pulumi.Input[_builtins.str] source_schema_name: Source schema name in Postgres.
+        :param pulumi.Input[_builtins.str] source_table: Source table name in Postgres.
+        :param pulumi.Input[_builtins.str] target_table: Target table name in ClickHouse.
+        :param pulumi.Input[Sequence[pulumi.Input[_builtins.str]]] excluded_columns: Columns to exclude from replication.
+        :param pulumi.Input[_builtins.str] partition_key: Custom partitioning column used for parallel snapshotting. Only beneficial for PostgreSQL 13 (no benefit for PG14+, which supports indexed ctid scans). Must be an indexed column of type: `smallint`, `integer`, `bigint`, `timestamp without time zone`, or `timestamp with time zone`. Unrelated to ClickHouse partitioning.
+        :param pulumi.Input[Sequence[pulumi.Input[_builtins.str]]] sorting_keys: Ordered list of columns to use as sorting key for the target table. Required when use*custom*sorting_key is true.
+        :param pulumi.Input[_builtins.str] table_engine: Table engine to use for the target table. (`MergeTree`, `ReplacingMergeTree`, `Null`)
+        :param pulumi.Input[_builtins.bool] use_custom_sorting_key: Whether to use a custom sorting key for the target table.
+        """
+        pulumi.set(__self__, "source_schema_name", source_schema_name)
+        pulumi.set(__self__, "source_table", source_table)
+        pulumi.set(__self__, "target_table", target_table)
+        if excluded_columns is not None:
+            pulumi.set(__self__, "excluded_columns", excluded_columns)
+        if partition_key is not None:
+            pulumi.set(__self__, "partition_key", partition_key)
+        if sorting_keys is not None:
+            pulumi.set(__self__, "sorting_keys", sorting_keys)
+        if table_engine is not None:
+            pulumi.set(__self__, "table_engine", table_engine)
+        if use_custom_sorting_key is not None:
+            pulumi.set(__self__, "use_custom_sorting_key", use_custom_sorting_key)
+
+    @_builtins.property
+    @pulumi.getter(name="sourceSchemaName")
+    def source_schema_name(self) -> pulumi.Input[_builtins.str]:
+        """
+        Source schema name in Postgres.
+        """
+        return pulumi.get(self, "source_schema_name")
+
+    @source_schema_name.setter
+    def source_schema_name(self, value: pulumi.Input[_builtins.str]):
+        pulumi.set(self, "source_schema_name", value)
+
+    @_builtins.property
+    @pulumi.getter(name="sourceTable")
+    def source_table(self) -> pulumi.Input[_builtins.str]:
+        """
+        Source table name in Postgres.
+        """
+        return pulumi.get(self, "source_table")
+
+    @source_table.setter
+    def source_table(self, value: pulumi.Input[_builtins.str]):
+        pulumi.set(self, "source_table", value)
+
+    @_builtins.property
+    @pulumi.getter(name="targetTable")
+    def target_table(self) -> pulumi.Input[_builtins.str]:
+        """
+        Target table name in ClickHouse.
+        """
+        return pulumi.get(self, "target_table")
+
+    @target_table.setter
+    def target_table(self, value: pulumi.Input[_builtins.str]):
+        pulumi.set(self, "target_table", value)
+
+    @_builtins.property
+    @pulumi.getter(name="excludedColumns")
+    def excluded_columns(self) -> pulumi.Input[Optional[Sequence[pulumi.Input[_builtins.str]]]]:
+        """
+        Columns to exclude from replication.
+        """
+        return pulumi.get(self, "excluded_columns")
+
+    @excluded_columns.setter
+    def excluded_columns(self, value: pulumi.Input[Optional[Sequence[pulumi.Input[_builtins.str]]]]):
+        pulumi.set(self, "excluded_columns", value)
+
+    @_builtins.property
+    @pulumi.getter(name="partitionKey")
+    def partition_key(self) -> pulumi.Input[Optional[_builtins.str]]:
+        """
+        Custom partitioning column used for parallel snapshotting. Only beneficial for PostgreSQL 13 (no benefit for PG14+, which supports indexed ctid scans). Must be an indexed column of type: `smallint`, `integer`, `bigint`, `timestamp without time zone`, or `timestamp with time zone`. Unrelated to ClickHouse partitioning.
+        """
+        return pulumi.get(self, "partition_key")
+
+    @partition_key.setter
+    def partition_key(self, value: pulumi.Input[Optional[_builtins.str]]):
+        pulumi.set(self, "partition_key", value)
+
+    @_builtins.property
+    @pulumi.getter(name="sortingKeys")
+    def sorting_keys(self) -> pulumi.Input[Optional[Sequence[pulumi.Input[_builtins.str]]]]:
+        """
+        Ordered list of columns to use as sorting key for the target table. Required when use*custom*sorting_key is true.
+        """
+        return pulumi.get(self, "sorting_keys")
+
+    @sorting_keys.setter
+    def sorting_keys(self, value: pulumi.Input[Optional[Sequence[pulumi.Input[_builtins.str]]]]):
+        pulumi.set(self, "sorting_keys", value)
+
+    @_builtins.property
+    @pulumi.getter(name="tableEngine")
+    def table_engine(self) -> pulumi.Input[Optional[_builtins.str]]:
+        """
+        Table engine to use for the target table. (`MergeTree`, `ReplacingMergeTree`, `Null`)
+        """
+        return pulumi.get(self, "table_engine")
+
+    @table_engine.setter
+    def table_engine(self, value: pulumi.Input[Optional[_builtins.str]]):
+        pulumi.set(self, "table_engine", value)
+
+    @_builtins.property
+    @pulumi.getter(name="useCustomSortingKey")
+    def use_custom_sorting_key(self) -> pulumi.Input[Optional[_builtins.bool]]:
+        """
+        Whether to use a custom sorting key for the target table.
+        """
+        return pulumi.get(self, "use_custom_sorting_key")
+
+    @use_custom_sorting_key.setter
+    def use_custom_sorting_key(self, value: pulumi.Input[Optional[_builtins.bool]]):
+        pulumi.set(self, "use_custom_sorting_key", value)
+
+
+class ClickpipeSourcePubsubArgsDict(TypedDict):
+    authentication: pulumi.Input[_builtins.str]
+    """
+    The authentication method for the Pub/Sub source. Currently only `SERVICE_ACCOUNT` is supported.
+    """
+    format: pulumi.Input[_builtins.str]
+    """
+    The message format of the Pub/Sub topic. (`JSONEachRow`, `Avro`, `Protobuf`)
+    """
+    project_id: pulumi.Input[_builtins.str]
+    """
+    The GCP project ID that owns the Pub/Sub topic.
+    """
+    seek_type: pulumi.Input[_builtins.str]
+    """
+    The starting position for consuming the subscription. (`latest`, `earliest`, `timestamp`)
+    """
+    service_account_key: pulumi.Input['ClickpipeSourcePubsubServiceAccountKeyArgsDict']
+    """
+    GCP service account credentials. Required on create; provide a new value on update to rotate the key.
+    """
+    topic: pulumi.Input[_builtins.str]
+    """
+    The Pub/Sub topic name (not the fully-qualified path).
+    """
+    ack_deadline: NotRequired[pulumi.Input[Optional[_builtins.int]]]
+    """
+    Acknowledgement deadline in seconds (10–600).
+    """
+    enable_ordering: NotRequired[pulumi.Input[Optional[_builtins.bool]]]
+    """
+    Whether to enable ordered message delivery. Immutable — changing it requires destroy+create because ordered delivery is a property of the subscription at creation time.
+    """
+    filter: NotRequired[pulumi.Input[Optional[_builtins.str]]]
+    """
+    Optional Pub/Sub subscription filter expression (CEL). Max 256 characters. Immutable — changing it requires destroy+create because the underlying subscription filter cannot be edited in place.
+    """
+    seek_timestamp: NotRequired[pulumi.Input[Optional[_builtins.str]]]
+    """
+    RFC 3339 timestamp (e.g. `2026-04-10T12:00:00Z`). Required when `seek_type = "timestamp"`; must be omitted otherwise.
+    """
+
+@pulumi.input_type
+class ClickpipeSourcePubsubArgs:
+    def __init__(__self__, *,
+                 authentication: pulumi.Input[_builtins.str],
+                 format: pulumi.Input[_builtins.str],
+                 project_id: pulumi.Input[_builtins.str],
+                 seek_type: pulumi.Input[_builtins.str],
+                 service_account_key: pulumi.Input['ClickpipeSourcePubsubServiceAccountKeyArgs'],
+                 topic: pulumi.Input[_builtins.str],
+                 ack_deadline: pulumi.Input[Optional[_builtins.int]] = None,
+                 enable_ordering: pulumi.Input[Optional[_builtins.bool]] = None,
+                 filter: pulumi.Input[Optional[_builtins.str]] = None,
+                 seek_timestamp: pulumi.Input[Optional[_builtins.str]] = None):
+        """
+        :param pulumi.Input[_builtins.str] authentication: The authentication method for the Pub/Sub source. Currently only `SERVICE_ACCOUNT` is supported.
+        :param pulumi.Input[_builtins.str] format: The message format of the Pub/Sub topic. (`JSONEachRow`, `Avro`, `Protobuf`)
+        :param pulumi.Input[_builtins.str] project_id: The GCP project ID that owns the Pub/Sub topic.
+        :param pulumi.Input[_builtins.str] seek_type: The starting position for consuming the subscription. (`latest`, `earliest`, `timestamp`)
+        :param pulumi.Input['ClickpipeSourcePubsubServiceAccountKeyArgs'] service_account_key: GCP service account credentials. Required on create; provide a new value on update to rotate the key.
+        :param pulumi.Input[_builtins.str] topic: The Pub/Sub topic name (not the fully-qualified path).
+        :param pulumi.Input[_builtins.int] ack_deadline: Acknowledgement deadline in seconds (10–600).
+        :param pulumi.Input[_builtins.bool] enable_ordering: Whether to enable ordered message delivery. Immutable — changing it requires destroy+create because ordered delivery is a property of the subscription at creation time.
+        :param pulumi.Input[_builtins.str] filter: Optional Pub/Sub subscription filter expression (CEL). Max 256 characters. Immutable — changing it requires destroy+create because the underlying subscription filter cannot be edited in place.
+        :param pulumi.Input[_builtins.str] seek_timestamp: RFC 3339 timestamp (e.g. `2026-04-10T12:00:00Z`). Required when `seek_type = "timestamp"`; must be omitted otherwise.
+        """
+        pulumi.set(__self__, "authentication", authentication)
+        pulumi.set(__self__, "format", format)
+        pulumi.set(__self__, "project_id", project_id)
+        pulumi.set(__self__, "seek_type", seek_type)
+        pulumi.set(__self__, "service_account_key", service_account_key)
+        pulumi.set(__self__, "topic", topic)
+        if ack_deadline is not None:
+            pulumi.set(__self__, "ack_deadline", ack_deadline)
+        if enable_ordering is not None:
+            pulumi.set(__self__, "enable_ordering", enable_ordering)
+        if filter is not None:
+            pulumi.set(__self__, "filter", filter)
+        if seek_timestamp is not None:
+            pulumi.set(__self__, "seek_timestamp", seek_timestamp)
+
+    @_builtins.property
+    @pulumi.getter
+    def authentication(self) -> pulumi.Input[_builtins.str]:
+        """
+        The authentication method for the Pub/Sub source. Currently only `SERVICE_ACCOUNT` is supported.
+        """
+        return pulumi.get(self, "authentication")
+
+    @authentication.setter
+    def authentication(self, value: pulumi.Input[_builtins.str]):
+        pulumi.set(self, "authentication", value)
+
+    @_builtins.property
+    @pulumi.getter
+    def format(self) -> pulumi.Input[_builtins.str]:
+        """
+        The message format of the Pub/Sub topic. (`JSONEachRow`, `Avro`, `Protobuf`)
+        """
+        return pulumi.get(self, "format")
+
+    @format.setter
+    def format(self, value: pulumi.Input[_builtins.str]):
+        pulumi.set(self, "format", value)
+
+    @_builtins.property
+    @pulumi.getter(name="projectId")
+    def project_id(self) -> pulumi.Input[_builtins.str]:
+        """
+        The GCP project ID that owns the Pub/Sub topic.
+        """
+        return pulumi.get(self, "project_id")
+
+    @project_id.setter
+    def project_id(self, value: pulumi.Input[_builtins.str]):
+        pulumi.set(self, "project_id", value)
+
+    @_builtins.property
+    @pulumi.getter(name="seekType")
+    def seek_type(self) -> pulumi.Input[_builtins.str]:
+        """
+        The starting position for consuming the subscription. (`latest`, `earliest`, `timestamp`)
+        """
+        return pulumi.get(self, "seek_type")
+
+    @seek_type.setter
+    def seek_type(self, value: pulumi.Input[_builtins.str]):
+        pulumi.set(self, "seek_type", value)
+
+    @_builtins.property
+    @pulumi.getter(name="serviceAccountKey")
+    def service_account_key(self) -> pulumi.Input['ClickpipeSourcePubsubServiceAccountKeyArgs']:
+        """
+        GCP service account credentials. Required on create; provide a new value on update to rotate the key.
+        """
+        return pulumi.get(self, "service_account_key")
+
+    @service_account_key.setter
+    def service_account_key(self, value: pulumi.Input['ClickpipeSourcePubsubServiceAccountKeyArgs']):
+        pulumi.set(self, "service_account_key", value)
+
+    @_builtins.property
+    @pulumi.getter
+    def topic(self) -> pulumi.Input[_builtins.str]:
+        """
+        The Pub/Sub topic name (not the fully-qualified path).
+        """
+        return pulumi.get(self, "topic")
+
+    @topic.setter
+    def topic(self, value: pulumi.Input[_builtins.str]):
+        pulumi.set(self, "topic", value)
+
+    @_builtins.property
+    @pulumi.getter(name="ackDeadline")
+    def ack_deadline(self) -> pulumi.Input[Optional[_builtins.int]]:
+        """
+        Acknowledgement deadline in seconds (10–600).
+        """
+        return pulumi.get(self, "ack_deadline")
+
+    @ack_deadline.setter
+    def ack_deadline(self, value: pulumi.Input[Optional[_builtins.int]]):
+        pulumi.set(self, "ack_deadline", value)
+
+    @_builtins.property
+    @pulumi.getter(name="enableOrdering")
+    def enable_ordering(self) -> pulumi.Input[Optional[_builtins.bool]]:
+        """
+        Whether to enable ordered message delivery. Immutable — changing it requires destroy+create because ordered delivery is a property of the subscription at creation time.
+        """
+        return pulumi.get(self, "enable_ordering")
+
+    @enable_ordering.setter
+    def enable_ordering(self, value: pulumi.Input[Optional[_builtins.bool]]):
+        pulumi.set(self, "enable_ordering", value)
+
+    @_builtins.property
+    @pulumi.getter
+    def filter(self) -> pulumi.Input[Optional[_builtins.str]]:
+        """
+        Optional Pub/Sub subscription filter expression (CEL). Max 256 characters. Immutable — changing it requires destroy+create because the underlying subscription filter cannot be edited in place.
+        """
+        return pulumi.get(self, "filter")
+
+    @filter.setter
+    def filter(self, value: pulumi.Input[Optional[_builtins.str]]):
+        pulumi.set(self, "filter", value)
+
+    @_builtins.property
+    @pulumi.getter(name="seekTimestamp")
+    def seek_timestamp(self) -> pulumi.Input[Optional[_builtins.str]]:
+        """
+        RFC 3339 timestamp (e.g. `2026-04-10T12:00:00Z`). Required when `seek_type = "timestamp"`; must be omitted otherwise.
+        """
+        return pulumi.get(self, "seek_timestamp")
+
+    @seek_timestamp.setter
+    def seek_timestamp(self, value: pulumi.Input[Optional[_builtins.str]]):
+        pulumi.set(self, "seek_timestamp", value)
+
+
+class ClickpipeSourcePubsubServiceAccountKeyArgsDict(TypedDict):
+    service_account_file: pulumi.Input[_builtins.str]
+    """
+    Base64-encoded GCP service account JSON key file contents.
+    """
+
+@pulumi.input_type
+class ClickpipeSourcePubsubServiceAccountKeyArgs:
+    def __init__(__self__, *,
+                 service_account_file: pulumi.Input[_builtins.str]):
+        """
+        :param pulumi.Input[_builtins.str] service_account_file: Base64-encoded GCP service account JSON key file contents.
+        """
+        pulumi.set(__self__, "service_account_file", service_account_file)
+
+    @_builtins.property
+    @pulumi.getter(name="serviceAccountFile")
+    def service_account_file(self) -> pulumi.Input[_builtins.str]:
+        """
+        Base64-encoded GCP service account JSON key file contents.
+        """
+        return pulumi.get(self, "service_account_file")
+
+    @service_account_file.setter
+    def service_account_file(self, value: pulumi.Input[_builtins.str]):
+        pulumi.set(self, "service_account_file", value)
+
+
+class ClickpipesReversePrivateEndpointCustomPrivateDnsMappingArgsDict(TypedDict):
+    private_dns_name: pulumi.Input[_builtins.str]
+    """
+    Custom private DNS name managed by ClickHouse Cloud.
+    """
+
+@pulumi.input_type
+class ClickpipesReversePrivateEndpointCustomPrivateDnsMappingArgs:
+    def __init__(__self__, *,
+                 private_dns_name: pulumi.Input[_builtins.str]):
+        """
+        :param pulumi.Input[_builtins.str] private_dns_name: Custom private DNS name managed by ClickHouse Cloud.
+        """
+        pulumi.set(__self__, "private_dns_name", private_dns_name)
+
+    @_builtins.property
+    @pulumi.getter(name="privateDnsName")
+    def private_dns_name(self) -> pulumi.Input[_builtins.str]:
+        """
+        Custom private DNS name managed by ClickHouse Cloud.
+        """
+        return pulumi.get(self, "private_dns_name")
+
+    @private_dns_name.setter
+    def private_dns_name(self, value: pulumi.Input[_builtins.str]):
+        pulumi.set(self, "private_dns_name", value)
+
+
+class PostgresServiceRestoreToPointInTimeArgsDict(TypedDict):
+    restore_target: pulumi.Input[_builtins.str]
+    """
+    RFC3339 timestamp to restore to (e.g. '2026-06-01T12:00:00Z'). The server restores to the closest available recovery point at or before this time.
+    """
+    source_id: pulumi.Input[_builtins.str]
+    """
+    ID of the source instance whose backup to restore from.
+    """
+
+@pulumi.input_type
+class PostgresServiceRestoreToPointInTimeArgs:
+    def __init__(__self__, *,
+                 restore_target: pulumi.Input[_builtins.str],
+                 source_id: pulumi.Input[_builtins.str]):
+        """
+        :param pulumi.Input[_builtins.str] restore_target: RFC3339 timestamp to restore to (e.g. '2026-06-01T12:00:00Z'). The server restores to the closest available recovery point at or before this time.
+        :param pulumi.Input[_builtins.str] source_id: ID of the source instance whose backup to restore from.
+        """
+        pulumi.set(__self__, "restore_target", restore_target)
+        pulumi.set(__self__, "source_id", source_id)
+
+    @_builtins.property
+    @pulumi.getter(name="restoreTarget")
+    def restore_target(self) -> pulumi.Input[_builtins.str]:
+        """
+        RFC3339 timestamp to restore to (e.g. '2026-06-01T12:00:00Z'). The server restores to the closest available recovery point at or before this time.
+        """
+        return pulumi.get(self, "restore_target")
+
+    @restore_target.setter
+    def restore_target(self, value: pulumi.Input[_builtins.str]):
+        pulumi.set(self, "restore_target", value)
+
+    @_builtins.property
+    @pulumi.getter(name="sourceId")
+    def source_id(self) -> pulumi.Input[_builtins.str]:
+        """
+        ID of the source instance whose backup to restore from.
+        """
+        return pulumi.get(self, "source_id")
+
+    @source_id.setter
+    def source_id(self, value: pulumi.Input[_builtins.str]):
+        pulumi.set(self, "source_id", value)
+
+
+class RolePolicyArgsDict(TypedDict):
+    effect: pulumi.Input[_builtins.str]
+    """
+    Whether this policy allows or denies the specified permissions.
+    """
+    permissions: pulumi.Input[Sequence[pulumi.Input[_builtins.str]]]
+    """
+    List of permission strings granted or denied by this policy.
+    """
+    resources: pulumi.Input[Sequence[pulumi.Input[_builtins.str]]]
+    """
+    List of resources this policy applies to. Format: 'instance/\\n\\n' or 'instance/*'.
+    """
+    id: NotRequired[pulumi.Input[Optional[_builtins.str]]]
+    """
+    Server-assigned policy ID. Changes on every update since the server replaces all policies on PATCH.
+    """
+    role_id: NotRequired[pulumi.Input[Optional[_builtins.str]]]
+    """
+    ID of the role this policy belongs to.
+    """
+    tags: NotRequired[pulumi.Input[Optional['RolePolicyTagsArgs']]]
+    """
+    Optional tags for additional policy metadata.
+    """
+    tenant_id: NotRequired[pulumi.Input[Optional[_builtins.str]]]
+    """
+    Tenant ID that owns this policy.
+    """
+
+@pulumi.input_type
+class RolePolicyArgs:
+    def __init__(__self__, *,
+                 effect: pulumi.Input[_builtins.str],
+                 permissions: pulumi.Input[Sequence[pulumi.Input[_builtins.str]]],
+                 resources: pulumi.Input[Sequence[pulumi.Input[_builtins.str]]],
+                 id: pulumi.Input[Optional[_builtins.str]] = None,
+                 role_id: pulumi.Input[Optional[_builtins.str]] = None,
+                 tags: pulumi.Input[Optional['RolePolicyTagsArgs']] = None,
+                 tenant_id: pulumi.Input[Optional[_builtins.str]] = None):
+        """
+        :param pulumi.Input[_builtins.str] effect: Whether this policy allows or denies the specified permissions.
+        :param pulumi.Input[Sequence[pulumi.Input[_builtins.str]]] permissions: List of permission strings granted or denied by this policy.
+        :param pulumi.Input[Sequence[pulumi.Input[_builtins.str]]] resources: List of resources this policy applies to. Format: 'instance/\\n\\n' or 'instance/*'.
+        :param pulumi.Input[_builtins.str] id: Server-assigned policy ID. Changes on every update since the server replaces all policies on PATCH.
+        :param pulumi.Input[_builtins.str] role_id: ID of the role this policy belongs to.
+        :param pulumi.Input['RolePolicyTagsArgs'] tags: Optional tags for additional policy metadata.
+        :param pulumi.Input[_builtins.str] tenant_id: Tenant ID that owns this policy.
+        """
+        pulumi.set(__self__, "effect", effect)
+        pulumi.set(__self__, "permissions", permissions)
+        pulumi.set(__self__, "resources", resources)
+        if id is not None:
+            pulumi.set(__self__, "id", id)
+        if role_id is not None:
+            pulumi.set(__self__, "role_id", role_id)
+        if tags is not None:
+            pulumi.set(__self__, "tags", tags)
+        if tenant_id is not None:
+            pulumi.set(__self__, "tenant_id", tenant_id)
+
+    @_builtins.property
+    @pulumi.getter
+    def effect(self) -> pulumi.Input[_builtins.str]:
+        """
+        Whether this policy allows or denies the specified permissions.
+        """
+        return pulumi.get(self, "effect")
+
+    @effect.setter
+    def effect(self, value: pulumi.Input[_builtins.str]):
+        pulumi.set(self, "effect", value)
+
+    @_builtins.property
+    @pulumi.getter
+    def permissions(self) -> pulumi.Input[Sequence[pulumi.Input[_builtins.str]]]:
+        """
+        List of permission strings granted or denied by this policy.
+        """
+        return pulumi.get(self, "permissions")
+
+    @permissions.setter
+    def permissions(self, value: pulumi.Input[Sequence[pulumi.Input[_builtins.str]]]):
+        pulumi.set(self, "permissions", value)
+
+    @_builtins.property
+    @pulumi.getter
+    def resources(self) -> pulumi.Input[Sequence[pulumi.Input[_builtins.str]]]:
+        """
+        List of resources this policy applies to. Format: 'instance/\\n\\n' or 'instance/*'.
+        """
+        return pulumi.get(self, "resources")
+
+    @resources.setter
+    def resources(self, value: pulumi.Input[Sequence[pulumi.Input[_builtins.str]]]):
+        pulumi.set(self, "resources", value)
+
+    @_builtins.property
+    @pulumi.getter
+    def id(self) -> pulumi.Input[Optional[_builtins.str]]:
+        """
+        Server-assigned policy ID. Changes on every update since the server replaces all policies on PATCH.
+        """
+        return pulumi.get(self, "id")
+
+    @id.setter
+    def id(self, value: pulumi.Input[Optional[_builtins.str]]):
+        pulumi.set(self, "id", value)
+
+    @_builtins.property
+    @pulumi.getter(name="roleId")
+    def role_id(self) -> pulumi.Input[Optional[_builtins.str]]:
+        """
+        ID of the role this policy belongs to.
+        """
+        return pulumi.get(self, "role_id")
+
+    @role_id.setter
+    def role_id(self, value: pulumi.Input[Optional[_builtins.str]]):
+        pulumi.set(self, "role_id", value)
+
+    @_builtins.property
+    @pulumi.getter
+    def tags(self) -> pulumi.Input[Optional['RolePolicyTagsArgs']]:
+        """
+        Optional tags for additional policy metadata.
+        """
+        return pulumi.get(self, "tags")
+
+    @tags.setter
+    def tags(self, value: pulumi.Input[Optional['RolePolicyTagsArgs']]):
+        pulumi.set(self, "tags", value)
+
+    @_builtins.property
+    @pulumi.getter(name="tenantId")
+    def tenant_id(self) -> pulumi.Input[Optional[_builtins.str]]:
+        """
+        Tenant ID that owns this policy.
+        """
+        return pulumi.get(self, "tenant_id")
+
+    @tenant_id.setter
+    def tenant_id(self, value: pulumi.Input[Optional[_builtins.str]]):
+        pulumi.set(self, "tenant_id", value)
+
+
+class RolePolicyTagsArgsDict(TypedDict):
+    role: pulumi.Input[_builtins.str]
+    """
+    SQL console role level for passwordless DB access. One of: sql-console-admin (full access), sql-console-readonly (read-only).
+    """
+
+@pulumi.input_type
+class RolePolicyTagsArgs:
+    def __init__(__self__, *,
+                 role: pulumi.Input[_builtins.str]):
+        """
+        :param pulumi.Input[_builtins.str] role: SQL console role level for passwordless DB access. One of: sql-console-admin (full access), sql-console-readonly (read-only).
+        """
+        pulumi.set(__self__, "role", role)
+
+    @_builtins.property
+    @pulumi.getter
+    def role(self) -> pulumi.Input[_builtins.str]:
+        """
+        SQL console role level for passwordless DB access. One of: sql-console-admin (full access), sql-console-readonly (read-only).
+        """
+        return pulumi.get(self, "role")
+
+    @role.setter
+    def role(self, value: pulumi.Input[_builtins.str]):
+        pulumi.set(self, "role", value)
+
 
 class ServiceBackupConfigurationArgsDict(TypedDict):
     backup_period_in_hours: NotRequired[pulumi.Input[Optional[_builtins.int]]]
@@ -477,6 +5201,296 @@ class ServiceQueryApiEndpointsArgs:
     @allowed_origins.setter
     def allowed_origins(self, value: pulumi.Input[Optional[_builtins.str]]):
         pulumi.set(self, "allowed_origins", value)
+
+
+class ServiceScheduledScalingBaseConfigArgsDict(TypedDict):
+    idle_scaling: NotRequired[pulumi.Input[Optional[_builtins.bool]]]
+    idle_timeout_minutes: NotRequired[pulumi.Input[Optional[_builtins.int]]]
+    max_replica_memory_gb: NotRequired[pulumi.Input[Optional[_builtins.int]]]
+    max_replicas: NotRequired[pulumi.Input[Optional[_builtins.int]]]
+    min_replica_memory_gb: NotRequired[pulumi.Input[Optional[_builtins.int]]]
+    min_replicas: NotRequired[pulumi.Input[Optional[_builtins.int]]]
+
+@pulumi.input_type
+class ServiceScheduledScalingBaseConfigArgs:
+    def __init__(__self__, *,
+                 idle_scaling: pulumi.Input[Optional[_builtins.bool]] = None,
+                 idle_timeout_minutes: pulumi.Input[Optional[_builtins.int]] = None,
+                 max_replica_memory_gb: pulumi.Input[Optional[_builtins.int]] = None,
+                 max_replicas: pulumi.Input[Optional[_builtins.int]] = None,
+                 min_replica_memory_gb: pulumi.Input[Optional[_builtins.int]] = None,
+                 min_replicas: pulumi.Input[Optional[_builtins.int]] = None):
+        if idle_scaling is not None:
+            pulumi.set(__self__, "idle_scaling", idle_scaling)
+        if idle_timeout_minutes is not None:
+            pulumi.set(__self__, "idle_timeout_minutes", idle_timeout_minutes)
+        if max_replica_memory_gb is not None:
+            pulumi.set(__self__, "max_replica_memory_gb", max_replica_memory_gb)
+        if max_replicas is not None:
+            pulumi.set(__self__, "max_replicas", max_replicas)
+        if min_replica_memory_gb is not None:
+            pulumi.set(__self__, "min_replica_memory_gb", min_replica_memory_gb)
+        if min_replicas is not None:
+            pulumi.set(__self__, "min_replicas", min_replicas)
+
+    @_builtins.property
+    @pulumi.getter(name="idleScaling")
+    def idle_scaling(self) -> pulumi.Input[Optional[_builtins.bool]]:
+        return pulumi.get(self, "idle_scaling")
+
+    @idle_scaling.setter
+    def idle_scaling(self, value: pulumi.Input[Optional[_builtins.bool]]):
+        pulumi.set(self, "idle_scaling", value)
+
+    @_builtins.property
+    @pulumi.getter(name="idleTimeoutMinutes")
+    def idle_timeout_minutes(self) -> pulumi.Input[Optional[_builtins.int]]:
+        return pulumi.get(self, "idle_timeout_minutes")
+
+    @idle_timeout_minutes.setter
+    def idle_timeout_minutes(self, value: pulumi.Input[Optional[_builtins.int]]):
+        pulumi.set(self, "idle_timeout_minutes", value)
+
+    @_builtins.property
+    @pulumi.getter(name="maxReplicaMemoryGb")
+    def max_replica_memory_gb(self) -> pulumi.Input[Optional[_builtins.int]]:
+        return pulumi.get(self, "max_replica_memory_gb")
+
+    @max_replica_memory_gb.setter
+    def max_replica_memory_gb(self, value: pulumi.Input[Optional[_builtins.int]]):
+        pulumi.set(self, "max_replica_memory_gb", value)
+
+    @_builtins.property
+    @pulumi.getter(name="maxReplicas")
+    def max_replicas(self) -> pulumi.Input[Optional[_builtins.int]]:
+        return pulumi.get(self, "max_replicas")
+
+    @max_replicas.setter
+    def max_replicas(self, value: pulumi.Input[Optional[_builtins.int]]):
+        pulumi.set(self, "max_replicas", value)
+
+    @_builtins.property
+    @pulumi.getter(name="minReplicaMemoryGb")
+    def min_replica_memory_gb(self) -> pulumi.Input[Optional[_builtins.int]]:
+        return pulumi.get(self, "min_replica_memory_gb")
+
+    @min_replica_memory_gb.setter
+    def min_replica_memory_gb(self, value: pulumi.Input[Optional[_builtins.int]]):
+        pulumi.set(self, "min_replica_memory_gb", value)
+
+    @_builtins.property
+    @pulumi.getter(name="minReplicas")
+    def min_replicas(self) -> pulumi.Input[Optional[_builtins.int]]:
+        return pulumi.get(self, "min_replicas")
+
+    @min_replicas.setter
+    def min_replicas(self, value: pulumi.Input[Optional[_builtins.int]]):
+        pulumi.set(self, "min_replicas", value)
+
+
+class ServiceScheduledScalingEntryArgsDict(TypedDict):
+    end_hour_utc: pulumi.Input[_builtins.int]
+    """
+    End hour in UTC (1-24). Must differ from start*hour*utc. Note the asymmetric range: end*hour*utc=0 is invalid; use end*hour*utc=24 to mean midnight at end of day.
+    """
+    name: pulumi.Input[_builtins.str]
+    """
+    Human-readable name for the entry (e.g. "Business hours").
+    """
+    start_hour_utc: pulumi.Input[_builtins.int]
+    """
+    Start hour in UTC (0-23). If end*hour*utc < start*hour*utc the window wraps overnight. Set start*hour*utc=0 and end*hour*utc=24 for a 24-hour window.
+    """
+    weekdays: pulumi.Input[Sequence[pulumi.Input[_builtins.int]]]
+    """
+    Weekdays this entry covers. 0 = Sunday … 6 = Saturday.
+    """
+    idle_scaling: NotRequired[pulumi.Input[Optional[_builtins.bool]]]
+    """
+    Whether idle scaling is enabled while the window is active.
+    """
+    idle_timeout_minutes: NotRequired[pulumi.Input[Optional[_builtins.int]]]
+    """
+    Minutes of inactivity before the service scales to zero. Must be at least 5. Only meaningful when idle_scaling is true.
+    """
+    max_replica_memory_gb: NotRequired[pulumi.Input[Optional[_builtins.int]]]
+    """
+    Maximum memory per replica in GiB. Must be set together with min*replica*memory_gb.
+    """
+    max_replicas: NotRequired[pulumi.Input[Optional[_builtins.int]]]
+    """
+    Maximum replica count while the window is active. Currently the server requires min*replicas == max*replicas.
+    """
+    min_replica_memory_gb: NotRequired[pulumi.Input[Optional[_builtins.int]]]
+    """
+    Minimum memory per replica in GiB. Must be set together with max*replica*memory_gb.
+    """
+    min_replicas: NotRequired[pulumi.Input[Optional[_builtins.int]]]
+    """
+    Minimum replica count while the window is active. Currently the server requires min*replicas == max*replicas.
+    """
+
+@pulumi.input_type
+class ServiceScheduledScalingEntryArgs:
+    def __init__(__self__, *,
+                 end_hour_utc: pulumi.Input[_builtins.int],
+                 name: pulumi.Input[_builtins.str],
+                 start_hour_utc: pulumi.Input[_builtins.int],
+                 weekdays: pulumi.Input[Sequence[pulumi.Input[_builtins.int]]],
+                 idle_scaling: pulumi.Input[Optional[_builtins.bool]] = None,
+                 idle_timeout_minutes: pulumi.Input[Optional[_builtins.int]] = None,
+                 max_replica_memory_gb: pulumi.Input[Optional[_builtins.int]] = None,
+                 max_replicas: pulumi.Input[Optional[_builtins.int]] = None,
+                 min_replica_memory_gb: pulumi.Input[Optional[_builtins.int]] = None,
+                 min_replicas: pulumi.Input[Optional[_builtins.int]] = None):
+        """
+        :param pulumi.Input[_builtins.int] end_hour_utc: End hour in UTC (1-24). Must differ from start*hour*utc. Note the asymmetric range: end*hour*utc=0 is invalid; use end*hour*utc=24 to mean midnight at end of day.
+        :param pulumi.Input[_builtins.str] name: Human-readable name for the entry (e.g. "Business hours").
+        :param pulumi.Input[_builtins.int] start_hour_utc: Start hour in UTC (0-23). If end*hour*utc < start*hour*utc the window wraps overnight. Set start*hour*utc=0 and end*hour*utc=24 for a 24-hour window.
+        :param pulumi.Input[Sequence[pulumi.Input[_builtins.int]]] weekdays: Weekdays this entry covers. 0 = Sunday … 6 = Saturday.
+        :param pulumi.Input[_builtins.bool] idle_scaling: Whether idle scaling is enabled while the window is active.
+        :param pulumi.Input[_builtins.int] idle_timeout_minutes: Minutes of inactivity before the service scales to zero. Must be at least 5. Only meaningful when idle_scaling is true.
+        :param pulumi.Input[_builtins.int] max_replica_memory_gb: Maximum memory per replica in GiB. Must be set together with min*replica*memory_gb.
+        :param pulumi.Input[_builtins.int] max_replicas: Maximum replica count while the window is active. Currently the server requires min*replicas == max*replicas.
+        :param pulumi.Input[_builtins.int] min_replica_memory_gb: Minimum memory per replica in GiB. Must be set together with max*replica*memory_gb.
+        :param pulumi.Input[_builtins.int] min_replicas: Minimum replica count while the window is active. Currently the server requires min*replicas == max*replicas.
+        """
+        pulumi.set(__self__, "end_hour_utc", end_hour_utc)
+        pulumi.set(__self__, "name", name)
+        pulumi.set(__self__, "start_hour_utc", start_hour_utc)
+        pulumi.set(__self__, "weekdays", weekdays)
+        if idle_scaling is not None:
+            pulumi.set(__self__, "idle_scaling", idle_scaling)
+        if idle_timeout_minutes is not None:
+            pulumi.set(__self__, "idle_timeout_minutes", idle_timeout_minutes)
+        if max_replica_memory_gb is not None:
+            pulumi.set(__self__, "max_replica_memory_gb", max_replica_memory_gb)
+        if max_replicas is not None:
+            pulumi.set(__self__, "max_replicas", max_replicas)
+        if min_replica_memory_gb is not None:
+            pulumi.set(__self__, "min_replica_memory_gb", min_replica_memory_gb)
+        if min_replicas is not None:
+            pulumi.set(__self__, "min_replicas", min_replicas)
+
+    @_builtins.property
+    @pulumi.getter(name="endHourUtc")
+    def end_hour_utc(self) -> pulumi.Input[_builtins.int]:
+        """
+        End hour in UTC (1-24). Must differ from start*hour*utc. Note the asymmetric range: end*hour*utc=0 is invalid; use end*hour*utc=24 to mean midnight at end of day.
+        """
+        return pulumi.get(self, "end_hour_utc")
+
+    @end_hour_utc.setter
+    def end_hour_utc(self, value: pulumi.Input[_builtins.int]):
+        pulumi.set(self, "end_hour_utc", value)
+
+    @_builtins.property
+    @pulumi.getter
+    def name(self) -> pulumi.Input[_builtins.str]:
+        """
+        Human-readable name for the entry (e.g. "Business hours").
+        """
+        return pulumi.get(self, "name")
+
+    @name.setter
+    def name(self, value: pulumi.Input[_builtins.str]):
+        pulumi.set(self, "name", value)
+
+    @_builtins.property
+    @pulumi.getter(name="startHourUtc")
+    def start_hour_utc(self) -> pulumi.Input[_builtins.int]:
+        """
+        Start hour in UTC (0-23). If end*hour*utc < start*hour*utc the window wraps overnight. Set start*hour*utc=0 and end*hour*utc=24 for a 24-hour window.
+        """
+        return pulumi.get(self, "start_hour_utc")
+
+    @start_hour_utc.setter
+    def start_hour_utc(self, value: pulumi.Input[_builtins.int]):
+        pulumi.set(self, "start_hour_utc", value)
+
+    @_builtins.property
+    @pulumi.getter
+    def weekdays(self) -> pulumi.Input[Sequence[pulumi.Input[_builtins.int]]]:
+        """
+        Weekdays this entry covers. 0 = Sunday … 6 = Saturday.
+        """
+        return pulumi.get(self, "weekdays")
+
+    @weekdays.setter
+    def weekdays(self, value: pulumi.Input[Sequence[pulumi.Input[_builtins.int]]]):
+        pulumi.set(self, "weekdays", value)
+
+    @_builtins.property
+    @pulumi.getter(name="idleScaling")
+    def idle_scaling(self) -> pulumi.Input[Optional[_builtins.bool]]:
+        """
+        Whether idle scaling is enabled while the window is active.
+        """
+        return pulumi.get(self, "idle_scaling")
+
+    @idle_scaling.setter
+    def idle_scaling(self, value: pulumi.Input[Optional[_builtins.bool]]):
+        pulumi.set(self, "idle_scaling", value)
+
+    @_builtins.property
+    @pulumi.getter(name="idleTimeoutMinutes")
+    def idle_timeout_minutes(self) -> pulumi.Input[Optional[_builtins.int]]:
+        """
+        Minutes of inactivity before the service scales to zero. Must be at least 5. Only meaningful when idle_scaling is true.
+        """
+        return pulumi.get(self, "idle_timeout_minutes")
+
+    @idle_timeout_minutes.setter
+    def idle_timeout_minutes(self, value: pulumi.Input[Optional[_builtins.int]]):
+        pulumi.set(self, "idle_timeout_minutes", value)
+
+    @_builtins.property
+    @pulumi.getter(name="maxReplicaMemoryGb")
+    def max_replica_memory_gb(self) -> pulumi.Input[Optional[_builtins.int]]:
+        """
+        Maximum memory per replica in GiB. Must be set together with min*replica*memory_gb.
+        """
+        return pulumi.get(self, "max_replica_memory_gb")
+
+    @max_replica_memory_gb.setter
+    def max_replica_memory_gb(self, value: pulumi.Input[Optional[_builtins.int]]):
+        pulumi.set(self, "max_replica_memory_gb", value)
+
+    @_builtins.property
+    @pulumi.getter(name="maxReplicas")
+    def max_replicas(self) -> pulumi.Input[Optional[_builtins.int]]:
+        """
+        Maximum replica count while the window is active. Currently the server requires min*replicas == max*replicas.
+        """
+        return pulumi.get(self, "max_replicas")
+
+    @max_replicas.setter
+    def max_replicas(self, value: pulumi.Input[Optional[_builtins.int]]):
+        pulumi.set(self, "max_replicas", value)
+
+    @_builtins.property
+    @pulumi.getter(name="minReplicaMemoryGb")
+    def min_replica_memory_gb(self) -> pulumi.Input[Optional[_builtins.int]]:
+        """
+        Minimum memory per replica in GiB. Must be set together with max*replica*memory_gb.
+        """
+        return pulumi.get(self, "min_replica_memory_gb")
+
+    @min_replica_memory_gb.setter
+    def min_replica_memory_gb(self, value: pulumi.Input[Optional[_builtins.int]]):
+        pulumi.set(self, "min_replica_memory_gb", value)
+
+    @_builtins.property
+    @pulumi.getter(name="minReplicas")
+    def min_replicas(self) -> pulumi.Input[Optional[_builtins.int]]:
+        """
+        Minimum replica count while the window is active. Currently the server requires min*replicas == max*replicas.
+        """
+        return pulumi.get(self, "min_replicas")
+
+    @min_replicas.setter
+    def min_replicas(self, value: pulumi.Input[Optional[_builtins.int]]):
+        pulumi.set(self, "min_replicas", value)
 
 
 class ServiceTransparentDataEncryptionArgsDict(TypedDict):
