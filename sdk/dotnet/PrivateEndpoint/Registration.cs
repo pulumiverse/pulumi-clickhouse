@@ -11,7 +11,7 @@ using Pulumi;
 namespace Pulumiverse.Clickhouse.PrivateEndpoint
 {
     /// <summary>
-    /// This resource is deprecated since version 3.2.0. Please refer to the docs for migration steps.
+    /// This resource is deprecated since version 3.2.0. Please refer to the docs for migration steps: https://github.com/ClickHouse/terraform-provider-clickhouse?tab=readme-ov-file#breaking-changes-and-deprecations
     /// </summary>
     [ClickhouseResourceType("clickhouse:PrivateEndpoint/registration:Registration")]
     public partial class Registration : global::Pulumi.CustomResource

@@ -64,7 +64,7 @@ namespace Pulumiverse.Clickhouse
 
         private static readonly __Value<string?> _tokenKey = new __Value<string?>(() => __config.Get("tokenKey"));
         /// <summary>
-        /// Token key of the key/secret pair. Used to authenticate with OpenAPI. Alternatively, can be configured using the `CLICKHOUSE_TOKEN_KEY` environment variable.
+        /// Token key of the key/secret pair. Used to authenticate with OpenAPI. Alternatively, can be configured using the `CLICKHOUSE_CLOUD_API_KEY` environment variable.
         /// </summary>
         public static string? TokenKey
         {
@@ -74,7 +74,7 @@ namespace Pulumiverse.Clickhouse
 
         private static readonly __Value<string?> _tokenSecret = new __Value<string?>(() => __config.Get("tokenSecret"));
         /// <summary>
-        /// Token secret of the key/secret pair. Used to authenticate with OpenAPI. Alternatively, can be configured using the `CLICKHOUSE_TOKEN_SECRET` environment variable.
+        /// Token secret of the key/secret pair. Used to authenticate with OpenAPI. Alternatively, can be configured using the `CLICKHOUSE_CLOUD_API_SECRET` environment variable.
         /// </summary>
         public static string? TokenSecret
         {

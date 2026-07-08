@@ -12,7 +12,7 @@ import (
 	"github.com/pulumiverse/pulumi-clickhouse/sdk/v2/go/clickhouse/internal"
 )
 
-// This resource is deprecated since version 3.2.0. Please refer to the docs for migration steps.
+// This resource is deprecated since version 3.2.0. Please refer to the docs for migration steps: https://github.com/ClickHouse/terraform-provider-clickhouse?tab=readme-ov-file#breaking-changes-and-deprecations
 type Registration struct {
 	pulumi.CustomResourceState
 

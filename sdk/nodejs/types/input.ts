@@ -5,6 +5,997 @@ import * as pulumi from "@pulumi/pulumi";
 import * as inputs from "../types/input";
 import * as outputs from "../types/output";
 
+export interface ClickpipeDestination {
+    /**
+     * The list of columns for the ClickHouse table. Required for all sources except Postgres CDC (where columns are determined from source tables).
+     */
+    columns?: pulumi.Input<pulumi.Input<inputs.ClickpipeDestinationColumn>[] | undefined>;
+    /**
+     * The name of the ClickHouse database. Default is `default`.
+     */
+    database?: pulumi.Input<string | undefined>;
+    /**
+     * Whether the table is managed by ClickHouse Cloud. If `false`, the table must exist in the database. Default is `true`. **Not applicable to database/CDC pipes** (Postgres, MySQL, BigQuery, MongoDB): for those sources destination tables are always managed per-table via `tableMappings`, so this field is ignored and not sent to the API.
+     */
+    managedTable?: pulumi.Input<boolean | undefined>;
+    /**
+     * ClickPipe will create a ClickHouse user with these roles. Add your custom roles here if required.
+     */
+    roles?: pulumi.Input<pulumi.Input<string>[] | undefined>;
+    /**
+     * The name of the ClickHouse table. Required for all sources except Postgres CDC (where tables are created from table_mappings).
+     */
+    table?: pulumi.Input<string | undefined>;
+    /**
+     * Definition of the destination table. Required for ClickPipes managed tables. **Not supported for database/CDC pipes** (Postgres, MySQL, BigQuery, MongoDB): for those sources destination tables are defined per-table via `tableMappings` (each mapping's `targetTable`, `tableEngine`, `sortingKeys`, etc.), so configuring this is rejected at plan time.
+     */
+    tableDefinition?: pulumi.Input<inputs.ClickpipeDestinationTableDefinition | undefined>;
+}
+
+export interface ClickpipeDestinationColumn {
+    /**
+     * The name of the column.
+     */
+    name: pulumi.Input<string>;
+    /**
+     * The type of the column.
+     */
+    type: pulumi.Input<string>;
+}
+
+export interface ClickpipeDestinationTableDefinition {
+    /**
+     * The engine of the ClickHouse table.
+     */
+    engine: pulumi.Input<inputs.ClickpipeDestinationTableDefinitionEngine>;
+    /**
+     * The column to partition the table by.
+     */
+    partitionBy?: pulumi.Input<string | undefined>;
+    /**
+     * The primary key of the table.
+     */
+    primaryKey?: pulumi.Input<string | undefined>;
+    /**
+     * The list of columns for the sorting key.
+     */
+    sortingKeys?: pulumi.Input<pulumi.Input<string>[] | undefined>;
+}
+
+export interface ClickpipeDestinationTableDefinitionEngine {
+    /**
+     * Column IDs to sum for SummingMergeTree engine. Required when engine type is `SummingMergeTree`.
+     */
+    columnIds?: pulumi.Input<pulumi.Input<string>[] | undefined>;
+    /**
+     * The type of the engine. Supported engines: `MergeTree`, `ReplacingMergeTree`, `SummingMergeTree`, `Null`.
+     */
+    type: pulumi.Input<string>;
+    /**
+     * Column ID to use as version for ReplacingMergeTree engine. Required when engine type is `ReplacingMergeTree`.
+     */
+    versionColumnId?: pulumi.Input<string | undefined>;
+}
+
+export interface ClickpipeFieldMapping {
+    /**
+     * The name of the column in destination table.
+     */
+    destinationField: pulumi.Input<string>;
+    /**
+     * The name of the source field.
+     */
+    sourceField: pulumi.Input<string>;
+}
+
+export interface ClickpipeScaling {
+    /**
+     * The CPU allocation per replica in millicores. Must be between 125 and 2000.
+     */
+    replicaCpuMillicores?: pulumi.Input<number | undefined>;
+    /**
+     * The memory allocation per replica in GB. Must be between 0.5 and 8.0.
+     */
+    replicaMemoryGb?: pulumi.Input<number | undefined>;
+    /**
+     * The number of desired replicas for the ClickPipe. Default is 1. The maximum value is 10.
+     */
+    replicas?: pulumi.Input<number | undefined>;
+}
+
+export interface ClickpipeSource {
+    /**
+     * The BigQuery source configuration for the ClickPipe.
+     */
+    bigquery?: pulumi.Input<inputs.ClickpipeSourceBigquery | undefined>;
+    /**
+     * The Kafka source configuration for the ClickPipe.
+     */
+    kafka?: pulumi.Input<inputs.ClickpipeSourceKafka | undefined>;
+    /**
+     * The Kinesis source configuration for the ClickPipe. Only `authentication`, `iamRole` and `accessKey` can be updated in place; changing any other field forces resource replacement (destroy and recreate).
+     */
+    kinesis?: pulumi.Input<inputs.ClickpipeSourceKinesis | undefined>;
+    /**
+     * The MongoDB CDC source configuration for the ClickPipe.
+     */
+    mongodb?: pulumi.Input<inputs.ClickpipeSourceMongodb | undefined>;
+    /**
+     * The MySQL CDC source configuration for the ClickPipe.
+     */
+    mysql?: pulumi.Input<inputs.ClickpipeSourceMysql | undefined>;
+    /**
+     * The compatible object storage source configuration for the ClickPipe.
+     */
+    objectStorage?: pulumi.Input<inputs.ClickpipeSourceObjectStorage | undefined>;
+    /**
+     * The Postgres CDC source configuration for the ClickPipe.
+     */
+    postgres?: pulumi.Input<inputs.ClickpipeSourcePostgres | undefined>;
+    /**
+     * The GCP Pub/Sub source configuration for the ClickPipe.
+     */
+    pubsub?: pulumi.Input<inputs.ClickpipeSourcePubsub | undefined>;
+}
+
+export interface ClickpipeSourceBigquery {
+    /**
+     * The credentials for BigQuery access.
+     */
+    credentials: pulumi.Input<inputs.ClickpipeSourceBigqueryCredentials>;
+    /**
+     * Settings for the BigQuery pipe.
+     */
+    settings: pulumi.Input<inputs.ClickpipeSourceBigquerySettings>;
+    /**
+     * GCS bucket path for staging snapshot data (e.g., gs://my-bucket/staging/). Data will be automatically cleaned up after initial load.
+     */
+    snapshotStagingPath: pulumi.Input<string>;
+    /**
+     * Table mappings from BigQuery source to ClickHouse destination.
+     */
+    tableMappings: pulumi.Input<pulumi.Input<inputs.ClickpipeSourceBigqueryTableMapping>[]>;
+}
+
+export interface ClickpipeSourceBigqueryCredentials {
+    /**
+     * Google Cloud service account JSON key file content, base64 encoded.
+     */
+    serviceAccountFile: pulumi.Input<string>;
+}
+
+export interface ClickpipeSourceBigquerySettings {
+    /**
+     * Allow nullable columns in the destination table.
+     */
+    allowNullableColumns?: pulumi.Input<boolean | undefined>;
+    /**
+     * Number of parallel workers during initial load.
+     */
+    initialLoadParallelism?: pulumi.Input<number | undefined>;
+    /**
+     * Replication mode for the BigQuery pipe. (`snapshot`)
+     */
+    replicationMode: pulumi.Input<string>;
+    /**
+     * Number of rows to snapshot per partition.
+     */
+    snapshotNumRowsPerPartition?: pulumi.Input<number | undefined>;
+    /**
+     * Number of parallel tables to snapshot.
+     */
+    snapshotNumberOfParallelTables?: pulumi.Input<number | undefined>;
+}
+
+export interface ClickpipeSourceBigqueryTableMapping {
+    /**
+     * Columns to exclude from replication.
+     */
+    excludedColumns?: pulumi.Input<pulumi.Input<string>[] | undefined>;
+    /**
+     * Ordered list of columns to use as sorting key for the target table. Required when use*custom*sorting_key is true.
+     */
+    sortingKeys?: pulumi.Input<pulumi.Input<string>[] | undefined>;
+    /**
+     * Source BigQuery dataset name.
+     */
+    sourceDatasetName: pulumi.Input<string>;
+    /**
+     * Source table name in BigQuery.
+     */
+    sourceTable: pulumi.Input<string>;
+    /**
+     * Table engine to use for the target table. (`MergeTree`, `ReplacingMergeTree`, `Null`)
+     */
+    tableEngine?: pulumi.Input<string | undefined>;
+    /**
+     * Target table name in ClickHouse.
+     */
+    targetTable: pulumi.Input<string>;
+    /**
+     * Whether to use a custom sorting key for the target table.
+     */
+    useCustomSortingKey?: pulumi.Input<boolean | undefined>;
+}
+
+export interface ClickpipeSourceKafka {
+    /**
+     * The authentication method for the Kafka source. (`PLAIN`, `SCRAM-SHA-256`, `SCRAM-SHA-512`, `IAM_ROLE`, `IAM_USER`, `MUTUAL_TLS`). Default is `PLAIN`.
+     */
+    authentication?: pulumi.Input<string | undefined>;
+    /**
+     * The list of Kafka bootstrap brokers. (comma separated)
+     */
+    brokers: pulumi.Input<string>;
+    /**
+     * PEM encoded CA certificates to validate the broker's certificate.
+     */
+    caCertificate?: pulumi.Input<string | undefined>;
+    /**
+     * Consumer group of the Kafka source. If not provided `clickpipes-<ID>` will be used.
+     */
+    consumerGroup?: pulumi.Input<string | undefined>;
+    /**
+     * The credentials for the Kafka source.
+     */
+    credentials?: pulumi.Input<inputs.ClickpipeSourceKafkaCredentials | undefined>;
+    /**
+     * Enable exactly-once delivery. Guarantees every Kafka record is inserted exactly once across restarts and rebalances.
+     */
+    exactlyOnce?: pulumi.Input<boolean | undefined>;
+    /**
+     * The format of the Kafka source. (`JSONEachRow`, `Avro`, `AvroConfluent`, `Protobuf`)
+     */
+    format: pulumi.Input<string>;
+    /**
+     * The IAM role for the Kafka source. Use with `IAM_ROLE` authentication. It can be used with AWS ClickHouse service only. Read more at https://clickhouse.com/docs/en/integrations/clickpipes/kafka#iam
+     */
+    iamRole?: pulumi.Input<string | undefined>;
+    /**
+     * The Kafka offset.
+     */
+    offset?: pulumi.Input<inputs.ClickpipeSourceKafkaOffset | undefined>;
+    /**
+     * The list of reverse private endpoint IDs for the Kafka source. (comma separated)
+     */
+    reversePrivateEndpointIds?: pulumi.Input<pulumi.Input<string>[] | undefined>;
+    /**
+     * The schema registry for the Kafka source.
+     */
+    schemaRegistry?: pulumi.Input<inputs.ClickpipeSourceKafkaSchemaRegistry | undefined>;
+    /**
+     * The list of Kafka topics. (comma separated)
+     */
+    topics: pulumi.Input<string>;
+    /**
+     * The type of the Kafka source. (`kafka`, `redpanda`, `confluent`, `msk`, `warpstream`, `azureeventhub`, `gcmk`). Default is `kafka`.
+     */
+    type?: pulumi.Input<string | undefined>;
+}
+
+export interface ClickpipeSourceKafkaCredentials {
+    /**
+     * The access key ID for the Kafka source. Use with `IAM_USER` authentication.
+     */
+    accessKeyId?: pulumi.Input<string | undefined>;
+    /**
+     * PEM encoded client certificate for mTLS authentication. Use with `MUTUAL_TLS` authentication.
+     */
+    certificate?: pulumi.Input<string | undefined>;
+    /**
+     * The connection string for the Kafka source. Use with `azureeventhub` Kafka source type. Use with `PLAIN` authentication.
+     */
+    connectionString?: pulumi.Input<string | undefined>;
+    /**
+     * The password for the Kafka source. Use `passwordWo` instead to keep the value out of state.
+     */
+    password?: pulumi.Input<string | undefined>;
+    /**
+     * **NOTE:** This field is write-only and its value will not be updated in state as part of read operations.
+     * Write-only password for the Kafka source. Not persisted to state. Pair with `passwordWoVersion` to trigger updates.
+     */
+    passwordWo?: pulumi.Input<string | undefined>;
+    /**
+     * Version trigger for `passwordWo`. Increment to push a new password to the API.
+     */
+    passwordWoVersion?: pulumi.Input<number | undefined>;
+    /**
+     * PEM encoded client private key for mTLS authentication. Use with `MUTUAL_TLS` authentication.
+     */
+    privateKey?: pulumi.Input<string | undefined>;
+    /**
+     * The secret key for the Kafka source. Use with `IAM_USER` authentication.
+     */
+    secretKey?: pulumi.Input<string | undefined>;
+    /**
+     * The username for the Kafka source.
+     */
+    username?: pulumi.Input<string | undefined>;
+}
+
+export interface ClickpipeSourceKafkaOffset {
+    /**
+     * The offset strategy for the Kafka source. (`fromBeginning`, `fromLatest`, `fromTimestamp`)
+     */
+    strategy: pulumi.Input<string>;
+    /**
+     * The timestamp for the Kafka offset. Use with `fromTimestamp` offset strategy. (format `2021-01-01T00:00`)
+     */
+    timestamp?: pulumi.Input<string | undefined>;
+}
+
+export interface ClickpipeSourceKafkaSchemaRegistry {
+    /**
+     * The authentication method for the Schema Registry. Only supported is `PLAIN`.
+     */
+    authentication: pulumi.Input<string>;
+    /**
+     * The credentials for the Schema Registry.
+     */
+    credentials: pulumi.Input<inputs.ClickpipeSourceKafkaSchemaRegistryCredentials>;
+    /**
+     * The URL of the schema registry.
+     */
+    url: pulumi.Input<string>;
+}
+
+export interface ClickpipeSourceKafkaSchemaRegistryCredentials {
+    /**
+     * The password for the Schema Registry. Either `password` or `passwordWo` must be provided.
+     */
+    password?: pulumi.Input<string | undefined>;
+    /**
+     * **NOTE:** This field is write-only and its value will not be updated in state as part of read operations.
+     * Write-only password for the Schema Registry. Not persisted to state. Pair with `passwordWoVersion` to trigger updates.
+     */
+    passwordWo?: pulumi.Input<string | undefined>;
+    /**
+     * Version trigger for `passwordWo`. Increment to push a new password to the API.
+     */
+    passwordWoVersion?: pulumi.Input<number | undefined>;
+    /**
+     * The username for the Schema Registry.
+     */
+    username: pulumi.Input<string>;
+}
+
+export interface ClickpipeSourceKinesis {
+    /**
+     * The access key for the Kinesis source. Use with `IAM_USER` authentication. Can be rotated in place via an update.
+     */
+    accessKey?: pulumi.Input<inputs.ClickpipeSourceKinesisAccessKey | undefined>;
+    /**
+     * The authentication method for the Kinesis source. (`IAM_ROLE`, `IAM_USER`).
+     */
+    authentication: pulumi.Input<string>;
+    /**
+     * The format of the Kinesis source. (`JSONEachRow`, `Avro`, `AvroConfluent`)
+     */
+    format: pulumi.Input<string>;
+    /**
+     * The IAM role for the Kinesis source. Use with `IAM_ROLE` authentication. It can be used with AWS ClickHouse service only. Read more at https://clickhouse.com/docs/en/integrations/clickpipes/kinesis.
+     */
+    iamRole?: pulumi.Input<string | undefined>;
+    /**
+     * The iterator type for the Kinesis source. (`TRIM_HORIZON`, `LATEST`, `AT_TIMESTAMP`)
+     */
+    iteratorType: pulumi.Input<string>;
+    /**
+     * The AWS region of the Kinesis stream.
+     */
+    region: pulumi.Input<string>;
+    /**
+     * The name of the Kinesis stream.
+     */
+    streamName: pulumi.Input<string>;
+    /**
+     * The timestamp for the Kinesis source. Use with `AT_TIMESTAMP` iterator type. (format `2021-01-01T00:00`)
+     */
+    timestamp?: pulumi.Input<string | undefined>;
+    /**
+     * Whether to use enhanced fan-out consumer.
+     */
+    useEnhancedFanOut?: pulumi.Input<boolean | undefined>;
+}
+
+export interface ClickpipeSourceKinesisAccessKey {
+    /**
+     * The access key ID for the Kinesis source.
+     */
+    accessKeyId: pulumi.Input<string>;
+    /**
+     * The secret key for the Kinesis source.
+     */
+    secretKey: pulumi.Input<string>;
+}
+
+export interface ClickpipeSourceMongodb {
+    /**
+     * PEM encoded CA certificate to validate the MongoDB server certificate.
+     */
+    caCertificate?: pulumi.Input<string | undefined>;
+    /**
+     * The credentials for the MongoDB instance (username and password). Optional if credentials are embedded in the URI.
+     */
+    credentials?: pulumi.Input<inputs.ClickpipeSourceMongodbCredentials | undefined>;
+    /**
+     * Disable TLS for the MongoDB connection. Defaults to false (TLS enabled).
+     */
+    disableTls?: pulumi.Input<boolean | undefined>;
+    /**
+     * MongoDB read preference for replica set reads. (`primary`, `primaryPreferred`, `secondary`, `secondaryPreferred`, `nearest`)
+     */
+    readPreference: pulumi.Input<string>;
+    /**
+     * Settings for the MongoDB CDC pipe.
+     */
+    settings: pulumi.Input<inputs.ClickpipeSourceMongodbSettings>;
+    /**
+     * Collection mappings from MongoDB source to ClickHouse destination.
+     */
+    tableMappings: pulumi.Input<pulumi.Input<inputs.ClickpipeSourceMongodbTableMapping>[]>;
+    /**
+     * TLS/SSL host for secure connections.
+     */
+    tlsHost?: pulumi.Input<string | undefined>;
+    /**
+     * MongoDB connection URI. Supports both standard URIs (mongodb://...) and SRV URIs (mongodb+srv://...).
+     */
+    uri: pulumi.Input<string>;
+}
+
+export interface ClickpipeSourceMongodbCredentials {
+    /**
+     * The password for the MongoDB instance. Use `passwordWo` instead to keep the value out of state.
+     */
+    password?: pulumi.Input<string | undefined>;
+    /**
+     * **NOTE:** This field is write-only and its value will not be updated in state as part of read operations.
+     * Write-only password for the MongoDB instance. Not persisted to state. Pair with `passwordWoVersion` to trigger updates.
+     */
+    passwordWo?: pulumi.Input<string | undefined>;
+    /**
+     * Version trigger for `passwordWo`. Increment to push a new password to the API.
+     */
+    passwordWoVersion?: pulumi.Input<number | undefined>;
+    /**
+     * The username for the MongoDB instance.
+     */
+    username: pulumi.Input<string>;
+}
+
+export interface ClickpipeSourceMongodbSettings {
+    /**
+     * Enable hard delete behavior in ReplacingMergeTree for MongoDB DELETE operations.
+     */
+    deleteOnMerge?: pulumi.Input<boolean | undefined>;
+    /**
+     * Number of rows to pull in each batch during CDC replication.
+     */
+    pullBatchSize?: pulumi.Input<number | undefined>;
+    /**
+     * Replication mode for the MongoDB pipe. (`cdc`, `snapshot`, `cdcOnly`)
+     */
+    replicationMode: pulumi.Input<string>;
+    /**
+     * Number of rows per partition during the snapshot phase.
+     */
+    snapshotNumRowsPerPartition?: pulumi.Input<number | undefined>;
+    /**
+     * Number of collections to snapshot in parallel during the initial load phase.
+     */
+    snapshotNumberOfParallelTables?: pulumi.Input<number | undefined>;
+    /**
+     * Interval in seconds to sync data from MongoDB during CDC replication.
+     */
+    syncIntervalSeconds?: pulumi.Input<number | undefined>;
+    /**
+     * Store JSON values in native ClickHouse JSON format. When disabled, JSON data is stored as String.
+     */
+    useJsonNativeFormat?: pulumi.Input<boolean | undefined>;
+}
+
+export interface ClickpipeSourceMongodbTableMapping {
+    /**
+     * MongoDB source collection name.
+     */
+    sourceCollection: pulumi.Input<string>;
+    /**
+     * MongoDB source database name.
+     */
+    sourceDatabaseName: pulumi.Input<string>;
+    /**
+     * Table engine to use for the target table. (`MergeTree`, `ReplacingMergeTree`, `Null`)
+     */
+    tableEngine?: pulumi.Input<string | undefined>;
+    /**
+     * ClickHouse target table name. The table will be created automatically if it does not exist.
+     */
+    targetTable: pulumi.Input<string>;
+}
+
+export interface ClickpipeSourceMysql {
+    /**
+     * Authentication method for MySQL connection. Supported values: `basic`, `IAM_ROLE`. Default is `basic`.
+     */
+    authentication?: pulumi.Input<string | undefined>;
+    /**
+     * PEM encoded CA certificate to validate the MySQL server certificate.
+     */
+    caCertificate?: pulumi.Input<string | undefined>;
+    /**
+     * The credentials for the MySQL instance. Username is always required. For `basic` authentication, supply either `password` or `passwordWo`. For `IAM_ROLE` authentication, password is optional.
+     */
+    credentials: pulumi.Input<inputs.ClickpipeSourceMysqlCredentials>;
+    /**
+     * Disable TLS for the MySQL connection.
+     */
+    disableTls?: pulumi.Input<boolean | undefined>;
+    /**
+     * The hostname of the MySQL instance.
+     */
+    host: pulumi.Input<string>;
+    /**
+     * IAM role ARN for IAM authentication. Required when authentication is set to `IAM_ROLE`.
+     */
+    iamRole?: pulumi.Input<string | undefined>;
+    /**
+     * The port of the MySQL instance. Default is 3306.
+     */
+    port?: pulumi.Input<number | undefined>;
+    /**
+     * Settings for the MySQL CDC pipe.
+     */
+    settings: pulumi.Input<inputs.ClickpipeSourceMysqlSettings>;
+    /**
+     * Skip certificate verification for the MySQL connection.
+     */
+    skipCertVerification?: pulumi.Input<boolean | undefined>;
+    /**
+     * Table mappings from MySQL source to ClickHouse destination.
+     */
+    tableMappings: pulumi.Input<pulumi.Input<inputs.ClickpipeSourceMysqlTableMapping>[]>;
+    /**
+     * TLS/SSL host for secure connections. Used to verify the server certificate.
+     */
+    tlsHost?: pulumi.Input<string | undefined>;
+    /**
+     * The type of MySQL-compatible source. (`mysql`, `rdsmysql`, `auroramysql`, `planetscalevitess`, `mariadb`, `rdsmariadb`). Default is `mysql`.
+     */
+    type?: pulumi.Input<string | undefined>;
+}
+
+export interface ClickpipeSourceMysqlCredentials {
+    /**
+     * The password for the MySQL instance. Use `passwordWo` instead to keep the value out of state.
+     */
+    password?: pulumi.Input<string | undefined>;
+    /**
+     * **NOTE:** This field is write-only and its value will not be updated in state as part of read operations.
+     * Write-only password for the MySQL instance. Not persisted to state. Pair with `passwordWoVersion` to trigger updates.
+     */
+    passwordWo?: pulumi.Input<string | undefined>;
+    /**
+     * Version trigger for `passwordWo`. Increment to push a new password to the API.
+     */
+    passwordWoVersion?: pulumi.Input<number | undefined>;
+    /**
+     * The username for the MySQL instance.
+     */
+    username: pulumi.Input<string>;
+}
+
+export interface ClickpipeSourceMysqlSettings {
+    /**
+     * Allow nullable columns in the destination table.
+     */
+    allowNullableColumns?: pulumi.Input<boolean | undefined>;
+    /**
+     * Enable hard delete behavior in ReplacingMergeTree for MySQL DELETE operations.
+     */
+    deleteOnMerge?: pulumi.Input<boolean | undefined>;
+    /**
+     * Number of parallel connections to use during initial load.
+     */
+    initialLoadParallelism?: pulumi.Input<number | undefined>;
+    /**
+     * Number of rows to pull in each batch.
+     */
+    pullBatchSize?: pulumi.Input<number | undefined>;
+    /**
+     * Replication mechanism for the MySQL pipe. (`GTID`, `FILE_POS`). Default is `GTID`. Mechanisms other than `GTID` (e.g. `FILE_POS`) must be enabled for your organization; contact ClickHouse support to enable this feature.
+     */
+    replicationMechanism?: pulumi.Input<string | undefined>;
+    /**
+     * Replication mode for the MySQL pipe. (`cdc`, `snapshot`, `cdcOnly`)
+     */
+    replicationMode: pulumi.Input<string>;
+    /**
+     * Number of rows to snapshot per partition.
+     */
+    snapshotNumRowsPerPartition?: pulumi.Input<number | undefined>;
+    /**
+     * Number of parallel tables to snapshot.
+     */
+    snapshotNumberOfParallelTables?: pulumi.Input<number | undefined>;
+    /**
+     * Interval in seconds to sync data from MySQL.
+     */
+    syncIntervalSeconds?: pulumi.Input<number | undefined>;
+    /**
+     * Enable compression for the MySQL replication connection.
+     */
+    useCompression?: pulumi.Input<boolean | undefined>;
+}
+
+export interface ClickpipeSourceMysqlTableMapping {
+    /**
+     * Columns to exclude from replication.
+     */
+    excludedColumns?: pulumi.Input<pulumi.Input<string>[] | undefined>;
+    /**
+     * Custom partitioning column used for parallel snapshotting. Must be an indexed column of integer, date, datetime, or timestamp type.
+     */
+    partitionKey?: pulumi.Input<string | undefined>;
+    /**
+     * Ordered list of columns to use as sorting key for the target table. Required when use*custom*sorting_key is true.
+     */
+    sortingKeys?: pulumi.Input<pulumi.Input<string>[] | undefined>;
+    /**
+     * Source schema (database) name in MySQL.
+     */
+    sourceSchemaName: pulumi.Input<string>;
+    /**
+     * Source table name in MySQL.
+     */
+    sourceTable: pulumi.Input<string>;
+    /**
+     * Table engine to use for the target table. (`MergeTree`, `ReplacingMergeTree`, `Null`)
+     */
+    tableEngine?: pulumi.Input<string | undefined>;
+    /**
+     * Target table name in ClickHouse.
+     */
+    targetTable: pulumi.Input<string>;
+    /**
+     * Whether to use a custom sorting key for the target table.
+     */
+    useCustomSortingKey?: pulumi.Input<boolean | undefined>;
+}
+
+export interface ClickpipeSourceObjectStorage {
+    /**
+     * Access key
+     */
+    accessKey?: pulumi.Input<inputs.ClickpipeSourceObjectStorageAccessKey | undefined>;
+    /**
+     * CONNECTION*STRING is for Azure Blob Storage. IAM*ROLE and IAM*USER are for AWS S3. IAM*USER and SERVICE_ACCOUNT are for GCS. If not provided, no authentication is used
+     */
+    authentication?: pulumi.Input<string | undefined>;
+    /**
+     * Container name for Azure Blob Storage. Required when type is azureblobstorage. Example: `mycontainer`
+     */
+    azureContainerName?: pulumi.Input<string | undefined>;
+    /**
+     * Compression algorithm used for the files.. (`none`, `auto`, `gzip`, `brotli`, `br`, `xz`, `LZMA`, `zstd`)
+     */
+    compression?: pulumi.Input<string | undefined>;
+    /**
+     * Connection string for Azure Blob Storage authentication. Required when authentication is CONNECTION_STRING. Example: `DefaultEndpointsProtocol=https;AccountName=myaccount;AccountKey=mykey;EndpointSuffix=core.windows.net`
+     */
+    connectionString?: pulumi.Input<string | undefined>;
+    /**
+     * The delimiter for the S3 source. Default is `,`.
+     */
+    delimiter?: pulumi.Input<string | undefined>;
+    /**
+     * The format of the S3 objects. (`JSONEachRow`, `CSV`, `CSVWithNames`, `Parquet`, `Avro`)
+     */
+    format: pulumi.Input<string>;
+    /**
+     * The IAM role for the S3 source. Use with `IAM_ROLE` authentication. It can be used with AWS ClickHouse service only. Read more at https://clickhouse.com/docs/en/integrations/clickpipes/object-storage#authentication
+     */
+    iamRole?: pulumi.Input<string | undefined>;
+    /**
+     * If set to true, the pipe will continuously read new files from the source. If set to false, the pipe will read the files only once. New files have to be uploaded lexically order.
+     */
+    isContinuous?: pulumi.Input<boolean | undefined>;
+    /**
+     * Path to the file(s) within the Azure container. Used for Azure Blob Storage sources. You can specify multiple files using bash-like wildcards. For more information, see the documentation on using wildcards in path: https://clickhouse.com/docs/en/integrations/clickpipes/object-storage#limitations. Example: `data/logs/*.json`
+     */
+    path?: pulumi.Input<string | undefined>;
+    /**
+     * Queue URL for event-based continuous ingestion. When provided, files are ingested based on event notifications rather than lexicographical order. Only applicable when `isContinuous` is `true` and authentication is provided. For S3: SQS URL in the format `https://sqs.{region}.amazonaws.com/{account-id}/{queue-name}`. For GCS: Pub/Sub subscription in the format `projects/{project}/subscriptions/{subscription}`.
+     */
+    queueUrl?: pulumi.Input<string | undefined>;
+    /**
+     * Base64-encoded GCP service account JSON key for GCS authentication. Required when authentication is `SERVICE_ACCOUNT`.
+     */
+    serviceAccountKey?: pulumi.Input<string | undefined>;
+    /**
+     * If set to true, skips the initial load and only ingests files delivered by queue notifications. Only applicable when `queueUrl` is provided.
+     */
+    skipInitialLoad?: pulumi.Input<boolean | undefined>;
+    /**
+     * Start continuous ingestion after this object key. Cannot be provided when `skipInitialLoad` is true.
+     */
+    startAfter?: pulumi.Input<string | undefined>;
+    /**
+     * The type of the S3-compatible source (`s3`, `gcs`, `azureblobstorage`). Default is `s3`.
+     */
+    type?: pulumi.Input<string | undefined>;
+    /**
+     * The URL of the S3/GCS bucket. Required for S3 and GCS types. Not used for Azure Blob Storage (use path and azure*container*name instead). You can specify multiple files using bash-like wildcards. For more information, see the documentation on using wildcards in path: https://clickhouse.com/docs/en/integrations/clickpipes/object-storage#limitations
+     */
+    url?: pulumi.Input<string | undefined>;
+}
+
+export interface ClickpipeSourceObjectStorageAccessKey {
+    /**
+     * The access key ID for the S3 source. Use with `IAM_USER` authentication.
+     */
+    accessKeyId?: pulumi.Input<string | undefined>;
+    /**
+     * The secret key for the S3 source. Use with `IAM_USER` authentication.
+     */
+    secretKey?: pulumi.Input<string | undefined>;
+}
+
+export interface ClickpipeSourcePostgres {
+    /**
+     * Authentication method for Postgres connection. Supported values: `basic`, `iamRole`. Default is `basic`.
+     */
+    authentication?: pulumi.Input<string | undefined>;
+    /**
+     * PEM encoded CA certificate to validate the Postgres server certificate.
+     */
+    caCertificate?: pulumi.Input<string | undefined>;
+    /**
+     * The credentials for the Postgres instance. Username is always required. For `basic` authentication, supply either `password` or `passwordWo`. For `iamRole` authentication, password is optional.
+     */
+    credentials: pulumi.Input<inputs.ClickpipeSourcePostgresCredentials>;
+    /**
+     * The database name of the Postgres instance.
+     */
+    database: pulumi.Input<string>;
+    /**
+     * The hostname of the Postgres instance.
+     */
+    host: pulumi.Input<string>;
+    /**
+     * IAM role ARN for IAM authentication. Required when authentication is set to `iamRole`.
+     */
+    iamRole?: pulumi.Input<string | undefined>;
+    /**
+     * The port of the Postgres instance. Default is 5432.
+     */
+    port?: pulumi.Input<number | undefined>;
+    /**
+     * Settings for the Postgres CDC pipe.
+     */
+    settings: pulumi.Input<inputs.ClickpipeSourcePostgresSettings>;
+    /**
+     * Table mappings from Postgres source to ClickHouse destination.
+     */
+    tableMappings: pulumi.Input<pulumi.Input<inputs.ClickpipeSourcePostgresTableMapping>[]>;
+    /**
+     * TLS/SSL host for secure connections. Used to verify the server certificate.
+     */
+    tlsHost?: pulumi.Input<string | undefined>;
+    /**
+     * The type of the Postgres source. (`postgres`, `supabase`, `neon`, `alloydb`, `planetscale`, `rdspostgres`, `aurorapostgres`, `cloudsqlpostgres`, `azurepostgres`, `crunchybridge`, `tigerdata`). Default is `postgres`.
+     */
+    type?: pulumi.Input<string | undefined>;
+}
+
+export interface ClickpipeSourcePostgresCredentials {
+    /**
+     * The password for the Postgres instance. Use `passwordWo` instead to keep the value out of state.
+     */
+    password?: pulumi.Input<string | undefined>;
+    /**
+     * **NOTE:** This field is write-only and its value will not be updated in state as part of read operations.
+     * Write-only password for the Postgres instance. Not persisted to state. Pair with `passwordWoVersion` to trigger updates.
+     */
+    passwordWo?: pulumi.Input<string | undefined>;
+    /**
+     * Version trigger for `passwordWo`. Increment to push a new password to the API.
+     */
+    passwordWoVersion?: pulumi.Input<number | undefined>;
+    /**
+     * The username for the Postgres instance.
+     */
+    username: pulumi.Input<string>;
+}
+
+export interface ClickpipeSourcePostgresSettings {
+    /**
+     * Allow nullable columns in the destination table.
+     */
+    allowNullableColumns?: pulumi.Input<boolean | undefined>;
+    /**
+     * Enable hard delete behavior in ReplacingMergeTree for PostgreSQL DELETE operations.
+     */
+    deleteOnMerge?: pulumi.Input<boolean | undefined>;
+    /**
+     * Enable failover for created replication slot. Requires a replication slot to NOT be set.
+     */
+    enableFailoverSlots?: pulumi.Input<boolean | undefined>;
+    /**
+     * Number of parallel connections to use during initial load.
+     */
+    initialLoadParallelism?: pulumi.Input<number | undefined>;
+    /**
+     * Publication name to use for replication. If not provided, ClickPipes will create one.
+     */
+    publicationName?: pulumi.Input<string | undefined>;
+    /**
+     * Number of rows to pull in each batch.
+     */
+    pullBatchSize?: pulumi.Input<number | undefined>;
+    /**
+     * Replication mode for the Postgres pipe. (`cdc`, `snapshot`, `cdcOnly`)
+     */
+    replicationMode: pulumi.Input<string>;
+    /**
+     * Replication slot name to use for replication. Only applicable when replicationMode is `cdcOnly`.
+     */
+    replicationSlotName?: pulumi.Input<string | undefined>;
+    /**
+     * Number of rows to snapshot per partition.
+     */
+    snapshotNumRowsPerPartition?: pulumi.Input<number | undefined>;
+    /**
+     * Number of parallel tables to snapshot.
+     */
+    snapshotNumberOfParallelTables?: pulumi.Input<number | undefined>;
+    /**
+     * Interval in seconds to sync data from Postgres.
+     */
+    syncIntervalSeconds?: pulumi.Input<number | undefined>;
+}
+
+export interface ClickpipeSourcePostgresTableMapping {
+    /**
+     * Columns to exclude from replication.
+     */
+    excludedColumns?: pulumi.Input<pulumi.Input<string>[] | undefined>;
+    /**
+     * Custom partitioning column used for parallel snapshotting. Only beneficial for PostgreSQL 13 (no benefit for PG14+, which supports indexed ctid scans). Must be an indexed column of type: `smallint`, `integer`, `bigint`, `timestamp without time zone`, or `timestamp with time zone`. Unrelated to ClickHouse partitioning.
+     */
+    partitionKey?: pulumi.Input<string | undefined>;
+    /**
+     * Ordered list of columns to use as sorting key for the target table. Required when use*custom*sorting_key is true.
+     */
+    sortingKeys?: pulumi.Input<pulumi.Input<string>[] | undefined>;
+    /**
+     * Source schema name in Postgres.
+     */
+    sourceSchemaName: pulumi.Input<string>;
+    /**
+     * Source table name in Postgres.
+     */
+    sourceTable: pulumi.Input<string>;
+    /**
+     * Table engine to use for the target table. (`MergeTree`, `ReplacingMergeTree`, `Null`)
+     */
+    tableEngine?: pulumi.Input<string | undefined>;
+    /**
+     * Target table name in ClickHouse.
+     */
+    targetTable: pulumi.Input<string>;
+    /**
+     * Whether to use a custom sorting key for the target table.
+     */
+    useCustomSortingKey?: pulumi.Input<boolean | undefined>;
+}
+
+export interface ClickpipeSourcePubsub {
+    /**
+     * Acknowledgement deadline in seconds (10–600).
+     */
+    ackDeadline?: pulumi.Input<number | undefined>;
+    /**
+     * The authentication method for the Pub/Sub source. Currently only `SERVICE_ACCOUNT` is supported.
+     */
+    authentication: pulumi.Input<string>;
+    /**
+     * Whether to enable ordered message delivery. Immutable — changing it requires destroy+create because ordered delivery is a property of the subscription at creation time.
+     */
+    enableOrdering?: pulumi.Input<boolean | undefined>;
+    /**
+     * Optional Pub/Sub subscription filter expression (CEL). Max 256 characters. Immutable — changing it requires destroy+create because the underlying subscription filter cannot be edited in place.
+     */
+    filter?: pulumi.Input<string | undefined>;
+    /**
+     * The message format of the Pub/Sub topic. (`JSONEachRow`, `Avro`, `Protobuf`)
+     */
+    format: pulumi.Input<string>;
+    /**
+     * The GCP project ID that owns the Pub/Sub topic.
+     */
+    projectId: pulumi.Input<string>;
+    /**
+     * RFC 3339 timestamp (e.g. `2026-04-10T12:00:00Z`). Required when `seekType = "timestamp"`; must be omitted otherwise.
+     */
+    seekTimestamp?: pulumi.Input<string | undefined>;
+    /**
+     * The starting position for consuming the subscription. (`latest`, `earliest`, `timestamp`)
+     */
+    seekType: pulumi.Input<string>;
+    /**
+     * GCP service account credentials. Required on create; provide a new value on update to rotate the key.
+     */
+    serviceAccountKey: pulumi.Input<inputs.ClickpipeSourcePubsubServiceAccountKey>;
+    /**
+     * The Pub/Sub topic name (not the fully-qualified path).
+     */
+    topic: pulumi.Input<string>;
+}
+
+export interface ClickpipeSourcePubsubServiceAccountKey {
+    /**
+     * Base64-encoded GCP service account JSON key file contents.
+     */
+    serviceAccountFile: pulumi.Input<string>;
+}
+
+export interface ClickpipesReversePrivateEndpointCustomPrivateDnsMapping {
+    /**
+     * Custom private DNS name managed by ClickHouse Cloud.
+     */
+    privateDnsName: pulumi.Input<string>;
+}
+
+export interface PostgresServiceRestoreToPointInTime {
+    /**
+     * RFC3339 timestamp to restore to (e.g. '2026-06-01T12:00:00Z'). The server restores to the closest available recovery point at or before this time.
+     */
+    restoreTarget: pulumi.Input<string>;
+    /**
+     * ID of the source instance whose backup to restore from.
+     */
+    sourceId: pulumi.Input<string>;
+}
+
+export interface RolePolicy {
+    /**
+     * Whether this policy allows or denies the specified permissions.
+     */
+    effect: pulumi.Input<string>;
+    /**
+     * Server-assigned policy ID. Changes on every update since the server replaces all policies on PATCH.
+     */
+    id?: pulumi.Input<string | undefined>;
+    /**
+     * List of permission strings granted or denied by this policy.
+     */
+    permissions: pulumi.Input<pulumi.Input<string>[]>;
+    /**
+     * List of resources this policy applies to. Format: 'instance/\n\n' or 'instance/*'.
+     */
+    resources: pulumi.Input<pulumi.Input<string>[]>;
+    /**
+     * ID of the role this policy belongs to.
+     */
+    roleId?: pulumi.Input<string | undefined>;
+    /**
+     * Optional tags for additional policy metadata.
+     */
+    tags?: pulumi.Input<inputs.RolePolicyTags | undefined>;
+    /**
+     * Tenant ID that owns this policy.
+     */
+    tenantId?: pulumi.Input<string | undefined>;
+}
+
+export interface RolePolicyTags {
+    /**
+     * SQL console role level for passwordless DB access. One of: sql-console-admin (full access), sql-console-readonly (read-only).
+     */
+    role: pulumi.Input<string>;
+}
+
 export interface ServiceBackupConfiguration {
     /**
      * Interval in hours between each backup.
@@ -98,6 +1089,58 @@ export interface ServiceQueryApiEndpoints {
      * The Database role that will be used to run the query.
      */
     roles: pulumi.Input<pulumi.Input<string>[]>;
+}
+
+export interface ServiceScheduledScalingBaseConfig {
+    idleScaling?: pulumi.Input<boolean | undefined>;
+    idleTimeoutMinutes?: pulumi.Input<number | undefined>;
+    maxReplicaMemoryGb?: pulumi.Input<number | undefined>;
+    maxReplicas?: pulumi.Input<number | undefined>;
+    minReplicaMemoryGb?: pulumi.Input<number | undefined>;
+    minReplicas?: pulumi.Input<number | undefined>;
+}
+
+export interface ServiceScheduledScalingEntry {
+    /**
+     * End hour in UTC (1-24). Must differ from start*hour*utc. Note the asymmetric range: end*hour*utc=0 is invalid; use end*hour*utc=24 to mean midnight at end of day.
+     */
+    endHourUtc: pulumi.Input<number>;
+    /**
+     * Whether idle scaling is enabled while the window is active.
+     */
+    idleScaling?: pulumi.Input<boolean | undefined>;
+    /**
+     * Minutes of inactivity before the service scales to zero. Must be at least 5. Only meaningful when idleScaling is true.
+     */
+    idleTimeoutMinutes?: pulumi.Input<number | undefined>;
+    /**
+     * Maximum memory per replica in GiB. Must be set together with min*replica*memory_gb.
+     */
+    maxReplicaMemoryGb?: pulumi.Input<number | undefined>;
+    /**
+     * Maximum replica count while the window is active. Currently the server requires min*replicas == max*replicas.
+     */
+    maxReplicas?: pulumi.Input<number | undefined>;
+    /**
+     * Minimum memory per replica in GiB. Must be set together with max*replica*memory_gb.
+     */
+    minReplicaMemoryGb?: pulumi.Input<number | undefined>;
+    /**
+     * Minimum replica count while the window is active. Currently the server requires min*replicas == max*replicas.
+     */
+    minReplicas?: pulumi.Input<number | undefined>;
+    /**
+     * Human-readable name for the entry (e.g. "Business hours").
+     */
+    name: pulumi.Input<string>;
+    /**
+     * Start hour in UTC (0-23). If end*hour*utc < start*hour*utc the window wraps overnight. Set start*hour*utc=0 and end*hour*utc=24 for a 24-hour window.
+     */
+    startHourUtc: pulumi.Input<number>;
+    /**
+     * Weekdays this entry covers. 0 = Sunday … 6 = Saturday.
+     */
+    weekdays: pulumi.Input<pulumi.Input<number>[]>;
 }
 
 export interface ServiceTransparentDataEncryption {

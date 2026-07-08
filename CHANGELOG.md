@@ -3,7 +3,15 @@ CHANGELOG
 
 ## HEAD (Unreleased)
 
-_(nothing yet)_
+- Update upstream ClickHouse Terraform provider from v3.11.1 to v3.18.0
+- Add new resources: `Clickpipe`, `ClickpipeCdcInfrastructure` (ClickPipes reverse private
+  endpoints), `OrganizationSettings`, `PostgresService`, `Role`, `RoleAssignment`,
+  `ServiceScheduledScaling`, `ServiceUpgradeWindow`
+- Add `ComputeID` for `clickhouse_clickpipe_cdc_infrastructure` (no `id` attribute upstream)
+- Require Go >= 1.26 (required by upstream)
+- Regenerate all SDKs (Go, Node.js, Python, .NET)
+- Pin pulumi CLI to 3.237.0 in CI workflows (SDK codegen runs through
+  `pulumi package gen-sdk`, so the CLI version determines generated output)
 
 ---
 

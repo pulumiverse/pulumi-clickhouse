@@ -44,14 +44,14 @@ class _ExportableConfig(types.ModuleType):
     @_builtins.property
     def token_key(self) -> Optional[str]:
         """
-        Token key of the key/secret pair. Used to authenticate with OpenAPI. Alternatively, can be configured using the `CLICKHOUSE_TOKEN_KEY` environment variable.
+        Token key of the key/secret pair. Used to authenticate with OpenAPI. Alternatively, can be configured using the `CLICKHOUSE_CLOUD_API_KEY` environment variable.
         """
         return __config__.get('tokenKey')
 
     @_builtins.property
     def token_secret(self) -> Optional[str]:
         """
-        Token secret of the key/secret pair. Used to authenticate with OpenAPI. Alternatively, can be configured using the `CLICKHOUSE_TOKEN_SECRET` environment variable.
+        Token secret of the key/secret pair. Used to authenticate with OpenAPI. Alternatively, can be configured using the `CLICKHOUSE_CLOUD_API_SECRET` environment variable.
         """
         return __config__.get('tokenSecret')
 

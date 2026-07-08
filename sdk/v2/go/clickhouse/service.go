@@ -126,7 +126,7 @@ type Service struct {
 	// **NOTE:** This field is write-only and its value will not be updated in state as part of read operations.
 	// Password for the default user (write-only, not persisted to state). Use this instead of `password` to avoid storing the password hash in Terraform state.
 	PasswordWo pulumi.StringPtrOutput `pulumi:"passwordWo"`
-	// Version number for password*wo. Increment this to trigger a password update when using password*wo.
+	// Version number for password_wo. Increment this to trigger a password update when using password_wo.
 	PasswordWoVersion pulumi.IntPtrOutput `pulumi:"passwordWoVersion"`
 	// Service config for private endpoints
 	PrivateEndpointConfig ServicePrivateEndpointConfigOutput `pulumi:"privateEndpointConfig"`
@@ -259,7 +259,7 @@ type serviceState struct {
 	// **NOTE:** This field is write-only and its value will not be updated in state as part of read operations.
 	// Password for the default user (write-only, not persisted to state). Use this instead of `password` to avoid storing the password hash in Terraform state.
 	PasswordWo *string `pulumi:"passwordWo"`
-	// Version number for password*wo. Increment this to trigger a password update when using password*wo.
+	// Version number for password_wo. Increment this to trigger a password update when using password_wo.
 	PasswordWoVersion *int `pulumi:"passwordWoVersion"`
 	// Service config for private endpoints
 	PrivateEndpointConfig *ServicePrivateEndpointConfig `pulumi:"privateEndpointConfig"`
@@ -335,7 +335,7 @@ type ServiceState struct {
 	// **NOTE:** This field is write-only and its value will not be updated in state as part of read operations.
 	// Password for the default user (write-only, not persisted to state). Use this instead of `password` to avoid storing the password hash in Terraform state.
 	PasswordWo pulumi.StringPtrInput
-	// Version number for password*wo. Increment this to trigger a password update when using password*wo.
+	// Version number for password_wo. Increment this to trigger a password update when using password_wo.
 	PasswordWoVersion pulumi.IntPtrInput
 	// Service config for private endpoints
 	PrivateEndpointConfig ServicePrivateEndpointConfigPtrInput
@@ -411,7 +411,7 @@ type serviceArgs struct {
 	// **NOTE:** This field is write-only and its value will not be updated in state as part of read operations.
 	// Password for the default user (write-only, not persisted to state). Use this instead of `password` to avoid storing the password hash in Terraform state.
 	PasswordWo *string `pulumi:"passwordWo"`
-	// Version number for password*wo. Increment this to trigger a password update when using password*wo.
+	// Version number for password_wo. Increment this to trigger a password update when using password_wo.
 	PasswordWoVersion *int `pulumi:"passwordWoVersion"`
 	// Configuration of the query API endpoints feature.
 	QueryApiEndpoints *ServiceQueryApiEndpoints `pulumi:"queryApiEndpoints"`
@@ -482,7 +482,7 @@ type ServiceArgs struct {
 	// **NOTE:** This field is write-only and its value will not be updated in state as part of read operations.
 	// Password for the default user (write-only, not persisted to state). Use this instead of `password` to avoid storing the password hash in Terraform state.
 	PasswordWo pulumi.StringPtrInput
-	// Version number for password*wo. Increment this to trigger a password update when using password*wo.
+	// Version number for password_wo. Increment this to trigger a password update when using password_wo.
 	PasswordWoVersion pulumi.IntPtrInput
 	// Configuration of the query API endpoints feature.
 	QueryApiEndpoints ServiceQueryApiEndpointsPtrInput
@@ -714,7 +714,7 @@ func (o ServiceOutput) PasswordWo() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *Service) pulumi.StringPtrOutput { return v.PasswordWo }).(pulumi.StringPtrOutput)
 }
 
-// Version number for password*wo. Increment this to trigger a password update when using password*wo.
+// Version number for password_wo. Increment this to trigger a password update when using password_wo.
 func (o ServiceOutput) PasswordWoVersion() pulumi.IntPtrOutput {
 	return o.ApplyT(func(v *Service) pulumi.IntPtrOutput { return v.PasswordWoVersion }).(pulumi.IntPtrOutput)
 }

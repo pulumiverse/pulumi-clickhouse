@@ -18,9 +18,9 @@ jobs:
         dotnetversion:
           - 8.0.x
         goversion:
-          - 1.25.x
+          - 1.26.x
         nodeversion:
-          - 20.x
+          - 22.x
         pythonversion:
           - "3.11"
         javaversion:
@@ -50,6 +50,11 @@ jobs:
 
     - name: Install pulumi
       uses: pulumi/actions@v6
+      with:
+        # SDK codegen runs through `pulumi package gen-sdk`, so the CLI
+        # version determines the generated output. Must match the version
+        # used to generate the committed SDKs.
+        pulumi-version: 3.237.0
 
     - if: ${{ matrix.language == 'nodejs'}}
       name: Setup Node

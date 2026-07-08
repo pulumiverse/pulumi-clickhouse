@@ -4,7 +4,7 @@ PROJECT          := github.com/pulumiverse/pulumi-clickhouse
 NODE_MODULE_NAME := @pulumiverse/clickhouse
 TF_NAME          := clickhouse
 PROVIDER_PATH    := provider
-PROVIDER_VERSION := 3.11.1
+PROVIDER_VERSION := 3.18.0
 VERSION_PATH     := ${PROVIDER_PATH}/pkg/version.Version
 
 JAVA_GEN         := pulumi-java-gen
@@ -24,7 +24,7 @@ GO_MINOR_VERSION := $(shell go version | cut -c 14- | cut -d' ' -f1 | cut -d'.' 
 # the (local) version must match the version specified in .github/workflows/release.yml
 # otherwise publkishing the Go SDK of the provider will fail
 REQUIRED_GO_MAJOR_VERSION := 1
-REQUIRED_GO_MINOR_VERSION := 25
+REQUIRED_GO_MINOR_VERSION := 26
 GO_VERSION_VALIDATION_ERR_MSG := Golang version >= $(REQUIRED_GO_MAJOR_VERSION).$(REQUIRED_GO_MINOR_VERSION) is required
 
 .PHONY: development provider build_sdks build_nodejs build_dotnet build_go build_python cleanup validate_go_version

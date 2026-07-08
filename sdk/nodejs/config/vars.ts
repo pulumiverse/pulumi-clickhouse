@@ -41,7 +41,7 @@ Object.defineProperty(exports, "timeoutSeconds", {
 });
 
 /**
- * Token key of the key/secret pair. Used to authenticate with OpenAPI. Alternatively, can be configured using the `CLICKHOUSE_TOKEN_KEY` environment variable.
+ * Token key of the key/secret pair. Used to authenticate with OpenAPI. Alternatively, can be configured using the `CLICKHOUSE_CLOUD_API_KEY` environment variable.
  */
 export declare const tokenKey: string | undefined;
 Object.defineProperty(exports, "tokenKey", {
@@ -52,7 +52,7 @@ Object.defineProperty(exports, "tokenKey", {
 });
 
 /**
- * Token secret of the key/secret pair. Used to authenticate with OpenAPI. Alternatively, can be configured using the `CLICKHOUSE_TOKEN_SECRET` environment variable.
+ * Token secret of the key/secret pair. Used to authenticate with OpenAPI. Alternatively, can be configured using the `CLICKHOUSE_CLOUD_API_SECRET` environment variable.
  */
 export declare const tokenSecret: string | undefined;
 Object.defineProperty(exports, "tokenSecret", {

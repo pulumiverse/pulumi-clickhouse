@@ -171,7 +171,7 @@ class Registration(pulumi.CustomResource):
                  region: pulumi.Input[Optional[_builtins.str]] = None,
                  __props__=None):
         """
-        This resource is deprecated since version 3.2.0. Please refer to the docs for migration steps.
+        This resource is deprecated since version 3.2.0. Please refer to the docs for migration steps: https://github.com/ClickHouse/terraform-provider-clickhouse?tab=readme-ov-file#breaking-changes-and-deprecations
 
 
         :param str resource_name: The name of the resource.
@@ -188,7 +188,7 @@ class Registration(pulumi.CustomResource):
                  args: RegistrationArgs,
                  opts: Optional[pulumi.ResourceOptions] = None):
         """
-        This resource is deprecated since version 3.2.0. Please refer to the docs for migration steps.
+        This resource is deprecated since version 3.2.0. Please refer to the docs for migration steps: https://github.com/ClickHouse/terraform-provider-clickhouse?tab=readme-ov-file#breaking-changes-and-deprecations
 
 
         :param str resource_name: The name of the resource.

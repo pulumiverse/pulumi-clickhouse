@@ -79,7 +79,7 @@ class ServiceArgs:
         :param pulumi.Input[_builtins.str] password_hash: SHA256 hash of password for the default user. One of either `password`, `password_wo`, or `password_hash` must be specified.
         :param pulumi.Input[_builtins.str] password_wo: **NOTE:** This field is write-only and its value will not be updated in state as part of read operations.
                Password for the default user (write-only, not persisted to state). Use this instead of `password` to avoid storing the password hash in Terraform state.
-        :param pulumi.Input[_builtins.int] password_wo_version: Version number for password*wo. Increment this to trigger a password update when using password*wo.
+        :param pulumi.Input[_builtins.int] password_wo_version: Version number for password_wo. Increment this to trigger a password update when using password_wo.
         :param pulumi.Input['ServiceQueryApiEndpointsArgs'] query_api_endpoints: Configuration of the query API endpoints feature.
         :param pulumi.Input[_builtins.bool] readonly: Indicates if this service should be read only. Only allowed for secondary services, those which share data with another service (i.e. when `warehouse_id` field is set).
         :param pulumi.Input[_builtins.str] release_channel: Release channel to use for this service. Can be 'default', 'fast' or 'slow'.
@@ -437,7 +437,7 @@ class ServiceArgs:
     @pulumi.getter(name="passwordWoVersion")
     def password_wo_version(self) -> pulumi.Input[Optional[_builtins.int]]:
         """
-        Version number for password*wo. Increment this to trigger a password update when using password*wo.
+        Version number for password_wo. Increment this to trigger a password update when using password_wo.
         """
         return pulumi.get(self, "password_wo_version")
 
@@ -595,7 +595,7 @@ class _ServiceState:
         :param pulumi.Input[_builtins.str] password_hash: SHA256 hash of password for the default user. One of either `password`, `password_wo`, or `password_hash` must be specified.
         :param pulumi.Input[_builtins.str] password_wo: **NOTE:** This field is write-only and its value will not be updated in state as part of read operations.
                Password for the default user (write-only, not persisted to state). Use this instead of `password` to avoid storing the password hash in Terraform state.
-        :param pulumi.Input[_builtins.int] password_wo_version: Version number for password*wo. Increment this to trigger a password update when using password*wo.
+        :param pulumi.Input[_builtins.int] password_wo_version: Version number for password_wo. Increment this to trigger a password update when using password_wo.
         :param pulumi.Input['ServicePrivateEndpointConfigArgs'] private_endpoint_config: Service config for private endpoints
         :param pulumi.Input['ServiceQueryApiEndpointsArgs'] query_api_endpoints: Configuration of the query API endpoints feature.
         :param pulumi.Input[_builtins.bool] readonly: Indicates if this service should be read only. Only allowed for secondary services, those which share data with another service (i.e. when `warehouse_id` field is set).
@@ -976,7 +976,7 @@ class _ServiceState:
     @pulumi.getter(name="passwordWoVersion")
     def password_wo_version(self) -> pulumi.Input[Optional[_builtins.int]]:
         """
-        Version number for password*wo. Increment this to trigger a password update when using password*wo.
+        Version number for password_wo. Increment this to trigger a password update when using password_wo.
         """
         return pulumi.get(self, "password_wo_version")
 
@@ -1199,7 +1199,7 @@ class Service(pulumi.CustomResource):
         :param pulumi.Input[_builtins.str] password_hash: SHA256 hash of password for the default user. One of either `password`, `password_wo`, or `password_hash` must be specified.
         :param pulumi.Input[_builtins.str] password_wo: **NOTE:** This field is write-only and its value will not be updated in state as part of read operations.
                Password for the default user (write-only, not persisted to state). Use this instead of `password` to avoid storing the password hash in Terraform state.
-        :param pulumi.Input[_builtins.int] password_wo_version: Version number for password*wo. Increment this to trigger a password update when using password*wo.
+        :param pulumi.Input[_builtins.int] password_wo_version: Version number for password_wo. Increment this to trigger a password update when using password_wo.
         :param pulumi.Input[Union['ServiceQueryApiEndpointsArgs', 'ServiceQueryApiEndpointsArgsDict']] query_api_endpoints: Configuration of the query API endpoints feature.
         :param pulumi.Input[_builtins.bool] readonly: Indicates if this service should be read only. Only allowed for secondary services, those which share data with another service (i.e. when `warehouse_id` field is set).
         :param pulumi.Input[_builtins.str] region: Region within the cloud provider in which the service is deployed in.
@@ -1431,7 +1431,7 @@ class Service(pulumi.CustomResource):
         :param pulumi.Input[_builtins.str] password_hash: SHA256 hash of password for the default user. One of either `password`, `password_wo`, or `password_hash` must be specified.
         :param pulumi.Input[_builtins.str] password_wo: **NOTE:** This field is write-only and its value will not be updated in state as part of read operations.
                Password for the default user (write-only, not persisted to state). Use this instead of `password` to avoid storing the password hash in Terraform state.
-        :param pulumi.Input[_builtins.int] password_wo_version: Version number for password*wo. Increment this to trigger a password update when using password*wo.
+        :param pulumi.Input[_builtins.int] password_wo_version: Version number for password_wo. Increment this to trigger a password update when using password_wo.
         :param pulumi.Input[Union['ServicePrivateEndpointConfigArgs', 'ServicePrivateEndpointConfigArgsDict']] private_endpoint_config: Service config for private endpoints
         :param pulumi.Input[Union['ServiceQueryApiEndpointsArgs', 'ServiceQueryApiEndpointsArgsDict']] query_api_endpoints: Configuration of the query API endpoints feature.
         :param pulumi.Input[_builtins.bool] readonly: Indicates if this service should be read only. Only allowed for secondary services, those which share data with another service (i.e. when `warehouse_id` field is set).
@@ -1681,7 +1681,7 @@ class Service(pulumi.CustomResource):
     @pulumi.getter(name="passwordWoVersion")
     def password_wo_version(self) -> pulumi.Output[Optional[_builtins.int]]:
         """
-        Version number for password*wo. Increment this to trigger a password update when using password*wo.
+        Version number for password_wo. Increment this to trigger a password update when using password_wo.
         """
         return pulumi.get(self, "password_wo_version")
 

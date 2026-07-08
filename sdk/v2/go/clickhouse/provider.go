@@ -22,9 +22,9 @@ type Provider struct {
 	ApiUrl pulumi.StringPtrOutput `pulumi:"apiUrl"`
 	// ID of the organization the provider will create services under. Alternatively, can be configured using the `CLICKHOUSE_ORG_ID` environment variable.
 	OrganizationId pulumi.StringPtrOutput `pulumi:"organizationId"`
-	// Token key of the key/secret pair. Used to authenticate with OpenAPI. Alternatively, can be configured using the `CLICKHOUSE_TOKEN_KEY` environment variable.
+	// Token key of the key/secret pair. Used to authenticate with OpenAPI. Alternatively, can be configured using the `CLICKHOUSE_CLOUD_API_KEY` environment variable.
 	TokenKey pulumi.StringPtrOutput `pulumi:"tokenKey"`
-	// Token secret of the key/secret pair. Used to authenticate with OpenAPI. Alternatively, can be configured using the `CLICKHOUSE_TOKEN_SECRET` environment variable.
+	// Token secret of the key/secret pair. Used to authenticate with OpenAPI. Alternatively, can be configured using the `CLICKHOUSE_CLOUD_API_SECRET` environment variable.
 	TokenSecret pulumi.StringPtrOutput `pulumi:"tokenSecret"`
 }
 
@@ -58,9 +58,9 @@ type providerArgs struct {
 	OrganizationId *string `pulumi:"organizationId"`
 	// Timeout in seconds for the HTTP client.
 	TimeoutSeconds *int `pulumi:"timeoutSeconds"`
-	// Token key of the key/secret pair. Used to authenticate with OpenAPI. Alternatively, can be configured using the `CLICKHOUSE_TOKEN_KEY` environment variable.
+	// Token key of the key/secret pair. Used to authenticate with OpenAPI. Alternatively, can be configured using the `CLICKHOUSE_CLOUD_API_KEY` environment variable.
 	TokenKey *string `pulumi:"tokenKey"`
-	// Token secret of the key/secret pair. Used to authenticate with OpenAPI. Alternatively, can be configured using the `CLICKHOUSE_TOKEN_SECRET` environment variable.
+	// Token secret of the key/secret pair. Used to authenticate with OpenAPI. Alternatively, can be configured using the `CLICKHOUSE_CLOUD_API_SECRET` environment variable.
 	TokenSecret *string `pulumi:"tokenSecret"`
 }
 
@@ -72,9 +72,9 @@ type ProviderArgs struct {
 	OrganizationId pulumi.StringPtrInput
 	// Timeout in seconds for the HTTP client.
 	TimeoutSeconds pulumi.IntPtrInput
-	// Token key of the key/secret pair. Used to authenticate with OpenAPI. Alternatively, can be configured using the `CLICKHOUSE_TOKEN_KEY` environment variable.
+	// Token key of the key/secret pair. Used to authenticate with OpenAPI. Alternatively, can be configured using the `CLICKHOUSE_CLOUD_API_KEY` environment variable.
 	TokenKey pulumi.StringPtrInput
-	// Token secret of the key/secret pair. Used to authenticate with OpenAPI. Alternatively, can be configured using the `CLICKHOUSE_TOKEN_SECRET` environment variable.
+	// Token secret of the key/secret pair. Used to authenticate with OpenAPI. Alternatively, can be configured using the `CLICKHOUSE_CLOUD_API_SECRET` environment variable.
 	TokenSecret pulumi.StringPtrInput
 }
 
@@ -148,12 +148,12 @@ func (o ProviderOutput) OrganizationId() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *Provider) pulumi.StringPtrOutput { return v.OrganizationId }).(pulumi.StringPtrOutput)
 }
 
-// Token key of the key/secret pair. Used to authenticate with OpenAPI. Alternatively, can be configured using the `CLICKHOUSE_TOKEN_KEY` environment variable.
+// Token key of the key/secret pair. Used to authenticate with OpenAPI. Alternatively, can be configured using the `CLICKHOUSE_CLOUD_API_KEY` environment variable.
 func (o ProviderOutput) TokenKey() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *Provider) pulumi.StringPtrOutput { return v.TokenKey }).(pulumi.StringPtrOutput)
 }
 
-// Token secret of the key/secret pair. Used to authenticate with OpenAPI. Alternatively, can be configured using the `CLICKHOUSE_TOKEN_SECRET` environment variable.
+// Token secret of the key/secret pair. Used to authenticate with OpenAPI. Alternatively, can be configured using the `CLICKHOUSE_CLOUD_API_SECRET` environment variable.
 func (o ProviderOutput) TokenSecret() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *Provider) pulumi.StringPtrOutput { return v.TokenSecret }).(pulumi.StringPtrOutput)
 }

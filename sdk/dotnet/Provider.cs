@@ -32,13 +32,13 @@ namespace Pulumiverse.Clickhouse
         public Output<string?> OrganizationId { get; private set; } = null!;
 
         /// <summary>
-        /// Token key of the key/secret pair. Used to authenticate with OpenAPI. Alternatively, can be configured using the `CLICKHOUSE_TOKEN_KEY` environment variable.
+        /// Token key of the key/secret pair. Used to authenticate with OpenAPI. Alternatively, can be configured using the `CLICKHOUSE_CLOUD_API_KEY` environment variable.
         /// </summary>
         [Output("tokenKey")]
         public Output<string?> TokenKey { get; private set; } = null!;
 
         /// <summary>
-        /// Token secret of the key/secret pair. Used to authenticate with OpenAPI. Alternatively, can be configured using the `CLICKHOUSE_TOKEN_SECRET` environment variable.
+        /// Token secret of the key/secret pair. Used to authenticate with OpenAPI. Alternatively, can be configured using the `CLICKHOUSE_CLOUD_API_SECRET` environment variable.
         /// </summary>
         [Output("tokenSecret")]
         public Output<string?> TokenSecret { get; private set; } = null!;
@@ -101,7 +101,7 @@ namespace Pulumiverse.Clickhouse
         public Input<int>? TimeoutSeconds { get; set; }
 
         /// <summary>
-        /// Token key of the key/secret pair. Used to authenticate with OpenAPI. Alternatively, can be configured using the `CLICKHOUSE_TOKEN_KEY` environment variable.
+        /// Token key of the key/secret pair. Used to authenticate with OpenAPI. Alternatively, can be configured using the `CLICKHOUSE_CLOUD_API_KEY` environment variable.
         /// </summary>
         [Input("tokenKey")]
         public Input<string>? TokenKey { get; set; }
@@ -110,7 +110,7 @@ namespace Pulumiverse.Clickhouse
         private Input<string>? _tokenSecret;
 
         /// <summary>
-        /// Token secret of the key/secret pair. Used to authenticate with OpenAPI. Alternatively, can be configured using the `CLICKHOUSE_TOKEN_SECRET` environment variable.
+        /// Token secret of the key/secret pair. Used to authenticate with OpenAPI. Alternatively, can be configured using the `CLICKHOUSE_CLOUD_API_SECRET` environment variable.
         /// </summary>
         public Input<string>? TokenSecret
         {

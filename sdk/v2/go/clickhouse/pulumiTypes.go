@@ -13,6 +13,8024 @@ import (
 
 var _ = internal.GetEnvOrDefault
 
+type ClickpipeDestination struct {
+	// The list of columns for the ClickHouse table. Required for all sources except Postgres CDC (where columns are determined from source tables).
+	Columns []ClickpipeDestinationColumn `pulumi:"columns"`
+	// The name of the ClickHouse database. Default is `default`.
+	Database *string `pulumi:"database"`
+	// Whether the table is managed by ClickHouse Cloud. If `false`, the table must exist in the database. Default is `true`. **Not applicable to database/CDC pipes** (Postgres, MySQL, BigQuery, MongoDB): for those sources destination tables are always managed per-table via `tableMappings`, so this field is ignored and not sent to the API.
+	ManagedTable *bool `pulumi:"managedTable"`
+	// ClickPipe will create a ClickHouse user with these roles. Add your custom roles here if required.
+	Roles []string `pulumi:"roles"`
+	// The name of the ClickHouse table. Required for all sources except Postgres CDC (where tables are created from table_mappings).
+	Table *string `pulumi:"table"`
+	// Definition of the destination table. Required for ClickPipes managed tables. **Not supported for database/CDC pipes** (Postgres, MySQL, BigQuery, MongoDB): for those sources destination tables are defined per-table via `tableMappings` (each mapping's `targetTable`, `tableEngine`, `sortingKeys`, etc.), so configuring this is rejected at plan time.
+	TableDefinition *ClickpipeDestinationTableDefinition `pulumi:"tableDefinition"`
+}
+
+// ClickpipeDestinationInput is an input type that accepts ClickpipeDestinationArgs and ClickpipeDestinationOutput values.
+// You can construct a concrete instance of `ClickpipeDestinationInput` via:
+//
+//	ClickpipeDestinationArgs{...}
+type ClickpipeDestinationInput interface {
+	pulumi.Input
+
+	ToClickpipeDestinationOutput() ClickpipeDestinationOutput
+	ToClickpipeDestinationOutputWithContext(context.Context) ClickpipeDestinationOutput
+}
+
+type ClickpipeDestinationArgs struct {
+	// The list of columns for the ClickHouse table. Required for all sources except Postgres CDC (where columns are determined from source tables).
+	Columns ClickpipeDestinationColumnArrayInput `pulumi:"columns"`
+	// The name of the ClickHouse database. Default is `default`.
+	Database pulumi.StringPtrInput `pulumi:"database"`
+	// Whether the table is managed by ClickHouse Cloud. If `false`, the table must exist in the database. Default is `true`. **Not applicable to database/CDC pipes** (Postgres, MySQL, BigQuery, MongoDB): for those sources destination tables are always managed per-table via `tableMappings`, so this field is ignored and not sent to the API.
+	ManagedTable pulumi.BoolPtrInput `pulumi:"managedTable"`
+	// ClickPipe will create a ClickHouse user with these roles. Add your custom roles here if required.
+	Roles pulumi.StringArrayInput `pulumi:"roles"`
+	// The name of the ClickHouse table. Required for all sources except Postgres CDC (where tables are created from table_mappings).
+	Table pulumi.StringPtrInput `pulumi:"table"`
+	// Definition of the destination table. Required for ClickPipes managed tables. **Not supported for database/CDC pipes** (Postgres, MySQL, BigQuery, MongoDB): for those sources destination tables are defined per-table via `tableMappings` (each mapping's `targetTable`, `tableEngine`, `sortingKeys`, etc.), so configuring this is rejected at plan time.
+	TableDefinition ClickpipeDestinationTableDefinitionPtrInput `pulumi:"tableDefinition"`
+}
+
+func (ClickpipeDestinationArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*ClickpipeDestination)(nil)).Elem()
+}
+
+func (i ClickpipeDestinationArgs) ToClickpipeDestinationOutput() ClickpipeDestinationOutput {
+	return i.ToClickpipeDestinationOutputWithContext(context.Background())
+}
+
+func (i ClickpipeDestinationArgs) ToClickpipeDestinationOutputWithContext(ctx context.Context) ClickpipeDestinationOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeDestinationOutput)
+}
+
+func (i ClickpipeDestinationArgs) ToClickpipeDestinationPtrOutput() ClickpipeDestinationPtrOutput {
+	return i.ToClickpipeDestinationPtrOutputWithContext(context.Background())
+}
+
+func (i ClickpipeDestinationArgs) ToClickpipeDestinationPtrOutputWithContext(ctx context.Context) ClickpipeDestinationPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeDestinationOutput).ToClickpipeDestinationPtrOutputWithContext(ctx)
+}
+
+// ClickpipeDestinationPtrInput is an input type that accepts ClickpipeDestinationArgs, ClickpipeDestinationPtr and ClickpipeDestinationPtrOutput values.
+// You can construct a concrete instance of `ClickpipeDestinationPtrInput` via:
+//
+//	        ClickpipeDestinationArgs{...}
+//
+//	or:
+//
+//	        nil
+type ClickpipeDestinationPtrInput interface {
+	pulumi.Input
+
+	ToClickpipeDestinationPtrOutput() ClickpipeDestinationPtrOutput
+	ToClickpipeDestinationPtrOutputWithContext(context.Context) ClickpipeDestinationPtrOutput
+}
+
+type clickpipeDestinationPtrType ClickpipeDestinationArgs
+
+func ClickpipeDestinationPtr(v *ClickpipeDestinationArgs) ClickpipeDestinationPtrInput {
+	return (*clickpipeDestinationPtrType)(v)
+}
+
+func (*clickpipeDestinationPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**ClickpipeDestination)(nil)).Elem()
+}
+
+func (i *clickpipeDestinationPtrType) ToClickpipeDestinationPtrOutput() ClickpipeDestinationPtrOutput {
+	return i.ToClickpipeDestinationPtrOutputWithContext(context.Background())
+}
+
+func (i *clickpipeDestinationPtrType) ToClickpipeDestinationPtrOutputWithContext(ctx context.Context) ClickpipeDestinationPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeDestinationPtrOutput)
+}
+
+type ClickpipeDestinationOutput struct{ *pulumi.OutputState }
+
+func (ClickpipeDestinationOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ClickpipeDestination)(nil)).Elem()
+}
+
+func (o ClickpipeDestinationOutput) ToClickpipeDestinationOutput() ClickpipeDestinationOutput {
+	return o
+}
+
+func (o ClickpipeDestinationOutput) ToClickpipeDestinationOutputWithContext(ctx context.Context) ClickpipeDestinationOutput {
+	return o
+}
+
+func (o ClickpipeDestinationOutput) ToClickpipeDestinationPtrOutput() ClickpipeDestinationPtrOutput {
+	return o.ToClickpipeDestinationPtrOutputWithContext(context.Background())
+}
+
+func (o ClickpipeDestinationOutput) ToClickpipeDestinationPtrOutputWithContext(ctx context.Context) ClickpipeDestinationPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v ClickpipeDestination) *ClickpipeDestination {
+		return &v
+	}).(ClickpipeDestinationPtrOutput)
+}
+
+// The list of columns for the ClickHouse table. Required for all sources except Postgres CDC (where columns are determined from source tables).
+func (o ClickpipeDestinationOutput) Columns() ClickpipeDestinationColumnArrayOutput {
+	return o.ApplyT(func(v ClickpipeDestination) []ClickpipeDestinationColumn { return v.Columns }).(ClickpipeDestinationColumnArrayOutput)
+}
+
+// The name of the ClickHouse database. Default is `default`.
+func (o ClickpipeDestinationOutput) Database() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ClickpipeDestination) *string { return v.Database }).(pulumi.StringPtrOutput)
+}
+
+// Whether the table is managed by ClickHouse Cloud. If `false`, the table must exist in the database. Default is `true`. **Not applicable to database/CDC pipes** (Postgres, MySQL, BigQuery, MongoDB): for those sources destination tables are always managed per-table via `tableMappings`, so this field is ignored and not sent to the API.
+func (o ClickpipeDestinationOutput) ManagedTable() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v ClickpipeDestination) *bool { return v.ManagedTable }).(pulumi.BoolPtrOutput)
+}
+
+// ClickPipe will create a ClickHouse user with these roles. Add your custom roles here if required.
+func (o ClickpipeDestinationOutput) Roles() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v ClickpipeDestination) []string { return v.Roles }).(pulumi.StringArrayOutput)
+}
+
+// The name of the ClickHouse table. Required for all sources except Postgres CDC (where tables are created from table_mappings).
+func (o ClickpipeDestinationOutput) Table() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ClickpipeDestination) *string { return v.Table }).(pulumi.StringPtrOutput)
+}
+
+// Definition of the destination table. Required for ClickPipes managed tables. **Not supported for database/CDC pipes** (Postgres, MySQL, BigQuery, MongoDB): for those sources destination tables are defined per-table via `tableMappings` (each mapping's `targetTable`, `tableEngine`, `sortingKeys`, etc.), so configuring this is rejected at plan time.
+func (o ClickpipeDestinationOutput) TableDefinition() ClickpipeDestinationTableDefinitionPtrOutput {
+	return o.ApplyT(func(v ClickpipeDestination) *ClickpipeDestinationTableDefinition { return v.TableDefinition }).(ClickpipeDestinationTableDefinitionPtrOutput)
+}
+
+type ClickpipeDestinationPtrOutput struct{ *pulumi.OutputState }
+
+func (ClickpipeDestinationPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**ClickpipeDestination)(nil)).Elem()
+}
+
+func (o ClickpipeDestinationPtrOutput) ToClickpipeDestinationPtrOutput() ClickpipeDestinationPtrOutput {
+	return o
+}
+
+func (o ClickpipeDestinationPtrOutput) ToClickpipeDestinationPtrOutputWithContext(ctx context.Context) ClickpipeDestinationPtrOutput {
+	return o
+}
+
+func (o ClickpipeDestinationPtrOutput) Elem() ClickpipeDestinationOutput {
+	return o.ApplyT(func(v *ClickpipeDestination) ClickpipeDestination {
+		if v != nil {
+			return *v
+		}
+		var ret ClickpipeDestination
+		return ret
+	}).(ClickpipeDestinationOutput)
+}
+
+// The list of columns for the ClickHouse table. Required for all sources except Postgres CDC (where columns are determined from source tables).
+func (o ClickpipeDestinationPtrOutput) Columns() ClickpipeDestinationColumnArrayOutput {
+	return o.ApplyT(func(v *ClickpipeDestination) []ClickpipeDestinationColumn {
+		if v == nil {
+			return nil
+		}
+		return v.Columns
+	}).(ClickpipeDestinationColumnArrayOutput)
+}
+
+// The name of the ClickHouse database. Default is `default`.
+func (o ClickpipeDestinationPtrOutput) Database() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeDestination) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Database
+	}).(pulumi.StringPtrOutput)
+}
+
+// Whether the table is managed by ClickHouse Cloud. If `false`, the table must exist in the database. Default is `true`. **Not applicable to database/CDC pipes** (Postgres, MySQL, BigQuery, MongoDB): for those sources destination tables are always managed per-table via `tableMappings`, so this field is ignored and not sent to the API.
+func (o ClickpipeDestinationPtrOutput) ManagedTable() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *ClickpipeDestination) *bool {
+		if v == nil {
+			return nil
+		}
+		return v.ManagedTable
+	}).(pulumi.BoolPtrOutput)
+}
+
+// ClickPipe will create a ClickHouse user with these roles. Add your custom roles here if required.
+func (o ClickpipeDestinationPtrOutput) Roles() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v *ClickpipeDestination) []string {
+		if v == nil {
+			return nil
+		}
+		return v.Roles
+	}).(pulumi.StringArrayOutput)
+}
+
+// The name of the ClickHouse table. Required for all sources except Postgres CDC (where tables are created from table_mappings).
+func (o ClickpipeDestinationPtrOutput) Table() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeDestination) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Table
+	}).(pulumi.StringPtrOutput)
+}
+
+// Definition of the destination table. Required for ClickPipes managed tables. **Not supported for database/CDC pipes** (Postgres, MySQL, BigQuery, MongoDB): for those sources destination tables are defined per-table via `tableMappings` (each mapping's `targetTable`, `tableEngine`, `sortingKeys`, etc.), so configuring this is rejected at plan time.
+func (o ClickpipeDestinationPtrOutput) TableDefinition() ClickpipeDestinationTableDefinitionPtrOutput {
+	return o.ApplyT(func(v *ClickpipeDestination) *ClickpipeDestinationTableDefinition {
+		if v == nil {
+			return nil
+		}
+		return v.TableDefinition
+	}).(ClickpipeDestinationTableDefinitionPtrOutput)
+}
+
+type ClickpipeDestinationColumn struct {
+	// The name of the column.
+	Name string `pulumi:"name"`
+	// The type of the column.
+	Type string `pulumi:"type"`
+}
+
+// ClickpipeDestinationColumnInput is an input type that accepts ClickpipeDestinationColumnArgs and ClickpipeDestinationColumnOutput values.
+// You can construct a concrete instance of `ClickpipeDestinationColumnInput` via:
+//
+//	ClickpipeDestinationColumnArgs{...}
+type ClickpipeDestinationColumnInput interface {
+	pulumi.Input
+
+	ToClickpipeDestinationColumnOutput() ClickpipeDestinationColumnOutput
+	ToClickpipeDestinationColumnOutputWithContext(context.Context) ClickpipeDestinationColumnOutput
+}
+
+type ClickpipeDestinationColumnArgs struct {
+	// The name of the column.
+	Name pulumi.StringInput `pulumi:"name"`
+	// The type of the column.
+	Type pulumi.StringInput `pulumi:"type"`
+}
+
+func (ClickpipeDestinationColumnArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*ClickpipeDestinationColumn)(nil)).Elem()
+}
+
+func (i ClickpipeDestinationColumnArgs) ToClickpipeDestinationColumnOutput() ClickpipeDestinationColumnOutput {
+	return i.ToClickpipeDestinationColumnOutputWithContext(context.Background())
+}
+
+func (i ClickpipeDestinationColumnArgs) ToClickpipeDestinationColumnOutputWithContext(ctx context.Context) ClickpipeDestinationColumnOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeDestinationColumnOutput)
+}
+
+// ClickpipeDestinationColumnArrayInput is an input type that accepts ClickpipeDestinationColumnArray and ClickpipeDestinationColumnArrayOutput values.
+// You can construct a concrete instance of `ClickpipeDestinationColumnArrayInput` via:
+//
+//	ClickpipeDestinationColumnArray{ ClickpipeDestinationColumnArgs{...} }
+type ClickpipeDestinationColumnArrayInput interface {
+	pulumi.Input
+
+	ToClickpipeDestinationColumnArrayOutput() ClickpipeDestinationColumnArrayOutput
+	ToClickpipeDestinationColumnArrayOutputWithContext(context.Context) ClickpipeDestinationColumnArrayOutput
+}
+
+type ClickpipeDestinationColumnArray []ClickpipeDestinationColumnInput
+
+func (ClickpipeDestinationColumnArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]ClickpipeDestinationColumn)(nil)).Elem()
+}
+
+func (i ClickpipeDestinationColumnArray) ToClickpipeDestinationColumnArrayOutput() ClickpipeDestinationColumnArrayOutput {
+	return i.ToClickpipeDestinationColumnArrayOutputWithContext(context.Background())
+}
+
+func (i ClickpipeDestinationColumnArray) ToClickpipeDestinationColumnArrayOutputWithContext(ctx context.Context) ClickpipeDestinationColumnArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeDestinationColumnArrayOutput)
+}
+
+type ClickpipeDestinationColumnOutput struct{ *pulumi.OutputState }
+
+func (ClickpipeDestinationColumnOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ClickpipeDestinationColumn)(nil)).Elem()
+}
+
+func (o ClickpipeDestinationColumnOutput) ToClickpipeDestinationColumnOutput() ClickpipeDestinationColumnOutput {
+	return o
+}
+
+func (o ClickpipeDestinationColumnOutput) ToClickpipeDestinationColumnOutputWithContext(ctx context.Context) ClickpipeDestinationColumnOutput {
+	return o
+}
+
+// The name of the column.
+func (o ClickpipeDestinationColumnOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v ClickpipeDestinationColumn) string { return v.Name }).(pulumi.StringOutput)
+}
+
+// The type of the column.
+func (o ClickpipeDestinationColumnOutput) Type() pulumi.StringOutput {
+	return o.ApplyT(func(v ClickpipeDestinationColumn) string { return v.Type }).(pulumi.StringOutput)
+}
+
+type ClickpipeDestinationColumnArrayOutput struct{ *pulumi.OutputState }
+
+func (ClickpipeDestinationColumnArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]ClickpipeDestinationColumn)(nil)).Elem()
+}
+
+func (o ClickpipeDestinationColumnArrayOutput) ToClickpipeDestinationColumnArrayOutput() ClickpipeDestinationColumnArrayOutput {
+	return o
+}
+
+func (o ClickpipeDestinationColumnArrayOutput) ToClickpipeDestinationColumnArrayOutputWithContext(ctx context.Context) ClickpipeDestinationColumnArrayOutput {
+	return o
+}
+
+func (o ClickpipeDestinationColumnArrayOutput) Index(i pulumi.IntInput) ClickpipeDestinationColumnOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) ClickpipeDestinationColumn {
+		return vs[0].([]ClickpipeDestinationColumn)[vs[1].(int)]
+	}).(ClickpipeDestinationColumnOutput)
+}
+
+type ClickpipeDestinationTableDefinition struct {
+	// The engine of the ClickHouse table.
+	Engine ClickpipeDestinationTableDefinitionEngine `pulumi:"engine"`
+	// The column to partition the table by.
+	PartitionBy *string `pulumi:"partitionBy"`
+	// The primary key of the table.
+	PrimaryKey *string `pulumi:"primaryKey"`
+	// The list of columns for the sorting key.
+	SortingKeys []string `pulumi:"sortingKeys"`
+}
+
+// ClickpipeDestinationTableDefinitionInput is an input type that accepts ClickpipeDestinationTableDefinitionArgs and ClickpipeDestinationTableDefinitionOutput values.
+// You can construct a concrete instance of `ClickpipeDestinationTableDefinitionInput` via:
+//
+//	ClickpipeDestinationTableDefinitionArgs{...}
+type ClickpipeDestinationTableDefinitionInput interface {
+	pulumi.Input
+
+	ToClickpipeDestinationTableDefinitionOutput() ClickpipeDestinationTableDefinitionOutput
+	ToClickpipeDestinationTableDefinitionOutputWithContext(context.Context) ClickpipeDestinationTableDefinitionOutput
+}
+
+type ClickpipeDestinationTableDefinitionArgs struct {
+	// The engine of the ClickHouse table.
+	Engine ClickpipeDestinationTableDefinitionEngineInput `pulumi:"engine"`
+	// The column to partition the table by.
+	PartitionBy pulumi.StringPtrInput `pulumi:"partitionBy"`
+	// The primary key of the table.
+	PrimaryKey pulumi.StringPtrInput `pulumi:"primaryKey"`
+	// The list of columns for the sorting key.
+	SortingKeys pulumi.StringArrayInput `pulumi:"sortingKeys"`
+}
+
+func (ClickpipeDestinationTableDefinitionArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*ClickpipeDestinationTableDefinition)(nil)).Elem()
+}
+
+func (i ClickpipeDestinationTableDefinitionArgs) ToClickpipeDestinationTableDefinitionOutput() ClickpipeDestinationTableDefinitionOutput {
+	return i.ToClickpipeDestinationTableDefinitionOutputWithContext(context.Background())
+}
+
+func (i ClickpipeDestinationTableDefinitionArgs) ToClickpipeDestinationTableDefinitionOutputWithContext(ctx context.Context) ClickpipeDestinationTableDefinitionOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeDestinationTableDefinitionOutput)
+}
+
+func (i ClickpipeDestinationTableDefinitionArgs) ToClickpipeDestinationTableDefinitionPtrOutput() ClickpipeDestinationTableDefinitionPtrOutput {
+	return i.ToClickpipeDestinationTableDefinitionPtrOutputWithContext(context.Background())
+}
+
+func (i ClickpipeDestinationTableDefinitionArgs) ToClickpipeDestinationTableDefinitionPtrOutputWithContext(ctx context.Context) ClickpipeDestinationTableDefinitionPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeDestinationTableDefinitionOutput).ToClickpipeDestinationTableDefinitionPtrOutputWithContext(ctx)
+}
+
+// ClickpipeDestinationTableDefinitionPtrInput is an input type that accepts ClickpipeDestinationTableDefinitionArgs, ClickpipeDestinationTableDefinitionPtr and ClickpipeDestinationTableDefinitionPtrOutput values.
+// You can construct a concrete instance of `ClickpipeDestinationTableDefinitionPtrInput` via:
+//
+//	        ClickpipeDestinationTableDefinitionArgs{...}
+//
+//	or:
+//
+//	        nil
+type ClickpipeDestinationTableDefinitionPtrInput interface {
+	pulumi.Input
+
+	ToClickpipeDestinationTableDefinitionPtrOutput() ClickpipeDestinationTableDefinitionPtrOutput
+	ToClickpipeDestinationTableDefinitionPtrOutputWithContext(context.Context) ClickpipeDestinationTableDefinitionPtrOutput
+}
+
+type clickpipeDestinationTableDefinitionPtrType ClickpipeDestinationTableDefinitionArgs
+
+func ClickpipeDestinationTableDefinitionPtr(v *ClickpipeDestinationTableDefinitionArgs) ClickpipeDestinationTableDefinitionPtrInput {
+	return (*clickpipeDestinationTableDefinitionPtrType)(v)
+}
+
+func (*clickpipeDestinationTableDefinitionPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**ClickpipeDestinationTableDefinition)(nil)).Elem()
+}
+
+func (i *clickpipeDestinationTableDefinitionPtrType) ToClickpipeDestinationTableDefinitionPtrOutput() ClickpipeDestinationTableDefinitionPtrOutput {
+	return i.ToClickpipeDestinationTableDefinitionPtrOutputWithContext(context.Background())
+}
+
+func (i *clickpipeDestinationTableDefinitionPtrType) ToClickpipeDestinationTableDefinitionPtrOutputWithContext(ctx context.Context) ClickpipeDestinationTableDefinitionPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeDestinationTableDefinitionPtrOutput)
+}
+
+type ClickpipeDestinationTableDefinitionOutput struct{ *pulumi.OutputState }
+
+func (ClickpipeDestinationTableDefinitionOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ClickpipeDestinationTableDefinition)(nil)).Elem()
+}
+
+func (o ClickpipeDestinationTableDefinitionOutput) ToClickpipeDestinationTableDefinitionOutput() ClickpipeDestinationTableDefinitionOutput {
+	return o
+}
+
+func (o ClickpipeDestinationTableDefinitionOutput) ToClickpipeDestinationTableDefinitionOutputWithContext(ctx context.Context) ClickpipeDestinationTableDefinitionOutput {
+	return o
+}
+
+func (o ClickpipeDestinationTableDefinitionOutput) ToClickpipeDestinationTableDefinitionPtrOutput() ClickpipeDestinationTableDefinitionPtrOutput {
+	return o.ToClickpipeDestinationTableDefinitionPtrOutputWithContext(context.Background())
+}
+
+func (o ClickpipeDestinationTableDefinitionOutput) ToClickpipeDestinationTableDefinitionPtrOutputWithContext(ctx context.Context) ClickpipeDestinationTableDefinitionPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v ClickpipeDestinationTableDefinition) *ClickpipeDestinationTableDefinition {
+		return &v
+	}).(ClickpipeDestinationTableDefinitionPtrOutput)
+}
+
+// The engine of the ClickHouse table.
+func (o ClickpipeDestinationTableDefinitionOutput) Engine() ClickpipeDestinationTableDefinitionEngineOutput {
+	return o.ApplyT(func(v ClickpipeDestinationTableDefinition) ClickpipeDestinationTableDefinitionEngine { return v.Engine }).(ClickpipeDestinationTableDefinitionEngineOutput)
+}
+
+// The column to partition the table by.
+func (o ClickpipeDestinationTableDefinitionOutput) PartitionBy() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ClickpipeDestinationTableDefinition) *string { return v.PartitionBy }).(pulumi.StringPtrOutput)
+}
+
+// The primary key of the table.
+func (o ClickpipeDestinationTableDefinitionOutput) PrimaryKey() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ClickpipeDestinationTableDefinition) *string { return v.PrimaryKey }).(pulumi.StringPtrOutput)
+}
+
+// The list of columns for the sorting key.
+func (o ClickpipeDestinationTableDefinitionOutput) SortingKeys() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v ClickpipeDestinationTableDefinition) []string { return v.SortingKeys }).(pulumi.StringArrayOutput)
+}
+
+type ClickpipeDestinationTableDefinitionPtrOutput struct{ *pulumi.OutputState }
+
+func (ClickpipeDestinationTableDefinitionPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**ClickpipeDestinationTableDefinition)(nil)).Elem()
+}
+
+func (o ClickpipeDestinationTableDefinitionPtrOutput) ToClickpipeDestinationTableDefinitionPtrOutput() ClickpipeDestinationTableDefinitionPtrOutput {
+	return o
+}
+
+func (o ClickpipeDestinationTableDefinitionPtrOutput) ToClickpipeDestinationTableDefinitionPtrOutputWithContext(ctx context.Context) ClickpipeDestinationTableDefinitionPtrOutput {
+	return o
+}
+
+func (o ClickpipeDestinationTableDefinitionPtrOutput) Elem() ClickpipeDestinationTableDefinitionOutput {
+	return o.ApplyT(func(v *ClickpipeDestinationTableDefinition) ClickpipeDestinationTableDefinition {
+		if v != nil {
+			return *v
+		}
+		var ret ClickpipeDestinationTableDefinition
+		return ret
+	}).(ClickpipeDestinationTableDefinitionOutput)
+}
+
+// The engine of the ClickHouse table.
+func (o ClickpipeDestinationTableDefinitionPtrOutput) Engine() ClickpipeDestinationTableDefinitionEnginePtrOutput {
+	return o.ApplyT(func(v *ClickpipeDestinationTableDefinition) *ClickpipeDestinationTableDefinitionEngine {
+		if v == nil {
+			return nil
+		}
+		return &v.Engine
+	}).(ClickpipeDestinationTableDefinitionEnginePtrOutput)
+}
+
+// The column to partition the table by.
+func (o ClickpipeDestinationTableDefinitionPtrOutput) PartitionBy() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeDestinationTableDefinition) *string {
+		if v == nil {
+			return nil
+		}
+		return v.PartitionBy
+	}).(pulumi.StringPtrOutput)
+}
+
+// The primary key of the table.
+func (o ClickpipeDestinationTableDefinitionPtrOutput) PrimaryKey() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeDestinationTableDefinition) *string {
+		if v == nil {
+			return nil
+		}
+		return v.PrimaryKey
+	}).(pulumi.StringPtrOutput)
+}
+
+// The list of columns for the sorting key.
+func (o ClickpipeDestinationTableDefinitionPtrOutput) SortingKeys() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v *ClickpipeDestinationTableDefinition) []string {
+		if v == nil {
+			return nil
+		}
+		return v.SortingKeys
+	}).(pulumi.StringArrayOutput)
+}
+
+type ClickpipeDestinationTableDefinitionEngine struct {
+	// Column IDs to sum for SummingMergeTree engine. Required when engine type is `SummingMergeTree`.
+	ColumnIds []string `pulumi:"columnIds"`
+	// The type of the engine. Supported engines: `MergeTree`, `ReplacingMergeTree`, `SummingMergeTree`, `Null`.
+	Type string `pulumi:"type"`
+	// Column ID to use as version for ReplacingMergeTree engine. Required when engine type is `ReplacingMergeTree`.
+	VersionColumnId *string `pulumi:"versionColumnId"`
+}
+
+// ClickpipeDestinationTableDefinitionEngineInput is an input type that accepts ClickpipeDestinationTableDefinitionEngineArgs and ClickpipeDestinationTableDefinitionEngineOutput values.
+// You can construct a concrete instance of `ClickpipeDestinationTableDefinitionEngineInput` via:
+//
+//	ClickpipeDestinationTableDefinitionEngineArgs{...}
+type ClickpipeDestinationTableDefinitionEngineInput interface {
+	pulumi.Input
+
+	ToClickpipeDestinationTableDefinitionEngineOutput() ClickpipeDestinationTableDefinitionEngineOutput
+	ToClickpipeDestinationTableDefinitionEngineOutputWithContext(context.Context) ClickpipeDestinationTableDefinitionEngineOutput
+}
+
+type ClickpipeDestinationTableDefinitionEngineArgs struct {
+	// Column IDs to sum for SummingMergeTree engine. Required when engine type is `SummingMergeTree`.
+	ColumnIds pulumi.StringArrayInput `pulumi:"columnIds"`
+	// The type of the engine. Supported engines: `MergeTree`, `ReplacingMergeTree`, `SummingMergeTree`, `Null`.
+	Type pulumi.StringInput `pulumi:"type"`
+	// Column ID to use as version for ReplacingMergeTree engine. Required when engine type is `ReplacingMergeTree`.
+	VersionColumnId pulumi.StringPtrInput `pulumi:"versionColumnId"`
+}
+
+func (ClickpipeDestinationTableDefinitionEngineArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*ClickpipeDestinationTableDefinitionEngine)(nil)).Elem()
+}
+
+func (i ClickpipeDestinationTableDefinitionEngineArgs) ToClickpipeDestinationTableDefinitionEngineOutput() ClickpipeDestinationTableDefinitionEngineOutput {
+	return i.ToClickpipeDestinationTableDefinitionEngineOutputWithContext(context.Background())
+}
+
+func (i ClickpipeDestinationTableDefinitionEngineArgs) ToClickpipeDestinationTableDefinitionEngineOutputWithContext(ctx context.Context) ClickpipeDestinationTableDefinitionEngineOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeDestinationTableDefinitionEngineOutput)
+}
+
+func (i ClickpipeDestinationTableDefinitionEngineArgs) ToClickpipeDestinationTableDefinitionEnginePtrOutput() ClickpipeDestinationTableDefinitionEnginePtrOutput {
+	return i.ToClickpipeDestinationTableDefinitionEnginePtrOutputWithContext(context.Background())
+}
+
+func (i ClickpipeDestinationTableDefinitionEngineArgs) ToClickpipeDestinationTableDefinitionEnginePtrOutputWithContext(ctx context.Context) ClickpipeDestinationTableDefinitionEnginePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeDestinationTableDefinitionEngineOutput).ToClickpipeDestinationTableDefinitionEnginePtrOutputWithContext(ctx)
+}
+
+// ClickpipeDestinationTableDefinitionEnginePtrInput is an input type that accepts ClickpipeDestinationTableDefinitionEngineArgs, ClickpipeDestinationTableDefinitionEnginePtr and ClickpipeDestinationTableDefinitionEnginePtrOutput values.
+// You can construct a concrete instance of `ClickpipeDestinationTableDefinitionEnginePtrInput` via:
+//
+//	        ClickpipeDestinationTableDefinitionEngineArgs{...}
+//
+//	or:
+//
+//	        nil
+type ClickpipeDestinationTableDefinitionEnginePtrInput interface {
+	pulumi.Input
+
+	ToClickpipeDestinationTableDefinitionEnginePtrOutput() ClickpipeDestinationTableDefinitionEnginePtrOutput
+	ToClickpipeDestinationTableDefinitionEnginePtrOutputWithContext(context.Context) ClickpipeDestinationTableDefinitionEnginePtrOutput
+}
+
+type clickpipeDestinationTableDefinitionEnginePtrType ClickpipeDestinationTableDefinitionEngineArgs
+
+func ClickpipeDestinationTableDefinitionEnginePtr(v *ClickpipeDestinationTableDefinitionEngineArgs) ClickpipeDestinationTableDefinitionEnginePtrInput {
+	return (*clickpipeDestinationTableDefinitionEnginePtrType)(v)
+}
+
+func (*clickpipeDestinationTableDefinitionEnginePtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**ClickpipeDestinationTableDefinitionEngine)(nil)).Elem()
+}
+
+func (i *clickpipeDestinationTableDefinitionEnginePtrType) ToClickpipeDestinationTableDefinitionEnginePtrOutput() ClickpipeDestinationTableDefinitionEnginePtrOutput {
+	return i.ToClickpipeDestinationTableDefinitionEnginePtrOutputWithContext(context.Background())
+}
+
+func (i *clickpipeDestinationTableDefinitionEnginePtrType) ToClickpipeDestinationTableDefinitionEnginePtrOutputWithContext(ctx context.Context) ClickpipeDestinationTableDefinitionEnginePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeDestinationTableDefinitionEnginePtrOutput)
+}
+
+type ClickpipeDestinationTableDefinitionEngineOutput struct{ *pulumi.OutputState }
+
+func (ClickpipeDestinationTableDefinitionEngineOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ClickpipeDestinationTableDefinitionEngine)(nil)).Elem()
+}
+
+func (o ClickpipeDestinationTableDefinitionEngineOutput) ToClickpipeDestinationTableDefinitionEngineOutput() ClickpipeDestinationTableDefinitionEngineOutput {
+	return o
+}
+
+func (o ClickpipeDestinationTableDefinitionEngineOutput) ToClickpipeDestinationTableDefinitionEngineOutputWithContext(ctx context.Context) ClickpipeDestinationTableDefinitionEngineOutput {
+	return o
+}
+
+func (o ClickpipeDestinationTableDefinitionEngineOutput) ToClickpipeDestinationTableDefinitionEnginePtrOutput() ClickpipeDestinationTableDefinitionEnginePtrOutput {
+	return o.ToClickpipeDestinationTableDefinitionEnginePtrOutputWithContext(context.Background())
+}
+
+func (o ClickpipeDestinationTableDefinitionEngineOutput) ToClickpipeDestinationTableDefinitionEnginePtrOutputWithContext(ctx context.Context) ClickpipeDestinationTableDefinitionEnginePtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v ClickpipeDestinationTableDefinitionEngine) *ClickpipeDestinationTableDefinitionEngine {
+		return &v
+	}).(ClickpipeDestinationTableDefinitionEnginePtrOutput)
+}
+
+// Column IDs to sum for SummingMergeTree engine. Required when engine type is `SummingMergeTree`.
+func (o ClickpipeDestinationTableDefinitionEngineOutput) ColumnIds() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v ClickpipeDestinationTableDefinitionEngine) []string { return v.ColumnIds }).(pulumi.StringArrayOutput)
+}
+
+// The type of the engine. Supported engines: `MergeTree`, `ReplacingMergeTree`, `SummingMergeTree`, `Null`.
+func (o ClickpipeDestinationTableDefinitionEngineOutput) Type() pulumi.StringOutput {
+	return o.ApplyT(func(v ClickpipeDestinationTableDefinitionEngine) string { return v.Type }).(pulumi.StringOutput)
+}
+
+// Column ID to use as version for ReplacingMergeTree engine. Required when engine type is `ReplacingMergeTree`.
+func (o ClickpipeDestinationTableDefinitionEngineOutput) VersionColumnId() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ClickpipeDestinationTableDefinitionEngine) *string { return v.VersionColumnId }).(pulumi.StringPtrOutput)
+}
+
+type ClickpipeDestinationTableDefinitionEnginePtrOutput struct{ *pulumi.OutputState }
+
+func (ClickpipeDestinationTableDefinitionEnginePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**ClickpipeDestinationTableDefinitionEngine)(nil)).Elem()
+}
+
+func (o ClickpipeDestinationTableDefinitionEnginePtrOutput) ToClickpipeDestinationTableDefinitionEnginePtrOutput() ClickpipeDestinationTableDefinitionEnginePtrOutput {
+	return o
+}
+
+func (o ClickpipeDestinationTableDefinitionEnginePtrOutput) ToClickpipeDestinationTableDefinitionEnginePtrOutputWithContext(ctx context.Context) ClickpipeDestinationTableDefinitionEnginePtrOutput {
+	return o
+}
+
+func (o ClickpipeDestinationTableDefinitionEnginePtrOutput) Elem() ClickpipeDestinationTableDefinitionEngineOutput {
+	return o.ApplyT(func(v *ClickpipeDestinationTableDefinitionEngine) ClickpipeDestinationTableDefinitionEngine {
+		if v != nil {
+			return *v
+		}
+		var ret ClickpipeDestinationTableDefinitionEngine
+		return ret
+	}).(ClickpipeDestinationTableDefinitionEngineOutput)
+}
+
+// Column IDs to sum for SummingMergeTree engine. Required when engine type is `SummingMergeTree`.
+func (o ClickpipeDestinationTableDefinitionEnginePtrOutput) ColumnIds() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v *ClickpipeDestinationTableDefinitionEngine) []string {
+		if v == nil {
+			return nil
+		}
+		return v.ColumnIds
+	}).(pulumi.StringArrayOutput)
+}
+
+// The type of the engine. Supported engines: `MergeTree`, `ReplacingMergeTree`, `SummingMergeTree`, `Null`.
+func (o ClickpipeDestinationTableDefinitionEnginePtrOutput) Type() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeDestinationTableDefinitionEngine) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.Type
+	}).(pulumi.StringPtrOutput)
+}
+
+// Column ID to use as version for ReplacingMergeTree engine. Required when engine type is `ReplacingMergeTree`.
+func (o ClickpipeDestinationTableDefinitionEnginePtrOutput) VersionColumnId() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeDestinationTableDefinitionEngine) *string {
+		if v == nil {
+			return nil
+		}
+		return v.VersionColumnId
+	}).(pulumi.StringPtrOutput)
+}
+
+type ClickpipeFieldMapping struct {
+	// The name of the column in destination table.
+	DestinationField string `pulumi:"destinationField"`
+	// The name of the source field.
+	SourceField string `pulumi:"sourceField"`
+}
+
+// ClickpipeFieldMappingInput is an input type that accepts ClickpipeFieldMappingArgs and ClickpipeFieldMappingOutput values.
+// You can construct a concrete instance of `ClickpipeFieldMappingInput` via:
+//
+//	ClickpipeFieldMappingArgs{...}
+type ClickpipeFieldMappingInput interface {
+	pulumi.Input
+
+	ToClickpipeFieldMappingOutput() ClickpipeFieldMappingOutput
+	ToClickpipeFieldMappingOutputWithContext(context.Context) ClickpipeFieldMappingOutput
+}
+
+type ClickpipeFieldMappingArgs struct {
+	// The name of the column in destination table.
+	DestinationField pulumi.StringInput `pulumi:"destinationField"`
+	// The name of the source field.
+	SourceField pulumi.StringInput `pulumi:"sourceField"`
+}
+
+func (ClickpipeFieldMappingArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*ClickpipeFieldMapping)(nil)).Elem()
+}
+
+func (i ClickpipeFieldMappingArgs) ToClickpipeFieldMappingOutput() ClickpipeFieldMappingOutput {
+	return i.ToClickpipeFieldMappingOutputWithContext(context.Background())
+}
+
+func (i ClickpipeFieldMappingArgs) ToClickpipeFieldMappingOutputWithContext(ctx context.Context) ClickpipeFieldMappingOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeFieldMappingOutput)
+}
+
+// ClickpipeFieldMappingArrayInput is an input type that accepts ClickpipeFieldMappingArray and ClickpipeFieldMappingArrayOutput values.
+// You can construct a concrete instance of `ClickpipeFieldMappingArrayInput` via:
+//
+//	ClickpipeFieldMappingArray{ ClickpipeFieldMappingArgs{...} }
+type ClickpipeFieldMappingArrayInput interface {
+	pulumi.Input
+
+	ToClickpipeFieldMappingArrayOutput() ClickpipeFieldMappingArrayOutput
+	ToClickpipeFieldMappingArrayOutputWithContext(context.Context) ClickpipeFieldMappingArrayOutput
+}
+
+type ClickpipeFieldMappingArray []ClickpipeFieldMappingInput
+
+func (ClickpipeFieldMappingArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]ClickpipeFieldMapping)(nil)).Elem()
+}
+
+func (i ClickpipeFieldMappingArray) ToClickpipeFieldMappingArrayOutput() ClickpipeFieldMappingArrayOutput {
+	return i.ToClickpipeFieldMappingArrayOutputWithContext(context.Background())
+}
+
+func (i ClickpipeFieldMappingArray) ToClickpipeFieldMappingArrayOutputWithContext(ctx context.Context) ClickpipeFieldMappingArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeFieldMappingArrayOutput)
+}
+
+type ClickpipeFieldMappingOutput struct{ *pulumi.OutputState }
+
+func (ClickpipeFieldMappingOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ClickpipeFieldMapping)(nil)).Elem()
+}
+
+func (o ClickpipeFieldMappingOutput) ToClickpipeFieldMappingOutput() ClickpipeFieldMappingOutput {
+	return o
+}
+
+func (o ClickpipeFieldMappingOutput) ToClickpipeFieldMappingOutputWithContext(ctx context.Context) ClickpipeFieldMappingOutput {
+	return o
+}
+
+// The name of the column in destination table.
+func (o ClickpipeFieldMappingOutput) DestinationField() pulumi.StringOutput {
+	return o.ApplyT(func(v ClickpipeFieldMapping) string { return v.DestinationField }).(pulumi.StringOutput)
+}
+
+// The name of the source field.
+func (o ClickpipeFieldMappingOutput) SourceField() pulumi.StringOutput {
+	return o.ApplyT(func(v ClickpipeFieldMapping) string { return v.SourceField }).(pulumi.StringOutput)
+}
+
+type ClickpipeFieldMappingArrayOutput struct{ *pulumi.OutputState }
+
+func (ClickpipeFieldMappingArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]ClickpipeFieldMapping)(nil)).Elem()
+}
+
+func (o ClickpipeFieldMappingArrayOutput) ToClickpipeFieldMappingArrayOutput() ClickpipeFieldMappingArrayOutput {
+	return o
+}
+
+func (o ClickpipeFieldMappingArrayOutput) ToClickpipeFieldMappingArrayOutputWithContext(ctx context.Context) ClickpipeFieldMappingArrayOutput {
+	return o
+}
+
+func (o ClickpipeFieldMappingArrayOutput) Index(i pulumi.IntInput) ClickpipeFieldMappingOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) ClickpipeFieldMapping {
+		return vs[0].([]ClickpipeFieldMapping)[vs[1].(int)]
+	}).(ClickpipeFieldMappingOutput)
+}
+
+type ClickpipeScaling struct {
+	// The CPU allocation per replica in millicores. Must be between 125 and 2000.
+	ReplicaCpuMillicores *int `pulumi:"replicaCpuMillicores"`
+	// The memory allocation per replica in GB. Must be between 0.5 and 8.0.
+	ReplicaMemoryGb *float64 `pulumi:"replicaMemoryGb"`
+	// The number of desired replicas for the ClickPipe. Default is 1. The maximum value is 10.
+	Replicas *int `pulumi:"replicas"`
+}
+
+// ClickpipeScalingInput is an input type that accepts ClickpipeScalingArgs and ClickpipeScalingOutput values.
+// You can construct a concrete instance of `ClickpipeScalingInput` via:
+//
+//	ClickpipeScalingArgs{...}
+type ClickpipeScalingInput interface {
+	pulumi.Input
+
+	ToClickpipeScalingOutput() ClickpipeScalingOutput
+	ToClickpipeScalingOutputWithContext(context.Context) ClickpipeScalingOutput
+}
+
+type ClickpipeScalingArgs struct {
+	// The CPU allocation per replica in millicores. Must be between 125 and 2000.
+	ReplicaCpuMillicores pulumi.IntPtrInput `pulumi:"replicaCpuMillicores"`
+	// The memory allocation per replica in GB. Must be between 0.5 and 8.0.
+	ReplicaMemoryGb pulumi.Float64PtrInput `pulumi:"replicaMemoryGb"`
+	// The number of desired replicas for the ClickPipe. Default is 1. The maximum value is 10.
+	Replicas pulumi.IntPtrInput `pulumi:"replicas"`
+}
+
+func (ClickpipeScalingArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*ClickpipeScaling)(nil)).Elem()
+}
+
+func (i ClickpipeScalingArgs) ToClickpipeScalingOutput() ClickpipeScalingOutput {
+	return i.ToClickpipeScalingOutputWithContext(context.Background())
+}
+
+func (i ClickpipeScalingArgs) ToClickpipeScalingOutputWithContext(ctx context.Context) ClickpipeScalingOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeScalingOutput)
+}
+
+func (i ClickpipeScalingArgs) ToClickpipeScalingPtrOutput() ClickpipeScalingPtrOutput {
+	return i.ToClickpipeScalingPtrOutputWithContext(context.Background())
+}
+
+func (i ClickpipeScalingArgs) ToClickpipeScalingPtrOutputWithContext(ctx context.Context) ClickpipeScalingPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeScalingOutput).ToClickpipeScalingPtrOutputWithContext(ctx)
+}
+
+// ClickpipeScalingPtrInput is an input type that accepts ClickpipeScalingArgs, ClickpipeScalingPtr and ClickpipeScalingPtrOutput values.
+// You can construct a concrete instance of `ClickpipeScalingPtrInput` via:
+//
+//	        ClickpipeScalingArgs{...}
+//
+//	or:
+//
+//	        nil
+type ClickpipeScalingPtrInput interface {
+	pulumi.Input
+
+	ToClickpipeScalingPtrOutput() ClickpipeScalingPtrOutput
+	ToClickpipeScalingPtrOutputWithContext(context.Context) ClickpipeScalingPtrOutput
+}
+
+type clickpipeScalingPtrType ClickpipeScalingArgs
+
+func ClickpipeScalingPtr(v *ClickpipeScalingArgs) ClickpipeScalingPtrInput {
+	return (*clickpipeScalingPtrType)(v)
+}
+
+func (*clickpipeScalingPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**ClickpipeScaling)(nil)).Elem()
+}
+
+func (i *clickpipeScalingPtrType) ToClickpipeScalingPtrOutput() ClickpipeScalingPtrOutput {
+	return i.ToClickpipeScalingPtrOutputWithContext(context.Background())
+}
+
+func (i *clickpipeScalingPtrType) ToClickpipeScalingPtrOutputWithContext(ctx context.Context) ClickpipeScalingPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeScalingPtrOutput)
+}
+
+type ClickpipeScalingOutput struct{ *pulumi.OutputState }
+
+func (ClickpipeScalingOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ClickpipeScaling)(nil)).Elem()
+}
+
+func (o ClickpipeScalingOutput) ToClickpipeScalingOutput() ClickpipeScalingOutput {
+	return o
+}
+
+func (o ClickpipeScalingOutput) ToClickpipeScalingOutputWithContext(ctx context.Context) ClickpipeScalingOutput {
+	return o
+}
+
+func (o ClickpipeScalingOutput) ToClickpipeScalingPtrOutput() ClickpipeScalingPtrOutput {
+	return o.ToClickpipeScalingPtrOutputWithContext(context.Background())
+}
+
+func (o ClickpipeScalingOutput) ToClickpipeScalingPtrOutputWithContext(ctx context.Context) ClickpipeScalingPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v ClickpipeScaling) *ClickpipeScaling {
+		return &v
+	}).(ClickpipeScalingPtrOutput)
+}
+
+// The CPU allocation per replica in millicores. Must be between 125 and 2000.
+func (o ClickpipeScalingOutput) ReplicaCpuMillicores() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v ClickpipeScaling) *int { return v.ReplicaCpuMillicores }).(pulumi.IntPtrOutput)
+}
+
+// The memory allocation per replica in GB. Must be between 0.5 and 8.0.
+func (o ClickpipeScalingOutput) ReplicaMemoryGb() pulumi.Float64PtrOutput {
+	return o.ApplyT(func(v ClickpipeScaling) *float64 { return v.ReplicaMemoryGb }).(pulumi.Float64PtrOutput)
+}
+
+// The number of desired replicas for the ClickPipe. Default is 1. The maximum value is 10.
+func (o ClickpipeScalingOutput) Replicas() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v ClickpipeScaling) *int { return v.Replicas }).(pulumi.IntPtrOutput)
+}
+
+type ClickpipeScalingPtrOutput struct{ *pulumi.OutputState }
+
+func (ClickpipeScalingPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**ClickpipeScaling)(nil)).Elem()
+}
+
+func (o ClickpipeScalingPtrOutput) ToClickpipeScalingPtrOutput() ClickpipeScalingPtrOutput {
+	return o
+}
+
+func (o ClickpipeScalingPtrOutput) ToClickpipeScalingPtrOutputWithContext(ctx context.Context) ClickpipeScalingPtrOutput {
+	return o
+}
+
+func (o ClickpipeScalingPtrOutput) Elem() ClickpipeScalingOutput {
+	return o.ApplyT(func(v *ClickpipeScaling) ClickpipeScaling {
+		if v != nil {
+			return *v
+		}
+		var ret ClickpipeScaling
+		return ret
+	}).(ClickpipeScalingOutput)
+}
+
+// The CPU allocation per replica in millicores. Must be between 125 and 2000.
+func (o ClickpipeScalingPtrOutput) ReplicaCpuMillicores() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v *ClickpipeScaling) *int {
+		if v == nil {
+			return nil
+		}
+		return v.ReplicaCpuMillicores
+	}).(pulumi.IntPtrOutput)
+}
+
+// The memory allocation per replica in GB. Must be between 0.5 and 8.0.
+func (o ClickpipeScalingPtrOutput) ReplicaMemoryGb() pulumi.Float64PtrOutput {
+	return o.ApplyT(func(v *ClickpipeScaling) *float64 {
+		if v == nil {
+			return nil
+		}
+		return v.ReplicaMemoryGb
+	}).(pulumi.Float64PtrOutput)
+}
+
+// The number of desired replicas for the ClickPipe. Default is 1. The maximum value is 10.
+func (o ClickpipeScalingPtrOutput) Replicas() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v *ClickpipeScaling) *int {
+		if v == nil {
+			return nil
+		}
+		return v.Replicas
+	}).(pulumi.IntPtrOutput)
+}
+
+type ClickpipeSource struct {
+	// The BigQuery source configuration for the ClickPipe.
+	Bigquery *ClickpipeSourceBigquery `pulumi:"bigquery"`
+	// The Kafka source configuration for the ClickPipe.
+	Kafka *ClickpipeSourceKafka `pulumi:"kafka"`
+	// The Kinesis source configuration for the ClickPipe. Only `authentication`, `iamRole` and `accessKey` can be updated in place; changing any other field forces resource replacement (destroy and recreate).
+	Kinesis *ClickpipeSourceKinesis `pulumi:"kinesis"`
+	// The MongoDB CDC source configuration for the ClickPipe.
+	Mongodb *ClickpipeSourceMongodb `pulumi:"mongodb"`
+	// The MySQL CDC source configuration for the ClickPipe.
+	Mysql *ClickpipeSourceMysql `pulumi:"mysql"`
+	// The compatible object storage source configuration for the ClickPipe.
+	ObjectStorage *ClickpipeSourceObjectStorage `pulumi:"objectStorage"`
+	// The Postgres CDC source configuration for the ClickPipe.
+	Postgres *ClickpipeSourcePostgres `pulumi:"postgres"`
+	// The GCP Pub/Sub source configuration for the ClickPipe.
+	Pubsub *ClickpipeSourcePubsub `pulumi:"pubsub"`
+}
+
+// ClickpipeSourceInput is an input type that accepts ClickpipeSourceArgs and ClickpipeSourceOutput values.
+// You can construct a concrete instance of `ClickpipeSourceInput` via:
+//
+//	ClickpipeSourceArgs{...}
+type ClickpipeSourceInput interface {
+	pulumi.Input
+
+	ToClickpipeSourceOutput() ClickpipeSourceOutput
+	ToClickpipeSourceOutputWithContext(context.Context) ClickpipeSourceOutput
+}
+
+type ClickpipeSourceArgs struct {
+	// The BigQuery source configuration for the ClickPipe.
+	Bigquery ClickpipeSourceBigqueryPtrInput `pulumi:"bigquery"`
+	// The Kafka source configuration for the ClickPipe.
+	Kafka ClickpipeSourceKafkaPtrInput `pulumi:"kafka"`
+	// The Kinesis source configuration for the ClickPipe. Only `authentication`, `iamRole` and `accessKey` can be updated in place; changing any other field forces resource replacement (destroy and recreate).
+	Kinesis ClickpipeSourceKinesisPtrInput `pulumi:"kinesis"`
+	// The MongoDB CDC source configuration for the ClickPipe.
+	Mongodb ClickpipeSourceMongodbPtrInput `pulumi:"mongodb"`
+	// The MySQL CDC source configuration for the ClickPipe.
+	Mysql ClickpipeSourceMysqlPtrInput `pulumi:"mysql"`
+	// The compatible object storage source configuration for the ClickPipe.
+	ObjectStorage ClickpipeSourceObjectStoragePtrInput `pulumi:"objectStorage"`
+	// The Postgres CDC source configuration for the ClickPipe.
+	Postgres ClickpipeSourcePostgresPtrInput `pulumi:"postgres"`
+	// The GCP Pub/Sub source configuration for the ClickPipe.
+	Pubsub ClickpipeSourcePubsubPtrInput `pulumi:"pubsub"`
+}
+
+func (ClickpipeSourceArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*ClickpipeSource)(nil)).Elem()
+}
+
+func (i ClickpipeSourceArgs) ToClickpipeSourceOutput() ClickpipeSourceOutput {
+	return i.ToClickpipeSourceOutputWithContext(context.Background())
+}
+
+func (i ClickpipeSourceArgs) ToClickpipeSourceOutputWithContext(ctx context.Context) ClickpipeSourceOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourceOutput)
+}
+
+func (i ClickpipeSourceArgs) ToClickpipeSourcePtrOutput() ClickpipeSourcePtrOutput {
+	return i.ToClickpipeSourcePtrOutputWithContext(context.Background())
+}
+
+func (i ClickpipeSourceArgs) ToClickpipeSourcePtrOutputWithContext(ctx context.Context) ClickpipeSourcePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourceOutput).ToClickpipeSourcePtrOutputWithContext(ctx)
+}
+
+// ClickpipeSourcePtrInput is an input type that accepts ClickpipeSourceArgs, ClickpipeSourcePtr and ClickpipeSourcePtrOutput values.
+// You can construct a concrete instance of `ClickpipeSourcePtrInput` via:
+//
+//	        ClickpipeSourceArgs{...}
+//
+//	or:
+//
+//	        nil
+type ClickpipeSourcePtrInput interface {
+	pulumi.Input
+
+	ToClickpipeSourcePtrOutput() ClickpipeSourcePtrOutput
+	ToClickpipeSourcePtrOutputWithContext(context.Context) ClickpipeSourcePtrOutput
+}
+
+type clickpipeSourcePtrType ClickpipeSourceArgs
+
+func ClickpipeSourcePtr(v *ClickpipeSourceArgs) ClickpipeSourcePtrInput {
+	return (*clickpipeSourcePtrType)(v)
+}
+
+func (*clickpipeSourcePtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**ClickpipeSource)(nil)).Elem()
+}
+
+func (i *clickpipeSourcePtrType) ToClickpipeSourcePtrOutput() ClickpipeSourcePtrOutput {
+	return i.ToClickpipeSourcePtrOutputWithContext(context.Background())
+}
+
+func (i *clickpipeSourcePtrType) ToClickpipeSourcePtrOutputWithContext(ctx context.Context) ClickpipeSourcePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourcePtrOutput)
+}
+
+type ClickpipeSourceOutput struct{ *pulumi.OutputState }
+
+func (ClickpipeSourceOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ClickpipeSource)(nil)).Elem()
+}
+
+func (o ClickpipeSourceOutput) ToClickpipeSourceOutput() ClickpipeSourceOutput {
+	return o
+}
+
+func (o ClickpipeSourceOutput) ToClickpipeSourceOutputWithContext(ctx context.Context) ClickpipeSourceOutput {
+	return o
+}
+
+func (o ClickpipeSourceOutput) ToClickpipeSourcePtrOutput() ClickpipeSourcePtrOutput {
+	return o.ToClickpipeSourcePtrOutputWithContext(context.Background())
+}
+
+func (o ClickpipeSourceOutput) ToClickpipeSourcePtrOutputWithContext(ctx context.Context) ClickpipeSourcePtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v ClickpipeSource) *ClickpipeSource {
+		return &v
+	}).(ClickpipeSourcePtrOutput)
+}
+
+// The BigQuery source configuration for the ClickPipe.
+func (o ClickpipeSourceOutput) Bigquery() ClickpipeSourceBigqueryPtrOutput {
+	return o.ApplyT(func(v ClickpipeSource) *ClickpipeSourceBigquery { return v.Bigquery }).(ClickpipeSourceBigqueryPtrOutput)
+}
+
+// The Kafka source configuration for the ClickPipe.
+func (o ClickpipeSourceOutput) Kafka() ClickpipeSourceKafkaPtrOutput {
+	return o.ApplyT(func(v ClickpipeSource) *ClickpipeSourceKafka { return v.Kafka }).(ClickpipeSourceKafkaPtrOutput)
+}
+
+// The Kinesis source configuration for the ClickPipe. Only `authentication`, `iamRole` and `accessKey` can be updated in place; changing any other field forces resource replacement (destroy and recreate).
+func (o ClickpipeSourceOutput) Kinesis() ClickpipeSourceKinesisPtrOutput {
+	return o.ApplyT(func(v ClickpipeSource) *ClickpipeSourceKinesis { return v.Kinesis }).(ClickpipeSourceKinesisPtrOutput)
+}
+
+// The MongoDB CDC source configuration for the ClickPipe.
+func (o ClickpipeSourceOutput) Mongodb() ClickpipeSourceMongodbPtrOutput {
+	return o.ApplyT(func(v ClickpipeSource) *ClickpipeSourceMongodb { return v.Mongodb }).(ClickpipeSourceMongodbPtrOutput)
+}
+
+// The MySQL CDC source configuration for the ClickPipe.
+func (o ClickpipeSourceOutput) Mysql() ClickpipeSourceMysqlPtrOutput {
+	return o.ApplyT(func(v ClickpipeSource) *ClickpipeSourceMysql { return v.Mysql }).(ClickpipeSourceMysqlPtrOutput)
+}
+
+// The compatible object storage source configuration for the ClickPipe.
+func (o ClickpipeSourceOutput) ObjectStorage() ClickpipeSourceObjectStoragePtrOutput {
+	return o.ApplyT(func(v ClickpipeSource) *ClickpipeSourceObjectStorage { return v.ObjectStorage }).(ClickpipeSourceObjectStoragePtrOutput)
+}
+
+// The Postgres CDC source configuration for the ClickPipe.
+func (o ClickpipeSourceOutput) Postgres() ClickpipeSourcePostgresPtrOutput {
+	return o.ApplyT(func(v ClickpipeSource) *ClickpipeSourcePostgres { return v.Postgres }).(ClickpipeSourcePostgresPtrOutput)
+}
+
+// The GCP Pub/Sub source configuration for the ClickPipe.
+func (o ClickpipeSourceOutput) Pubsub() ClickpipeSourcePubsubPtrOutput {
+	return o.ApplyT(func(v ClickpipeSource) *ClickpipeSourcePubsub { return v.Pubsub }).(ClickpipeSourcePubsubPtrOutput)
+}
+
+type ClickpipeSourcePtrOutput struct{ *pulumi.OutputState }
+
+func (ClickpipeSourcePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**ClickpipeSource)(nil)).Elem()
+}
+
+func (o ClickpipeSourcePtrOutput) ToClickpipeSourcePtrOutput() ClickpipeSourcePtrOutput {
+	return o
+}
+
+func (o ClickpipeSourcePtrOutput) ToClickpipeSourcePtrOutputWithContext(ctx context.Context) ClickpipeSourcePtrOutput {
+	return o
+}
+
+func (o ClickpipeSourcePtrOutput) Elem() ClickpipeSourceOutput {
+	return o.ApplyT(func(v *ClickpipeSource) ClickpipeSource {
+		if v != nil {
+			return *v
+		}
+		var ret ClickpipeSource
+		return ret
+	}).(ClickpipeSourceOutput)
+}
+
+// The BigQuery source configuration for the ClickPipe.
+func (o ClickpipeSourcePtrOutput) Bigquery() ClickpipeSourceBigqueryPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSource) *ClickpipeSourceBigquery {
+		if v == nil {
+			return nil
+		}
+		return v.Bigquery
+	}).(ClickpipeSourceBigqueryPtrOutput)
+}
+
+// The Kafka source configuration for the ClickPipe.
+func (o ClickpipeSourcePtrOutput) Kafka() ClickpipeSourceKafkaPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSource) *ClickpipeSourceKafka {
+		if v == nil {
+			return nil
+		}
+		return v.Kafka
+	}).(ClickpipeSourceKafkaPtrOutput)
+}
+
+// The Kinesis source configuration for the ClickPipe. Only `authentication`, `iamRole` and `accessKey` can be updated in place; changing any other field forces resource replacement (destroy and recreate).
+func (o ClickpipeSourcePtrOutput) Kinesis() ClickpipeSourceKinesisPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSource) *ClickpipeSourceKinesis {
+		if v == nil {
+			return nil
+		}
+		return v.Kinesis
+	}).(ClickpipeSourceKinesisPtrOutput)
+}
+
+// The MongoDB CDC source configuration for the ClickPipe.
+func (o ClickpipeSourcePtrOutput) Mongodb() ClickpipeSourceMongodbPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSource) *ClickpipeSourceMongodb {
+		if v == nil {
+			return nil
+		}
+		return v.Mongodb
+	}).(ClickpipeSourceMongodbPtrOutput)
+}
+
+// The MySQL CDC source configuration for the ClickPipe.
+func (o ClickpipeSourcePtrOutput) Mysql() ClickpipeSourceMysqlPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSource) *ClickpipeSourceMysql {
+		if v == nil {
+			return nil
+		}
+		return v.Mysql
+	}).(ClickpipeSourceMysqlPtrOutput)
+}
+
+// The compatible object storage source configuration for the ClickPipe.
+func (o ClickpipeSourcePtrOutput) ObjectStorage() ClickpipeSourceObjectStoragePtrOutput {
+	return o.ApplyT(func(v *ClickpipeSource) *ClickpipeSourceObjectStorage {
+		if v == nil {
+			return nil
+		}
+		return v.ObjectStorage
+	}).(ClickpipeSourceObjectStoragePtrOutput)
+}
+
+// The Postgres CDC source configuration for the ClickPipe.
+func (o ClickpipeSourcePtrOutput) Postgres() ClickpipeSourcePostgresPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSource) *ClickpipeSourcePostgres {
+		if v == nil {
+			return nil
+		}
+		return v.Postgres
+	}).(ClickpipeSourcePostgresPtrOutput)
+}
+
+// The GCP Pub/Sub source configuration for the ClickPipe.
+func (o ClickpipeSourcePtrOutput) Pubsub() ClickpipeSourcePubsubPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSource) *ClickpipeSourcePubsub {
+		if v == nil {
+			return nil
+		}
+		return v.Pubsub
+	}).(ClickpipeSourcePubsubPtrOutput)
+}
+
+type ClickpipeSourceBigquery struct {
+	// The credentials for BigQuery access.
+	Credentials ClickpipeSourceBigqueryCredentials `pulumi:"credentials"`
+	// Settings for the BigQuery pipe.
+	Settings ClickpipeSourceBigquerySettings `pulumi:"settings"`
+	// GCS bucket path for staging snapshot data (e.g., gs://my-bucket/staging/). Data will be automatically cleaned up after initial load.
+	SnapshotStagingPath string `pulumi:"snapshotStagingPath"`
+	// Table mappings from BigQuery source to ClickHouse destination.
+	TableMappings []ClickpipeSourceBigqueryTableMapping `pulumi:"tableMappings"`
+}
+
+// ClickpipeSourceBigqueryInput is an input type that accepts ClickpipeSourceBigqueryArgs and ClickpipeSourceBigqueryOutput values.
+// You can construct a concrete instance of `ClickpipeSourceBigqueryInput` via:
+//
+//	ClickpipeSourceBigqueryArgs{...}
+type ClickpipeSourceBigqueryInput interface {
+	pulumi.Input
+
+	ToClickpipeSourceBigqueryOutput() ClickpipeSourceBigqueryOutput
+	ToClickpipeSourceBigqueryOutputWithContext(context.Context) ClickpipeSourceBigqueryOutput
+}
+
+type ClickpipeSourceBigqueryArgs struct {
+	// The credentials for BigQuery access.
+	Credentials ClickpipeSourceBigqueryCredentialsInput `pulumi:"credentials"`
+	// Settings for the BigQuery pipe.
+	Settings ClickpipeSourceBigquerySettingsInput `pulumi:"settings"`
+	// GCS bucket path for staging snapshot data (e.g., gs://my-bucket/staging/). Data will be automatically cleaned up after initial load.
+	SnapshotStagingPath pulumi.StringInput `pulumi:"snapshotStagingPath"`
+	// Table mappings from BigQuery source to ClickHouse destination.
+	TableMappings ClickpipeSourceBigqueryTableMappingArrayInput `pulumi:"tableMappings"`
+}
+
+func (ClickpipeSourceBigqueryArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*ClickpipeSourceBigquery)(nil)).Elem()
+}
+
+func (i ClickpipeSourceBigqueryArgs) ToClickpipeSourceBigqueryOutput() ClickpipeSourceBigqueryOutput {
+	return i.ToClickpipeSourceBigqueryOutputWithContext(context.Background())
+}
+
+func (i ClickpipeSourceBigqueryArgs) ToClickpipeSourceBigqueryOutputWithContext(ctx context.Context) ClickpipeSourceBigqueryOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourceBigqueryOutput)
+}
+
+func (i ClickpipeSourceBigqueryArgs) ToClickpipeSourceBigqueryPtrOutput() ClickpipeSourceBigqueryPtrOutput {
+	return i.ToClickpipeSourceBigqueryPtrOutputWithContext(context.Background())
+}
+
+func (i ClickpipeSourceBigqueryArgs) ToClickpipeSourceBigqueryPtrOutputWithContext(ctx context.Context) ClickpipeSourceBigqueryPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourceBigqueryOutput).ToClickpipeSourceBigqueryPtrOutputWithContext(ctx)
+}
+
+// ClickpipeSourceBigqueryPtrInput is an input type that accepts ClickpipeSourceBigqueryArgs, ClickpipeSourceBigqueryPtr and ClickpipeSourceBigqueryPtrOutput values.
+// You can construct a concrete instance of `ClickpipeSourceBigqueryPtrInput` via:
+//
+//	        ClickpipeSourceBigqueryArgs{...}
+//
+//	or:
+//
+//	        nil
+type ClickpipeSourceBigqueryPtrInput interface {
+	pulumi.Input
+
+	ToClickpipeSourceBigqueryPtrOutput() ClickpipeSourceBigqueryPtrOutput
+	ToClickpipeSourceBigqueryPtrOutputWithContext(context.Context) ClickpipeSourceBigqueryPtrOutput
+}
+
+type clickpipeSourceBigqueryPtrType ClickpipeSourceBigqueryArgs
+
+func ClickpipeSourceBigqueryPtr(v *ClickpipeSourceBigqueryArgs) ClickpipeSourceBigqueryPtrInput {
+	return (*clickpipeSourceBigqueryPtrType)(v)
+}
+
+func (*clickpipeSourceBigqueryPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**ClickpipeSourceBigquery)(nil)).Elem()
+}
+
+func (i *clickpipeSourceBigqueryPtrType) ToClickpipeSourceBigqueryPtrOutput() ClickpipeSourceBigqueryPtrOutput {
+	return i.ToClickpipeSourceBigqueryPtrOutputWithContext(context.Background())
+}
+
+func (i *clickpipeSourceBigqueryPtrType) ToClickpipeSourceBigqueryPtrOutputWithContext(ctx context.Context) ClickpipeSourceBigqueryPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourceBigqueryPtrOutput)
+}
+
+type ClickpipeSourceBigqueryOutput struct{ *pulumi.OutputState }
+
+func (ClickpipeSourceBigqueryOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ClickpipeSourceBigquery)(nil)).Elem()
+}
+
+func (o ClickpipeSourceBigqueryOutput) ToClickpipeSourceBigqueryOutput() ClickpipeSourceBigqueryOutput {
+	return o
+}
+
+func (o ClickpipeSourceBigqueryOutput) ToClickpipeSourceBigqueryOutputWithContext(ctx context.Context) ClickpipeSourceBigqueryOutput {
+	return o
+}
+
+func (o ClickpipeSourceBigqueryOutput) ToClickpipeSourceBigqueryPtrOutput() ClickpipeSourceBigqueryPtrOutput {
+	return o.ToClickpipeSourceBigqueryPtrOutputWithContext(context.Background())
+}
+
+func (o ClickpipeSourceBigqueryOutput) ToClickpipeSourceBigqueryPtrOutputWithContext(ctx context.Context) ClickpipeSourceBigqueryPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v ClickpipeSourceBigquery) *ClickpipeSourceBigquery {
+		return &v
+	}).(ClickpipeSourceBigqueryPtrOutput)
+}
+
+// The credentials for BigQuery access.
+func (o ClickpipeSourceBigqueryOutput) Credentials() ClickpipeSourceBigqueryCredentialsOutput {
+	return o.ApplyT(func(v ClickpipeSourceBigquery) ClickpipeSourceBigqueryCredentials { return v.Credentials }).(ClickpipeSourceBigqueryCredentialsOutput)
+}
+
+// Settings for the BigQuery pipe.
+func (o ClickpipeSourceBigqueryOutput) Settings() ClickpipeSourceBigquerySettingsOutput {
+	return o.ApplyT(func(v ClickpipeSourceBigquery) ClickpipeSourceBigquerySettings { return v.Settings }).(ClickpipeSourceBigquerySettingsOutput)
+}
+
+// GCS bucket path for staging snapshot data (e.g., gs://my-bucket/staging/). Data will be automatically cleaned up after initial load.
+func (o ClickpipeSourceBigqueryOutput) SnapshotStagingPath() pulumi.StringOutput {
+	return o.ApplyT(func(v ClickpipeSourceBigquery) string { return v.SnapshotStagingPath }).(pulumi.StringOutput)
+}
+
+// Table mappings from BigQuery source to ClickHouse destination.
+func (o ClickpipeSourceBigqueryOutput) TableMappings() ClickpipeSourceBigqueryTableMappingArrayOutput {
+	return o.ApplyT(func(v ClickpipeSourceBigquery) []ClickpipeSourceBigqueryTableMapping { return v.TableMappings }).(ClickpipeSourceBigqueryTableMappingArrayOutput)
+}
+
+type ClickpipeSourceBigqueryPtrOutput struct{ *pulumi.OutputState }
+
+func (ClickpipeSourceBigqueryPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**ClickpipeSourceBigquery)(nil)).Elem()
+}
+
+func (o ClickpipeSourceBigqueryPtrOutput) ToClickpipeSourceBigqueryPtrOutput() ClickpipeSourceBigqueryPtrOutput {
+	return o
+}
+
+func (o ClickpipeSourceBigqueryPtrOutput) ToClickpipeSourceBigqueryPtrOutputWithContext(ctx context.Context) ClickpipeSourceBigqueryPtrOutput {
+	return o
+}
+
+func (o ClickpipeSourceBigqueryPtrOutput) Elem() ClickpipeSourceBigqueryOutput {
+	return o.ApplyT(func(v *ClickpipeSourceBigquery) ClickpipeSourceBigquery {
+		if v != nil {
+			return *v
+		}
+		var ret ClickpipeSourceBigquery
+		return ret
+	}).(ClickpipeSourceBigqueryOutput)
+}
+
+// The credentials for BigQuery access.
+func (o ClickpipeSourceBigqueryPtrOutput) Credentials() ClickpipeSourceBigqueryCredentialsPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceBigquery) *ClickpipeSourceBigqueryCredentials {
+		if v == nil {
+			return nil
+		}
+		return &v.Credentials
+	}).(ClickpipeSourceBigqueryCredentialsPtrOutput)
+}
+
+// Settings for the BigQuery pipe.
+func (o ClickpipeSourceBigqueryPtrOutput) Settings() ClickpipeSourceBigquerySettingsPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceBigquery) *ClickpipeSourceBigquerySettings {
+		if v == nil {
+			return nil
+		}
+		return &v.Settings
+	}).(ClickpipeSourceBigquerySettingsPtrOutput)
+}
+
+// GCS bucket path for staging snapshot data (e.g., gs://my-bucket/staging/). Data will be automatically cleaned up after initial load.
+func (o ClickpipeSourceBigqueryPtrOutput) SnapshotStagingPath() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceBigquery) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.SnapshotStagingPath
+	}).(pulumi.StringPtrOutput)
+}
+
+// Table mappings from BigQuery source to ClickHouse destination.
+func (o ClickpipeSourceBigqueryPtrOutput) TableMappings() ClickpipeSourceBigqueryTableMappingArrayOutput {
+	return o.ApplyT(func(v *ClickpipeSourceBigquery) []ClickpipeSourceBigqueryTableMapping {
+		if v == nil {
+			return nil
+		}
+		return v.TableMappings
+	}).(ClickpipeSourceBigqueryTableMappingArrayOutput)
+}
+
+type ClickpipeSourceBigqueryCredentials struct {
+	// Google Cloud service account JSON key file content, base64 encoded.
+	ServiceAccountFile string `pulumi:"serviceAccountFile"`
+}
+
+// ClickpipeSourceBigqueryCredentialsInput is an input type that accepts ClickpipeSourceBigqueryCredentialsArgs and ClickpipeSourceBigqueryCredentialsOutput values.
+// You can construct a concrete instance of `ClickpipeSourceBigqueryCredentialsInput` via:
+//
+//	ClickpipeSourceBigqueryCredentialsArgs{...}
+type ClickpipeSourceBigqueryCredentialsInput interface {
+	pulumi.Input
+
+	ToClickpipeSourceBigqueryCredentialsOutput() ClickpipeSourceBigqueryCredentialsOutput
+	ToClickpipeSourceBigqueryCredentialsOutputWithContext(context.Context) ClickpipeSourceBigqueryCredentialsOutput
+}
+
+type ClickpipeSourceBigqueryCredentialsArgs struct {
+	// Google Cloud service account JSON key file content, base64 encoded.
+	ServiceAccountFile pulumi.StringInput `pulumi:"serviceAccountFile"`
+}
+
+func (ClickpipeSourceBigqueryCredentialsArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*ClickpipeSourceBigqueryCredentials)(nil)).Elem()
+}
+
+func (i ClickpipeSourceBigqueryCredentialsArgs) ToClickpipeSourceBigqueryCredentialsOutput() ClickpipeSourceBigqueryCredentialsOutput {
+	return i.ToClickpipeSourceBigqueryCredentialsOutputWithContext(context.Background())
+}
+
+func (i ClickpipeSourceBigqueryCredentialsArgs) ToClickpipeSourceBigqueryCredentialsOutputWithContext(ctx context.Context) ClickpipeSourceBigqueryCredentialsOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourceBigqueryCredentialsOutput)
+}
+
+func (i ClickpipeSourceBigqueryCredentialsArgs) ToClickpipeSourceBigqueryCredentialsPtrOutput() ClickpipeSourceBigqueryCredentialsPtrOutput {
+	return i.ToClickpipeSourceBigqueryCredentialsPtrOutputWithContext(context.Background())
+}
+
+func (i ClickpipeSourceBigqueryCredentialsArgs) ToClickpipeSourceBigqueryCredentialsPtrOutputWithContext(ctx context.Context) ClickpipeSourceBigqueryCredentialsPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourceBigqueryCredentialsOutput).ToClickpipeSourceBigqueryCredentialsPtrOutputWithContext(ctx)
+}
+
+// ClickpipeSourceBigqueryCredentialsPtrInput is an input type that accepts ClickpipeSourceBigqueryCredentialsArgs, ClickpipeSourceBigqueryCredentialsPtr and ClickpipeSourceBigqueryCredentialsPtrOutput values.
+// You can construct a concrete instance of `ClickpipeSourceBigqueryCredentialsPtrInput` via:
+//
+//	        ClickpipeSourceBigqueryCredentialsArgs{...}
+//
+//	or:
+//
+//	        nil
+type ClickpipeSourceBigqueryCredentialsPtrInput interface {
+	pulumi.Input
+
+	ToClickpipeSourceBigqueryCredentialsPtrOutput() ClickpipeSourceBigqueryCredentialsPtrOutput
+	ToClickpipeSourceBigqueryCredentialsPtrOutputWithContext(context.Context) ClickpipeSourceBigqueryCredentialsPtrOutput
+}
+
+type clickpipeSourceBigqueryCredentialsPtrType ClickpipeSourceBigqueryCredentialsArgs
+
+func ClickpipeSourceBigqueryCredentialsPtr(v *ClickpipeSourceBigqueryCredentialsArgs) ClickpipeSourceBigqueryCredentialsPtrInput {
+	return (*clickpipeSourceBigqueryCredentialsPtrType)(v)
+}
+
+func (*clickpipeSourceBigqueryCredentialsPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**ClickpipeSourceBigqueryCredentials)(nil)).Elem()
+}
+
+func (i *clickpipeSourceBigqueryCredentialsPtrType) ToClickpipeSourceBigqueryCredentialsPtrOutput() ClickpipeSourceBigqueryCredentialsPtrOutput {
+	return i.ToClickpipeSourceBigqueryCredentialsPtrOutputWithContext(context.Background())
+}
+
+func (i *clickpipeSourceBigqueryCredentialsPtrType) ToClickpipeSourceBigqueryCredentialsPtrOutputWithContext(ctx context.Context) ClickpipeSourceBigqueryCredentialsPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourceBigqueryCredentialsPtrOutput)
+}
+
+type ClickpipeSourceBigqueryCredentialsOutput struct{ *pulumi.OutputState }
+
+func (ClickpipeSourceBigqueryCredentialsOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ClickpipeSourceBigqueryCredentials)(nil)).Elem()
+}
+
+func (o ClickpipeSourceBigqueryCredentialsOutput) ToClickpipeSourceBigqueryCredentialsOutput() ClickpipeSourceBigqueryCredentialsOutput {
+	return o
+}
+
+func (o ClickpipeSourceBigqueryCredentialsOutput) ToClickpipeSourceBigqueryCredentialsOutputWithContext(ctx context.Context) ClickpipeSourceBigqueryCredentialsOutput {
+	return o
+}
+
+func (o ClickpipeSourceBigqueryCredentialsOutput) ToClickpipeSourceBigqueryCredentialsPtrOutput() ClickpipeSourceBigqueryCredentialsPtrOutput {
+	return o.ToClickpipeSourceBigqueryCredentialsPtrOutputWithContext(context.Background())
+}
+
+func (o ClickpipeSourceBigqueryCredentialsOutput) ToClickpipeSourceBigqueryCredentialsPtrOutputWithContext(ctx context.Context) ClickpipeSourceBigqueryCredentialsPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v ClickpipeSourceBigqueryCredentials) *ClickpipeSourceBigqueryCredentials {
+		return &v
+	}).(ClickpipeSourceBigqueryCredentialsPtrOutput)
+}
+
+// Google Cloud service account JSON key file content, base64 encoded.
+func (o ClickpipeSourceBigqueryCredentialsOutput) ServiceAccountFile() pulumi.StringOutput {
+	return o.ApplyT(func(v ClickpipeSourceBigqueryCredentials) string { return v.ServiceAccountFile }).(pulumi.StringOutput)
+}
+
+type ClickpipeSourceBigqueryCredentialsPtrOutput struct{ *pulumi.OutputState }
+
+func (ClickpipeSourceBigqueryCredentialsPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**ClickpipeSourceBigqueryCredentials)(nil)).Elem()
+}
+
+func (o ClickpipeSourceBigqueryCredentialsPtrOutput) ToClickpipeSourceBigqueryCredentialsPtrOutput() ClickpipeSourceBigqueryCredentialsPtrOutput {
+	return o
+}
+
+func (o ClickpipeSourceBigqueryCredentialsPtrOutput) ToClickpipeSourceBigqueryCredentialsPtrOutputWithContext(ctx context.Context) ClickpipeSourceBigqueryCredentialsPtrOutput {
+	return o
+}
+
+func (o ClickpipeSourceBigqueryCredentialsPtrOutput) Elem() ClickpipeSourceBigqueryCredentialsOutput {
+	return o.ApplyT(func(v *ClickpipeSourceBigqueryCredentials) ClickpipeSourceBigqueryCredentials {
+		if v != nil {
+			return *v
+		}
+		var ret ClickpipeSourceBigqueryCredentials
+		return ret
+	}).(ClickpipeSourceBigqueryCredentialsOutput)
+}
+
+// Google Cloud service account JSON key file content, base64 encoded.
+func (o ClickpipeSourceBigqueryCredentialsPtrOutput) ServiceAccountFile() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceBigqueryCredentials) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.ServiceAccountFile
+	}).(pulumi.StringPtrOutput)
+}
+
+type ClickpipeSourceBigquerySettings struct {
+	// Allow nullable columns in the destination table.
+	AllowNullableColumns *bool `pulumi:"allowNullableColumns"`
+	// Number of parallel workers during initial load.
+	InitialLoadParallelism *int `pulumi:"initialLoadParallelism"`
+	// Replication mode for the BigQuery pipe. (`snapshot`)
+	ReplicationMode string `pulumi:"replicationMode"`
+	// Number of rows to snapshot per partition.
+	SnapshotNumRowsPerPartition *int `pulumi:"snapshotNumRowsPerPartition"`
+	// Number of parallel tables to snapshot.
+	SnapshotNumberOfParallelTables *int `pulumi:"snapshotNumberOfParallelTables"`
+}
+
+// ClickpipeSourceBigquerySettingsInput is an input type that accepts ClickpipeSourceBigquerySettingsArgs and ClickpipeSourceBigquerySettingsOutput values.
+// You can construct a concrete instance of `ClickpipeSourceBigquerySettingsInput` via:
+//
+//	ClickpipeSourceBigquerySettingsArgs{...}
+type ClickpipeSourceBigquerySettingsInput interface {
+	pulumi.Input
+
+	ToClickpipeSourceBigquerySettingsOutput() ClickpipeSourceBigquerySettingsOutput
+	ToClickpipeSourceBigquerySettingsOutputWithContext(context.Context) ClickpipeSourceBigquerySettingsOutput
+}
+
+type ClickpipeSourceBigquerySettingsArgs struct {
+	// Allow nullable columns in the destination table.
+	AllowNullableColumns pulumi.BoolPtrInput `pulumi:"allowNullableColumns"`
+	// Number of parallel workers during initial load.
+	InitialLoadParallelism pulumi.IntPtrInput `pulumi:"initialLoadParallelism"`
+	// Replication mode for the BigQuery pipe. (`snapshot`)
+	ReplicationMode pulumi.StringInput `pulumi:"replicationMode"`
+	// Number of rows to snapshot per partition.
+	SnapshotNumRowsPerPartition pulumi.IntPtrInput `pulumi:"snapshotNumRowsPerPartition"`
+	// Number of parallel tables to snapshot.
+	SnapshotNumberOfParallelTables pulumi.IntPtrInput `pulumi:"snapshotNumberOfParallelTables"`
+}
+
+func (ClickpipeSourceBigquerySettingsArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*ClickpipeSourceBigquerySettings)(nil)).Elem()
+}
+
+func (i ClickpipeSourceBigquerySettingsArgs) ToClickpipeSourceBigquerySettingsOutput() ClickpipeSourceBigquerySettingsOutput {
+	return i.ToClickpipeSourceBigquerySettingsOutputWithContext(context.Background())
+}
+
+func (i ClickpipeSourceBigquerySettingsArgs) ToClickpipeSourceBigquerySettingsOutputWithContext(ctx context.Context) ClickpipeSourceBigquerySettingsOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourceBigquerySettingsOutput)
+}
+
+func (i ClickpipeSourceBigquerySettingsArgs) ToClickpipeSourceBigquerySettingsPtrOutput() ClickpipeSourceBigquerySettingsPtrOutput {
+	return i.ToClickpipeSourceBigquerySettingsPtrOutputWithContext(context.Background())
+}
+
+func (i ClickpipeSourceBigquerySettingsArgs) ToClickpipeSourceBigquerySettingsPtrOutputWithContext(ctx context.Context) ClickpipeSourceBigquerySettingsPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourceBigquerySettingsOutput).ToClickpipeSourceBigquerySettingsPtrOutputWithContext(ctx)
+}
+
+// ClickpipeSourceBigquerySettingsPtrInput is an input type that accepts ClickpipeSourceBigquerySettingsArgs, ClickpipeSourceBigquerySettingsPtr and ClickpipeSourceBigquerySettingsPtrOutput values.
+// You can construct a concrete instance of `ClickpipeSourceBigquerySettingsPtrInput` via:
+//
+//	        ClickpipeSourceBigquerySettingsArgs{...}
+//
+//	or:
+//
+//	        nil
+type ClickpipeSourceBigquerySettingsPtrInput interface {
+	pulumi.Input
+
+	ToClickpipeSourceBigquerySettingsPtrOutput() ClickpipeSourceBigquerySettingsPtrOutput
+	ToClickpipeSourceBigquerySettingsPtrOutputWithContext(context.Context) ClickpipeSourceBigquerySettingsPtrOutput
+}
+
+type clickpipeSourceBigquerySettingsPtrType ClickpipeSourceBigquerySettingsArgs
+
+func ClickpipeSourceBigquerySettingsPtr(v *ClickpipeSourceBigquerySettingsArgs) ClickpipeSourceBigquerySettingsPtrInput {
+	return (*clickpipeSourceBigquerySettingsPtrType)(v)
+}
+
+func (*clickpipeSourceBigquerySettingsPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**ClickpipeSourceBigquerySettings)(nil)).Elem()
+}
+
+func (i *clickpipeSourceBigquerySettingsPtrType) ToClickpipeSourceBigquerySettingsPtrOutput() ClickpipeSourceBigquerySettingsPtrOutput {
+	return i.ToClickpipeSourceBigquerySettingsPtrOutputWithContext(context.Background())
+}
+
+func (i *clickpipeSourceBigquerySettingsPtrType) ToClickpipeSourceBigquerySettingsPtrOutputWithContext(ctx context.Context) ClickpipeSourceBigquerySettingsPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourceBigquerySettingsPtrOutput)
+}
+
+type ClickpipeSourceBigquerySettingsOutput struct{ *pulumi.OutputState }
+
+func (ClickpipeSourceBigquerySettingsOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ClickpipeSourceBigquerySettings)(nil)).Elem()
+}
+
+func (o ClickpipeSourceBigquerySettingsOutput) ToClickpipeSourceBigquerySettingsOutput() ClickpipeSourceBigquerySettingsOutput {
+	return o
+}
+
+func (o ClickpipeSourceBigquerySettingsOutput) ToClickpipeSourceBigquerySettingsOutputWithContext(ctx context.Context) ClickpipeSourceBigquerySettingsOutput {
+	return o
+}
+
+func (o ClickpipeSourceBigquerySettingsOutput) ToClickpipeSourceBigquerySettingsPtrOutput() ClickpipeSourceBigquerySettingsPtrOutput {
+	return o.ToClickpipeSourceBigquerySettingsPtrOutputWithContext(context.Background())
+}
+
+func (o ClickpipeSourceBigquerySettingsOutput) ToClickpipeSourceBigquerySettingsPtrOutputWithContext(ctx context.Context) ClickpipeSourceBigquerySettingsPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v ClickpipeSourceBigquerySettings) *ClickpipeSourceBigquerySettings {
+		return &v
+	}).(ClickpipeSourceBigquerySettingsPtrOutput)
+}
+
+// Allow nullable columns in the destination table.
+func (o ClickpipeSourceBigquerySettingsOutput) AllowNullableColumns() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceBigquerySettings) *bool { return v.AllowNullableColumns }).(pulumi.BoolPtrOutput)
+}
+
+// Number of parallel workers during initial load.
+func (o ClickpipeSourceBigquerySettingsOutput) InitialLoadParallelism() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceBigquerySettings) *int { return v.InitialLoadParallelism }).(pulumi.IntPtrOutput)
+}
+
+// Replication mode for the BigQuery pipe. (`snapshot`)
+func (o ClickpipeSourceBigquerySettingsOutput) ReplicationMode() pulumi.StringOutput {
+	return o.ApplyT(func(v ClickpipeSourceBigquerySettings) string { return v.ReplicationMode }).(pulumi.StringOutput)
+}
+
+// Number of rows to snapshot per partition.
+func (o ClickpipeSourceBigquerySettingsOutput) SnapshotNumRowsPerPartition() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceBigquerySettings) *int { return v.SnapshotNumRowsPerPartition }).(pulumi.IntPtrOutput)
+}
+
+// Number of parallel tables to snapshot.
+func (o ClickpipeSourceBigquerySettingsOutput) SnapshotNumberOfParallelTables() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceBigquerySettings) *int { return v.SnapshotNumberOfParallelTables }).(pulumi.IntPtrOutput)
+}
+
+type ClickpipeSourceBigquerySettingsPtrOutput struct{ *pulumi.OutputState }
+
+func (ClickpipeSourceBigquerySettingsPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**ClickpipeSourceBigquerySettings)(nil)).Elem()
+}
+
+func (o ClickpipeSourceBigquerySettingsPtrOutput) ToClickpipeSourceBigquerySettingsPtrOutput() ClickpipeSourceBigquerySettingsPtrOutput {
+	return o
+}
+
+func (o ClickpipeSourceBigquerySettingsPtrOutput) ToClickpipeSourceBigquerySettingsPtrOutputWithContext(ctx context.Context) ClickpipeSourceBigquerySettingsPtrOutput {
+	return o
+}
+
+func (o ClickpipeSourceBigquerySettingsPtrOutput) Elem() ClickpipeSourceBigquerySettingsOutput {
+	return o.ApplyT(func(v *ClickpipeSourceBigquerySettings) ClickpipeSourceBigquerySettings {
+		if v != nil {
+			return *v
+		}
+		var ret ClickpipeSourceBigquerySettings
+		return ret
+	}).(ClickpipeSourceBigquerySettingsOutput)
+}
+
+// Allow nullable columns in the destination table.
+func (o ClickpipeSourceBigquerySettingsPtrOutput) AllowNullableColumns() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceBigquerySettings) *bool {
+		if v == nil {
+			return nil
+		}
+		return v.AllowNullableColumns
+	}).(pulumi.BoolPtrOutput)
+}
+
+// Number of parallel workers during initial load.
+func (o ClickpipeSourceBigquerySettingsPtrOutput) InitialLoadParallelism() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceBigquerySettings) *int {
+		if v == nil {
+			return nil
+		}
+		return v.InitialLoadParallelism
+	}).(pulumi.IntPtrOutput)
+}
+
+// Replication mode for the BigQuery pipe. (`snapshot`)
+func (o ClickpipeSourceBigquerySettingsPtrOutput) ReplicationMode() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceBigquerySettings) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.ReplicationMode
+	}).(pulumi.StringPtrOutput)
+}
+
+// Number of rows to snapshot per partition.
+func (o ClickpipeSourceBigquerySettingsPtrOutput) SnapshotNumRowsPerPartition() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceBigquerySettings) *int {
+		if v == nil {
+			return nil
+		}
+		return v.SnapshotNumRowsPerPartition
+	}).(pulumi.IntPtrOutput)
+}
+
+// Number of parallel tables to snapshot.
+func (o ClickpipeSourceBigquerySettingsPtrOutput) SnapshotNumberOfParallelTables() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceBigquerySettings) *int {
+		if v == nil {
+			return nil
+		}
+		return v.SnapshotNumberOfParallelTables
+	}).(pulumi.IntPtrOutput)
+}
+
+type ClickpipeSourceBigqueryTableMapping struct {
+	// Columns to exclude from replication.
+	ExcludedColumns []string `pulumi:"excludedColumns"`
+	// Ordered list of columns to use as sorting key for the target table. Required when use*custom*sorting_key is true.
+	SortingKeys []string `pulumi:"sortingKeys"`
+	// Source BigQuery dataset name.
+	SourceDatasetName string `pulumi:"sourceDatasetName"`
+	// Source table name in BigQuery.
+	SourceTable string `pulumi:"sourceTable"`
+	// Table engine to use for the target table. (`MergeTree`, `ReplacingMergeTree`, `Null`)
+	TableEngine *string `pulumi:"tableEngine"`
+	// Target table name in ClickHouse.
+	TargetTable string `pulumi:"targetTable"`
+	// Whether to use a custom sorting key for the target table.
+	UseCustomSortingKey *bool `pulumi:"useCustomSortingKey"`
+}
+
+// ClickpipeSourceBigqueryTableMappingInput is an input type that accepts ClickpipeSourceBigqueryTableMappingArgs and ClickpipeSourceBigqueryTableMappingOutput values.
+// You can construct a concrete instance of `ClickpipeSourceBigqueryTableMappingInput` via:
+//
+//	ClickpipeSourceBigqueryTableMappingArgs{...}
+type ClickpipeSourceBigqueryTableMappingInput interface {
+	pulumi.Input
+
+	ToClickpipeSourceBigqueryTableMappingOutput() ClickpipeSourceBigqueryTableMappingOutput
+	ToClickpipeSourceBigqueryTableMappingOutputWithContext(context.Context) ClickpipeSourceBigqueryTableMappingOutput
+}
+
+type ClickpipeSourceBigqueryTableMappingArgs struct {
+	// Columns to exclude from replication.
+	ExcludedColumns pulumi.StringArrayInput `pulumi:"excludedColumns"`
+	// Ordered list of columns to use as sorting key for the target table. Required when use*custom*sorting_key is true.
+	SortingKeys pulumi.StringArrayInput `pulumi:"sortingKeys"`
+	// Source BigQuery dataset name.
+	SourceDatasetName pulumi.StringInput `pulumi:"sourceDatasetName"`
+	// Source table name in BigQuery.
+	SourceTable pulumi.StringInput `pulumi:"sourceTable"`
+	// Table engine to use for the target table. (`MergeTree`, `ReplacingMergeTree`, `Null`)
+	TableEngine pulumi.StringPtrInput `pulumi:"tableEngine"`
+	// Target table name in ClickHouse.
+	TargetTable pulumi.StringInput `pulumi:"targetTable"`
+	// Whether to use a custom sorting key for the target table.
+	UseCustomSortingKey pulumi.BoolPtrInput `pulumi:"useCustomSortingKey"`
+}
+
+func (ClickpipeSourceBigqueryTableMappingArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*ClickpipeSourceBigqueryTableMapping)(nil)).Elem()
+}
+
+func (i ClickpipeSourceBigqueryTableMappingArgs) ToClickpipeSourceBigqueryTableMappingOutput() ClickpipeSourceBigqueryTableMappingOutput {
+	return i.ToClickpipeSourceBigqueryTableMappingOutputWithContext(context.Background())
+}
+
+func (i ClickpipeSourceBigqueryTableMappingArgs) ToClickpipeSourceBigqueryTableMappingOutputWithContext(ctx context.Context) ClickpipeSourceBigqueryTableMappingOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourceBigqueryTableMappingOutput)
+}
+
+// ClickpipeSourceBigqueryTableMappingArrayInput is an input type that accepts ClickpipeSourceBigqueryTableMappingArray and ClickpipeSourceBigqueryTableMappingArrayOutput values.
+// You can construct a concrete instance of `ClickpipeSourceBigqueryTableMappingArrayInput` via:
+//
+//	ClickpipeSourceBigqueryTableMappingArray{ ClickpipeSourceBigqueryTableMappingArgs{...} }
+type ClickpipeSourceBigqueryTableMappingArrayInput interface {
+	pulumi.Input
+
+	ToClickpipeSourceBigqueryTableMappingArrayOutput() ClickpipeSourceBigqueryTableMappingArrayOutput
+	ToClickpipeSourceBigqueryTableMappingArrayOutputWithContext(context.Context) ClickpipeSourceBigqueryTableMappingArrayOutput
+}
+
+type ClickpipeSourceBigqueryTableMappingArray []ClickpipeSourceBigqueryTableMappingInput
+
+func (ClickpipeSourceBigqueryTableMappingArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]ClickpipeSourceBigqueryTableMapping)(nil)).Elem()
+}
+
+func (i ClickpipeSourceBigqueryTableMappingArray) ToClickpipeSourceBigqueryTableMappingArrayOutput() ClickpipeSourceBigqueryTableMappingArrayOutput {
+	return i.ToClickpipeSourceBigqueryTableMappingArrayOutputWithContext(context.Background())
+}
+
+func (i ClickpipeSourceBigqueryTableMappingArray) ToClickpipeSourceBigqueryTableMappingArrayOutputWithContext(ctx context.Context) ClickpipeSourceBigqueryTableMappingArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourceBigqueryTableMappingArrayOutput)
+}
+
+type ClickpipeSourceBigqueryTableMappingOutput struct{ *pulumi.OutputState }
+
+func (ClickpipeSourceBigqueryTableMappingOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ClickpipeSourceBigqueryTableMapping)(nil)).Elem()
+}
+
+func (o ClickpipeSourceBigqueryTableMappingOutput) ToClickpipeSourceBigqueryTableMappingOutput() ClickpipeSourceBigqueryTableMappingOutput {
+	return o
+}
+
+func (o ClickpipeSourceBigqueryTableMappingOutput) ToClickpipeSourceBigqueryTableMappingOutputWithContext(ctx context.Context) ClickpipeSourceBigqueryTableMappingOutput {
+	return o
+}
+
+// Columns to exclude from replication.
+func (o ClickpipeSourceBigqueryTableMappingOutput) ExcludedColumns() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v ClickpipeSourceBigqueryTableMapping) []string { return v.ExcludedColumns }).(pulumi.StringArrayOutput)
+}
+
+// Ordered list of columns to use as sorting key for the target table. Required when use*custom*sorting_key is true.
+func (o ClickpipeSourceBigqueryTableMappingOutput) SortingKeys() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v ClickpipeSourceBigqueryTableMapping) []string { return v.SortingKeys }).(pulumi.StringArrayOutput)
+}
+
+// Source BigQuery dataset name.
+func (o ClickpipeSourceBigqueryTableMappingOutput) SourceDatasetName() pulumi.StringOutput {
+	return o.ApplyT(func(v ClickpipeSourceBigqueryTableMapping) string { return v.SourceDatasetName }).(pulumi.StringOutput)
+}
+
+// Source table name in BigQuery.
+func (o ClickpipeSourceBigqueryTableMappingOutput) SourceTable() pulumi.StringOutput {
+	return o.ApplyT(func(v ClickpipeSourceBigqueryTableMapping) string { return v.SourceTable }).(pulumi.StringOutput)
+}
+
+// Table engine to use for the target table. (`MergeTree`, `ReplacingMergeTree`, `Null`)
+func (o ClickpipeSourceBigqueryTableMappingOutput) TableEngine() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceBigqueryTableMapping) *string { return v.TableEngine }).(pulumi.StringPtrOutput)
+}
+
+// Target table name in ClickHouse.
+func (o ClickpipeSourceBigqueryTableMappingOutput) TargetTable() pulumi.StringOutput {
+	return o.ApplyT(func(v ClickpipeSourceBigqueryTableMapping) string { return v.TargetTable }).(pulumi.StringOutput)
+}
+
+// Whether to use a custom sorting key for the target table.
+func (o ClickpipeSourceBigqueryTableMappingOutput) UseCustomSortingKey() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceBigqueryTableMapping) *bool { return v.UseCustomSortingKey }).(pulumi.BoolPtrOutput)
+}
+
+type ClickpipeSourceBigqueryTableMappingArrayOutput struct{ *pulumi.OutputState }
+
+func (ClickpipeSourceBigqueryTableMappingArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]ClickpipeSourceBigqueryTableMapping)(nil)).Elem()
+}
+
+func (o ClickpipeSourceBigqueryTableMappingArrayOutput) ToClickpipeSourceBigqueryTableMappingArrayOutput() ClickpipeSourceBigqueryTableMappingArrayOutput {
+	return o
+}
+
+func (o ClickpipeSourceBigqueryTableMappingArrayOutput) ToClickpipeSourceBigqueryTableMappingArrayOutputWithContext(ctx context.Context) ClickpipeSourceBigqueryTableMappingArrayOutput {
+	return o
+}
+
+func (o ClickpipeSourceBigqueryTableMappingArrayOutput) Index(i pulumi.IntInput) ClickpipeSourceBigqueryTableMappingOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) ClickpipeSourceBigqueryTableMapping {
+		return vs[0].([]ClickpipeSourceBigqueryTableMapping)[vs[1].(int)]
+	}).(ClickpipeSourceBigqueryTableMappingOutput)
+}
+
+type ClickpipeSourceKafka struct {
+	// The authentication method for the Kafka source. (`PLAIN`, `SCRAM-SHA-256`, `SCRAM-SHA-512`, `IAM_ROLE`, `IAM_USER`, `MUTUAL_TLS`). Default is `PLAIN`.
+	Authentication *string `pulumi:"authentication"`
+	// The list of Kafka bootstrap brokers. (comma separated)
+	Brokers string `pulumi:"brokers"`
+	// PEM encoded CA certificates to validate the broker's certificate.
+	CaCertificate *string `pulumi:"caCertificate"`
+	// Consumer group of the Kafka source. If not provided `clickpipes-<ID>` will be used.
+	ConsumerGroup *string `pulumi:"consumerGroup"`
+	// The credentials for the Kafka source.
+	Credentials *ClickpipeSourceKafkaCredentials `pulumi:"credentials"`
+	// Enable exactly-once delivery. Guarantees every Kafka record is inserted exactly once across restarts and rebalances.
+	ExactlyOnce *bool `pulumi:"exactlyOnce"`
+	// The format of the Kafka source. (`JSONEachRow`, `Avro`, `AvroConfluent`, `Protobuf`)
+	Format string `pulumi:"format"`
+	// The IAM role for the Kafka source. Use with `IAM_ROLE` authentication. It can be used with AWS ClickHouse service only. Read more at https://clickhouse.com/docs/en/integrations/clickpipes/kafka#iam
+	IamRole *string `pulumi:"iamRole"`
+	// The Kafka offset.
+	Offset *ClickpipeSourceKafkaOffset `pulumi:"offset"`
+	// The list of reverse private endpoint IDs for the Kafka source. (comma separated)
+	ReversePrivateEndpointIds []string `pulumi:"reversePrivateEndpointIds"`
+	// The schema registry for the Kafka source.
+	SchemaRegistry *ClickpipeSourceKafkaSchemaRegistry `pulumi:"schemaRegistry"`
+	// The list of Kafka topics. (comma separated)
+	Topics string `pulumi:"topics"`
+	// The type of the Kafka source. (`kafka`, `redpanda`, `confluent`, `msk`, `warpstream`, `azureeventhub`, `gcmk`). Default is `kafka`.
+	Type *string `pulumi:"type"`
+}
+
+// ClickpipeSourceKafkaInput is an input type that accepts ClickpipeSourceKafkaArgs and ClickpipeSourceKafkaOutput values.
+// You can construct a concrete instance of `ClickpipeSourceKafkaInput` via:
+//
+//	ClickpipeSourceKafkaArgs{...}
+type ClickpipeSourceKafkaInput interface {
+	pulumi.Input
+
+	ToClickpipeSourceKafkaOutput() ClickpipeSourceKafkaOutput
+	ToClickpipeSourceKafkaOutputWithContext(context.Context) ClickpipeSourceKafkaOutput
+}
+
+type ClickpipeSourceKafkaArgs struct {
+	// The authentication method for the Kafka source. (`PLAIN`, `SCRAM-SHA-256`, `SCRAM-SHA-512`, `IAM_ROLE`, `IAM_USER`, `MUTUAL_TLS`). Default is `PLAIN`.
+	Authentication pulumi.StringPtrInput `pulumi:"authentication"`
+	// The list of Kafka bootstrap brokers. (comma separated)
+	Brokers pulumi.StringInput `pulumi:"brokers"`
+	// PEM encoded CA certificates to validate the broker's certificate.
+	CaCertificate pulumi.StringPtrInput `pulumi:"caCertificate"`
+	// Consumer group of the Kafka source. If not provided `clickpipes-<ID>` will be used.
+	ConsumerGroup pulumi.StringPtrInput `pulumi:"consumerGroup"`
+	// The credentials for the Kafka source.
+	Credentials ClickpipeSourceKafkaCredentialsPtrInput `pulumi:"credentials"`
+	// Enable exactly-once delivery. Guarantees every Kafka record is inserted exactly once across restarts and rebalances.
+	ExactlyOnce pulumi.BoolPtrInput `pulumi:"exactlyOnce"`
+	// The format of the Kafka source. (`JSONEachRow`, `Avro`, `AvroConfluent`, `Protobuf`)
+	Format pulumi.StringInput `pulumi:"format"`
+	// The IAM role for the Kafka source. Use with `IAM_ROLE` authentication. It can be used with AWS ClickHouse service only. Read more at https://clickhouse.com/docs/en/integrations/clickpipes/kafka#iam
+	IamRole pulumi.StringPtrInput `pulumi:"iamRole"`
+	// The Kafka offset.
+	Offset ClickpipeSourceKafkaOffsetPtrInput `pulumi:"offset"`
+	// The list of reverse private endpoint IDs for the Kafka source. (comma separated)
+	ReversePrivateEndpointIds pulumi.StringArrayInput `pulumi:"reversePrivateEndpointIds"`
+	// The schema registry for the Kafka source.
+	SchemaRegistry ClickpipeSourceKafkaSchemaRegistryPtrInput `pulumi:"schemaRegistry"`
+	// The list of Kafka topics. (comma separated)
+	Topics pulumi.StringInput `pulumi:"topics"`
+	// The type of the Kafka source. (`kafka`, `redpanda`, `confluent`, `msk`, `warpstream`, `azureeventhub`, `gcmk`). Default is `kafka`.
+	Type pulumi.StringPtrInput `pulumi:"type"`
+}
+
+func (ClickpipeSourceKafkaArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*ClickpipeSourceKafka)(nil)).Elem()
+}
+
+func (i ClickpipeSourceKafkaArgs) ToClickpipeSourceKafkaOutput() ClickpipeSourceKafkaOutput {
+	return i.ToClickpipeSourceKafkaOutputWithContext(context.Background())
+}
+
+func (i ClickpipeSourceKafkaArgs) ToClickpipeSourceKafkaOutputWithContext(ctx context.Context) ClickpipeSourceKafkaOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourceKafkaOutput)
+}
+
+func (i ClickpipeSourceKafkaArgs) ToClickpipeSourceKafkaPtrOutput() ClickpipeSourceKafkaPtrOutput {
+	return i.ToClickpipeSourceKafkaPtrOutputWithContext(context.Background())
+}
+
+func (i ClickpipeSourceKafkaArgs) ToClickpipeSourceKafkaPtrOutputWithContext(ctx context.Context) ClickpipeSourceKafkaPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourceKafkaOutput).ToClickpipeSourceKafkaPtrOutputWithContext(ctx)
+}
+
+// ClickpipeSourceKafkaPtrInput is an input type that accepts ClickpipeSourceKafkaArgs, ClickpipeSourceKafkaPtr and ClickpipeSourceKafkaPtrOutput values.
+// You can construct a concrete instance of `ClickpipeSourceKafkaPtrInput` via:
+//
+//	        ClickpipeSourceKafkaArgs{...}
+//
+//	or:
+//
+//	        nil
+type ClickpipeSourceKafkaPtrInput interface {
+	pulumi.Input
+
+	ToClickpipeSourceKafkaPtrOutput() ClickpipeSourceKafkaPtrOutput
+	ToClickpipeSourceKafkaPtrOutputWithContext(context.Context) ClickpipeSourceKafkaPtrOutput
+}
+
+type clickpipeSourceKafkaPtrType ClickpipeSourceKafkaArgs
+
+func ClickpipeSourceKafkaPtr(v *ClickpipeSourceKafkaArgs) ClickpipeSourceKafkaPtrInput {
+	return (*clickpipeSourceKafkaPtrType)(v)
+}
+
+func (*clickpipeSourceKafkaPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**ClickpipeSourceKafka)(nil)).Elem()
+}
+
+func (i *clickpipeSourceKafkaPtrType) ToClickpipeSourceKafkaPtrOutput() ClickpipeSourceKafkaPtrOutput {
+	return i.ToClickpipeSourceKafkaPtrOutputWithContext(context.Background())
+}
+
+func (i *clickpipeSourceKafkaPtrType) ToClickpipeSourceKafkaPtrOutputWithContext(ctx context.Context) ClickpipeSourceKafkaPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourceKafkaPtrOutput)
+}
+
+type ClickpipeSourceKafkaOutput struct{ *pulumi.OutputState }
+
+func (ClickpipeSourceKafkaOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ClickpipeSourceKafka)(nil)).Elem()
+}
+
+func (o ClickpipeSourceKafkaOutput) ToClickpipeSourceKafkaOutput() ClickpipeSourceKafkaOutput {
+	return o
+}
+
+func (o ClickpipeSourceKafkaOutput) ToClickpipeSourceKafkaOutputWithContext(ctx context.Context) ClickpipeSourceKafkaOutput {
+	return o
+}
+
+func (o ClickpipeSourceKafkaOutput) ToClickpipeSourceKafkaPtrOutput() ClickpipeSourceKafkaPtrOutput {
+	return o.ToClickpipeSourceKafkaPtrOutputWithContext(context.Background())
+}
+
+func (o ClickpipeSourceKafkaOutput) ToClickpipeSourceKafkaPtrOutputWithContext(ctx context.Context) ClickpipeSourceKafkaPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v ClickpipeSourceKafka) *ClickpipeSourceKafka {
+		return &v
+	}).(ClickpipeSourceKafkaPtrOutput)
+}
+
+// The authentication method for the Kafka source. (`PLAIN`, `SCRAM-SHA-256`, `SCRAM-SHA-512`, `IAM_ROLE`, `IAM_USER`, `MUTUAL_TLS`). Default is `PLAIN`.
+func (o ClickpipeSourceKafkaOutput) Authentication() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceKafka) *string { return v.Authentication }).(pulumi.StringPtrOutput)
+}
+
+// The list of Kafka bootstrap brokers. (comma separated)
+func (o ClickpipeSourceKafkaOutput) Brokers() pulumi.StringOutput {
+	return o.ApplyT(func(v ClickpipeSourceKafka) string { return v.Brokers }).(pulumi.StringOutput)
+}
+
+// PEM encoded CA certificates to validate the broker's certificate.
+func (o ClickpipeSourceKafkaOutput) CaCertificate() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceKafka) *string { return v.CaCertificate }).(pulumi.StringPtrOutput)
+}
+
+// Consumer group of the Kafka source. If not provided `clickpipes-<ID>` will be used.
+func (o ClickpipeSourceKafkaOutput) ConsumerGroup() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceKafka) *string { return v.ConsumerGroup }).(pulumi.StringPtrOutput)
+}
+
+// The credentials for the Kafka source.
+func (o ClickpipeSourceKafkaOutput) Credentials() ClickpipeSourceKafkaCredentialsPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceKafka) *ClickpipeSourceKafkaCredentials { return v.Credentials }).(ClickpipeSourceKafkaCredentialsPtrOutput)
+}
+
+// Enable exactly-once delivery. Guarantees every Kafka record is inserted exactly once across restarts and rebalances.
+func (o ClickpipeSourceKafkaOutput) ExactlyOnce() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceKafka) *bool { return v.ExactlyOnce }).(pulumi.BoolPtrOutput)
+}
+
+// The format of the Kafka source. (`JSONEachRow`, `Avro`, `AvroConfluent`, `Protobuf`)
+func (o ClickpipeSourceKafkaOutput) Format() pulumi.StringOutput {
+	return o.ApplyT(func(v ClickpipeSourceKafka) string { return v.Format }).(pulumi.StringOutput)
+}
+
+// The IAM role for the Kafka source. Use with `IAM_ROLE` authentication. It can be used with AWS ClickHouse service only. Read more at https://clickhouse.com/docs/en/integrations/clickpipes/kafka#iam
+func (o ClickpipeSourceKafkaOutput) IamRole() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceKafka) *string { return v.IamRole }).(pulumi.StringPtrOutput)
+}
+
+// The Kafka offset.
+func (o ClickpipeSourceKafkaOutput) Offset() ClickpipeSourceKafkaOffsetPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceKafka) *ClickpipeSourceKafkaOffset { return v.Offset }).(ClickpipeSourceKafkaOffsetPtrOutput)
+}
+
+// The list of reverse private endpoint IDs for the Kafka source. (comma separated)
+func (o ClickpipeSourceKafkaOutput) ReversePrivateEndpointIds() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v ClickpipeSourceKafka) []string { return v.ReversePrivateEndpointIds }).(pulumi.StringArrayOutput)
+}
+
+// The schema registry for the Kafka source.
+func (o ClickpipeSourceKafkaOutput) SchemaRegistry() ClickpipeSourceKafkaSchemaRegistryPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceKafka) *ClickpipeSourceKafkaSchemaRegistry { return v.SchemaRegistry }).(ClickpipeSourceKafkaSchemaRegistryPtrOutput)
+}
+
+// The list of Kafka topics. (comma separated)
+func (o ClickpipeSourceKafkaOutput) Topics() pulumi.StringOutput {
+	return o.ApplyT(func(v ClickpipeSourceKafka) string { return v.Topics }).(pulumi.StringOutput)
+}
+
+// The type of the Kafka source. (`kafka`, `redpanda`, `confluent`, `msk`, `warpstream`, `azureeventhub`, `gcmk`). Default is `kafka`.
+func (o ClickpipeSourceKafkaOutput) Type() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceKafka) *string { return v.Type }).(pulumi.StringPtrOutput)
+}
+
+type ClickpipeSourceKafkaPtrOutput struct{ *pulumi.OutputState }
+
+func (ClickpipeSourceKafkaPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**ClickpipeSourceKafka)(nil)).Elem()
+}
+
+func (o ClickpipeSourceKafkaPtrOutput) ToClickpipeSourceKafkaPtrOutput() ClickpipeSourceKafkaPtrOutput {
+	return o
+}
+
+func (o ClickpipeSourceKafkaPtrOutput) ToClickpipeSourceKafkaPtrOutputWithContext(ctx context.Context) ClickpipeSourceKafkaPtrOutput {
+	return o
+}
+
+func (o ClickpipeSourceKafkaPtrOutput) Elem() ClickpipeSourceKafkaOutput {
+	return o.ApplyT(func(v *ClickpipeSourceKafka) ClickpipeSourceKafka {
+		if v != nil {
+			return *v
+		}
+		var ret ClickpipeSourceKafka
+		return ret
+	}).(ClickpipeSourceKafkaOutput)
+}
+
+// The authentication method for the Kafka source. (`PLAIN`, `SCRAM-SHA-256`, `SCRAM-SHA-512`, `IAM_ROLE`, `IAM_USER`, `MUTUAL_TLS`). Default is `PLAIN`.
+func (o ClickpipeSourceKafkaPtrOutput) Authentication() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceKafka) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Authentication
+	}).(pulumi.StringPtrOutput)
+}
+
+// The list of Kafka bootstrap brokers. (comma separated)
+func (o ClickpipeSourceKafkaPtrOutput) Brokers() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceKafka) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.Brokers
+	}).(pulumi.StringPtrOutput)
+}
+
+// PEM encoded CA certificates to validate the broker's certificate.
+func (o ClickpipeSourceKafkaPtrOutput) CaCertificate() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceKafka) *string {
+		if v == nil {
+			return nil
+		}
+		return v.CaCertificate
+	}).(pulumi.StringPtrOutput)
+}
+
+// Consumer group of the Kafka source. If not provided `clickpipes-<ID>` will be used.
+func (o ClickpipeSourceKafkaPtrOutput) ConsumerGroup() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceKafka) *string {
+		if v == nil {
+			return nil
+		}
+		return v.ConsumerGroup
+	}).(pulumi.StringPtrOutput)
+}
+
+// The credentials for the Kafka source.
+func (o ClickpipeSourceKafkaPtrOutput) Credentials() ClickpipeSourceKafkaCredentialsPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceKafka) *ClickpipeSourceKafkaCredentials {
+		if v == nil {
+			return nil
+		}
+		return v.Credentials
+	}).(ClickpipeSourceKafkaCredentialsPtrOutput)
+}
+
+// Enable exactly-once delivery. Guarantees every Kafka record is inserted exactly once across restarts and rebalances.
+func (o ClickpipeSourceKafkaPtrOutput) ExactlyOnce() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceKafka) *bool {
+		if v == nil {
+			return nil
+		}
+		return v.ExactlyOnce
+	}).(pulumi.BoolPtrOutput)
+}
+
+// The format of the Kafka source. (`JSONEachRow`, `Avro`, `AvroConfluent`, `Protobuf`)
+func (o ClickpipeSourceKafkaPtrOutput) Format() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceKafka) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.Format
+	}).(pulumi.StringPtrOutput)
+}
+
+// The IAM role for the Kafka source. Use with `IAM_ROLE` authentication. It can be used with AWS ClickHouse service only. Read more at https://clickhouse.com/docs/en/integrations/clickpipes/kafka#iam
+func (o ClickpipeSourceKafkaPtrOutput) IamRole() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceKafka) *string {
+		if v == nil {
+			return nil
+		}
+		return v.IamRole
+	}).(pulumi.StringPtrOutput)
+}
+
+// The Kafka offset.
+func (o ClickpipeSourceKafkaPtrOutput) Offset() ClickpipeSourceKafkaOffsetPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceKafka) *ClickpipeSourceKafkaOffset {
+		if v == nil {
+			return nil
+		}
+		return v.Offset
+	}).(ClickpipeSourceKafkaOffsetPtrOutput)
+}
+
+// The list of reverse private endpoint IDs for the Kafka source. (comma separated)
+func (o ClickpipeSourceKafkaPtrOutput) ReversePrivateEndpointIds() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v *ClickpipeSourceKafka) []string {
+		if v == nil {
+			return nil
+		}
+		return v.ReversePrivateEndpointIds
+	}).(pulumi.StringArrayOutput)
+}
+
+// The schema registry for the Kafka source.
+func (o ClickpipeSourceKafkaPtrOutput) SchemaRegistry() ClickpipeSourceKafkaSchemaRegistryPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceKafka) *ClickpipeSourceKafkaSchemaRegistry {
+		if v == nil {
+			return nil
+		}
+		return v.SchemaRegistry
+	}).(ClickpipeSourceKafkaSchemaRegistryPtrOutput)
+}
+
+// The list of Kafka topics. (comma separated)
+func (o ClickpipeSourceKafkaPtrOutput) Topics() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceKafka) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.Topics
+	}).(pulumi.StringPtrOutput)
+}
+
+// The type of the Kafka source. (`kafka`, `redpanda`, `confluent`, `msk`, `warpstream`, `azureeventhub`, `gcmk`). Default is `kafka`.
+func (o ClickpipeSourceKafkaPtrOutput) Type() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceKafka) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Type
+	}).(pulumi.StringPtrOutput)
+}
+
+type ClickpipeSourceKafkaCredentials struct {
+	// The access key ID for the Kafka source. Use with `IAM_USER` authentication.
+	AccessKeyId *string `pulumi:"accessKeyId"`
+	// PEM encoded client certificate for mTLS authentication. Use with `MUTUAL_TLS` authentication.
+	Certificate *string `pulumi:"certificate"`
+	// The connection string for the Kafka source. Use with `azureeventhub` Kafka source type. Use with `PLAIN` authentication.
+	ConnectionString *string `pulumi:"connectionString"`
+	// The password for the Kafka source. Use `passwordWo` instead to keep the value out of state.
+	Password *string `pulumi:"password"`
+	// **NOTE:** This field is write-only and its value will not be updated in state as part of read operations.
+	// Write-only password for the Kafka source. Not persisted to state. Pair with `passwordWoVersion` to trigger updates.
+	PasswordWo *string `pulumi:"passwordWo"`
+	// Version trigger for `passwordWo`. Increment to push a new password to the API.
+	PasswordWoVersion *int `pulumi:"passwordWoVersion"`
+	// PEM encoded client private key for mTLS authentication. Use with `MUTUAL_TLS` authentication.
+	PrivateKey *string `pulumi:"privateKey"`
+	// The secret key for the Kafka source. Use with `IAM_USER` authentication.
+	SecretKey *string `pulumi:"secretKey"`
+	// The username for the Kafka source.
+	Username *string `pulumi:"username"`
+}
+
+// ClickpipeSourceKafkaCredentialsInput is an input type that accepts ClickpipeSourceKafkaCredentialsArgs and ClickpipeSourceKafkaCredentialsOutput values.
+// You can construct a concrete instance of `ClickpipeSourceKafkaCredentialsInput` via:
+//
+//	ClickpipeSourceKafkaCredentialsArgs{...}
+type ClickpipeSourceKafkaCredentialsInput interface {
+	pulumi.Input
+
+	ToClickpipeSourceKafkaCredentialsOutput() ClickpipeSourceKafkaCredentialsOutput
+	ToClickpipeSourceKafkaCredentialsOutputWithContext(context.Context) ClickpipeSourceKafkaCredentialsOutput
+}
+
+type ClickpipeSourceKafkaCredentialsArgs struct {
+	// The access key ID for the Kafka source. Use with `IAM_USER` authentication.
+	AccessKeyId pulumi.StringPtrInput `pulumi:"accessKeyId"`
+	// PEM encoded client certificate for mTLS authentication. Use with `MUTUAL_TLS` authentication.
+	Certificate pulumi.StringPtrInput `pulumi:"certificate"`
+	// The connection string for the Kafka source. Use with `azureeventhub` Kafka source type. Use with `PLAIN` authentication.
+	ConnectionString pulumi.StringPtrInput `pulumi:"connectionString"`
+	// The password for the Kafka source. Use `passwordWo` instead to keep the value out of state.
+	Password pulumi.StringPtrInput `pulumi:"password"`
+	// **NOTE:** This field is write-only and its value will not be updated in state as part of read operations.
+	// Write-only password for the Kafka source. Not persisted to state. Pair with `passwordWoVersion` to trigger updates.
+	PasswordWo pulumi.StringPtrInput `pulumi:"passwordWo"`
+	// Version trigger for `passwordWo`. Increment to push a new password to the API.
+	PasswordWoVersion pulumi.IntPtrInput `pulumi:"passwordWoVersion"`
+	// PEM encoded client private key for mTLS authentication. Use with `MUTUAL_TLS` authentication.
+	PrivateKey pulumi.StringPtrInput `pulumi:"privateKey"`
+	// The secret key for the Kafka source. Use with `IAM_USER` authentication.
+	SecretKey pulumi.StringPtrInput `pulumi:"secretKey"`
+	// The username for the Kafka source.
+	Username pulumi.StringPtrInput `pulumi:"username"`
+}
+
+func (ClickpipeSourceKafkaCredentialsArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*ClickpipeSourceKafkaCredentials)(nil)).Elem()
+}
+
+func (i ClickpipeSourceKafkaCredentialsArgs) ToClickpipeSourceKafkaCredentialsOutput() ClickpipeSourceKafkaCredentialsOutput {
+	return i.ToClickpipeSourceKafkaCredentialsOutputWithContext(context.Background())
+}
+
+func (i ClickpipeSourceKafkaCredentialsArgs) ToClickpipeSourceKafkaCredentialsOutputWithContext(ctx context.Context) ClickpipeSourceKafkaCredentialsOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourceKafkaCredentialsOutput)
+}
+
+func (i ClickpipeSourceKafkaCredentialsArgs) ToClickpipeSourceKafkaCredentialsPtrOutput() ClickpipeSourceKafkaCredentialsPtrOutput {
+	return i.ToClickpipeSourceKafkaCredentialsPtrOutputWithContext(context.Background())
+}
+
+func (i ClickpipeSourceKafkaCredentialsArgs) ToClickpipeSourceKafkaCredentialsPtrOutputWithContext(ctx context.Context) ClickpipeSourceKafkaCredentialsPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourceKafkaCredentialsOutput).ToClickpipeSourceKafkaCredentialsPtrOutputWithContext(ctx)
+}
+
+// ClickpipeSourceKafkaCredentialsPtrInput is an input type that accepts ClickpipeSourceKafkaCredentialsArgs, ClickpipeSourceKafkaCredentialsPtr and ClickpipeSourceKafkaCredentialsPtrOutput values.
+// You can construct a concrete instance of `ClickpipeSourceKafkaCredentialsPtrInput` via:
+//
+//	        ClickpipeSourceKafkaCredentialsArgs{...}
+//
+//	or:
+//
+//	        nil
+type ClickpipeSourceKafkaCredentialsPtrInput interface {
+	pulumi.Input
+
+	ToClickpipeSourceKafkaCredentialsPtrOutput() ClickpipeSourceKafkaCredentialsPtrOutput
+	ToClickpipeSourceKafkaCredentialsPtrOutputWithContext(context.Context) ClickpipeSourceKafkaCredentialsPtrOutput
+}
+
+type clickpipeSourceKafkaCredentialsPtrType ClickpipeSourceKafkaCredentialsArgs
+
+func ClickpipeSourceKafkaCredentialsPtr(v *ClickpipeSourceKafkaCredentialsArgs) ClickpipeSourceKafkaCredentialsPtrInput {
+	return (*clickpipeSourceKafkaCredentialsPtrType)(v)
+}
+
+func (*clickpipeSourceKafkaCredentialsPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**ClickpipeSourceKafkaCredentials)(nil)).Elem()
+}
+
+func (i *clickpipeSourceKafkaCredentialsPtrType) ToClickpipeSourceKafkaCredentialsPtrOutput() ClickpipeSourceKafkaCredentialsPtrOutput {
+	return i.ToClickpipeSourceKafkaCredentialsPtrOutputWithContext(context.Background())
+}
+
+func (i *clickpipeSourceKafkaCredentialsPtrType) ToClickpipeSourceKafkaCredentialsPtrOutputWithContext(ctx context.Context) ClickpipeSourceKafkaCredentialsPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourceKafkaCredentialsPtrOutput)
+}
+
+type ClickpipeSourceKafkaCredentialsOutput struct{ *pulumi.OutputState }
+
+func (ClickpipeSourceKafkaCredentialsOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ClickpipeSourceKafkaCredentials)(nil)).Elem()
+}
+
+func (o ClickpipeSourceKafkaCredentialsOutput) ToClickpipeSourceKafkaCredentialsOutput() ClickpipeSourceKafkaCredentialsOutput {
+	return o
+}
+
+func (o ClickpipeSourceKafkaCredentialsOutput) ToClickpipeSourceKafkaCredentialsOutputWithContext(ctx context.Context) ClickpipeSourceKafkaCredentialsOutput {
+	return o
+}
+
+func (o ClickpipeSourceKafkaCredentialsOutput) ToClickpipeSourceKafkaCredentialsPtrOutput() ClickpipeSourceKafkaCredentialsPtrOutput {
+	return o.ToClickpipeSourceKafkaCredentialsPtrOutputWithContext(context.Background())
+}
+
+func (o ClickpipeSourceKafkaCredentialsOutput) ToClickpipeSourceKafkaCredentialsPtrOutputWithContext(ctx context.Context) ClickpipeSourceKafkaCredentialsPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v ClickpipeSourceKafkaCredentials) *ClickpipeSourceKafkaCredentials {
+		return &v
+	}).(ClickpipeSourceKafkaCredentialsPtrOutput)
+}
+
+// The access key ID for the Kafka source. Use with `IAM_USER` authentication.
+func (o ClickpipeSourceKafkaCredentialsOutput) AccessKeyId() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceKafkaCredentials) *string { return v.AccessKeyId }).(pulumi.StringPtrOutput)
+}
+
+// PEM encoded client certificate for mTLS authentication. Use with `MUTUAL_TLS` authentication.
+func (o ClickpipeSourceKafkaCredentialsOutput) Certificate() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceKafkaCredentials) *string { return v.Certificate }).(pulumi.StringPtrOutput)
+}
+
+// The connection string for the Kafka source. Use with `azureeventhub` Kafka source type. Use with `PLAIN` authentication.
+func (o ClickpipeSourceKafkaCredentialsOutput) ConnectionString() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceKafkaCredentials) *string { return v.ConnectionString }).(pulumi.StringPtrOutput)
+}
+
+// The password for the Kafka source. Use `passwordWo` instead to keep the value out of state.
+func (o ClickpipeSourceKafkaCredentialsOutput) Password() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceKafkaCredentials) *string { return v.Password }).(pulumi.StringPtrOutput)
+}
+
+// **NOTE:** This field is write-only and its value will not be updated in state as part of read operations.
+// Write-only password for the Kafka source. Not persisted to state. Pair with `passwordWoVersion` to trigger updates.
+func (o ClickpipeSourceKafkaCredentialsOutput) PasswordWo() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceKafkaCredentials) *string { return v.PasswordWo }).(pulumi.StringPtrOutput)
+}
+
+// Version trigger for `passwordWo`. Increment to push a new password to the API.
+func (o ClickpipeSourceKafkaCredentialsOutput) PasswordWoVersion() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceKafkaCredentials) *int { return v.PasswordWoVersion }).(pulumi.IntPtrOutput)
+}
+
+// PEM encoded client private key for mTLS authentication. Use with `MUTUAL_TLS` authentication.
+func (o ClickpipeSourceKafkaCredentialsOutput) PrivateKey() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceKafkaCredentials) *string { return v.PrivateKey }).(pulumi.StringPtrOutput)
+}
+
+// The secret key for the Kafka source. Use with `IAM_USER` authentication.
+func (o ClickpipeSourceKafkaCredentialsOutput) SecretKey() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceKafkaCredentials) *string { return v.SecretKey }).(pulumi.StringPtrOutput)
+}
+
+// The username for the Kafka source.
+func (o ClickpipeSourceKafkaCredentialsOutput) Username() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceKafkaCredentials) *string { return v.Username }).(pulumi.StringPtrOutput)
+}
+
+type ClickpipeSourceKafkaCredentialsPtrOutput struct{ *pulumi.OutputState }
+
+func (ClickpipeSourceKafkaCredentialsPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**ClickpipeSourceKafkaCredentials)(nil)).Elem()
+}
+
+func (o ClickpipeSourceKafkaCredentialsPtrOutput) ToClickpipeSourceKafkaCredentialsPtrOutput() ClickpipeSourceKafkaCredentialsPtrOutput {
+	return o
+}
+
+func (o ClickpipeSourceKafkaCredentialsPtrOutput) ToClickpipeSourceKafkaCredentialsPtrOutputWithContext(ctx context.Context) ClickpipeSourceKafkaCredentialsPtrOutput {
+	return o
+}
+
+func (o ClickpipeSourceKafkaCredentialsPtrOutput) Elem() ClickpipeSourceKafkaCredentialsOutput {
+	return o.ApplyT(func(v *ClickpipeSourceKafkaCredentials) ClickpipeSourceKafkaCredentials {
+		if v != nil {
+			return *v
+		}
+		var ret ClickpipeSourceKafkaCredentials
+		return ret
+	}).(ClickpipeSourceKafkaCredentialsOutput)
+}
+
+// The access key ID for the Kafka source. Use with `IAM_USER` authentication.
+func (o ClickpipeSourceKafkaCredentialsPtrOutput) AccessKeyId() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceKafkaCredentials) *string {
+		if v == nil {
+			return nil
+		}
+		return v.AccessKeyId
+	}).(pulumi.StringPtrOutput)
+}
+
+// PEM encoded client certificate for mTLS authentication. Use with `MUTUAL_TLS` authentication.
+func (o ClickpipeSourceKafkaCredentialsPtrOutput) Certificate() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceKafkaCredentials) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Certificate
+	}).(pulumi.StringPtrOutput)
+}
+
+// The connection string for the Kafka source. Use with `azureeventhub` Kafka source type. Use with `PLAIN` authentication.
+func (o ClickpipeSourceKafkaCredentialsPtrOutput) ConnectionString() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceKafkaCredentials) *string {
+		if v == nil {
+			return nil
+		}
+		return v.ConnectionString
+	}).(pulumi.StringPtrOutput)
+}
+
+// The password for the Kafka source. Use `passwordWo` instead to keep the value out of state.
+func (o ClickpipeSourceKafkaCredentialsPtrOutput) Password() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceKafkaCredentials) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Password
+	}).(pulumi.StringPtrOutput)
+}
+
+// **NOTE:** This field is write-only and its value will not be updated in state as part of read operations.
+// Write-only password for the Kafka source. Not persisted to state. Pair with `passwordWoVersion` to trigger updates.
+func (o ClickpipeSourceKafkaCredentialsPtrOutput) PasswordWo() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceKafkaCredentials) *string {
+		if v == nil {
+			return nil
+		}
+		return v.PasswordWo
+	}).(pulumi.StringPtrOutput)
+}
+
+// Version trigger for `passwordWo`. Increment to push a new password to the API.
+func (o ClickpipeSourceKafkaCredentialsPtrOutput) PasswordWoVersion() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceKafkaCredentials) *int {
+		if v == nil {
+			return nil
+		}
+		return v.PasswordWoVersion
+	}).(pulumi.IntPtrOutput)
+}
+
+// PEM encoded client private key for mTLS authentication. Use with `MUTUAL_TLS` authentication.
+func (o ClickpipeSourceKafkaCredentialsPtrOutput) PrivateKey() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceKafkaCredentials) *string {
+		if v == nil {
+			return nil
+		}
+		return v.PrivateKey
+	}).(pulumi.StringPtrOutput)
+}
+
+// The secret key for the Kafka source. Use with `IAM_USER` authentication.
+func (o ClickpipeSourceKafkaCredentialsPtrOutput) SecretKey() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceKafkaCredentials) *string {
+		if v == nil {
+			return nil
+		}
+		return v.SecretKey
+	}).(pulumi.StringPtrOutput)
+}
+
+// The username for the Kafka source.
+func (o ClickpipeSourceKafkaCredentialsPtrOutput) Username() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceKafkaCredentials) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Username
+	}).(pulumi.StringPtrOutput)
+}
+
+type ClickpipeSourceKafkaOffset struct {
+	// The offset strategy for the Kafka source. (`fromBeginning`, `fromLatest`, `fromTimestamp`)
+	Strategy string `pulumi:"strategy"`
+	// The timestamp for the Kafka offset. Use with `fromTimestamp` offset strategy. (format `2021-01-01T00:00`)
+	Timestamp *string `pulumi:"timestamp"`
+}
+
+// ClickpipeSourceKafkaOffsetInput is an input type that accepts ClickpipeSourceKafkaOffsetArgs and ClickpipeSourceKafkaOffsetOutput values.
+// You can construct a concrete instance of `ClickpipeSourceKafkaOffsetInput` via:
+//
+//	ClickpipeSourceKafkaOffsetArgs{...}
+type ClickpipeSourceKafkaOffsetInput interface {
+	pulumi.Input
+
+	ToClickpipeSourceKafkaOffsetOutput() ClickpipeSourceKafkaOffsetOutput
+	ToClickpipeSourceKafkaOffsetOutputWithContext(context.Context) ClickpipeSourceKafkaOffsetOutput
+}
+
+type ClickpipeSourceKafkaOffsetArgs struct {
+	// The offset strategy for the Kafka source. (`fromBeginning`, `fromLatest`, `fromTimestamp`)
+	Strategy pulumi.StringInput `pulumi:"strategy"`
+	// The timestamp for the Kafka offset. Use with `fromTimestamp` offset strategy. (format `2021-01-01T00:00`)
+	Timestamp pulumi.StringPtrInput `pulumi:"timestamp"`
+}
+
+func (ClickpipeSourceKafkaOffsetArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*ClickpipeSourceKafkaOffset)(nil)).Elem()
+}
+
+func (i ClickpipeSourceKafkaOffsetArgs) ToClickpipeSourceKafkaOffsetOutput() ClickpipeSourceKafkaOffsetOutput {
+	return i.ToClickpipeSourceKafkaOffsetOutputWithContext(context.Background())
+}
+
+func (i ClickpipeSourceKafkaOffsetArgs) ToClickpipeSourceKafkaOffsetOutputWithContext(ctx context.Context) ClickpipeSourceKafkaOffsetOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourceKafkaOffsetOutput)
+}
+
+func (i ClickpipeSourceKafkaOffsetArgs) ToClickpipeSourceKafkaOffsetPtrOutput() ClickpipeSourceKafkaOffsetPtrOutput {
+	return i.ToClickpipeSourceKafkaOffsetPtrOutputWithContext(context.Background())
+}
+
+func (i ClickpipeSourceKafkaOffsetArgs) ToClickpipeSourceKafkaOffsetPtrOutputWithContext(ctx context.Context) ClickpipeSourceKafkaOffsetPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourceKafkaOffsetOutput).ToClickpipeSourceKafkaOffsetPtrOutputWithContext(ctx)
+}
+
+// ClickpipeSourceKafkaOffsetPtrInput is an input type that accepts ClickpipeSourceKafkaOffsetArgs, ClickpipeSourceKafkaOffsetPtr and ClickpipeSourceKafkaOffsetPtrOutput values.
+// You can construct a concrete instance of `ClickpipeSourceKafkaOffsetPtrInput` via:
+//
+//	        ClickpipeSourceKafkaOffsetArgs{...}
+//
+//	or:
+//
+//	        nil
+type ClickpipeSourceKafkaOffsetPtrInput interface {
+	pulumi.Input
+
+	ToClickpipeSourceKafkaOffsetPtrOutput() ClickpipeSourceKafkaOffsetPtrOutput
+	ToClickpipeSourceKafkaOffsetPtrOutputWithContext(context.Context) ClickpipeSourceKafkaOffsetPtrOutput
+}
+
+type clickpipeSourceKafkaOffsetPtrType ClickpipeSourceKafkaOffsetArgs
+
+func ClickpipeSourceKafkaOffsetPtr(v *ClickpipeSourceKafkaOffsetArgs) ClickpipeSourceKafkaOffsetPtrInput {
+	return (*clickpipeSourceKafkaOffsetPtrType)(v)
+}
+
+func (*clickpipeSourceKafkaOffsetPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**ClickpipeSourceKafkaOffset)(nil)).Elem()
+}
+
+func (i *clickpipeSourceKafkaOffsetPtrType) ToClickpipeSourceKafkaOffsetPtrOutput() ClickpipeSourceKafkaOffsetPtrOutput {
+	return i.ToClickpipeSourceKafkaOffsetPtrOutputWithContext(context.Background())
+}
+
+func (i *clickpipeSourceKafkaOffsetPtrType) ToClickpipeSourceKafkaOffsetPtrOutputWithContext(ctx context.Context) ClickpipeSourceKafkaOffsetPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourceKafkaOffsetPtrOutput)
+}
+
+type ClickpipeSourceKafkaOffsetOutput struct{ *pulumi.OutputState }
+
+func (ClickpipeSourceKafkaOffsetOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ClickpipeSourceKafkaOffset)(nil)).Elem()
+}
+
+func (o ClickpipeSourceKafkaOffsetOutput) ToClickpipeSourceKafkaOffsetOutput() ClickpipeSourceKafkaOffsetOutput {
+	return o
+}
+
+func (o ClickpipeSourceKafkaOffsetOutput) ToClickpipeSourceKafkaOffsetOutputWithContext(ctx context.Context) ClickpipeSourceKafkaOffsetOutput {
+	return o
+}
+
+func (o ClickpipeSourceKafkaOffsetOutput) ToClickpipeSourceKafkaOffsetPtrOutput() ClickpipeSourceKafkaOffsetPtrOutput {
+	return o.ToClickpipeSourceKafkaOffsetPtrOutputWithContext(context.Background())
+}
+
+func (o ClickpipeSourceKafkaOffsetOutput) ToClickpipeSourceKafkaOffsetPtrOutputWithContext(ctx context.Context) ClickpipeSourceKafkaOffsetPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v ClickpipeSourceKafkaOffset) *ClickpipeSourceKafkaOffset {
+		return &v
+	}).(ClickpipeSourceKafkaOffsetPtrOutput)
+}
+
+// The offset strategy for the Kafka source. (`fromBeginning`, `fromLatest`, `fromTimestamp`)
+func (o ClickpipeSourceKafkaOffsetOutput) Strategy() pulumi.StringOutput {
+	return o.ApplyT(func(v ClickpipeSourceKafkaOffset) string { return v.Strategy }).(pulumi.StringOutput)
+}
+
+// The timestamp for the Kafka offset. Use with `fromTimestamp` offset strategy. (format `2021-01-01T00:00`)
+func (o ClickpipeSourceKafkaOffsetOutput) Timestamp() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceKafkaOffset) *string { return v.Timestamp }).(pulumi.StringPtrOutput)
+}
+
+type ClickpipeSourceKafkaOffsetPtrOutput struct{ *pulumi.OutputState }
+
+func (ClickpipeSourceKafkaOffsetPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**ClickpipeSourceKafkaOffset)(nil)).Elem()
+}
+
+func (o ClickpipeSourceKafkaOffsetPtrOutput) ToClickpipeSourceKafkaOffsetPtrOutput() ClickpipeSourceKafkaOffsetPtrOutput {
+	return o
+}
+
+func (o ClickpipeSourceKafkaOffsetPtrOutput) ToClickpipeSourceKafkaOffsetPtrOutputWithContext(ctx context.Context) ClickpipeSourceKafkaOffsetPtrOutput {
+	return o
+}
+
+func (o ClickpipeSourceKafkaOffsetPtrOutput) Elem() ClickpipeSourceKafkaOffsetOutput {
+	return o.ApplyT(func(v *ClickpipeSourceKafkaOffset) ClickpipeSourceKafkaOffset {
+		if v != nil {
+			return *v
+		}
+		var ret ClickpipeSourceKafkaOffset
+		return ret
+	}).(ClickpipeSourceKafkaOffsetOutput)
+}
+
+// The offset strategy for the Kafka source. (`fromBeginning`, `fromLatest`, `fromTimestamp`)
+func (o ClickpipeSourceKafkaOffsetPtrOutput) Strategy() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceKafkaOffset) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.Strategy
+	}).(pulumi.StringPtrOutput)
+}
+
+// The timestamp for the Kafka offset. Use with `fromTimestamp` offset strategy. (format `2021-01-01T00:00`)
+func (o ClickpipeSourceKafkaOffsetPtrOutput) Timestamp() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceKafkaOffset) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Timestamp
+	}).(pulumi.StringPtrOutput)
+}
+
+type ClickpipeSourceKafkaSchemaRegistry struct {
+	// The authentication method for the Schema Registry. Only supported is `PLAIN`.
+	Authentication string `pulumi:"authentication"`
+	// The credentials for the Schema Registry.
+	Credentials ClickpipeSourceKafkaSchemaRegistryCredentials `pulumi:"credentials"`
+	// The URL of the schema registry.
+	Url string `pulumi:"url"`
+}
+
+// ClickpipeSourceKafkaSchemaRegistryInput is an input type that accepts ClickpipeSourceKafkaSchemaRegistryArgs and ClickpipeSourceKafkaSchemaRegistryOutput values.
+// You can construct a concrete instance of `ClickpipeSourceKafkaSchemaRegistryInput` via:
+//
+//	ClickpipeSourceKafkaSchemaRegistryArgs{...}
+type ClickpipeSourceKafkaSchemaRegistryInput interface {
+	pulumi.Input
+
+	ToClickpipeSourceKafkaSchemaRegistryOutput() ClickpipeSourceKafkaSchemaRegistryOutput
+	ToClickpipeSourceKafkaSchemaRegistryOutputWithContext(context.Context) ClickpipeSourceKafkaSchemaRegistryOutput
+}
+
+type ClickpipeSourceKafkaSchemaRegistryArgs struct {
+	// The authentication method for the Schema Registry. Only supported is `PLAIN`.
+	Authentication pulumi.StringInput `pulumi:"authentication"`
+	// The credentials for the Schema Registry.
+	Credentials ClickpipeSourceKafkaSchemaRegistryCredentialsInput `pulumi:"credentials"`
+	// The URL of the schema registry.
+	Url pulumi.StringInput `pulumi:"url"`
+}
+
+func (ClickpipeSourceKafkaSchemaRegistryArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*ClickpipeSourceKafkaSchemaRegistry)(nil)).Elem()
+}
+
+func (i ClickpipeSourceKafkaSchemaRegistryArgs) ToClickpipeSourceKafkaSchemaRegistryOutput() ClickpipeSourceKafkaSchemaRegistryOutput {
+	return i.ToClickpipeSourceKafkaSchemaRegistryOutputWithContext(context.Background())
+}
+
+func (i ClickpipeSourceKafkaSchemaRegistryArgs) ToClickpipeSourceKafkaSchemaRegistryOutputWithContext(ctx context.Context) ClickpipeSourceKafkaSchemaRegistryOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourceKafkaSchemaRegistryOutput)
+}
+
+func (i ClickpipeSourceKafkaSchemaRegistryArgs) ToClickpipeSourceKafkaSchemaRegistryPtrOutput() ClickpipeSourceKafkaSchemaRegistryPtrOutput {
+	return i.ToClickpipeSourceKafkaSchemaRegistryPtrOutputWithContext(context.Background())
+}
+
+func (i ClickpipeSourceKafkaSchemaRegistryArgs) ToClickpipeSourceKafkaSchemaRegistryPtrOutputWithContext(ctx context.Context) ClickpipeSourceKafkaSchemaRegistryPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourceKafkaSchemaRegistryOutput).ToClickpipeSourceKafkaSchemaRegistryPtrOutputWithContext(ctx)
+}
+
+// ClickpipeSourceKafkaSchemaRegistryPtrInput is an input type that accepts ClickpipeSourceKafkaSchemaRegistryArgs, ClickpipeSourceKafkaSchemaRegistryPtr and ClickpipeSourceKafkaSchemaRegistryPtrOutput values.
+// You can construct a concrete instance of `ClickpipeSourceKafkaSchemaRegistryPtrInput` via:
+//
+//	        ClickpipeSourceKafkaSchemaRegistryArgs{...}
+//
+//	or:
+//
+//	        nil
+type ClickpipeSourceKafkaSchemaRegistryPtrInput interface {
+	pulumi.Input
+
+	ToClickpipeSourceKafkaSchemaRegistryPtrOutput() ClickpipeSourceKafkaSchemaRegistryPtrOutput
+	ToClickpipeSourceKafkaSchemaRegistryPtrOutputWithContext(context.Context) ClickpipeSourceKafkaSchemaRegistryPtrOutput
+}
+
+type clickpipeSourceKafkaSchemaRegistryPtrType ClickpipeSourceKafkaSchemaRegistryArgs
+
+func ClickpipeSourceKafkaSchemaRegistryPtr(v *ClickpipeSourceKafkaSchemaRegistryArgs) ClickpipeSourceKafkaSchemaRegistryPtrInput {
+	return (*clickpipeSourceKafkaSchemaRegistryPtrType)(v)
+}
+
+func (*clickpipeSourceKafkaSchemaRegistryPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**ClickpipeSourceKafkaSchemaRegistry)(nil)).Elem()
+}
+
+func (i *clickpipeSourceKafkaSchemaRegistryPtrType) ToClickpipeSourceKafkaSchemaRegistryPtrOutput() ClickpipeSourceKafkaSchemaRegistryPtrOutput {
+	return i.ToClickpipeSourceKafkaSchemaRegistryPtrOutputWithContext(context.Background())
+}
+
+func (i *clickpipeSourceKafkaSchemaRegistryPtrType) ToClickpipeSourceKafkaSchemaRegistryPtrOutputWithContext(ctx context.Context) ClickpipeSourceKafkaSchemaRegistryPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourceKafkaSchemaRegistryPtrOutput)
+}
+
+type ClickpipeSourceKafkaSchemaRegistryOutput struct{ *pulumi.OutputState }
+
+func (ClickpipeSourceKafkaSchemaRegistryOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ClickpipeSourceKafkaSchemaRegistry)(nil)).Elem()
+}
+
+func (o ClickpipeSourceKafkaSchemaRegistryOutput) ToClickpipeSourceKafkaSchemaRegistryOutput() ClickpipeSourceKafkaSchemaRegistryOutput {
+	return o
+}
+
+func (o ClickpipeSourceKafkaSchemaRegistryOutput) ToClickpipeSourceKafkaSchemaRegistryOutputWithContext(ctx context.Context) ClickpipeSourceKafkaSchemaRegistryOutput {
+	return o
+}
+
+func (o ClickpipeSourceKafkaSchemaRegistryOutput) ToClickpipeSourceKafkaSchemaRegistryPtrOutput() ClickpipeSourceKafkaSchemaRegistryPtrOutput {
+	return o.ToClickpipeSourceKafkaSchemaRegistryPtrOutputWithContext(context.Background())
+}
+
+func (o ClickpipeSourceKafkaSchemaRegistryOutput) ToClickpipeSourceKafkaSchemaRegistryPtrOutputWithContext(ctx context.Context) ClickpipeSourceKafkaSchemaRegistryPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v ClickpipeSourceKafkaSchemaRegistry) *ClickpipeSourceKafkaSchemaRegistry {
+		return &v
+	}).(ClickpipeSourceKafkaSchemaRegistryPtrOutput)
+}
+
+// The authentication method for the Schema Registry. Only supported is `PLAIN`.
+func (o ClickpipeSourceKafkaSchemaRegistryOutput) Authentication() pulumi.StringOutput {
+	return o.ApplyT(func(v ClickpipeSourceKafkaSchemaRegistry) string { return v.Authentication }).(pulumi.StringOutput)
+}
+
+// The credentials for the Schema Registry.
+func (o ClickpipeSourceKafkaSchemaRegistryOutput) Credentials() ClickpipeSourceKafkaSchemaRegistryCredentialsOutput {
+	return o.ApplyT(func(v ClickpipeSourceKafkaSchemaRegistry) ClickpipeSourceKafkaSchemaRegistryCredentials {
+		return v.Credentials
+	}).(ClickpipeSourceKafkaSchemaRegistryCredentialsOutput)
+}
+
+// The URL of the schema registry.
+func (o ClickpipeSourceKafkaSchemaRegistryOutput) Url() pulumi.StringOutput {
+	return o.ApplyT(func(v ClickpipeSourceKafkaSchemaRegistry) string { return v.Url }).(pulumi.StringOutput)
+}
+
+type ClickpipeSourceKafkaSchemaRegistryPtrOutput struct{ *pulumi.OutputState }
+
+func (ClickpipeSourceKafkaSchemaRegistryPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**ClickpipeSourceKafkaSchemaRegistry)(nil)).Elem()
+}
+
+func (o ClickpipeSourceKafkaSchemaRegistryPtrOutput) ToClickpipeSourceKafkaSchemaRegistryPtrOutput() ClickpipeSourceKafkaSchemaRegistryPtrOutput {
+	return o
+}
+
+func (o ClickpipeSourceKafkaSchemaRegistryPtrOutput) ToClickpipeSourceKafkaSchemaRegistryPtrOutputWithContext(ctx context.Context) ClickpipeSourceKafkaSchemaRegistryPtrOutput {
+	return o
+}
+
+func (o ClickpipeSourceKafkaSchemaRegistryPtrOutput) Elem() ClickpipeSourceKafkaSchemaRegistryOutput {
+	return o.ApplyT(func(v *ClickpipeSourceKafkaSchemaRegistry) ClickpipeSourceKafkaSchemaRegistry {
+		if v != nil {
+			return *v
+		}
+		var ret ClickpipeSourceKafkaSchemaRegistry
+		return ret
+	}).(ClickpipeSourceKafkaSchemaRegistryOutput)
+}
+
+// The authentication method for the Schema Registry. Only supported is `PLAIN`.
+func (o ClickpipeSourceKafkaSchemaRegistryPtrOutput) Authentication() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceKafkaSchemaRegistry) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.Authentication
+	}).(pulumi.StringPtrOutput)
+}
+
+// The credentials for the Schema Registry.
+func (o ClickpipeSourceKafkaSchemaRegistryPtrOutput) Credentials() ClickpipeSourceKafkaSchemaRegistryCredentialsPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceKafkaSchemaRegistry) *ClickpipeSourceKafkaSchemaRegistryCredentials {
+		if v == nil {
+			return nil
+		}
+		return &v.Credentials
+	}).(ClickpipeSourceKafkaSchemaRegistryCredentialsPtrOutput)
+}
+
+// The URL of the schema registry.
+func (o ClickpipeSourceKafkaSchemaRegistryPtrOutput) Url() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceKafkaSchemaRegistry) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.Url
+	}).(pulumi.StringPtrOutput)
+}
+
+type ClickpipeSourceKafkaSchemaRegistryCredentials struct {
+	// The password for the Schema Registry. Either `password` or `passwordWo` must be provided.
+	Password *string `pulumi:"password"`
+	// **NOTE:** This field is write-only and its value will not be updated in state as part of read operations.
+	// Write-only password for the Schema Registry. Not persisted to state. Pair with `passwordWoVersion` to trigger updates.
+	PasswordWo *string `pulumi:"passwordWo"`
+	// Version trigger for `passwordWo`. Increment to push a new password to the API.
+	PasswordWoVersion *int `pulumi:"passwordWoVersion"`
+	// The username for the Schema Registry.
+	Username string `pulumi:"username"`
+}
+
+// ClickpipeSourceKafkaSchemaRegistryCredentialsInput is an input type that accepts ClickpipeSourceKafkaSchemaRegistryCredentialsArgs and ClickpipeSourceKafkaSchemaRegistryCredentialsOutput values.
+// You can construct a concrete instance of `ClickpipeSourceKafkaSchemaRegistryCredentialsInput` via:
+//
+//	ClickpipeSourceKafkaSchemaRegistryCredentialsArgs{...}
+type ClickpipeSourceKafkaSchemaRegistryCredentialsInput interface {
+	pulumi.Input
+
+	ToClickpipeSourceKafkaSchemaRegistryCredentialsOutput() ClickpipeSourceKafkaSchemaRegistryCredentialsOutput
+	ToClickpipeSourceKafkaSchemaRegistryCredentialsOutputWithContext(context.Context) ClickpipeSourceKafkaSchemaRegistryCredentialsOutput
+}
+
+type ClickpipeSourceKafkaSchemaRegistryCredentialsArgs struct {
+	// The password for the Schema Registry. Either `password` or `passwordWo` must be provided.
+	Password pulumi.StringPtrInput `pulumi:"password"`
+	// **NOTE:** This field is write-only and its value will not be updated in state as part of read operations.
+	// Write-only password for the Schema Registry. Not persisted to state. Pair with `passwordWoVersion` to trigger updates.
+	PasswordWo pulumi.StringPtrInput `pulumi:"passwordWo"`
+	// Version trigger for `passwordWo`. Increment to push a new password to the API.
+	PasswordWoVersion pulumi.IntPtrInput `pulumi:"passwordWoVersion"`
+	// The username for the Schema Registry.
+	Username pulumi.StringInput `pulumi:"username"`
+}
+
+func (ClickpipeSourceKafkaSchemaRegistryCredentialsArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*ClickpipeSourceKafkaSchemaRegistryCredentials)(nil)).Elem()
+}
+
+func (i ClickpipeSourceKafkaSchemaRegistryCredentialsArgs) ToClickpipeSourceKafkaSchemaRegistryCredentialsOutput() ClickpipeSourceKafkaSchemaRegistryCredentialsOutput {
+	return i.ToClickpipeSourceKafkaSchemaRegistryCredentialsOutputWithContext(context.Background())
+}
+
+func (i ClickpipeSourceKafkaSchemaRegistryCredentialsArgs) ToClickpipeSourceKafkaSchemaRegistryCredentialsOutputWithContext(ctx context.Context) ClickpipeSourceKafkaSchemaRegistryCredentialsOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourceKafkaSchemaRegistryCredentialsOutput)
+}
+
+func (i ClickpipeSourceKafkaSchemaRegistryCredentialsArgs) ToClickpipeSourceKafkaSchemaRegistryCredentialsPtrOutput() ClickpipeSourceKafkaSchemaRegistryCredentialsPtrOutput {
+	return i.ToClickpipeSourceKafkaSchemaRegistryCredentialsPtrOutputWithContext(context.Background())
+}
+
+func (i ClickpipeSourceKafkaSchemaRegistryCredentialsArgs) ToClickpipeSourceKafkaSchemaRegistryCredentialsPtrOutputWithContext(ctx context.Context) ClickpipeSourceKafkaSchemaRegistryCredentialsPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourceKafkaSchemaRegistryCredentialsOutput).ToClickpipeSourceKafkaSchemaRegistryCredentialsPtrOutputWithContext(ctx)
+}
+
+// ClickpipeSourceKafkaSchemaRegistryCredentialsPtrInput is an input type that accepts ClickpipeSourceKafkaSchemaRegistryCredentialsArgs, ClickpipeSourceKafkaSchemaRegistryCredentialsPtr and ClickpipeSourceKafkaSchemaRegistryCredentialsPtrOutput values.
+// You can construct a concrete instance of `ClickpipeSourceKafkaSchemaRegistryCredentialsPtrInput` via:
+//
+//	        ClickpipeSourceKafkaSchemaRegistryCredentialsArgs{...}
+//
+//	or:
+//
+//	        nil
+type ClickpipeSourceKafkaSchemaRegistryCredentialsPtrInput interface {
+	pulumi.Input
+
+	ToClickpipeSourceKafkaSchemaRegistryCredentialsPtrOutput() ClickpipeSourceKafkaSchemaRegistryCredentialsPtrOutput
+	ToClickpipeSourceKafkaSchemaRegistryCredentialsPtrOutputWithContext(context.Context) ClickpipeSourceKafkaSchemaRegistryCredentialsPtrOutput
+}
+
+type clickpipeSourceKafkaSchemaRegistryCredentialsPtrType ClickpipeSourceKafkaSchemaRegistryCredentialsArgs
+
+func ClickpipeSourceKafkaSchemaRegistryCredentialsPtr(v *ClickpipeSourceKafkaSchemaRegistryCredentialsArgs) ClickpipeSourceKafkaSchemaRegistryCredentialsPtrInput {
+	return (*clickpipeSourceKafkaSchemaRegistryCredentialsPtrType)(v)
+}
+
+func (*clickpipeSourceKafkaSchemaRegistryCredentialsPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**ClickpipeSourceKafkaSchemaRegistryCredentials)(nil)).Elem()
+}
+
+func (i *clickpipeSourceKafkaSchemaRegistryCredentialsPtrType) ToClickpipeSourceKafkaSchemaRegistryCredentialsPtrOutput() ClickpipeSourceKafkaSchemaRegistryCredentialsPtrOutput {
+	return i.ToClickpipeSourceKafkaSchemaRegistryCredentialsPtrOutputWithContext(context.Background())
+}
+
+func (i *clickpipeSourceKafkaSchemaRegistryCredentialsPtrType) ToClickpipeSourceKafkaSchemaRegistryCredentialsPtrOutputWithContext(ctx context.Context) ClickpipeSourceKafkaSchemaRegistryCredentialsPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourceKafkaSchemaRegistryCredentialsPtrOutput)
+}
+
+type ClickpipeSourceKafkaSchemaRegistryCredentialsOutput struct{ *pulumi.OutputState }
+
+func (ClickpipeSourceKafkaSchemaRegistryCredentialsOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ClickpipeSourceKafkaSchemaRegistryCredentials)(nil)).Elem()
+}
+
+func (o ClickpipeSourceKafkaSchemaRegistryCredentialsOutput) ToClickpipeSourceKafkaSchemaRegistryCredentialsOutput() ClickpipeSourceKafkaSchemaRegistryCredentialsOutput {
+	return o
+}
+
+func (o ClickpipeSourceKafkaSchemaRegistryCredentialsOutput) ToClickpipeSourceKafkaSchemaRegistryCredentialsOutputWithContext(ctx context.Context) ClickpipeSourceKafkaSchemaRegistryCredentialsOutput {
+	return o
+}
+
+func (o ClickpipeSourceKafkaSchemaRegistryCredentialsOutput) ToClickpipeSourceKafkaSchemaRegistryCredentialsPtrOutput() ClickpipeSourceKafkaSchemaRegistryCredentialsPtrOutput {
+	return o.ToClickpipeSourceKafkaSchemaRegistryCredentialsPtrOutputWithContext(context.Background())
+}
+
+func (o ClickpipeSourceKafkaSchemaRegistryCredentialsOutput) ToClickpipeSourceKafkaSchemaRegistryCredentialsPtrOutputWithContext(ctx context.Context) ClickpipeSourceKafkaSchemaRegistryCredentialsPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v ClickpipeSourceKafkaSchemaRegistryCredentials) *ClickpipeSourceKafkaSchemaRegistryCredentials {
+		return &v
+	}).(ClickpipeSourceKafkaSchemaRegistryCredentialsPtrOutput)
+}
+
+// The password for the Schema Registry. Either `password` or `passwordWo` must be provided.
+func (o ClickpipeSourceKafkaSchemaRegistryCredentialsOutput) Password() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceKafkaSchemaRegistryCredentials) *string { return v.Password }).(pulumi.StringPtrOutput)
+}
+
+// **NOTE:** This field is write-only and its value will not be updated in state as part of read operations.
+// Write-only password for the Schema Registry. Not persisted to state. Pair with `passwordWoVersion` to trigger updates.
+func (o ClickpipeSourceKafkaSchemaRegistryCredentialsOutput) PasswordWo() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceKafkaSchemaRegistryCredentials) *string { return v.PasswordWo }).(pulumi.StringPtrOutput)
+}
+
+// Version trigger for `passwordWo`. Increment to push a new password to the API.
+func (o ClickpipeSourceKafkaSchemaRegistryCredentialsOutput) PasswordWoVersion() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceKafkaSchemaRegistryCredentials) *int { return v.PasswordWoVersion }).(pulumi.IntPtrOutput)
+}
+
+// The username for the Schema Registry.
+func (o ClickpipeSourceKafkaSchemaRegistryCredentialsOutput) Username() pulumi.StringOutput {
+	return o.ApplyT(func(v ClickpipeSourceKafkaSchemaRegistryCredentials) string { return v.Username }).(pulumi.StringOutput)
+}
+
+type ClickpipeSourceKafkaSchemaRegistryCredentialsPtrOutput struct{ *pulumi.OutputState }
+
+func (ClickpipeSourceKafkaSchemaRegistryCredentialsPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**ClickpipeSourceKafkaSchemaRegistryCredentials)(nil)).Elem()
+}
+
+func (o ClickpipeSourceKafkaSchemaRegistryCredentialsPtrOutput) ToClickpipeSourceKafkaSchemaRegistryCredentialsPtrOutput() ClickpipeSourceKafkaSchemaRegistryCredentialsPtrOutput {
+	return o
+}
+
+func (o ClickpipeSourceKafkaSchemaRegistryCredentialsPtrOutput) ToClickpipeSourceKafkaSchemaRegistryCredentialsPtrOutputWithContext(ctx context.Context) ClickpipeSourceKafkaSchemaRegistryCredentialsPtrOutput {
+	return o
+}
+
+func (o ClickpipeSourceKafkaSchemaRegistryCredentialsPtrOutput) Elem() ClickpipeSourceKafkaSchemaRegistryCredentialsOutput {
+	return o.ApplyT(func(v *ClickpipeSourceKafkaSchemaRegistryCredentials) ClickpipeSourceKafkaSchemaRegistryCredentials {
+		if v != nil {
+			return *v
+		}
+		var ret ClickpipeSourceKafkaSchemaRegistryCredentials
+		return ret
+	}).(ClickpipeSourceKafkaSchemaRegistryCredentialsOutput)
+}
+
+// The password for the Schema Registry. Either `password` or `passwordWo` must be provided.
+func (o ClickpipeSourceKafkaSchemaRegistryCredentialsPtrOutput) Password() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceKafkaSchemaRegistryCredentials) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Password
+	}).(pulumi.StringPtrOutput)
+}
+
+// **NOTE:** This field is write-only and its value will not be updated in state as part of read operations.
+// Write-only password for the Schema Registry. Not persisted to state. Pair with `passwordWoVersion` to trigger updates.
+func (o ClickpipeSourceKafkaSchemaRegistryCredentialsPtrOutput) PasswordWo() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceKafkaSchemaRegistryCredentials) *string {
+		if v == nil {
+			return nil
+		}
+		return v.PasswordWo
+	}).(pulumi.StringPtrOutput)
+}
+
+// Version trigger for `passwordWo`. Increment to push a new password to the API.
+func (o ClickpipeSourceKafkaSchemaRegistryCredentialsPtrOutput) PasswordWoVersion() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceKafkaSchemaRegistryCredentials) *int {
+		if v == nil {
+			return nil
+		}
+		return v.PasswordWoVersion
+	}).(pulumi.IntPtrOutput)
+}
+
+// The username for the Schema Registry.
+func (o ClickpipeSourceKafkaSchemaRegistryCredentialsPtrOutput) Username() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceKafkaSchemaRegistryCredentials) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.Username
+	}).(pulumi.StringPtrOutput)
+}
+
+type ClickpipeSourceKinesis struct {
+	// The access key for the Kinesis source. Use with `IAM_USER` authentication. Can be rotated in place via an update.
+	AccessKey *ClickpipeSourceKinesisAccessKey `pulumi:"accessKey"`
+	// The authentication method for the Kinesis source. (`IAM_ROLE`, `IAM_USER`).
+	Authentication string `pulumi:"authentication"`
+	// The format of the Kinesis source. (`JSONEachRow`, `Avro`, `AvroConfluent`)
+	Format string `pulumi:"format"`
+	// The IAM role for the Kinesis source. Use with `IAM_ROLE` authentication. It can be used with AWS ClickHouse service only. Read more at https://clickhouse.com/docs/en/integrations/clickpipes/kinesis.
+	IamRole *string `pulumi:"iamRole"`
+	// The iterator type for the Kinesis source. (`TRIM_HORIZON`, `LATEST`, `AT_TIMESTAMP`)
+	IteratorType string `pulumi:"iteratorType"`
+	// The AWS region of the Kinesis stream.
+	Region string `pulumi:"region"`
+	// The name of the Kinesis stream.
+	StreamName string `pulumi:"streamName"`
+	// The timestamp for the Kinesis source. Use with `AT_TIMESTAMP` iterator type. (format `2021-01-01T00:00`)
+	Timestamp *string `pulumi:"timestamp"`
+	// Whether to use enhanced fan-out consumer.
+	UseEnhancedFanOut *bool `pulumi:"useEnhancedFanOut"`
+}
+
+// ClickpipeSourceKinesisInput is an input type that accepts ClickpipeSourceKinesisArgs and ClickpipeSourceKinesisOutput values.
+// You can construct a concrete instance of `ClickpipeSourceKinesisInput` via:
+//
+//	ClickpipeSourceKinesisArgs{...}
+type ClickpipeSourceKinesisInput interface {
+	pulumi.Input
+
+	ToClickpipeSourceKinesisOutput() ClickpipeSourceKinesisOutput
+	ToClickpipeSourceKinesisOutputWithContext(context.Context) ClickpipeSourceKinesisOutput
+}
+
+type ClickpipeSourceKinesisArgs struct {
+	// The access key for the Kinesis source. Use with `IAM_USER` authentication. Can be rotated in place via an update.
+	AccessKey ClickpipeSourceKinesisAccessKeyPtrInput `pulumi:"accessKey"`
+	// The authentication method for the Kinesis source. (`IAM_ROLE`, `IAM_USER`).
+	Authentication pulumi.StringInput `pulumi:"authentication"`
+	// The format of the Kinesis source. (`JSONEachRow`, `Avro`, `AvroConfluent`)
+	Format pulumi.StringInput `pulumi:"format"`
+	// The IAM role for the Kinesis source. Use with `IAM_ROLE` authentication. It can be used with AWS ClickHouse service only. Read more at https://clickhouse.com/docs/en/integrations/clickpipes/kinesis.
+	IamRole pulumi.StringPtrInput `pulumi:"iamRole"`
+	// The iterator type for the Kinesis source. (`TRIM_HORIZON`, `LATEST`, `AT_TIMESTAMP`)
+	IteratorType pulumi.StringInput `pulumi:"iteratorType"`
+	// The AWS region of the Kinesis stream.
+	Region pulumi.StringInput `pulumi:"region"`
+	// The name of the Kinesis stream.
+	StreamName pulumi.StringInput `pulumi:"streamName"`
+	// The timestamp for the Kinesis source. Use with `AT_TIMESTAMP` iterator type. (format `2021-01-01T00:00`)
+	Timestamp pulumi.StringPtrInput `pulumi:"timestamp"`
+	// Whether to use enhanced fan-out consumer.
+	UseEnhancedFanOut pulumi.BoolPtrInput `pulumi:"useEnhancedFanOut"`
+}
+
+func (ClickpipeSourceKinesisArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*ClickpipeSourceKinesis)(nil)).Elem()
+}
+
+func (i ClickpipeSourceKinesisArgs) ToClickpipeSourceKinesisOutput() ClickpipeSourceKinesisOutput {
+	return i.ToClickpipeSourceKinesisOutputWithContext(context.Background())
+}
+
+func (i ClickpipeSourceKinesisArgs) ToClickpipeSourceKinesisOutputWithContext(ctx context.Context) ClickpipeSourceKinesisOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourceKinesisOutput)
+}
+
+func (i ClickpipeSourceKinesisArgs) ToClickpipeSourceKinesisPtrOutput() ClickpipeSourceKinesisPtrOutput {
+	return i.ToClickpipeSourceKinesisPtrOutputWithContext(context.Background())
+}
+
+func (i ClickpipeSourceKinesisArgs) ToClickpipeSourceKinesisPtrOutputWithContext(ctx context.Context) ClickpipeSourceKinesisPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourceKinesisOutput).ToClickpipeSourceKinesisPtrOutputWithContext(ctx)
+}
+
+// ClickpipeSourceKinesisPtrInput is an input type that accepts ClickpipeSourceKinesisArgs, ClickpipeSourceKinesisPtr and ClickpipeSourceKinesisPtrOutput values.
+// You can construct a concrete instance of `ClickpipeSourceKinesisPtrInput` via:
+//
+//	        ClickpipeSourceKinesisArgs{...}
+//
+//	or:
+//
+//	        nil
+type ClickpipeSourceKinesisPtrInput interface {
+	pulumi.Input
+
+	ToClickpipeSourceKinesisPtrOutput() ClickpipeSourceKinesisPtrOutput
+	ToClickpipeSourceKinesisPtrOutputWithContext(context.Context) ClickpipeSourceKinesisPtrOutput
+}
+
+type clickpipeSourceKinesisPtrType ClickpipeSourceKinesisArgs
+
+func ClickpipeSourceKinesisPtr(v *ClickpipeSourceKinesisArgs) ClickpipeSourceKinesisPtrInput {
+	return (*clickpipeSourceKinesisPtrType)(v)
+}
+
+func (*clickpipeSourceKinesisPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**ClickpipeSourceKinesis)(nil)).Elem()
+}
+
+func (i *clickpipeSourceKinesisPtrType) ToClickpipeSourceKinesisPtrOutput() ClickpipeSourceKinesisPtrOutput {
+	return i.ToClickpipeSourceKinesisPtrOutputWithContext(context.Background())
+}
+
+func (i *clickpipeSourceKinesisPtrType) ToClickpipeSourceKinesisPtrOutputWithContext(ctx context.Context) ClickpipeSourceKinesisPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourceKinesisPtrOutput)
+}
+
+type ClickpipeSourceKinesisOutput struct{ *pulumi.OutputState }
+
+func (ClickpipeSourceKinesisOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ClickpipeSourceKinesis)(nil)).Elem()
+}
+
+func (o ClickpipeSourceKinesisOutput) ToClickpipeSourceKinesisOutput() ClickpipeSourceKinesisOutput {
+	return o
+}
+
+func (o ClickpipeSourceKinesisOutput) ToClickpipeSourceKinesisOutputWithContext(ctx context.Context) ClickpipeSourceKinesisOutput {
+	return o
+}
+
+func (o ClickpipeSourceKinesisOutput) ToClickpipeSourceKinesisPtrOutput() ClickpipeSourceKinesisPtrOutput {
+	return o.ToClickpipeSourceKinesisPtrOutputWithContext(context.Background())
+}
+
+func (o ClickpipeSourceKinesisOutput) ToClickpipeSourceKinesisPtrOutputWithContext(ctx context.Context) ClickpipeSourceKinesisPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v ClickpipeSourceKinesis) *ClickpipeSourceKinesis {
+		return &v
+	}).(ClickpipeSourceKinesisPtrOutput)
+}
+
+// The access key for the Kinesis source. Use with `IAM_USER` authentication. Can be rotated in place via an update.
+func (o ClickpipeSourceKinesisOutput) AccessKey() ClickpipeSourceKinesisAccessKeyPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceKinesis) *ClickpipeSourceKinesisAccessKey { return v.AccessKey }).(ClickpipeSourceKinesisAccessKeyPtrOutput)
+}
+
+// The authentication method for the Kinesis source. (`IAM_ROLE`, `IAM_USER`).
+func (o ClickpipeSourceKinesisOutput) Authentication() pulumi.StringOutput {
+	return o.ApplyT(func(v ClickpipeSourceKinesis) string { return v.Authentication }).(pulumi.StringOutput)
+}
+
+// The format of the Kinesis source. (`JSONEachRow`, `Avro`, `AvroConfluent`)
+func (o ClickpipeSourceKinesisOutput) Format() pulumi.StringOutput {
+	return o.ApplyT(func(v ClickpipeSourceKinesis) string { return v.Format }).(pulumi.StringOutput)
+}
+
+// The IAM role for the Kinesis source. Use with `IAM_ROLE` authentication. It can be used with AWS ClickHouse service only. Read more at https://clickhouse.com/docs/en/integrations/clickpipes/kinesis.
+func (o ClickpipeSourceKinesisOutput) IamRole() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceKinesis) *string { return v.IamRole }).(pulumi.StringPtrOutput)
+}
+
+// The iterator type for the Kinesis source. (`TRIM_HORIZON`, `LATEST`, `AT_TIMESTAMP`)
+func (o ClickpipeSourceKinesisOutput) IteratorType() pulumi.StringOutput {
+	return o.ApplyT(func(v ClickpipeSourceKinesis) string { return v.IteratorType }).(pulumi.StringOutput)
+}
+
+// The AWS region of the Kinesis stream.
+func (o ClickpipeSourceKinesisOutput) Region() pulumi.StringOutput {
+	return o.ApplyT(func(v ClickpipeSourceKinesis) string { return v.Region }).(pulumi.StringOutput)
+}
+
+// The name of the Kinesis stream.
+func (o ClickpipeSourceKinesisOutput) StreamName() pulumi.StringOutput {
+	return o.ApplyT(func(v ClickpipeSourceKinesis) string { return v.StreamName }).(pulumi.StringOutput)
+}
+
+// The timestamp for the Kinesis source. Use with `AT_TIMESTAMP` iterator type. (format `2021-01-01T00:00`)
+func (o ClickpipeSourceKinesisOutput) Timestamp() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceKinesis) *string { return v.Timestamp }).(pulumi.StringPtrOutput)
+}
+
+// Whether to use enhanced fan-out consumer.
+func (o ClickpipeSourceKinesisOutput) UseEnhancedFanOut() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceKinesis) *bool { return v.UseEnhancedFanOut }).(pulumi.BoolPtrOutput)
+}
+
+type ClickpipeSourceKinesisPtrOutput struct{ *pulumi.OutputState }
+
+func (ClickpipeSourceKinesisPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**ClickpipeSourceKinesis)(nil)).Elem()
+}
+
+func (o ClickpipeSourceKinesisPtrOutput) ToClickpipeSourceKinesisPtrOutput() ClickpipeSourceKinesisPtrOutput {
+	return o
+}
+
+func (o ClickpipeSourceKinesisPtrOutput) ToClickpipeSourceKinesisPtrOutputWithContext(ctx context.Context) ClickpipeSourceKinesisPtrOutput {
+	return o
+}
+
+func (o ClickpipeSourceKinesisPtrOutput) Elem() ClickpipeSourceKinesisOutput {
+	return o.ApplyT(func(v *ClickpipeSourceKinesis) ClickpipeSourceKinesis {
+		if v != nil {
+			return *v
+		}
+		var ret ClickpipeSourceKinesis
+		return ret
+	}).(ClickpipeSourceKinesisOutput)
+}
+
+// The access key for the Kinesis source. Use with `IAM_USER` authentication. Can be rotated in place via an update.
+func (o ClickpipeSourceKinesisPtrOutput) AccessKey() ClickpipeSourceKinesisAccessKeyPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceKinesis) *ClickpipeSourceKinesisAccessKey {
+		if v == nil {
+			return nil
+		}
+		return v.AccessKey
+	}).(ClickpipeSourceKinesisAccessKeyPtrOutput)
+}
+
+// The authentication method for the Kinesis source. (`IAM_ROLE`, `IAM_USER`).
+func (o ClickpipeSourceKinesisPtrOutput) Authentication() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceKinesis) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.Authentication
+	}).(pulumi.StringPtrOutput)
+}
+
+// The format of the Kinesis source. (`JSONEachRow`, `Avro`, `AvroConfluent`)
+func (o ClickpipeSourceKinesisPtrOutput) Format() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceKinesis) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.Format
+	}).(pulumi.StringPtrOutput)
+}
+
+// The IAM role for the Kinesis source. Use with `IAM_ROLE` authentication. It can be used with AWS ClickHouse service only. Read more at https://clickhouse.com/docs/en/integrations/clickpipes/kinesis.
+func (o ClickpipeSourceKinesisPtrOutput) IamRole() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceKinesis) *string {
+		if v == nil {
+			return nil
+		}
+		return v.IamRole
+	}).(pulumi.StringPtrOutput)
+}
+
+// The iterator type for the Kinesis source. (`TRIM_HORIZON`, `LATEST`, `AT_TIMESTAMP`)
+func (o ClickpipeSourceKinesisPtrOutput) IteratorType() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceKinesis) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.IteratorType
+	}).(pulumi.StringPtrOutput)
+}
+
+// The AWS region of the Kinesis stream.
+func (o ClickpipeSourceKinesisPtrOutput) Region() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceKinesis) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.Region
+	}).(pulumi.StringPtrOutput)
+}
+
+// The name of the Kinesis stream.
+func (o ClickpipeSourceKinesisPtrOutput) StreamName() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceKinesis) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.StreamName
+	}).(pulumi.StringPtrOutput)
+}
+
+// The timestamp for the Kinesis source. Use with `AT_TIMESTAMP` iterator type. (format `2021-01-01T00:00`)
+func (o ClickpipeSourceKinesisPtrOutput) Timestamp() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceKinesis) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Timestamp
+	}).(pulumi.StringPtrOutput)
+}
+
+// Whether to use enhanced fan-out consumer.
+func (o ClickpipeSourceKinesisPtrOutput) UseEnhancedFanOut() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceKinesis) *bool {
+		if v == nil {
+			return nil
+		}
+		return v.UseEnhancedFanOut
+	}).(pulumi.BoolPtrOutput)
+}
+
+type ClickpipeSourceKinesisAccessKey struct {
+	// The access key ID for the Kinesis source.
+	AccessKeyId string `pulumi:"accessKeyId"`
+	// The secret key for the Kinesis source.
+	SecretKey string `pulumi:"secretKey"`
+}
+
+// ClickpipeSourceKinesisAccessKeyInput is an input type that accepts ClickpipeSourceKinesisAccessKeyArgs and ClickpipeSourceKinesisAccessKeyOutput values.
+// You can construct a concrete instance of `ClickpipeSourceKinesisAccessKeyInput` via:
+//
+//	ClickpipeSourceKinesisAccessKeyArgs{...}
+type ClickpipeSourceKinesisAccessKeyInput interface {
+	pulumi.Input
+
+	ToClickpipeSourceKinesisAccessKeyOutput() ClickpipeSourceKinesisAccessKeyOutput
+	ToClickpipeSourceKinesisAccessKeyOutputWithContext(context.Context) ClickpipeSourceKinesisAccessKeyOutput
+}
+
+type ClickpipeSourceKinesisAccessKeyArgs struct {
+	// The access key ID for the Kinesis source.
+	AccessKeyId pulumi.StringInput `pulumi:"accessKeyId"`
+	// The secret key for the Kinesis source.
+	SecretKey pulumi.StringInput `pulumi:"secretKey"`
+}
+
+func (ClickpipeSourceKinesisAccessKeyArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*ClickpipeSourceKinesisAccessKey)(nil)).Elem()
+}
+
+func (i ClickpipeSourceKinesisAccessKeyArgs) ToClickpipeSourceKinesisAccessKeyOutput() ClickpipeSourceKinesisAccessKeyOutput {
+	return i.ToClickpipeSourceKinesisAccessKeyOutputWithContext(context.Background())
+}
+
+func (i ClickpipeSourceKinesisAccessKeyArgs) ToClickpipeSourceKinesisAccessKeyOutputWithContext(ctx context.Context) ClickpipeSourceKinesisAccessKeyOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourceKinesisAccessKeyOutput)
+}
+
+func (i ClickpipeSourceKinesisAccessKeyArgs) ToClickpipeSourceKinesisAccessKeyPtrOutput() ClickpipeSourceKinesisAccessKeyPtrOutput {
+	return i.ToClickpipeSourceKinesisAccessKeyPtrOutputWithContext(context.Background())
+}
+
+func (i ClickpipeSourceKinesisAccessKeyArgs) ToClickpipeSourceKinesisAccessKeyPtrOutputWithContext(ctx context.Context) ClickpipeSourceKinesisAccessKeyPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourceKinesisAccessKeyOutput).ToClickpipeSourceKinesisAccessKeyPtrOutputWithContext(ctx)
+}
+
+// ClickpipeSourceKinesisAccessKeyPtrInput is an input type that accepts ClickpipeSourceKinesisAccessKeyArgs, ClickpipeSourceKinesisAccessKeyPtr and ClickpipeSourceKinesisAccessKeyPtrOutput values.
+// You can construct a concrete instance of `ClickpipeSourceKinesisAccessKeyPtrInput` via:
+//
+//	        ClickpipeSourceKinesisAccessKeyArgs{...}
+//
+//	or:
+//
+//	        nil
+type ClickpipeSourceKinesisAccessKeyPtrInput interface {
+	pulumi.Input
+
+	ToClickpipeSourceKinesisAccessKeyPtrOutput() ClickpipeSourceKinesisAccessKeyPtrOutput
+	ToClickpipeSourceKinesisAccessKeyPtrOutputWithContext(context.Context) ClickpipeSourceKinesisAccessKeyPtrOutput
+}
+
+type clickpipeSourceKinesisAccessKeyPtrType ClickpipeSourceKinesisAccessKeyArgs
+
+func ClickpipeSourceKinesisAccessKeyPtr(v *ClickpipeSourceKinesisAccessKeyArgs) ClickpipeSourceKinesisAccessKeyPtrInput {
+	return (*clickpipeSourceKinesisAccessKeyPtrType)(v)
+}
+
+func (*clickpipeSourceKinesisAccessKeyPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**ClickpipeSourceKinesisAccessKey)(nil)).Elem()
+}
+
+func (i *clickpipeSourceKinesisAccessKeyPtrType) ToClickpipeSourceKinesisAccessKeyPtrOutput() ClickpipeSourceKinesisAccessKeyPtrOutput {
+	return i.ToClickpipeSourceKinesisAccessKeyPtrOutputWithContext(context.Background())
+}
+
+func (i *clickpipeSourceKinesisAccessKeyPtrType) ToClickpipeSourceKinesisAccessKeyPtrOutputWithContext(ctx context.Context) ClickpipeSourceKinesisAccessKeyPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourceKinesisAccessKeyPtrOutput)
+}
+
+type ClickpipeSourceKinesisAccessKeyOutput struct{ *pulumi.OutputState }
+
+func (ClickpipeSourceKinesisAccessKeyOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ClickpipeSourceKinesisAccessKey)(nil)).Elem()
+}
+
+func (o ClickpipeSourceKinesisAccessKeyOutput) ToClickpipeSourceKinesisAccessKeyOutput() ClickpipeSourceKinesisAccessKeyOutput {
+	return o
+}
+
+func (o ClickpipeSourceKinesisAccessKeyOutput) ToClickpipeSourceKinesisAccessKeyOutputWithContext(ctx context.Context) ClickpipeSourceKinesisAccessKeyOutput {
+	return o
+}
+
+func (o ClickpipeSourceKinesisAccessKeyOutput) ToClickpipeSourceKinesisAccessKeyPtrOutput() ClickpipeSourceKinesisAccessKeyPtrOutput {
+	return o.ToClickpipeSourceKinesisAccessKeyPtrOutputWithContext(context.Background())
+}
+
+func (o ClickpipeSourceKinesisAccessKeyOutput) ToClickpipeSourceKinesisAccessKeyPtrOutputWithContext(ctx context.Context) ClickpipeSourceKinesisAccessKeyPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v ClickpipeSourceKinesisAccessKey) *ClickpipeSourceKinesisAccessKey {
+		return &v
+	}).(ClickpipeSourceKinesisAccessKeyPtrOutput)
+}
+
+// The access key ID for the Kinesis source.
+func (o ClickpipeSourceKinesisAccessKeyOutput) AccessKeyId() pulumi.StringOutput {
+	return o.ApplyT(func(v ClickpipeSourceKinesisAccessKey) string { return v.AccessKeyId }).(pulumi.StringOutput)
+}
+
+// The secret key for the Kinesis source.
+func (o ClickpipeSourceKinesisAccessKeyOutput) SecretKey() pulumi.StringOutput {
+	return o.ApplyT(func(v ClickpipeSourceKinesisAccessKey) string { return v.SecretKey }).(pulumi.StringOutput)
+}
+
+type ClickpipeSourceKinesisAccessKeyPtrOutput struct{ *pulumi.OutputState }
+
+func (ClickpipeSourceKinesisAccessKeyPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**ClickpipeSourceKinesisAccessKey)(nil)).Elem()
+}
+
+func (o ClickpipeSourceKinesisAccessKeyPtrOutput) ToClickpipeSourceKinesisAccessKeyPtrOutput() ClickpipeSourceKinesisAccessKeyPtrOutput {
+	return o
+}
+
+func (o ClickpipeSourceKinesisAccessKeyPtrOutput) ToClickpipeSourceKinesisAccessKeyPtrOutputWithContext(ctx context.Context) ClickpipeSourceKinesisAccessKeyPtrOutput {
+	return o
+}
+
+func (o ClickpipeSourceKinesisAccessKeyPtrOutput) Elem() ClickpipeSourceKinesisAccessKeyOutput {
+	return o.ApplyT(func(v *ClickpipeSourceKinesisAccessKey) ClickpipeSourceKinesisAccessKey {
+		if v != nil {
+			return *v
+		}
+		var ret ClickpipeSourceKinesisAccessKey
+		return ret
+	}).(ClickpipeSourceKinesisAccessKeyOutput)
+}
+
+// The access key ID for the Kinesis source.
+func (o ClickpipeSourceKinesisAccessKeyPtrOutput) AccessKeyId() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceKinesisAccessKey) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.AccessKeyId
+	}).(pulumi.StringPtrOutput)
+}
+
+// The secret key for the Kinesis source.
+func (o ClickpipeSourceKinesisAccessKeyPtrOutput) SecretKey() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceKinesisAccessKey) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.SecretKey
+	}).(pulumi.StringPtrOutput)
+}
+
+type ClickpipeSourceMongodb struct {
+	// PEM encoded CA certificate to validate the MongoDB server certificate.
+	CaCertificate *string `pulumi:"caCertificate"`
+	// The credentials for the MongoDB instance (username and password). Optional if credentials are embedded in the URI.
+	Credentials *ClickpipeSourceMongodbCredentials `pulumi:"credentials"`
+	// Disable TLS for the MongoDB connection. Defaults to false (TLS enabled).
+	DisableTls *bool `pulumi:"disableTls"`
+	// MongoDB read preference for replica set reads. (`primary`, `primaryPreferred`, `secondary`, `secondaryPreferred`, `nearest`)
+	ReadPreference string `pulumi:"readPreference"`
+	// Settings for the MongoDB CDC pipe.
+	Settings ClickpipeSourceMongodbSettings `pulumi:"settings"`
+	// Collection mappings from MongoDB source to ClickHouse destination.
+	TableMappings []ClickpipeSourceMongodbTableMapping `pulumi:"tableMappings"`
+	// TLS/SSL host for secure connections.
+	TlsHost *string `pulumi:"tlsHost"`
+	// MongoDB connection URI. Supports both standard URIs (mongodb://...) and SRV URIs (mongodb+srv://...).
+	Uri string `pulumi:"uri"`
+}
+
+// ClickpipeSourceMongodbInput is an input type that accepts ClickpipeSourceMongodbArgs and ClickpipeSourceMongodbOutput values.
+// You can construct a concrete instance of `ClickpipeSourceMongodbInput` via:
+//
+//	ClickpipeSourceMongodbArgs{...}
+type ClickpipeSourceMongodbInput interface {
+	pulumi.Input
+
+	ToClickpipeSourceMongodbOutput() ClickpipeSourceMongodbOutput
+	ToClickpipeSourceMongodbOutputWithContext(context.Context) ClickpipeSourceMongodbOutput
+}
+
+type ClickpipeSourceMongodbArgs struct {
+	// PEM encoded CA certificate to validate the MongoDB server certificate.
+	CaCertificate pulumi.StringPtrInput `pulumi:"caCertificate"`
+	// The credentials for the MongoDB instance (username and password). Optional if credentials are embedded in the URI.
+	Credentials ClickpipeSourceMongodbCredentialsPtrInput `pulumi:"credentials"`
+	// Disable TLS for the MongoDB connection. Defaults to false (TLS enabled).
+	DisableTls pulumi.BoolPtrInput `pulumi:"disableTls"`
+	// MongoDB read preference for replica set reads. (`primary`, `primaryPreferred`, `secondary`, `secondaryPreferred`, `nearest`)
+	ReadPreference pulumi.StringInput `pulumi:"readPreference"`
+	// Settings for the MongoDB CDC pipe.
+	Settings ClickpipeSourceMongodbSettingsInput `pulumi:"settings"`
+	// Collection mappings from MongoDB source to ClickHouse destination.
+	TableMappings ClickpipeSourceMongodbTableMappingArrayInput `pulumi:"tableMappings"`
+	// TLS/SSL host for secure connections.
+	TlsHost pulumi.StringPtrInput `pulumi:"tlsHost"`
+	// MongoDB connection URI. Supports both standard URIs (mongodb://...) and SRV URIs (mongodb+srv://...).
+	Uri pulumi.StringInput `pulumi:"uri"`
+}
+
+func (ClickpipeSourceMongodbArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*ClickpipeSourceMongodb)(nil)).Elem()
+}
+
+func (i ClickpipeSourceMongodbArgs) ToClickpipeSourceMongodbOutput() ClickpipeSourceMongodbOutput {
+	return i.ToClickpipeSourceMongodbOutputWithContext(context.Background())
+}
+
+func (i ClickpipeSourceMongodbArgs) ToClickpipeSourceMongodbOutputWithContext(ctx context.Context) ClickpipeSourceMongodbOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourceMongodbOutput)
+}
+
+func (i ClickpipeSourceMongodbArgs) ToClickpipeSourceMongodbPtrOutput() ClickpipeSourceMongodbPtrOutput {
+	return i.ToClickpipeSourceMongodbPtrOutputWithContext(context.Background())
+}
+
+func (i ClickpipeSourceMongodbArgs) ToClickpipeSourceMongodbPtrOutputWithContext(ctx context.Context) ClickpipeSourceMongodbPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourceMongodbOutput).ToClickpipeSourceMongodbPtrOutputWithContext(ctx)
+}
+
+// ClickpipeSourceMongodbPtrInput is an input type that accepts ClickpipeSourceMongodbArgs, ClickpipeSourceMongodbPtr and ClickpipeSourceMongodbPtrOutput values.
+// You can construct a concrete instance of `ClickpipeSourceMongodbPtrInput` via:
+//
+//	        ClickpipeSourceMongodbArgs{...}
+//
+//	or:
+//
+//	        nil
+type ClickpipeSourceMongodbPtrInput interface {
+	pulumi.Input
+
+	ToClickpipeSourceMongodbPtrOutput() ClickpipeSourceMongodbPtrOutput
+	ToClickpipeSourceMongodbPtrOutputWithContext(context.Context) ClickpipeSourceMongodbPtrOutput
+}
+
+type clickpipeSourceMongodbPtrType ClickpipeSourceMongodbArgs
+
+func ClickpipeSourceMongodbPtr(v *ClickpipeSourceMongodbArgs) ClickpipeSourceMongodbPtrInput {
+	return (*clickpipeSourceMongodbPtrType)(v)
+}
+
+func (*clickpipeSourceMongodbPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**ClickpipeSourceMongodb)(nil)).Elem()
+}
+
+func (i *clickpipeSourceMongodbPtrType) ToClickpipeSourceMongodbPtrOutput() ClickpipeSourceMongodbPtrOutput {
+	return i.ToClickpipeSourceMongodbPtrOutputWithContext(context.Background())
+}
+
+func (i *clickpipeSourceMongodbPtrType) ToClickpipeSourceMongodbPtrOutputWithContext(ctx context.Context) ClickpipeSourceMongodbPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourceMongodbPtrOutput)
+}
+
+type ClickpipeSourceMongodbOutput struct{ *pulumi.OutputState }
+
+func (ClickpipeSourceMongodbOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ClickpipeSourceMongodb)(nil)).Elem()
+}
+
+func (o ClickpipeSourceMongodbOutput) ToClickpipeSourceMongodbOutput() ClickpipeSourceMongodbOutput {
+	return o
+}
+
+func (o ClickpipeSourceMongodbOutput) ToClickpipeSourceMongodbOutputWithContext(ctx context.Context) ClickpipeSourceMongodbOutput {
+	return o
+}
+
+func (o ClickpipeSourceMongodbOutput) ToClickpipeSourceMongodbPtrOutput() ClickpipeSourceMongodbPtrOutput {
+	return o.ToClickpipeSourceMongodbPtrOutputWithContext(context.Background())
+}
+
+func (o ClickpipeSourceMongodbOutput) ToClickpipeSourceMongodbPtrOutputWithContext(ctx context.Context) ClickpipeSourceMongodbPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v ClickpipeSourceMongodb) *ClickpipeSourceMongodb {
+		return &v
+	}).(ClickpipeSourceMongodbPtrOutput)
+}
+
+// PEM encoded CA certificate to validate the MongoDB server certificate.
+func (o ClickpipeSourceMongodbOutput) CaCertificate() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceMongodb) *string { return v.CaCertificate }).(pulumi.StringPtrOutput)
+}
+
+// The credentials for the MongoDB instance (username and password). Optional if credentials are embedded in the URI.
+func (o ClickpipeSourceMongodbOutput) Credentials() ClickpipeSourceMongodbCredentialsPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceMongodb) *ClickpipeSourceMongodbCredentials { return v.Credentials }).(ClickpipeSourceMongodbCredentialsPtrOutput)
+}
+
+// Disable TLS for the MongoDB connection. Defaults to false (TLS enabled).
+func (o ClickpipeSourceMongodbOutput) DisableTls() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceMongodb) *bool { return v.DisableTls }).(pulumi.BoolPtrOutput)
+}
+
+// MongoDB read preference for replica set reads. (`primary`, `primaryPreferred`, `secondary`, `secondaryPreferred`, `nearest`)
+func (o ClickpipeSourceMongodbOutput) ReadPreference() pulumi.StringOutput {
+	return o.ApplyT(func(v ClickpipeSourceMongodb) string { return v.ReadPreference }).(pulumi.StringOutput)
+}
+
+// Settings for the MongoDB CDC pipe.
+func (o ClickpipeSourceMongodbOutput) Settings() ClickpipeSourceMongodbSettingsOutput {
+	return o.ApplyT(func(v ClickpipeSourceMongodb) ClickpipeSourceMongodbSettings { return v.Settings }).(ClickpipeSourceMongodbSettingsOutput)
+}
+
+// Collection mappings from MongoDB source to ClickHouse destination.
+func (o ClickpipeSourceMongodbOutput) TableMappings() ClickpipeSourceMongodbTableMappingArrayOutput {
+	return o.ApplyT(func(v ClickpipeSourceMongodb) []ClickpipeSourceMongodbTableMapping { return v.TableMappings }).(ClickpipeSourceMongodbTableMappingArrayOutput)
+}
+
+// TLS/SSL host for secure connections.
+func (o ClickpipeSourceMongodbOutput) TlsHost() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceMongodb) *string { return v.TlsHost }).(pulumi.StringPtrOutput)
+}
+
+// MongoDB connection URI. Supports both standard URIs (mongodb://...) and SRV URIs (mongodb+srv://...).
+func (o ClickpipeSourceMongodbOutput) Uri() pulumi.StringOutput {
+	return o.ApplyT(func(v ClickpipeSourceMongodb) string { return v.Uri }).(pulumi.StringOutput)
+}
+
+type ClickpipeSourceMongodbPtrOutput struct{ *pulumi.OutputState }
+
+func (ClickpipeSourceMongodbPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**ClickpipeSourceMongodb)(nil)).Elem()
+}
+
+func (o ClickpipeSourceMongodbPtrOutput) ToClickpipeSourceMongodbPtrOutput() ClickpipeSourceMongodbPtrOutput {
+	return o
+}
+
+func (o ClickpipeSourceMongodbPtrOutput) ToClickpipeSourceMongodbPtrOutputWithContext(ctx context.Context) ClickpipeSourceMongodbPtrOutput {
+	return o
+}
+
+func (o ClickpipeSourceMongodbPtrOutput) Elem() ClickpipeSourceMongodbOutput {
+	return o.ApplyT(func(v *ClickpipeSourceMongodb) ClickpipeSourceMongodb {
+		if v != nil {
+			return *v
+		}
+		var ret ClickpipeSourceMongodb
+		return ret
+	}).(ClickpipeSourceMongodbOutput)
+}
+
+// PEM encoded CA certificate to validate the MongoDB server certificate.
+func (o ClickpipeSourceMongodbPtrOutput) CaCertificate() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceMongodb) *string {
+		if v == nil {
+			return nil
+		}
+		return v.CaCertificate
+	}).(pulumi.StringPtrOutput)
+}
+
+// The credentials for the MongoDB instance (username and password). Optional if credentials are embedded in the URI.
+func (o ClickpipeSourceMongodbPtrOutput) Credentials() ClickpipeSourceMongodbCredentialsPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceMongodb) *ClickpipeSourceMongodbCredentials {
+		if v == nil {
+			return nil
+		}
+		return v.Credentials
+	}).(ClickpipeSourceMongodbCredentialsPtrOutput)
+}
+
+// Disable TLS for the MongoDB connection. Defaults to false (TLS enabled).
+func (o ClickpipeSourceMongodbPtrOutput) DisableTls() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceMongodb) *bool {
+		if v == nil {
+			return nil
+		}
+		return v.DisableTls
+	}).(pulumi.BoolPtrOutput)
+}
+
+// MongoDB read preference for replica set reads. (`primary`, `primaryPreferred`, `secondary`, `secondaryPreferred`, `nearest`)
+func (o ClickpipeSourceMongodbPtrOutput) ReadPreference() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceMongodb) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.ReadPreference
+	}).(pulumi.StringPtrOutput)
+}
+
+// Settings for the MongoDB CDC pipe.
+func (o ClickpipeSourceMongodbPtrOutput) Settings() ClickpipeSourceMongodbSettingsPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceMongodb) *ClickpipeSourceMongodbSettings {
+		if v == nil {
+			return nil
+		}
+		return &v.Settings
+	}).(ClickpipeSourceMongodbSettingsPtrOutput)
+}
+
+// Collection mappings from MongoDB source to ClickHouse destination.
+func (o ClickpipeSourceMongodbPtrOutput) TableMappings() ClickpipeSourceMongodbTableMappingArrayOutput {
+	return o.ApplyT(func(v *ClickpipeSourceMongodb) []ClickpipeSourceMongodbTableMapping {
+		if v == nil {
+			return nil
+		}
+		return v.TableMappings
+	}).(ClickpipeSourceMongodbTableMappingArrayOutput)
+}
+
+// TLS/SSL host for secure connections.
+func (o ClickpipeSourceMongodbPtrOutput) TlsHost() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceMongodb) *string {
+		if v == nil {
+			return nil
+		}
+		return v.TlsHost
+	}).(pulumi.StringPtrOutput)
+}
+
+// MongoDB connection URI. Supports both standard URIs (mongodb://...) and SRV URIs (mongodb+srv://...).
+func (o ClickpipeSourceMongodbPtrOutput) Uri() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceMongodb) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.Uri
+	}).(pulumi.StringPtrOutput)
+}
+
+type ClickpipeSourceMongodbCredentials struct {
+	// The password for the MongoDB instance. Use `passwordWo` instead to keep the value out of state.
+	Password *string `pulumi:"password"`
+	// **NOTE:** This field is write-only and its value will not be updated in state as part of read operations.
+	// Write-only password for the MongoDB instance. Not persisted to state. Pair with `passwordWoVersion` to trigger updates.
+	PasswordWo *string `pulumi:"passwordWo"`
+	// Version trigger for `passwordWo`. Increment to push a new password to the API.
+	PasswordWoVersion *int `pulumi:"passwordWoVersion"`
+	// The username for the MongoDB instance.
+	Username string `pulumi:"username"`
+}
+
+// ClickpipeSourceMongodbCredentialsInput is an input type that accepts ClickpipeSourceMongodbCredentialsArgs and ClickpipeSourceMongodbCredentialsOutput values.
+// You can construct a concrete instance of `ClickpipeSourceMongodbCredentialsInput` via:
+//
+//	ClickpipeSourceMongodbCredentialsArgs{...}
+type ClickpipeSourceMongodbCredentialsInput interface {
+	pulumi.Input
+
+	ToClickpipeSourceMongodbCredentialsOutput() ClickpipeSourceMongodbCredentialsOutput
+	ToClickpipeSourceMongodbCredentialsOutputWithContext(context.Context) ClickpipeSourceMongodbCredentialsOutput
+}
+
+type ClickpipeSourceMongodbCredentialsArgs struct {
+	// The password for the MongoDB instance. Use `passwordWo` instead to keep the value out of state.
+	Password pulumi.StringPtrInput `pulumi:"password"`
+	// **NOTE:** This field is write-only and its value will not be updated in state as part of read operations.
+	// Write-only password for the MongoDB instance. Not persisted to state. Pair with `passwordWoVersion` to trigger updates.
+	PasswordWo pulumi.StringPtrInput `pulumi:"passwordWo"`
+	// Version trigger for `passwordWo`. Increment to push a new password to the API.
+	PasswordWoVersion pulumi.IntPtrInput `pulumi:"passwordWoVersion"`
+	// The username for the MongoDB instance.
+	Username pulumi.StringInput `pulumi:"username"`
+}
+
+func (ClickpipeSourceMongodbCredentialsArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*ClickpipeSourceMongodbCredentials)(nil)).Elem()
+}
+
+func (i ClickpipeSourceMongodbCredentialsArgs) ToClickpipeSourceMongodbCredentialsOutput() ClickpipeSourceMongodbCredentialsOutput {
+	return i.ToClickpipeSourceMongodbCredentialsOutputWithContext(context.Background())
+}
+
+func (i ClickpipeSourceMongodbCredentialsArgs) ToClickpipeSourceMongodbCredentialsOutputWithContext(ctx context.Context) ClickpipeSourceMongodbCredentialsOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourceMongodbCredentialsOutput)
+}
+
+func (i ClickpipeSourceMongodbCredentialsArgs) ToClickpipeSourceMongodbCredentialsPtrOutput() ClickpipeSourceMongodbCredentialsPtrOutput {
+	return i.ToClickpipeSourceMongodbCredentialsPtrOutputWithContext(context.Background())
+}
+
+func (i ClickpipeSourceMongodbCredentialsArgs) ToClickpipeSourceMongodbCredentialsPtrOutputWithContext(ctx context.Context) ClickpipeSourceMongodbCredentialsPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourceMongodbCredentialsOutput).ToClickpipeSourceMongodbCredentialsPtrOutputWithContext(ctx)
+}
+
+// ClickpipeSourceMongodbCredentialsPtrInput is an input type that accepts ClickpipeSourceMongodbCredentialsArgs, ClickpipeSourceMongodbCredentialsPtr and ClickpipeSourceMongodbCredentialsPtrOutput values.
+// You can construct a concrete instance of `ClickpipeSourceMongodbCredentialsPtrInput` via:
+//
+//	        ClickpipeSourceMongodbCredentialsArgs{...}
+//
+//	or:
+//
+//	        nil
+type ClickpipeSourceMongodbCredentialsPtrInput interface {
+	pulumi.Input
+
+	ToClickpipeSourceMongodbCredentialsPtrOutput() ClickpipeSourceMongodbCredentialsPtrOutput
+	ToClickpipeSourceMongodbCredentialsPtrOutputWithContext(context.Context) ClickpipeSourceMongodbCredentialsPtrOutput
+}
+
+type clickpipeSourceMongodbCredentialsPtrType ClickpipeSourceMongodbCredentialsArgs
+
+func ClickpipeSourceMongodbCredentialsPtr(v *ClickpipeSourceMongodbCredentialsArgs) ClickpipeSourceMongodbCredentialsPtrInput {
+	return (*clickpipeSourceMongodbCredentialsPtrType)(v)
+}
+
+func (*clickpipeSourceMongodbCredentialsPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**ClickpipeSourceMongodbCredentials)(nil)).Elem()
+}
+
+func (i *clickpipeSourceMongodbCredentialsPtrType) ToClickpipeSourceMongodbCredentialsPtrOutput() ClickpipeSourceMongodbCredentialsPtrOutput {
+	return i.ToClickpipeSourceMongodbCredentialsPtrOutputWithContext(context.Background())
+}
+
+func (i *clickpipeSourceMongodbCredentialsPtrType) ToClickpipeSourceMongodbCredentialsPtrOutputWithContext(ctx context.Context) ClickpipeSourceMongodbCredentialsPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourceMongodbCredentialsPtrOutput)
+}
+
+type ClickpipeSourceMongodbCredentialsOutput struct{ *pulumi.OutputState }
+
+func (ClickpipeSourceMongodbCredentialsOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ClickpipeSourceMongodbCredentials)(nil)).Elem()
+}
+
+func (o ClickpipeSourceMongodbCredentialsOutput) ToClickpipeSourceMongodbCredentialsOutput() ClickpipeSourceMongodbCredentialsOutput {
+	return o
+}
+
+func (o ClickpipeSourceMongodbCredentialsOutput) ToClickpipeSourceMongodbCredentialsOutputWithContext(ctx context.Context) ClickpipeSourceMongodbCredentialsOutput {
+	return o
+}
+
+func (o ClickpipeSourceMongodbCredentialsOutput) ToClickpipeSourceMongodbCredentialsPtrOutput() ClickpipeSourceMongodbCredentialsPtrOutput {
+	return o.ToClickpipeSourceMongodbCredentialsPtrOutputWithContext(context.Background())
+}
+
+func (o ClickpipeSourceMongodbCredentialsOutput) ToClickpipeSourceMongodbCredentialsPtrOutputWithContext(ctx context.Context) ClickpipeSourceMongodbCredentialsPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v ClickpipeSourceMongodbCredentials) *ClickpipeSourceMongodbCredentials {
+		return &v
+	}).(ClickpipeSourceMongodbCredentialsPtrOutput)
+}
+
+// The password for the MongoDB instance. Use `passwordWo` instead to keep the value out of state.
+func (o ClickpipeSourceMongodbCredentialsOutput) Password() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceMongodbCredentials) *string { return v.Password }).(pulumi.StringPtrOutput)
+}
+
+// **NOTE:** This field is write-only and its value will not be updated in state as part of read operations.
+// Write-only password for the MongoDB instance. Not persisted to state. Pair with `passwordWoVersion` to trigger updates.
+func (o ClickpipeSourceMongodbCredentialsOutput) PasswordWo() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceMongodbCredentials) *string { return v.PasswordWo }).(pulumi.StringPtrOutput)
+}
+
+// Version trigger for `passwordWo`. Increment to push a new password to the API.
+func (o ClickpipeSourceMongodbCredentialsOutput) PasswordWoVersion() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceMongodbCredentials) *int { return v.PasswordWoVersion }).(pulumi.IntPtrOutput)
+}
+
+// The username for the MongoDB instance.
+func (o ClickpipeSourceMongodbCredentialsOutput) Username() pulumi.StringOutput {
+	return o.ApplyT(func(v ClickpipeSourceMongodbCredentials) string { return v.Username }).(pulumi.StringOutput)
+}
+
+type ClickpipeSourceMongodbCredentialsPtrOutput struct{ *pulumi.OutputState }
+
+func (ClickpipeSourceMongodbCredentialsPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**ClickpipeSourceMongodbCredentials)(nil)).Elem()
+}
+
+func (o ClickpipeSourceMongodbCredentialsPtrOutput) ToClickpipeSourceMongodbCredentialsPtrOutput() ClickpipeSourceMongodbCredentialsPtrOutput {
+	return o
+}
+
+func (o ClickpipeSourceMongodbCredentialsPtrOutput) ToClickpipeSourceMongodbCredentialsPtrOutputWithContext(ctx context.Context) ClickpipeSourceMongodbCredentialsPtrOutput {
+	return o
+}
+
+func (o ClickpipeSourceMongodbCredentialsPtrOutput) Elem() ClickpipeSourceMongodbCredentialsOutput {
+	return o.ApplyT(func(v *ClickpipeSourceMongodbCredentials) ClickpipeSourceMongodbCredentials {
+		if v != nil {
+			return *v
+		}
+		var ret ClickpipeSourceMongodbCredentials
+		return ret
+	}).(ClickpipeSourceMongodbCredentialsOutput)
+}
+
+// The password for the MongoDB instance. Use `passwordWo` instead to keep the value out of state.
+func (o ClickpipeSourceMongodbCredentialsPtrOutput) Password() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceMongodbCredentials) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Password
+	}).(pulumi.StringPtrOutput)
+}
+
+// **NOTE:** This field is write-only and its value will not be updated in state as part of read operations.
+// Write-only password for the MongoDB instance. Not persisted to state. Pair with `passwordWoVersion` to trigger updates.
+func (o ClickpipeSourceMongodbCredentialsPtrOutput) PasswordWo() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceMongodbCredentials) *string {
+		if v == nil {
+			return nil
+		}
+		return v.PasswordWo
+	}).(pulumi.StringPtrOutput)
+}
+
+// Version trigger for `passwordWo`. Increment to push a new password to the API.
+func (o ClickpipeSourceMongodbCredentialsPtrOutput) PasswordWoVersion() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceMongodbCredentials) *int {
+		if v == nil {
+			return nil
+		}
+		return v.PasswordWoVersion
+	}).(pulumi.IntPtrOutput)
+}
+
+// The username for the MongoDB instance.
+func (o ClickpipeSourceMongodbCredentialsPtrOutput) Username() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceMongodbCredentials) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.Username
+	}).(pulumi.StringPtrOutput)
+}
+
+type ClickpipeSourceMongodbSettings struct {
+	// Enable hard delete behavior in ReplacingMergeTree for MongoDB DELETE operations.
+	DeleteOnMerge *bool `pulumi:"deleteOnMerge"`
+	// Number of rows to pull in each batch during CDC replication.
+	PullBatchSize *int `pulumi:"pullBatchSize"`
+	// Replication mode for the MongoDB pipe. (`cdc`, `snapshot`, `cdcOnly`)
+	ReplicationMode string `pulumi:"replicationMode"`
+	// Number of rows per partition during the snapshot phase.
+	SnapshotNumRowsPerPartition *int `pulumi:"snapshotNumRowsPerPartition"`
+	// Number of collections to snapshot in parallel during the initial load phase.
+	SnapshotNumberOfParallelTables *int `pulumi:"snapshotNumberOfParallelTables"`
+	// Interval in seconds to sync data from MongoDB during CDC replication.
+	SyncIntervalSeconds *int `pulumi:"syncIntervalSeconds"`
+	// Store JSON values in native ClickHouse JSON format. When disabled, JSON data is stored as String.
+	UseJsonNativeFormat *bool `pulumi:"useJsonNativeFormat"`
+}
+
+// ClickpipeSourceMongodbSettingsInput is an input type that accepts ClickpipeSourceMongodbSettingsArgs and ClickpipeSourceMongodbSettingsOutput values.
+// You can construct a concrete instance of `ClickpipeSourceMongodbSettingsInput` via:
+//
+//	ClickpipeSourceMongodbSettingsArgs{...}
+type ClickpipeSourceMongodbSettingsInput interface {
+	pulumi.Input
+
+	ToClickpipeSourceMongodbSettingsOutput() ClickpipeSourceMongodbSettingsOutput
+	ToClickpipeSourceMongodbSettingsOutputWithContext(context.Context) ClickpipeSourceMongodbSettingsOutput
+}
+
+type ClickpipeSourceMongodbSettingsArgs struct {
+	// Enable hard delete behavior in ReplacingMergeTree for MongoDB DELETE operations.
+	DeleteOnMerge pulumi.BoolPtrInput `pulumi:"deleteOnMerge"`
+	// Number of rows to pull in each batch during CDC replication.
+	PullBatchSize pulumi.IntPtrInput `pulumi:"pullBatchSize"`
+	// Replication mode for the MongoDB pipe. (`cdc`, `snapshot`, `cdcOnly`)
+	ReplicationMode pulumi.StringInput `pulumi:"replicationMode"`
+	// Number of rows per partition during the snapshot phase.
+	SnapshotNumRowsPerPartition pulumi.IntPtrInput `pulumi:"snapshotNumRowsPerPartition"`
+	// Number of collections to snapshot in parallel during the initial load phase.
+	SnapshotNumberOfParallelTables pulumi.IntPtrInput `pulumi:"snapshotNumberOfParallelTables"`
+	// Interval in seconds to sync data from MongoDB during CDC replication.
+	SyncIntervalSeconds pulumi.IntPtrInput `pulumi:"syncIntervalSeconds"`
+	// Store JSON values in native ClickHouse JSON format. When disabled, JSON data is stored as String.
+	UseJsonNativeFormat pulumi.BoolPtrInput `pulumi:"useJsonNativeFormat"`
+}
+
+func (ClickpipeSourceMongodbSettingsArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*ClickpipeSourceMongodbSettings)(nil)).Elem()
+}
+
+func (i ClickpipeSourceMongodbSettingsArgs) ToClickpipeSourceMongodbSettingsOutput() ClickpipeSourceMongodbSettingsOutput {
+	return i.ToClickpipeSourceMongodbSettingsOutputWithContext(context.Background())
+}
+
+func (i ClickpipeSourceMongodbSettingsArgs) ToClickpipeSourceMongodbSettingsOutputWithContext(ctx context.Context) ClickpipeSourceMongodbSettingsOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourceMongodbSettingsOutput)
+}
+
+func (i ClickpipeSourceMongodbSettingsArgs) ToClickpipeSourceMongodbSettingsPtrOutput() ClickpipeSourceMongodbSettingsPtrOutput {
+	return i.ToClickpipeSourceMongodbSettingsPtrOutputWithContext(context.Background())
+}
+
+func (i ClickpipeSourceMongodbSettingsArgs) ToClickpipeSourceMongodbSettingsPtrOutputWithContext(ctx context.Context) ClickpipeSourceMongodbSettingsPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourceMongodbSettingsOutput).ToClickpipeSourceMongodbSettingsPtrOutputWithContext(ctx)
+}
+
+// ClickpipeSourceMongodbSettingsPtrInput is an input type that accepts ClickpipeSourceMongodbSettingsArgs, ClickpipeSourceMongodbSettingsPtr and ClickpipeSourceMongodbSettingsPtrOutput values.
+// You can construct a concrete instance of `ClickpipeSourceMongodbSettingsPtrInput` via:
+//
+//	        ClickpipeSourceMongodbSettingsArgs{...}
+//
+//	or:
+//
+//	        nil
+type ClickpipeSourceMongodbSettingsPtrInput interface {
+	pulumi.Input
+
+	ToClickpipeSourceMongodbSettingsPtrOutput() ClickpipeSourceMongodbSettingsPtrOutput
+	ToClickpipeSourceMongodbSettingsPtrOutputWithContext(context.Context) ClickpipeSourceMongodbSettingsPtrOutput
+}
+
+type clickpipeSourceMongodbSettingsPtrType ClickpipeSourceMongodbSettingsArgs
+
+func ClickpipeSourceMongodbSettingsPtr(v *ClickpipeSourceMongodbSettingsArgs) ClickpipeSourceMongodbSettingsPtrInput {
+	return (*clickpipeSourceMongodbSettingsPtrType)(v)
+}
+
+func (*clickpipeSourceMongodbSettingsPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**ClickpipeSourceMongodbSettings)(nil)).Elem()
+}
+
+func (i *clickpipeSourceMongodbSettingsPtrType) ToClickpipeSourceMongodbSettingsPtrOutput() ClickpipeSourceMongodbSettingsPtrOutput {
+	return i.ToClickpipeSourceMongodbSettingsPtrOutputWithContext(context.Background())
+}
+
+func (i *clickpipeSourceMongodbSettingsPtrType) ToClickpipeSourceMongodbSettingsPtrOutputWithContext(ctx context.Context) ClickpipeSourceMongodbSettingsPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourceMongodbSettingsPtrOutput)
+}
+
+type ClickpipeSourceMongodbSettingsOutput struct{ *pulumi.OutputState }
+
+func (ClickpipeSourceMongodbSettingsOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ClickpipeSourceMongodbSettings)(nil)).Elem()
+}
+
+func (o ClickpipeSourceMongodbSettingsOutput) ToClickpipeSourceMongodbSettingsOutput() ClickpipeSourceMongodbSettingsOutput {
+	return o
+}
+
+func (o ClickpipeSourceMongodbSettingsOutput) ToClickpipeSourceMongodbSettingsOutputWithContext(ctx context.Context) ClickpipeSourceMongodbSettingsOutput {
+	return o
+}
+
+func (o ClickpipeSourceMongodbSettingsOutput) ToClickpipeSourceMongodbSettingsPtrOutput() ClickpipeSourceMongodbSettingsPtrOutput {
+	return o.ToClickpipeSourceMongodbSettingsPtrOutputWithContext(context.Background())
+}
+
+func (o ClickpipeSourceMongodbSettingsOutput) ToClickpipeSourceMongodbSettingsPtrOutputWithContext(ctx context.Context) ClickpipeSourceMongodbSettingsPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v ClickpipeSourceMongodbSettings) *ClickpipeSourceMongodbSettings {
+		return &v
+	}).(ClickpipeSourceMongodbSettingsPtrOutput)
+}
+
+// Enable hard delete behavior in ReplacingMergeTree for MongoDB DELETE operations.
+func (o ClickpipeSourceMongodbSettingsOutput) DeleteOnMerge() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceMongodbSettings) *bool { return v.DeleteOnMerge }).(pulumi.BoolPtrOutput)
+}
+
+// Number of rows to pull in each batch during CDC replication.
+func (o ClickpipeSourceMongodbSettingsOutput) PullBatchSize() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceMongodbSettings) *int { return v.PullBatchSize }).(pulumi.IntPtrOutput)
+}
+
+// Replication mode for the MongoDB pipe. (`cdc`, `snapshot`, `cdcOnly`)
+func (o ClickpipeSourceMongodbSettingsOutput) ReplicationMode() pulumi.StringOutput {
+	return o.ApplyT(func(v ClickpipeSourceMongodbSettings) string { return v.ReplicationMode }).(pulumi.StringOutput)
+}
+
+// Number of rows per partition during the snapshot phase.
+func (o ClickpipeSourceMongodbSettingsOutput) SnapshotNumRowsPerPartition() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceMongodbSettings) *int { return v.SnapshotNumRowsPerPartition }).(pulumi.IntPtrOutput)
+}
+
+// Number of collections to snapshot in parallel during the initial load phase.
+func (o ClickpipeSourceMongodbSettingsOutput) SnapshotNumberOfParallelTables() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceMongodbSettings) *int { return v.SnapshotNumberOfParallelTables }).(pulumi.IntPtrOutput)
+}
+
+// Interval in seconds to sync data from MongoDB during CDC replication.
+func (o ClickpipeSourceMongodbSettingsOutput) SyncIntervalSeconds() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceMongodbSettings) *int { return v.SyncIntervalSeconds }).(pulumi.IntPtrOutput)
+}
+
+// Store JSON values in native ClickHouse JSON format. When disabled, JSON data is stored as String.
+func (o ClickpipeSourceMongodbSettingsOutput) UseJsonNativeFormat() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceMongodbSettings) *bool { return v.UseJsonNativeFormat }).(pulumi.BoolPtrOutput)
+}
+
+type ClickpipeSourceMongodbSettingsPtrOutput struct{ *pulumi.OutputState }
+
+func (ClickpipeSourceMongodbSettingsPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**ClickpipeSourceMongodbSettings)(nil)).Elem()
+}
+
+func (o ClickpipeSourceMongodbSettingsPtrOutput) ToClickpipeSourceMongodbSettingsPtrOutput() ClickpipeSourceMongodbSettingsPtrOutput {
+	return o
+}
+
+func (o ClickpipeSourceMongodbSettingsPtrOutput) ToClickpipeSourceMongodbSettingsPtrOutputWithContext(ctx context.Context) ClickpipeSourceMongodbSettingsPtrOutput {
+	return o
+}
+
+func (o ClickpipeSourceMongodbSettingsPtrOutput) Elem() ClickpipeSourceMongodbSettingsOutput {
+	return o.ApplyT(func(v *ClickpipeSourceMongodbSettings) ClickpipeSourceMongodbSettings {
+		if v != nil {
+			return *v
+		}
+		var ret ClickpipeSourceMongodbSettings
+		return ret
+	}).(ClickpipeSourceMongodbSettingsOutput)
+}
+
+// Enable hard delete behavior in ReplacingMergeTree for MongoDB DELETE operations.
+func (o ClickpipeSourceMongodbSettingsPtrOutput) DeleteOnMerge() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceMongodbSettings) *bool {
+		if v == nil {
+			return nil
+		}
+		return v.DeleteOnMerge
+	}).(pulumi.BoolPtrOutput)
+}
+
+// Number of rows to pull in each batch during CDC replication.
+func (o ClickpipeSourceMongodbSettingsPtrOutput) PullBatchSize() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceMongodbSettings) *int {
+		if v == nil {
+			return nil
+		}
+		return v.PullBatchSize
+	}).(pulumi.IntPtrOutput)
+}
+
+// Replication mode for the MongoDB pipe. (`cdc`, `snapshot`, `cdcOnly`)
+func (o ClickpipeSourceMongodbSettingsPtrOutput) ReplicationMode() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceMongodbSettings) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.ReplicationMode
+	}).(pulumi.StringPtrOutput)
+}
+
+// Number of rows per partition during the snapshot phase.
+func (o ClickpipeSourceMongodbSettingsPtrOutput) SnapshotNumRowsPerPartition() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceMongodbSettings) *int {
+		if v == nil {
+			return nil
+		}
+		return v.SnapshotNumRowsPerPartition
+	}).(pulumi.IntPtrOutput)
+}
+
+// Number of collections to snapshot in parallel during the initial load phase.
+func (o ClickpipeSourceMongodbSettingsPtrOutput) SnapshotNumberOfParallelTables() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceMongodbSettings) *int {
+		if v == nil {
+			return nil
+		}
+		return v.SnapshotNumberOfParallelTables
+	}).(pulumi.IntPtrOutput)
+}
+
+// Interval in seconds to sync data from MongoDB during CDC replication.
+func (o ClickpipeSourceMongodbSettingsPtrOutput) SyncIntervalSeconds() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceMongodbSettings) *int {
+		if v == nil {
+			return nil
+		}
+		return v.SyncIntervalSeconds
+	}).(pulumi.IntPtrOutput)
+}
+
+// Store JSON values in native ClickHouse JSON format. When disabled, JSON data is stored as String.
+func (o ClickpipeSourceMongodbSettingsPtrOutput) UseJsonNativeFormat() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceMongodbSettings) *bool {
+		if v == nil {
+			return nil
+		}
+		return v.UseJsonNativeFormat
+	}).(pulumi.BoolPtrOutput)
+}
+
+type ClickpipeSourceMongodbTableMapping struct {
+	// MongoDB source collection name.
+	SourceCollection string `pulumi:"sourceCollection"`
+	// MongoDB source database name.
+	SourceDatabaseName string `pulumi:"sourceDatabaseName"`
+	// Table engine to use for the target table. (`MergeTree`, `ReplacingMergeTree`, `Null`)
+	TableEngine *string `pulumi:"tableEngine"`
+	// ClickHouse target table name. The table will be created automatically if it does not exist.
+	TargetTable string `pulumi:"targetTable"`
+}
+
+// ClickpipeSourceMongodbTableMappingInput is an input type that accepts ClickpipeSourceMongodbTableMappingArgs and ClickpipeSourceMongodbTableMappingOutput values.
+// You can construct a concrete instance of `ClickpipeSourceMongodbTableMappingInput` via:
+//
+//	ClickpipeSourceMongodbTableMappingArgs{...}
+type ClickpipeSourceMongodbTableMappingInput interface {
+	pulumi.Input
+
+	ToClickpipeSourceMongodbTableMappingOutput() ClickpipeSourceMongodbTableMappingOutput
+	ToClickpipeSourceMongodbTableMappingOutputWithContext(context.Context) ClickpipeSourceMongodbTableMappingOutput
+}
+
+type ClickpipeSourceMongodbTableMappingArgs struct {
+	// MongoDB source collection name.
+	SourceCollection pulumi.StringInput `pulumi:"sourceCollection"`
+	// MongoDB source database name.
+	SourceDatabaseName pulumi.StringInput `pulumi:"sourceDatabaseName"`
+	// Table engine to use for the target table. (`MergeTree`, `ReplacingMergeTree`, `Null`)
+	TableEngine pulumi.StringPtrInput `pulumi:"tableEngine"`
+	// ClickHouse target table name. The table will be created automatically if it does not exist.
+	TargetTable pulumi.StringInput `pulumi:"targetTable"`
+}
+
+func (ClickpipeSourceMongodbTableMappingArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*ClickpipeSourceMongodbTableMapping)(nil)).Elem()
+}
+
+func (i ClickpipeSourceMongodbTableMappingArgs) ToClickpipeSourceMongodbTableMappingOutput() ClickpipeSourceMongodbTableMappingOutput {
+	return i.ToClickpipeSourceMongodbTableMappingOutputWithContext(context.Background())
+}
+
+func (i ClickpipeSourceMongodbTableMappingArgs) ToClickpipeSourceMongodbTableMappingOutputWithContext(ctx context.Context) ClickpipeSourceMongodbTableMappingOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourceMongodbTableMappingOutput)
+}
+
+// ClickpipeSourceMongodbTableMappingArrayInput is an input type that accepts ClickpipeSourceMongodbTableMappingArray and ClickpipeSourceMongodbTableMappingArrayOutput values.
+// You can construct a concrete instance of `ClickpipeSourceMongodbTableMappingArrayInput` via:
+//
+//	ClickpipeSourceMongodbTableMappingArray{ ClickpipeSourceMongodbTableMappingArgs{...} }
+type ClickpipeSourceMongodbTableMappingArrayInput interface {
+	pulumi.Input
+
+	ToClickpipeSourceMongodbTableMappingArrayOutput() ClickpipeSourceMongodbTableMappingArrayOutput
+	ToClickpipeSourceMongodbTableMappingArrayOutputWithContext(context.Context) ClickpipeSourceMongodbTableMappingArrayOutput
+}
+
+type ClickpipeSourceMongodbTableMappingArray []ClickpipeSourceMongodbTableMappingInput
+
+func (ClickpipeSourceMongodbTableMappingArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]ClickpipeSourceMongodbTableMapping)(nil)).Elem()
+}
+
+func (i ClickpipeSourceMongodbTableMappingArray) ToClickpipeSourceMongodbTableMappingArrayOutput() ClickpipeSourceMongodbTableMappingArrayOutput {
+	return i.ToClickpipeSourceMongodbTableMappingArrayOutputWithContext(context.Background())
+}
+
+func (i ClickpipeSourceMongodbTableMappingArray) ToClickpipeSourceMongodbTableMappingArrayOutputWithContext(ctx context.Context) ClickpipeSourceMongodbTableMappingArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourceMongodbTableMappingArrayOutput)
+}
+
+type ClickpipeSourceMongodbTableMappingOutput struct{ *pulumi.OutputState }
+
+func (ClickpipeSourceMongodbTableMappingOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ClickpipeSourceMongodbTableMapping)(nil)).Elem()
+}
+
+func (o ClickpipeSourceMongodbTableMappingOutput) ToClickpipeSourceMongodbTableMappingOutput() ClickpipeSourceMongodbTableMappingOutput {
+	return o
+}
+
+func (o ClickpipeSourceMongodbTableMappingOutput) ToClickpipeSourceMongodbTableMappingOutputWithContext(ctx context.Context) ClickpipeSourceMongodbTableMappingOutput {
+	return o
+}
+
+// MongoDB source collection name.
+func (o ClickpipeSourceMongodbTableMappingOutput) SourceCollection() pulumi.StringOutput {
+	return o.ApplyT(func(v ClickpipeSourceMongodbTableMapping) string { return v.SourceCollection }).(pulumi.StringOutput)
+}
+
+// MongoDB source database name.
+func (o ClickpipeSourceMongodbTableMappingOutput) SourceDatabaseName() pulumi.StringOutput {
+	return o.ApplyT(func(v ClickpipeSourceMongodbTableMapping) string { return v.SourceDatabaseName }).(pulumi.StringOutput)
+}
+
+// Table engine to use for the target table. (`MergeTree`, `ReplacingMergeTree`, `Null`)
+func (o ClickpipeSourceMongodbTableMappingOutput) TableEngine() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceMongodbTableMapping) *string { return v.TableEngine }).(pulumi.StringPtrOutput)
+}
+
+// ClickHouse target table name. The table will be created automatically if it does not exist.
+func (o ClickpipeSourceMongodbTableMappingOutput) TargetTable() pulumi.StringOutput {
+	return o.ApplyT(func(v ClickpipeSourceMongodbTableMapping) string { return v.TargetTable }).(pulumi.StringOutput)
+}
+
+type ClickpipeSourceMongodbTableMappingArrayOutput struct{ *pulumi.OutputState }
+
+func (ClickpipeSourceMongodbTableMappingArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]ClickpipeSourceMongodbTableMapping)(nil)).Elem()
+}
+
+func (o ClickpipeSourceMongodbTableMappingArrayOutput) ToClickpipeSourceMongodbTableMappingArrayOutput() ClickpipeSourceMongodbTableMappingArrayOutput {
+	return o
+}
+
+func (o ClickpipeSourceMongodbTableMappingArrayOutput) ToClickpipeSourceMongodbTableMappingArrayOutputWithContext(ctx context.Context) ClickpipeSourceMongodbTableMappingArrayOutput {
+	return o
+}
+
+func (o ClickpipeSourceMongodbTableMappingArrayOutput) Index(i pulumi.IntInput) ClickpipeSourceMongodbTableMappingOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) ClickpipeSourceMongodbTableMapping {
+		return vs[0].([]ClickpipeSourceMongodbTableMapping)[vs[1].(int)]
+	}).(ClickpipeSourceMongodbTableMappingOutput)
+}
+
+type ClickpipeSourceMysql struct {
+	// Authentication method for MySQL connection. Supported values: `basic`, `IAM_ROLE`. Default is `basic`.
+	Authentication *string `pulumi:"authentication"`
+	// PEM encoded CA certificate to validate the MySQL server certificate.
+	CaCertificate *string `pulumi:"caCertificate"`
+	// The credentials for the MySQL instance. Username is always required. For `basic` authentication, supply either `password` or `passwordWo`. For `IAM_ROLE` authentication, password is optional.
+	Credentials ClickpipeSourceMysqlCredentials `pulumi:"credentials"`
+	// Disable TLS for the MySQL connection.
+	DisableTls *bool `pulumi:"disableTls"`
+	// The hostname of the MySQL instance.
+	Host string `pulumi:"host"`
+	// IAM role ARN for IAM authentication. Required when authentication is set to `IAM_ROLE`.
+	IamRole *string `pulumi:"iamRole"`
+	// The port of the MySQL instance. Default is 3306.
+	Port *int `pulumi:"port"`
+	// Settings for the MySQL CDC pipe.
+	Settings ClickpipeSourceMysqlSettings `pulumi:"settings"`
+	// Skip certificate verification for the MySQL connection.
+	SkipCertVerification *bool `pulumi:"skipCertVerification"`
+	// Table mappings from MySQL source to ClickHouse destination.
+	TableMappings []ClickpipeSourceMysqlTableMapping `pulumi:"tableMappings"`
+	// TLS/SSL host for secure connections. Used to verify the server certificate.
+	TlsHost *string `pulumi:"tlsHost"`
+	// The type of MySQL-compatible source. (`mysql`, `rdsmysql`, `auroramysql`, `planetscalevitess`, `mariadb`, `rdsmariadb`). Default is `mysql`.
+	Type *string `pulumi:"type"`
+}
+
+// ClickpipeSourceMysqlInput is an input type that accepts ClickpipeSourceMysqlArgs and ClickpipeSourceMysqlOutput values.
+// You can construct a concrete instance of `ClickpipeSourceMysqlInput` via:
+//
+//	ClickpipeSourceMysqlArgs{...}
+type ClickpipeSourceMysqlInput interface {
+	pulumi.Input
+
+	ToClickpipeSourceMysqlOutput() ClickpipeSourceMysqlOutput
+	ToClickpipeSourceMysqlOutputWithContext(context.Context) ClickpipeSourceMysqlOutput
+}
+
+type ClickpipeSourceMysqlArgs struct {
+	// Authentication method for MySQL connection. Supported values: `basic`, `IAM_ROLE`. Default is `basic`.
+	Authentication pulumi.StringPtrInput `pulumi:"authentication"`
+	// PEM encoded CA certificate to validate the MySQL server certificate.
+	CaCertificate pulumi.StringPtrInput `pulumi:"caCertificate"`
+	// The credentials for the MySQL instance. Username is always required. For `basic` authentication, supply either `password` or `passwordWo`. For `IAM_ROLE` authentication, password is optional.
+	Credentials ClickpipeSourceMysqlCredentialsInput `pulumi:"credentials"`
+	// Disable TLS for the MySQL connection.
+	DisableTls pulumi.BoolPtrInput `pulumi:"disableTls"`
+	// The hostname of the MySQL instance.
+	Host pulumi.StringInput `pulumi:"host"`
+	// IAM role ARN for IAM authentication. Required when authentication is set to `IAM_ROLE`.
+	IamRole pulumi.StringPtrInput `pulumi:"iamRole"`
+	// The port of the MySQL instance. Default is 3306.
+	Port pulumi.IntPtrInput `pulumi:"port"`
+	// Settings for the MySQL CDC pipe.
+	Settings ClickpipeSourceMysqlSettingsInput `pulumi:"settings"`
+	// Skip certificate verification for the MySQL connection.
+	SkipCertVerification pulumi.BoolPtrInput `pulumi:"skipCertVerification"`
+	// Table mappings from MySQL source to ClickHouse destination.
+	TableMappings ClickpipeSourceMysqlTableMappingArrayInput `pulumi:"tableMappings"`
+	// TLS/SSL host for secure connections. Used to verify the server certificate.
+	TlsHost pulumi.StringPtrInput `pulumi:"tlsHost"`
+	// The type of MySQL-compatible source. (`mysql`, `rdsmysql`, `auroramysql`, `planetscalevitess`, `mariadb`, `rdsmariadb`). Default is `mysql`.
+	Type pulumi.StringPtrInput `pulumi:"type"`
+}
+
+func (ClickpipeSourceMysqlArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*ClickpipeSourceMysql)(nil)).Elem()
+}
+
+func (i ClickpipeSourceMysqlArgs) ToClickpipeSourceMysqlOutput() ClickpipeSourceMysqlOutput {
+	return i.ToClickpipeSourceMysqlOutputWithContext(context.Background())
+}
+
+func (i ClickpipeSourceMysqlArgs) ToClickpipeSourceMysqlOutputWithContext(ctx context.Context) ClickpipeSourceMysqlOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourceMysqlOutput)
+}
+
+func (i ClickpipeSourceMysqlArgs) ToClickpipeSourceMysqlPtrOutput() ClickpipeSourceMysqlPtrOutput {
+	return i.ToClickpipeSourceMysqlPtrOutputWithContext(context.Background())
+}
+
+func (i ClickpipeSourceMysqlArgs) ToClickpipeSourceMysqlPtrOutputWithContext(ctx context.Context) ClickpipeSourceMysqlPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourceMysqlOutput).ToClickpipeSourceMysqlPtrOutputWithContext(ctx)
+}
+
+// ClickpipeSourceMysqlPtrInput is an input type that accepts ClickpipeSourceMysqlArgs, ClickpipeSourceMysqlPtr and ClickpipeSourceMysqlPtrOutput values.
+// You can construct a concrete instance of `ClickpipeSourceMysqlPtrInput` via:
+//
+//	        ClickpipeSourceMysqlArgs{...}
+//
+//	or:
+//
+//	        nil
+type ClickpipeSourceMysqlPtrInput interface {
+	pulumi.Input
+
+	ToClickpipeSourceMysqlPtrOutput() ClickpipeSourceMysqlPtrOutput
+	ToClickpipeSourceMysqlPtrOutputWithContext(context.Context) ClickpipeSourceMysqlPtrOutput
+}
+
+type clickpipeSourceMysqlPtrType ClickpipeSourceMysqlArgs
+
+func ClickpipeSourceMysqlPtr(v *ClickpipeSourceMysqlArgs) ClickpipeSourceMysqlPtrInput {
+	return (*clickpipeSourceMysqlPtrType)(v)
+}
+
+func (*clickpipeSourceMysqlPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**ClickpipeSourceMysql)(nil)).Elem()
+}
+
+func (i *clickpipeSourceMysqlPtrType) ToClickpipeSourceMysqlPtrOutput() ClickpipeSourceMysqlPtrOutput {
+	return i.ToClickpipeSourceMysqlPtrOutputWithContext(context.Background())
+}
+
+func (i *clickpipeSourceMysqlPtrType) ToClickpipeSourceMysqlPtrOutputWithContext(ctx context.Context) ClickpipeSourceMysqlPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourceMysqlPtrOutput)
+}
+
+type ClickpipeSourceMysqlOutput struct{ *pulumi.OutputState }
+
+func (ClickpipeSourceMysqlOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ClickpipeSourceMysql)(nil)).Elem()
+}
+
+func (o ClickpipeSourceMysqlOutput) ToClickpipeSourceMysqlOutput() ClickpipeSourceMysqlOutput {
+	return o
+}
+
+func (o ClickpipeSourceMysqlOutput) ToClickpipeSourceMysqlOutputWithContext(ctx context.Context) ClickpipeSourceMysqlOutput {
+	return o
+}
+
+func (o ClickpipeSourceMysqlOutput) ToClickpipeSourceMysqlPtrOutput() ClickpipeSourceMysqlPtrOutput {
+	return o.ToClickpipeSourceMysqlPtrOutputWithContext(context.Background())
+}
+
+func (o ClickpipeSourceMysqlOutput) ToClickpipeSourceMysqlPtrOutputWithContext(ctx context.Context) ClickpipeSourceMysqlPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v ClickpipeSourceMysql) *ClickpipeSourceMysql {
+		return &v
+	}).(ClickpipeSourceMysqlPtrOutput)
+}
+
+// Authentication method for MySQL connection. Supported values: `basic`, `IAM_ROLE`. Default is `basic`.
+func (o ClickpipeSourceMysqlOutput) Authentication() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceMysql) *string { return v.Authentication }).(pulumi.StringPtrOutput)
+}
+
+// PEM encoded CA certificate to validate the MySQL server certificate.
+func (o ClickpipeSourceMysqlOutput) CaCertificate() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceMysql) *string { return v.CaCertificate }).(pulumi.StringPtrOutput)
+}
+
+// The credentials for the MySQL instance. Username is always required. For `basic` authentication, supply either `password` or `passwordWo`. For `IAM_ROLE` authentication, password is optional.
+func (o ClickpipeSourceMysqlOutput) Credentials() ClickpipeSourceMysqlCredentialsOutput {
+	return o.ApplyT(func(v ClickpipeSourceMysql) ClickpipeSourceMysqlCredentials { return v.Credentials }).(ClickpipeSourceMysqlCredentialsOutput)
+}
+
+// Disable TLS for the MySQL connection.
+func (o ClickpipeSourceMysqlOutput) DisableTls() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceMysql) *bool { return v.DisableTls }).(pulumi.BoolPtrOutput)
+}
+
+// The hostname of the MySQL instance.
+func (o ClickpipeSourceMysqlOutput) Host() pulumi.StringOutput {
+	return o.ApplyT(func(v ClickpipeSourceMysql) string { return v.Host }).(pulumi.StringOutput)
+}
+
+// IAM role ARN for IAM authentication. Required when authentication is set to `IAM_ROLE`.
+func (o ClickpipeSourceMysqlOutput) IamRole() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceMysql) *string { return v.IamRole }).(pulumi.StringPtrOutput)
+}
+
+// The port of the MySQL instance. Default is 3306.
+func (o ClickpipeSourceMysqlOutput) Port() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceMysql) *int { return v.Port }).(pulumi.IntPtrOutput)
+}
+
+// Settings for the MySQL CDC pipe.
+func (o ClickpipeSourceMysqlOutput) Settings() ClickpipeSourceMysqlSettingsOutput {
+	return o.ApplyT(func(v ClickpipeSourceMysql) ClickpipeSourceMysqlSettings { return v.Settings }).(ClickpipeSourceMysqlSettingsOutput)
+}
+
+// Skip certificate verification for the MySQL connection.
+func (o ClickpipeSourceMysqlOutput) SkipCertVerification() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceMysql) *bool { return v.SkipCertVerification }).(pulumi.BoolPtrOutput)
+}
+
+// Table mappings from MySQL source to ClickHouse destination.
+func (o ClickpipeSourceMysqlOutput) TableMappings() ClickpipeSourceMysqlTableMappingArrayOutput {
+	return o.ApplyT(func(v ClickpipeSourceMysql) []ClickpipeSourceMysqlTableMapping { return v.TableMappings }).(ClickpipeSourceMysqlTableMappingArrayOutput)
+}
+
+// TLS/SSL host for secure connections. Used to verify the server certificate.
+func (o ClickpipeSourceMysqlOutput) TlsHost() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceMysql) *string { return v.TlsHost }).(pulumi.StringPtrOutput)
+}
+
+// The type of MySQL-compatible source. (`mysql`, `rdsmysql`, `auroramysql`, `planetscalevitess`, `mariadb`, `rdsmariadb`). Default is `mysql`.
+func (o ClickpipeSourceMysqlOutput) Type() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceMysql) *string { return v.Type }).(pulumi.StringPtrOutput)
+}
+
+type ClickpipeSourceMysqlPtrOutput struct{ *pulumi.OutputState }
+
+func (ClickpipeSourceMysqlPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**ClickpipeSourceMysql)(nil)).Elem()
+}
+
+func (o ClickpipeSourceMysqlPtrOutput) ToClickpipeSourceMysqlPtrOutput() ClickpipeSourceMysqlPtrOutput {
+	return o
+}
+
+func (o ClickpipeSourceMysqlPtrOutput) ToClickpipeSourceMysqlPtrOutputWithContext(ctx context.Context) ClickpipeSourceMysqlPtrOutput {
+	return o
+}
+
+func (o ClickpipeSourceMysqlPtrOutput) Elem() ClickpipeSourceMysqlOutput {
+	return o.ApplyT(func(v *ClickpipeSourceMysql) ClickpipeSourceMysql {
+		if v != nil {
+			return *v
+		}
+		var ret ClickpipeSourceMysql
+		return ret
+	}).(ClickpipeSourceMysqlOutput)
+}
+
+// Authentication method for MySQL connection. Supported values: `basic`, `IAM_ROLE`. Default is `basic`.
+func (o ClickpipeSourceMysqlPtrOutput) Authentication() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceMysql) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Authentication
+	}).(pulumi.StringPtrOutput)
+}
+
+// PEM encoded CA certificate to validate the MySQL server certificate.
+func (o ClickpipeSourceMysqlPtrOutput) CaCertificate() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceMysql) *string {
+		if v == nil {
+			return nil
+		}
+		return v.CaCertificate
+	}).(pulumi.StringPtrOutput)
+}
+
+// The credentials for the MySQL instance. Username is always required. For `basic` authentication, supply either `password` or `passwordWo`. For `IAM_ROLE` authentication, password is optional.
+func (o ClickpipeSourceMysqlPtrOutput) Credentials() ClickpipeSourceMysqlCredentialsPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceMysql) *ClickpipeSourceMysqlCredentials {
+		if v == nil {
+			return nil
+		}
+		return &v.Credentials
+	}).(ClickpipeSourceMysqlCredentialsPtrOutput)
+}
+
+// Disable TLS for the MySQL connection.
+func (o ClickpipeSourceMysqlPtrOutput) DisableTls() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceMysql) *bool {
+		if v == nil {
+			return nil
+		}
+		return v.DisableTls
+	}).(pulumi.BoolPtrOutput)
+}
+
+// The hostname of the MySQL instance.
+func (o ClickpipeSourceMysqlPtrOutput) Host() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceMysql) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.Host
+	}).(pulumi.StringPtrOutput)
+}
+
+// IAM role ARN for IAM authentication. Required when authentication is set to `IAM_ROLE`.
+func (o ClickpipeSourceMysqlPtrOutput) IamRole() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceMysql) *string {
+		if v == nil {
+			return nil
+		}
+		return v.IamRole
+	}).(pulumi.StringPtrOutput)
+}
+
+// The port of the MySQL instance. Default is 3306.
+func (o ClickpipeSourceMysqlPtrOutput) Port() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceMysql) *int {
+		if v == nil {
+			return nil
+		}
+		return v.Port
+	}).(pulumi.IntPtrOutput)
+}
+
+// Settings for the MySQL CDC pipe.
+func (o ClickpipeSourceMysqlPtrOutput) Settings() ClickpipeSourceMysqlSettingsPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceMysql) *ClickpipeSourceMysqlSettings {
+		if v == nil {
+			return nil
+		}
+		return &v.Settings
+	}).(ClickpipeSourceMysqlSettingsPtrOutput)
+}
+
+// Skip certificate verification for the MySQL connection.
+func (o ClickpipeSourceMysqlPtrOutput) SkipCertVerification() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceMysql) *bool {
+		if v == nil {
+			return nil
+		}
+		return v.SkipCertVerification
+	}).(pulumi.BoolPtrOutput)
+}
+
+// Table mappings from MySQL source to ClickHouse destination.
+func (o ClickpipeSourceMysqlPtrOutput) TableMappings() ClickpipeSourceMysqlTableMappingArrayOutput {
+	return o.ApplyT(func(v *ClickpipeSourceMysql) []ClickpipeSourceMysqlTableMapping {
+		if v == nil {
+			return nil
+		}
+		return v.TableMappings
+	}).(ClickpipeSourceMysqlTableMappingArrayOutput)
+}
+
+// TLS/SSL host for secure connections. Used to verify the server certificate.
+func (o ClickpipeSourceMysqlPtrOutput) TlsHost() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceMysql) *string {
+		if v == nil {
+			return nil
+		}
+		return v.TlsHost
+	}).(pulumi.StringPtrOutput)
+}
+
+// The type of MySQL-compatible source. (`mysql`, `rdsmysql`, `auroramysql`, `planetscalevitess`, `mariadb`, `rdsmariadb`). Default is `mysql`.
+func (o ClickpipeSourceMysqlPtrOutput) Type() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceMysql) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Type
+	}).(pulumi.StringPtrOutput)
+}
+
+type ClickpipeSourceMysqlCredentials struct {
+	// The password for the MySQL instance. Use `passwordWo` instead to keep the value out of state.
+	Password *string `pulumi:"password"`
+	// **NOTE:** This field is write-only and its value will not be updated in state as part of read operations.
+	// Write-only password for the MySQL instance. Not persisted to state. Pair with `passwordWoVersion` to trigger updates.
+	PasswordWo *string `pulumi:"passwordWo"`
+	// Version trigger for `passwordWo`. Increment to push a new password to the API.
+	PasswordWoVersion *int `pulumi:"passwordWoVersion"`
+	// The username for the MySQL instance.
+	Username string `pulumi:"username"`
+}
+
+// ClickpipeSourceMysqlCredentialsInput is an input type that accepts ClickpipeSourceMysqlCredentialsArgs and ClickpipeSourceMysqlCredentialsOutput values.
+// You can construct a concrete instance of `ClickpipeSourceMysqlCredentialsInput` via:
+//
+//	ClickpipeSourceMysqlCredentialsArgs{...}
+type ClickpipeSourceMysqlCredentialsInput interface {
+	pulumi.Input
+
+	ToClickpipeSourceMysqlCredentialsOutput() ClickpipeSourceMysqlCredentialsOutput
+	ToClickpipeSourceMysqlCredentialsOutputWithContext(context.Context) ClickpipeSourceMysqlCredentialsOutput
+}
+
+type ClickpipeSourceMysqlCredentialsArgs struct {
+	// The password for the MySQL instance. Use `passwordWo` instead to keep the value out of state.
+	Password pulumi.StringPtrInput `pulumi:"password"`
+	// **NOTE:** This field is write-only and its value will not be updated in state as part of read operations.
+	// Write-only password for the MySQL instance. Not persisted to state. Pair with `passwordWoVersion` to trigger updates.
+	PasswordWo pulumi.StringPtrInput `pulumi:"passwordWo"`
+	// Version trigger for `passwordWo`. Increment to push a new password to the API.
+	PasswordWoVersion pulumi.IntPtrInput `pulumi:"passwordWoVersion"`
+	// The username for the MySQL instance.
+	Username pulumi.StringInput `pulumi:"username"`
+}
+
+func (ClickpipeSourceMysqlCredentialsArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*ClickpipeSourceMysqlCredentials)(nil)).Elem()
+}
+
+func (i ClickpipeSourceMysqlCredentialsArgs) ToClickpipeSourceMysqlCredentialsOutput() ClickpipeSourceMysqlCredentialsOutput {
+	return i.ToClickpipeSourceMysqlCredentialsOutputWithContext(context.Background())
+}
+
+func (i ClickpipeSourceMysqlCredentialsArgs) ToClickpipeSourceMysqlCredentialsOutputWithContext(ctx context.Context) ClickpipeSourceMysqlCredentialsOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourceMysqlCredentialsOutput)
+}
+
+func (i ClickpipeSourceMysqlCredentialsArgs) ToClickpipeSourceMysqlCredentialsPtrOutput() ClickpipeSourceMysqlCredentialsPtrOutput {
+	return i.ToClickpipeSourceMysqlCredentialsPtrOutputWithContext(context.Background())
+}
+
+func (i ClickpipeSourceMysqlCredentialsArgs) ToClickpipeSourceMysqlCredentialsPtrOutputWithContext(ctx context.Context) ClickpipeSourceMysqlCredentialsPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourceMysqlCredentialsOutput).ToClickpipeSourceMysqlCredentialsPtrOutputWithContext(ctx)
+}
+
+// ClickpipeSourceMysqlCredentialsPtrInput is an input type that accepts ClickpipeSourceMysqlCredentialsArgs, ClickpipeSourceMysqlCredentialsPtr and ClickpipeSourceMysqlCredentialsPtrOutput values.
+// You can construct a concrete instance of `ClickpipeSourceMysqlCredentialsPtrInput` via:
+//
+//	        ClickpipeSourceMysqlCredentialsArgs{...}
+//
+//	or:
+//
+//	        nil
+type ClickpipeSourceMysqlCredentialsPtrInput interface {
+	pulumi.Input
+
+	ToClickpipeSourceMysqlCredentialsPtrOutput() ClickpipeSourceMysqlCredentialsPtrOutput
+	ToClickpipeSourceMysqlCredentialsPtrOutputWithContext(context.Context) ClickpipeSourceMysqlCredentialsPtrOutput
+}
+
+type clickpipeSourceMysqlCredentialsPtrType ClickpipeSourceMysqlCredentialsArgs
+
+func ClickpipeSourceMysqlCredentialsPtr(v *ClickpipeSourceMysqlCredentialsArgs) ClickpipeSourceMysqlCredentialsPtrInput {
+	return (*clickpipeSourceMysqlCredentialsPtrType)(v)
+}
+
+func (*clickpipeSourceMysqlCredentialsPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**ClickpipeSourceMysqlCredentials)(nil)).Elem()
+}
+
+func (i *clickpipeSourceMysqlCredentialsPtrType) ToClickpipeSourceMysqlCredentialsPtrOutput() ClickpipeSourceMysqlCredentialsPtrOutput {
+	return i.ToClickpipeSourceMysqlCredentialsPtrOutputWithContext(context.Background())
+}
+
+func (i *clickpipeSourceMysqlCredentialsPtrType) ToClickpipeSourceMysqlCredentialsPtrOutputWithContext(ctx context.Context) ClickpipeSourceMysqlCredentialsPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourceMysqlCredentialsPtrOutput)
+}
+
+type ClickpipeSourceMysqlCredentialsOutput struct{ *pulumi.OutputState }
+
+func (ClickpipeSourceMysqlCredentialsOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ClickpipeSourceMysqlCredentials)(nil)).Elem()
+}
+
+func (o ClickpipeSourceMysqlCredentialsOutput) ToClickpipeSourceMysqlCredentialsOutput() ClickpipeSourceMysqlCredentialsOutput {
+	return o
+}
+
+func (o ClickpipeSourceMysqlCredentialsOutput) ToClickpipeSourceMysqlCredentialsOutputWithContext(ctx context.Context) ClickpipeSourceMysqlCredentialsOutput {
+	return o
+}
+
+func (o ClickpipeSourceMysqlCredentialsOutput) ToClickpipeSourceMysqlCredentialsPtrOutput() ClickpipeSourceMysqlCredentialsPtrOutput {
+	return o.ToClickpipeSourceMysqlCredentialsPtrOutputWithContext(context.Background())
+}
+
+func (o ClickpipeSourceMysqlCredentialsOutput) ToClickpipeSourceMysqlCredentialsPtrOutputWithContext(ctx context.Context) ClickpipeSourceMysqlCredentialsPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v ClickpipeSourceMysqlCredentials) *ClickpipeSourceMysqlCredentials {
+		return &v
+	}).(ClickpipeSourceMysqlCredentialsPtrOutput)
+}
+
+// The password for the MySQL instance. Use `passwordWo` instead to keep the value out of state.
+func (o ClickpipeSourceMysqlCredentialsOutput) Password() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceMysqlCredentials) *string { return v.Password }).(pulumi.StringPtrOutput)
+}
+
+// **NOTE:** This field is write-only and its value will not be updated in state as part of read operations.
+// Write-only password for the MySQL instance. Not persisted to state. Pair with `passwordWoVersion` to trigger updates.
+func (o ClickpipeSourceMysqlCredentialsOutput) PasswordWo() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceMysqlCredentials) *string { return v.PasswordWo }).(pulumi.StringPtrOutput)
+}
+
+// Version trigger for `passwordWo`. Increment to push a new password to the API.
+func (o ClickpipeSourceMysqlCredentialsOutput) PasswordWoVersion() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceMysqlCredentials) *int { return v.PasswordWoVersion }).(pulumi.IntPtrOutput)
+}
+
+// The username for the MySQL instance.
+func (o ClickpipeSourceMysqlCredentialsOutput) Username() pulumi.StringOutput {
+	return o.ApplyT(func(v ClickpipeSourceMysqlCredentials) string { return v.Username }).(pulumi.StringOutput)
+}
+
+type ClickpipeSourceMysqlCredentialsPtrOutput struct{ *pulumi.OutputState }
+
+func (ClickpipeSourceMysqlCredentialsPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**ClickpipeSourceMysqlCredentials)(nil)).Elem()
+}
+
+func (o ClickpipeSourceMysqlCredentialsPtrOutput) ToClickpipeSourceMysqlCredentialsPtrOutput() ClickpipeSourceMysqlCredentialsPtrOutput {
+	return o
+}
+
+func (o ClickpipeSourceMysqlCredentialsPtrOutput) ToClickpipeSourceMysqlCredentialsPtrOutputWithContext(ctx context.Context) ClickpipeSourceMysqlCredentialsPtrOutput {
+	return o
+}
+
+func (o ClickpipeSourceMysqlCredentialsPtrOutput) Elem() ClickpipeSourceMysqlCredentialsOutput {
+	return o.ApplyT(func(v *ClickpipeSourceMysqlCredentials) ClickpipeSourceMysqlCredentials {
+		if v != nil {
+			return *v
+		}
+		var ret ClickpipeSourceMysqlCredentials
+		return ret
+	}).(ClickpipeSourceMysqlCredentialsOutput)
+}
+
+// The password for the MySQL instance. Use `passwordWo` instead to keep the value out of state.
+func (o ClickpipeSourceMysqlCredentialsPtrOutput) Password() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceMysqlCredentials) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Password
+	}).(pulumi.StringPtrOutput)
+}
+
+// **NOTE:** This field is write-only and its value will not be updated in state as part of read operations.
+// Write-only password for the MySQL instance. Not persisted to state. Pair with `passwordWoVersion` to trigger updates.
+func (o ClickpipeSourceMysqlCredentialsPtrOutput) PasswordWo() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceMysqlCredentials) *string {
+		if v == nil {
+			return nil
+		}
+		return v.PasswordWo
+	}).(pulumi.StringPtrOutput)
+}
+
+// Version trigger for `passwordWo`. Increment to push a new password to the API.
+func (o ClickpipeSourceMysqlCredentialsPtrOutput) PasswordWoVersion() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceMysqlCredentials) *int {
+		if v == nil {
+			return nil
+		}
+		return v.PasswordWoVersion
+	}).(pulumi.IntPtrOutput)
+}
+
+// The username for the MySQL instance.
+func (o ClickpipeSourceMysqlCredentialsPtrOutput) Username() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceMysqlCredentials) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.Username
+	}).(pulumi.StringPtrOutput)
+}
+
+type ClickpipeSourceMysqlSettings struct {
+	// Allow nullable columns in the destination table.
+	AllowNullableColumns *bool `pulumi:"allowNullableColumns"`
+	// Enable hard delete behavior in ReplacingMergeTree for MySQL DELETE operations.
+	DeleteOnMerge *bool `pulumi:"deleteOnMerge"`
+	// Number of parallel connections to use during initial load.
+	InitialLoadParallelism *int `pulumi:"initialLoadParallelism"`
+	// Number of rows to pull in each batch.
+	PullBatchSize *int `pulumi:"pullBatchSize"`
+	// Replication mechanism for the MySQL pipe. (`GTID`, `FILE_POS`). Default is `GTID`. Mechanisms other than `GTID` (e.g. `FILE_POS`) must be enabled for your organization; contact ClickHouse support to enable this feature.
+	ReplicationMechanism *string `pulumi:"replicationMechanism"`
+	// Replication mode for the MySQL pipe. (`cdc`, `snapshot`, `cdcOnly`)
+	ReplicationMode string `pulumi:"replicationMode"`
+	// Number of rows to snapshot per partition.
+	SnapshotNumRowsPerPartition *int `pulumi:"snapshotNumRowsPerPartition"`
+	// Number of parallel tables to snapshot.
+	SnapshotNumberOfParallelTables *int `pulumi:"snapshotNumberOfParallelTables"`
+	// Interval in seconds to sync data from MySQL.
+	SyncIntervalSeconds *int `pulumi:"syncIntervalSeconds"`
+	// Enable compression for the MySQL replication connection.
+	UseCompression *bool `pulumi:"useCompression"`
+}
+
+// ClickpipeSourceMysqlSettingsInput is an input type that accepts ClickpipeSourceMysqlSettingsArgs and ClickpipeSourceMysqlSettingsOutput values.
+// You can construct a concrete instance of `ClickpipeSourceMysqlSettingsInput` via:
+//
+//	ClickpipeSourceMysqlSettingsArgs{...}
+type ClickpipeSourceMysqlSettingsInput interface {
+	pulumi.Input
+
+	ToClickpipeSourceMysqlSettingsOutput() ClickpipeSourceMysqlSettingsOutput
+	ToClickpipeSourceMysqlSettingsOutputWithContext(context.Context) ClickpipeSourceMysqlSettingsOutput
+}
+
+type ClickpipeSourceMysqlSettingsArgs struct {
+	// Allow nullable columns in the destination table.
+	AllowNullableColumns pulumi.BoolPtrInput `pulumi:"allowNullableColumns"`
+	// Enable hard delete behavior in ReplacingMergeTree for MySQL DELETE operations.
+	DeleteOnMerge pulumi.BoolPtrInput `pulumi:"deleteOnMerge"`
+	// Number of parallel connections to use during initial load.
+	InitialLoadParallelism pulumi.IntPtrInput `pulumi:"initialLoadParallelism"`
+	// Number of rows to pull in each batch.
+	PullBatchSize pulumi.IntPtrInput `pulumi:"pullBatchSize"`
+	// Replication mechanism for the MySQL pipe. (`GTID`, `FILE_POS`). Default is `GTID`. Mechanisms other than `GTID` (e.g. `FILE_POS`) must be enabled for your organization; contact ClickHouse support to enable this feature.
+	ReplicationMechanism pulumi.StringPtrInput `pulumi:"replicationMechanism"`
+	// Replication mode for the MySQL pipe. (`cdc`, `snapshot`, `cdcOnly`)
+	ReplicationMode pulumi.StringInput `pulumi:"replicationMode"`
+	// Number of rows to snapshot per partition.
+	SnapshotNumRowsPerPartition pulumi.IntPtrInput `pulumi:"snapshotNumRowsPerPartition"`
+	// Number of parallel tables to snapshot.
+	SnapshotNumberOfParallelTables pulumi.IntPtrInput `pulumi:"snapshotNumberOfParallelTables"`
+	// Interval in seconds to sync data from MySQL.
+	SyncIntervalSeconds pulumi.IntPtrInput `pulumi:"syncIntervalSeconds"`
+	// Enable compression for the MySQL replication connection.
+	UseCompression pulumi.BoolPtrInput `pulumi:"useCompression"`
+}
+
+func (ClickpipeSourceMysqlSettingsArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*ClickpipeSourceMysqlSettings)(nil)).Elem()
+}
+
+func (i ClickpipeSourceMysqlSettingsArgs) ToClickpipeSourceMysqlSettingsOutput() ClickpipeSourceMysqlSettingsOutput {
+	return i.ToClickpipeSourceMysqlSettingsOutputWithContext(context.Background())
+}
+
+func (i ClickpipeSourceMysqlSettingsArgs) ToClickpipeSourceMysqlSettingsOutputWithContext(ctx context.Context) ClickpipeSourceMysqlSettingsOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourceMysqlSettingsOutput)
+}
+
+func (i ClickpipeSourceMysqlSettingsArgs) ToClickpipeSourceMysqlSettingsPtrOutput() ClickpipeSourceMysqlSettingsPtrOutput {
+	return i.ToClickpipeSourceMysqlSettingsPtrOutputWithContext(context.Background())
+}
+
+func (i ClickpipeSourceMysqlSettingsArgs) ToClickpipeSourceMysqlSettingsPtrOutputWithContext(ctx context.Context) ClickpipeSourceMysqlSettingsPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourceMysqlSettingsOutput).ToClickpipeSourceMysqlSettingsPtrOutputWithContext(ctx)
+}
+
+// ClickpipeSourceMysqlSettingsPtrInput is an input type that accepts ClickpipeSourceMysqlSettingsArgs, ClickpipeSourceMysqlSettingsPtr and ClickpipeSourceMysqlSettingsPtrOutput values.
+// You can construct a concrete instance of `ClickpipeSourceMysqlSettingsPtrInput` via:
+//
+//	        ClickpipeSourceMysqlSettingsArgs{...}
+//
+//	or:
+//
+//	        nil
+type ClickpipeSourceMysqlSettingsPtrInput interface {
+	pulumi.Input
+
+	ToClickpipeSourceMysqlSettingsPtrOutput() ClickpipeSourceMysqlSettingsPtrOutput
+	ToClickpipeSourceMysqlSettingsPtrOutputWithContext(context.Context) ClickpipeSourceMysqlSettingsPtrOutput
+}
+
+type clickpipeSourceMysqlSettingsPtrType ClickpipeSourceMysqlSettingsArgs
+
+func ClickpipeSourceMysqlSettingsPtr(v *ClickpipeSourceMysqlSettingsArgs) ClickpipeSourceMysqlSettingsPtrInput {
+	return (*clickpipeSourceMysqlSettingsPtrType)(v)
+}
+
+func (*clickpipeSourceMysqlSettingsPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**ClickpipeSourceMysqlSettings)(nil)).Elem()
+}
+
+func (i *clickpipeSourceMysqlSettingsPtrType) ToClickpipeSourceMysqlSettingsPtrOutput() ClickpipeSourceMysqlSettingsPtrOutput {
+	return i.ToClickpipeSourceMysqlSettingsPtrOutputWithContext(context.Background())
+}
+
+func (i *clickpipeSourceMysqlSettingsPtrType) ToClickpipeSourceMysqlSettingsPtrOutputWithContext(ctx context.Context) ClickpipeSourceMysqlSettingsPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourceMysqlSettingsPtrOutput)
+}
+
+type ClickpipeSourceMysqlSettingsOutput struct{ *pulumi.OutputState }
+
+func (ClickpipeSourceMysqlSettingsOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ClickpipeSourceMysqlSettings)(nil)).Elem()
+}
+
+func (o ClickpipeSourceMysqlSettingsOutput) ToClickpipeSourceMysqlSettingsOutput() ClickpipeSourceMysqlSettingsOutput {
+	return o
+}
+
+func (o ClickpipeSourceMysqlSettingsOutput) ToClickpipeSourceMysqlSettingsOutputWithContext(ctx context.Context) ClickpipeSourceMysqlSettingsOutput {
+	return o
+}
+
+func (o ClickpipeSourceMysqlSettingsOutput) ToClickpipeSourceMysqlSettingsPtrOutput() ClickpipeSourceMysqlSettingsPtrOutput {
+	return o.ToClickpipeSourceMysqlSettingsPtrOutputWithContext(context.Background())
+}
+
+func (o ClickpipeSourceMysqlSettingsOutput) ToClickpipeSourceMysqlSettingsPtrOutputWithContext(ctx context.Context) ClickpipeSourceMysqlSettingsPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v ClickpipeSourceMysqlSettings) *ClickpipeSourceMysqlSettings {
+		return &v
+	}).(ClickpipeSourceMysqlSettingsPtrOutput)
+}
+
+// Allow nullable columns in the destination table.
+func (o ClickpipeSourceMysqlSettingsOutput) AllowNullableColumns() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceMysqlSettings) *bool { return v.AllowNullableColumns }).(pulumi.BoolPtrOutput)
+}
+
+// Enable hard delete behavior in ReplacingMergeTree for MySQL DELETE operations.
+func (o ClickpipeSourceMysqlSettingsOutput) DeleteOnMerge() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceMysqlSettings) *bool { return v.DeleteOnMerge }).(pulumi.BoolPtrOutput)
+}
+
+// Number of parallel connections to use during initial load.
+func (o ClickpipeSourceMysqlSettingsOutput) InitialLoadParallelism() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceMysqlSettings) *int { return v.InitialLoadParallelism }).(pulumi.IntPtrOutput)
+}
+
+// Number of rows to pull in each batch.
+func (o ClickpipeSourceMysqlSettingsOutput) PullBatchSize() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceMysqlSettings) *int { return v.PullBatchSize }).(pulumi.IntPtrOutput)
+}
+
+// Replication mechanism for the MySQL pipe. (`GTID`, `FILE_POS`). Default is `GTID`. Mechanisms other than `GTID` (e.g. `FILE_POS`) must be enabled for your organization; contact ClickHouse support to enable this feature.
+func (o ClickpipeSourceMysqlSettingsOutput) ReplicationMechanism() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceMysqlSettings) *string { return v.ReplicationMechanism }).(pulumi.StringPtrOutput)
+}
+
+// Replication mode for the MySQL pipe. (`cdc`, `snapshot`, `cdcOnly`)
+func (o ClickpipeSourceMysqlSettingsOutput) ReplicationMode() pulumi.StringOutput {
+	return o.ApplyT(func(v ClickpipeSourceMysqlSettings) string { return v.ReplicationMode }).(pulumi.StringOutput)
+}
+
+// Number of rows to snapshot per partition.
+func (o ClickpipeSourceMysqlSettingsOutput) SnapshotNumRowsPerPartition() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceMysqlSettings) *int { return v.SnapshotNumRowsPerPartition }).(pulumi.IntPtrOutput)
+}
+
+// Number of parallel tables to snapshot.
+func (o ClickpipeSourceMysqlSettingsOutput) SnapshotNumberOfParallelTables() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceMysqlSettings) *int { return v.SnapshotNumberOfParallelTables }).(pulumi.IntPtrOutput)
+}
+
+// Interval in seconds to sync data from MySQL.
+func (o ClickpipeSourceMysqlSettingsOutput) SyncIntervalSeconds() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceMysqlSettings) *int { return v.SyncIntervalSeconds }).(pulumi.IntPtrOutput)
+}
+
+// Enable compression for the MySQL replication connection.
+func (o ClickpipeSourceMysqlSettingsOutput) UseCompression() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceMysqlSettings) *bool { return v.UseCompression }).(pulumi.BoolPtrOutput)
+}
+
+type ClickpipeSourceMysqlSettingsPtrOutput struct{ *pulumi.OutputState }
+
+func (ClickpipeSourceMysqlSettingsPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**ClickpipeSourceMysqlSettings)(nil)).Elem()
+}
+
+func (o ClickpipeSourceMysqlSettingsPtrOutput) ToClickpipeSourceMysqlSettingsPtrOutput() ClickpipeSourceMysqlSettingsPtrOutput {
+	return o
+}
+
+func (o ClickpipeSourceMysqlSettingsPtrOutput) ToClickpipeSourceMysqlSettingsPtrOutputWithContext(ctx context.Context) ClickpipeSourceMysqlSettingsPtrOutput {
+	return o
+}
+
+func (o ClickpipeSourceMysqlSettingsPtrOutput) Elem() ClickpipeSourceMysqlSettingsOutput {
+	return o.ApplyT(func(v *ClickpipeSourceMysqlSettings) ClickpipeSourceMysqlSettings {
+		if v != nil {
+			return *v
+		}
+		var ret ClickpipeSourceMysqlSettings
+		return ret
+	}).(ClickpipeSourceMysqlSettingsOutput)
+}
+
+// Allow nullable columns in the destination table.
+func (o ClickpipeSourceMysqlSettingsPtrOutput) AllowNullableColumns() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceMysqlSettings) *bool {
+		if v == nil {
+			return nil
+		}
+		return v.AllowNullableColumns
+	}).(pulumi.BoolPtrOutput)
+}
+
+// Enable hard delete behavior in ReplacingMergeTree for MySQL DELETE operations.
+func (o ClickpipeSourceMysqlSettingsPtrOutput) DeleteOnMerge() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceMysqlSettings) *bool {
+		if v == nil {
+			return nil
+		}
+		return v.DeleteOnMerge
+	}).(pulumi.BoolPtrOutput)
+}
+
+// Number of parallel connections to use during initial load.
+func (o ClickpipeSourceMysqlSettingsPtrOutput) InitialLoadParallelism() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceMysqlSettings) *int {
+		if v == nil {
+			return nil
+		}
+		return v.InitialLoadParallelism
+	}).(pulumi.IntPtrOutput)
+}
+
+// Number of rows to pull in each batch.
+func (o ClickpipeSourceMysqlSettingsPtrOutput) PullBatchSize() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceMysqlSettings) *int {
+		if v == nil {
+			return nil
+		}
+		return v.PullBatchSize
+	}).(pulumi.IntPtrOutput)
+}
+
+// Replication mechanism for the MySQL pipe. (`GTID`, `FILE_POS`). Default is `GTID`. Mechanisms other than `GTID` (e.g. `FILE_POS`) must be enabled for your organization; contact ClickHouse support to enable this feature.
+func (o ClickpipeSourceMysqlSettingsPtrOutput) ReplicationMechanism() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceMysqlSettings) *string {
+		if v == nil {
+			return nil
+		}
+		return v.ReplicationMechanism
+	}).(pulumi.StringPtrOutput)
+}
+
+// Replication mode for the MySQL pipe. (`cdc`, `snapshot`, `cdcOnly`)
+func (o ClickpipeSourceMysqlSettingsPtrOutput) ReplicationMode() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceMysqlSettings) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.ReplicationMode
+	}).(pulumi.StringPtrOutput)
+}
+
+// Number of rows to snapshot per partition.
+func (o ClickpipeSourceMysqlSettingsPtrOutput) SnapshotNumRowsPerPartition() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceMysqlSettings) *int {
+		if v == nil {
+			return nil
+		}
+		return v.SnapshotNumRowsPerPartition
+	}).(pulumi.IntPtrOutput)
+}
+
+// Number of parallel tables to snapshot.
+func (o ClickpipeSourceMysqlSettingsPtrOutput) SnapshotNumberOfParallelTables() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceMysqlSettings) *int {
+		if v == nil {
+			return nil
+		}
+		return v.SnapshotNumberOfParallelTables
+	}).(pulumi.IntPtrOutput)
+}
+
+// Interval in seconds to sync data from MySQL.
+func (o ClickpipeSourceMysqlSettingsPtrOutput) SyncIntervalSeconds() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceMysqlSettings) *int {
+		if v == nil {
+			return nil
+		}
+		return v.SyncIntervalSeconds
+	}).(pulumi.IntPtrOutput)
+}
+
+// Enable compression for the MySQL replication connection.
+func (o ClickpipeSourceMysqlSettingsPtrOutput) UseCompression() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceMysqlSettings) *bool {
+		if v == nil {
+			return nil
+		}
+		return v.UseCompression
+	}).(pulumi.BoolPtrOutput)
+}
+
+type ClickpipeSourceMysqlTableMapping struct {
+	// Columns to exclude from replication.
+	ExcludedColumns []string `pulumi:"excludedColumns"`
+	// Custom partitioning column used for parallel snapshotting. Must be an indexed column of integer, date, datetime, or timestamp type.
+	PartitionKey *string `pulumi:"partitionKey"`
+	// Ordered list of columns to use as sorting key for the target table. Required when use*custom*sorting_key is true.
+	SortingKeys []string `pulumi:"sortingKeys"`
+	// Source schema (database) name in MySQL.
+	SourceSchemaName string `pulumi:"sourceSchemaName"`
+	// Source table name in MySQL.
+	SourceTable string `pulumi:"sourceTable"`
+	// Table engine to use for the target table. (`MergeTree`, `ReplacingMergeTree`, `Null`)
+	TableEngine *string `pulumi:"tableEngine"`
+	// Target table name in ClickHouse.
+	TargetTable string `pulumi:"targetTable"`
+	// Whether to use a custom sorting key for the target table.
+	UseCustomSortingKey *bool `pulumi:"useCustomSortingKey"`
+}
+
+// ClickpipeSourceMysqlTableMappingInput is an input type that accepts ClickpipeSourceMysqlTableMappingArgs and ClickpipeSourceMysqlTableMappingOutput values.
+// You can construct a concrete instance of `ClickpipeSourceMysqlTableMappingInput` via:
+//
+//	ClickpipeSourceMysqlTableMappingArgs{...}
+type ClickpipeSourceMysqlTableMappingInput interface {
+	pulumi.Input
+
+	ToClickpipeSourceMysqlTableMappingOutput() ClickpipeSourceMysqlTableMappingOutput
+	ToClickpipeSourceMysqlTableMappingOutputWithContext(context.Context) ClickpipeSourceMysqlTableMappingOutput
+}
+
+type ClickpipeSourceMysqlTableMappingArgs struct {
+	// Columns to exclude from replication.
+	ExcludedColumns pulumi.StringArrayInput `pulumi:"excludedColumns"`
+	// Custom partitioning column used for parallel snapshotting. Must be an indexed column of integer, date, datetime, or timestamp type.
+	PartitionKey pulumi.StringPtrInput `pulumi:"partitionKey"`
+	// Ordered list of columns to use as sorting key for the target table. Required when use*custom*sorting_key is true.
+	SortingKeys pulumi.StringArrayInput `pulumi:"sortingKeys"`
+	// Source schema (database) name in MySQL.
+	SourceSchemaName pulumi.StringInput `pulumi:"sourceSchemaName"`
+	// Source table name in MySQL.
+	SourceTable pulumi.StringInput `pulumi:"sourceTable"`
+	// Table engine to use for the target table. (`MergeTree`, `ReplacingMergeTree`, `Null`)
+	TableEngine pulumi.StringPtrInput `pulumi:"tableEngine"`
+	// Target table name in ClickHouse.
+	TargetTable pulumi.StringInput `pulumi:"targetTable"`
+	// Whether to use a custom sorting key for the target table.
+	UseCustomSortingKey pulumi.BoolPtrInput `pulumi:"useCustomSortingKey"`
+}
+
+func (ClickpipeSourceMysqlTableMappingArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*ClickpipeSourceMysqlTableMapping)(nil)).Elem()
+}
+
+func (i ClickpipeSourceMysqlTableMappingArgs) ToClickpipeSourceMysqlTableMappingOutput() ClickpipeSourceMysqlTableMappingOutput {
+	return i.ToClickpipeSourceMysqlTableMappingOutputWithContext(context.Background())
+}
+
+func (i ClickpipeSourceMysqlTableMappingArgs) ToClickpipeSourceMysqlTableMappingOutputWithContext(ctx context.Context) ClickpipeSourceMysqlTableMappingOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourceMysqlTableMappingOutput)
+}
+
+// ClickpipeSourceMysqlTableMappingArrayInput is an input type that accepts ClickpipeSourceMysqlTableMappingArray and ClickpipeSourceMysqlTableMappingArrayOutput values.
+// You can construct a concrete instance of `ClickpipeSourceMysqlTableMappingArrayInput` via:
+//
+//	ClickpipeSourceMysqlTableMappingArray{ ClickpipeSourceMysqlTableMappingArgs{...} }
+type ClickpipeSourceMysqlTableMappingArrayInput interface {
+	pulumi.Input
+
+	ToClickpipeSourceMysqlTableMappingArrayOutput() ClickpipeSourceMysqlTableMappingArrayOutput
+	ToClickpipeSourceMysqlTableMappingArrayOutputWithContext(context.Context) ClickpipeSourceMysqlTableMappingArrayOutput
+}
+
+type ClickpipeSourceMysqlTableMappingArray []ClickpipeSourceMysqlTableMappingInput
+
+func (ClickpipeSourceMysqlTableMappingArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]ClickpipeSourceMysqlTableMapping)(nil)).Elem()
+}
+
+func (i ClickpipeSourceMysqlTableMappingArray) ToClickpipeSourceMysqlTableMappingArrayOutput() ClickpipeSourceMysqlTableMappingArrayOutput {
+	return i.ToClickpipeSourceMysqlTableMappingArrayOutputWithContext(context.Background())
+}
+
+func (i ClickpipeSourceMysqlTableMappingArray) ToClickpipeSourceMysqlTableMappingArrayOutputWithContext(ctx context.Context) ClickpipeSourceMysqlTableMappingArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourceMysqlTableMappingArrayOutput)
+}
+
+type ClickpipeSourceMysqlTableMappingOutput struct{ *pulumi.OutputState }
+
+func (ClickpipeSourceMysqlTableMappingOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ClickpipeSourceMysqlTableMapping)(nil)).Elem()
+}
+
+func (o ClickpipeSourceMysqlTableMappingOutput) ToClickpipeSourceMysqlTableMappingOutput() ClickpipeSourceMysqlTableMappingOutput {
+	return o
+}
+
+func (o ClickpipeSourceMysqlTableMappingOutput) ToClickpipeSourceMysqlTableMappingOutputWithContext(ctx context.Context) ClickpipeSourceMysqlTableMappingOutput {
+	return o
+}
+
+// Columns to exclude from replication.
+func (o ClickpipeSourceMysqlTableMappingOutput) ExcludedColumns() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v ClickpipeSourceMysqlTableMapping) []string { return v.ExcludedColumns }).(pulumi.StringArrayOutput)
+}
+
+// Custom partitioning column used for parallel snapshotting. Must be an indexed column of integer, date, datetime, or timestamp type.
+func (o ClickpipeSourceMysqlTableMappingOutput) PartitionKey() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceMysqlTableMapping) *string { return v.PartitionKey }).(pulumi.StringPtrOutput)
+}
+
+// Ordered list of columns to use as sorting key for the target table. Required when use*custom*sorting_key is true.
+func (o ClickpipeSourceMysqlTableMappingOutput) SortingKeys() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v ClickpipeSourceMysqlTableMapping) []string { return v.SortingKeys }).(pulumi.StringArrayOutput)
+}
+
+// Source schema (database) name in MySQL.
+func (o ClickpipeSourceMysqlTableMappingOutput) SourceSchemaName() pulumi.StringOutput {
+	return o.ApplyT(func(v ClickpipeSourceMysqlTableMapping) string { return v.SourceSchemaName }).(pulumi.StringOutput)
+}
+
+// Source table name in MySQL.
+func (o ClickpipeSourceMysqlTableMappingOutput) SourceTable() pulumi.StringOutput {
+	return o.ApplyT(func(v ClickpipeSourceMysqlTableMapping) string { return v.SourceTable }).(pulumi.StringOutput)
+}
+
+// Table engine to use for the target table. (`MergeTree`, `ReplacingMergeTree`, `Null`)
+func (o ClickpipeSourceMysqlTableMappingOutput) TableEngine() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceMysqlTableMapping) *string { return v.TableEngine }).(pulumi.StringPtrOutput)
+}
+
+// Target table name in ClickHouse.
+func (o ClickpipeSourceMysqlTableMappingOutput) TargetTable() pulumi.StringOutput {
+	return o.ApplyT(func(v ClickpipeSourceMysqlTableMapping) string { return v.TargetTable }).(pulumi.StringOutput)
+}
+
+// Whether to use a custom sorting key for the target table.
+func (o ClickpipeSourceMysqlTableMappingOutput) UseCustomSortingKey() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceMysqlTableMapping) *bool { return v.UseCustomSortingKey }).(pulumi.BoolPtrOutput)
+}
+
+type ClickpipeSourceMysqlTableMappingArrayOutput struct{ *pulumi.OutputState }
+
+func (ClickpipeSourceMysqlTableMappingArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]ClickpipeSourceMysqlTableMapping)(nil)).Elem()
+}
+
+func (o ClickpipeSourceMysqlTableMappingArrayOutput) ToClickpipeSourceMysqlTableMappingArrayOutput() ClickpipeSourceMysqlTableMappingArrayOutput {
+	return o
+}
+
+func (o ClickpipeSourceMysqlTableMappingArrayOutput) ToClickpipeSourceMysqlTableMappingArrayOutputWithContext(ctx context.Context) ClickpipeSourceMysqlTableMappingArrayOutput {
+	return o
+}
+
+func (o ClickpipeSourceMysqlTableMappingArrayOutput) Index(i pulumi.IntInput) ClickpipeSourceMysqlTableMappingOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) ClickpipeSourceMysqlTableMapping {
+		return vs[0].([]ClickpipeSourceMysqlTableMapping)[vs[1].(int)]
+	}).(ClickpipeSourceMysqlTableMappingOutput)
+}
+
+type ClickpipeSourceObjectStorage struct {
+	// Access key
+	AccessKey *ClickpipeSourceObjectStorageAccessKey `pulumi:"accessKey"`
+	// CONNECTION*STRING is for Azure Blob Storage. IAM*ROLE and IAM*USER are for AWS S3. IAM*USER and SERVICE_ACCOUNT are for GCS. If not provided, no authentication is used
+	Authentication *string `pulumi:"authentication"`
+	// Container name for Azure Blob Storage. Required when type is azureblobstorage. Example: `mycontainer`
+	AzureContainerName *string `pulumi:"azureContainerName"`
+	// Compression algorithm used for the files.. (`none`, `auto`, `gzip`, `brotli`, `br`, `xz`, `LZMA`, `zstd`)
+	Compression *string `pulumi:"compression"`
+	// Connection string for Azure Blob Storage authentication. Required when authentication is CONNECTION_STRING. Example: `DefaultEndpointsProtocol=https;AccountName=myaccount;AccountKey=mykey;EndpointSuffix=core.windows.net`
+	ConnectionString *string `pulumi:"connectionString"`
+	// The delimiter for the S3 source. Default is `,`.
+	Delimiter *string `pulumi:"delimiter"`
+	// The format of the S3 objects. (`JSONEachRow`, `CSV`, `CSVWithNames`, `Parquet`, `Avro`)
+	Format string `pulumi:"format"`
+	// The IAM role for the S3 source. Use with `IAM_ROLE` authentication. It can be used with AWS ClickHouse service only. Read more at https://clickhouse.com/docs/en/integrations/clickpipes/object-storage#authentication
+	IamRole *string `pulumi:"iamRole"`
+	// If set to true, the pipe will continuously read new files from the source. If set to false, the pipe will read the files only once. New files have to be uploaded lexically order.
+	IsContinuous *bool `pulumi:"isContinuous"`
+	// Path to the file(s) within the Azure container. Used for Azure Blob Storage sources. You can specify multiple files using bash-like wildcards. For more information, see the documentation on using wildcards in path: https://clickhouse.com/docs/en/integrations/clickpipes/object-storage#limitations. Example: `data/logs/*.json`
+	Path *string `pulumi:"path"`
+	// Queue URL for event-based continuous ingestion. When provided, files are ingested based on event notifications rather than lexicographical order. Only applicable when `isContinuous` is `true` and authentication is provided. For S3: SQS URL in the format `https://sqs.{region}.amazonaws.com/{account-id}/{queue-name}`. For GCS: Pub/Sub subscription in the format `projects/{project}/subscriptions/{subscription}`.
+	QueueUrl *string `pulumi:"queueUrl"`
+	// Base64-encoded GCP service account JSON key for GCS authentication. Required when authentication is `SERVICE_ACCOUNT`.
+	ServiceAccountKey *string `pulumi:"serviceAccountKey"`
+	// If set to true, skips the initial load and only ingests files delivered by queue notifications. Only applicable when `queueUrl` is provided.
+	SkipInitialLoad *bool `pulumi:"skipInitialLoad"`
+	// Start continuous ingestion after this object key. Cannot be provided when `skipInitialLoad` is true.
+	StartAfter *string `pulumi:"startAfter"`
+	// The type of the S3-compatible source (`s3`, `gcs`, `azureblobstorage`). Default is `s3`.
+	Type *string `pulumi:"type"`
+	// The URL of the S3/GCS bucket. Required for S3 and GCS types. Not used for Azure Blob Storage (use path and azure*container*name instead). You can specify multiple files using bash-like wildcards. For more information, see the documentation on using wildcards in path: https://clickhouse.com/docs/en/integrations/clickpipes/object-storage#limitations
+	Url *string `pulumi:"url"`
+}
+
+// ClickpipeSourceObjectStorageInput is an input type that accepts ClickpipeSourceObjectStorageArgs and ClickpipeSourceObjectStorageOutput values.
+// You can construct a concrete instance of `ClickpipeSourceObjectStorageInput` via:
+//
+//	ClickpipeSourceObjectStorageArgs{...}
+type ClickpipeSourceObjectStorageInput interface {
+	pulumi.Input
+
+	ToClickpipeSourceObjectStorageOutput() ClickpipeSourceObjectStorageOutput
+	ToClickpipeSourceObjectStorageOutputWithContext(context.Context) ClickpipeSourceObjectStorageOutput
+}
+
+type ClickpipeSourceObjectStorageArgs struct {
+	// Access key
+	AccessKey ClickpipeSourceObjectStorageAccessKeyPtrInput `pulumi:"accessKey"`
+	// CONNECTION*STRING is for Azure Blob Storage. IAM*ROLE and IAM*USER are for AWS S3. IAM*USER and SERVICE_ACCOUNT are for GCS. If not provided, no authentication is used
+	Authentication pulumi.StringPtrInput `pulumi:"authentication"`
+	// Container name for Azure Blob Storage. Required when type is azureblobstorage. Example: `mycontainer`
+	AzureContainerName pulumi.StringPtrInput `pulumi:"azureContainerName"`
+	// Compression algorithm used for the files.. (`none`, `auto`, `gzip`, `brotli`, `br`, `xz`, `LZMA`, `zstd`)
+	Compression pulumi.StringPtrInput `pulumi:"compression"`
+	// Connection string for Azure Blob Storage authentication. Required when authentication is CONNECTION_STRING. Example: `DefaultEndpointsProtocol=https;AccountName=myaccount;AccountKey=mykey;EndpointSuffix=core.windows.net`
+	ConnectionString pulumi.StringPtrInput `pulumi:"connectionString"`
+	// The delimiter for the S3 source. Default is `,`.
+	Delimiter pulumi.StringPtrInput `pulumi:"delimiter"`
+	// The format of the S3 objects. (`JSONEachRow`, `CSV`, `CSVWithNames`, `Parquet`, `Avro`)
+	Format pulumi.StringInput `pulumi:"format"`
+	// The IAM role for the S3 source. Use with `IAM_ROLE` authentication. It can be used with AWS ClickHouse service only. Read more at https://clickhouse.com/docs/en/integrations/clickpipes/object-storage#authentication
+	IamRole pulumi.StringPtrInput `pulumi:"iamRole"`
+	// If set to true, the pipe will continuously read new files from the source. If set to false, the pipe will read the files only once. New files have to be uploaded lexically order.
+	IsContinuous pulumi.BoolPtrInput `pulumi:"isContinuous"`
+	// Path to the file(s) within the Azure container. Used for Azure Blob Storage sources. You can specify multiple files using bash-like wildcards. For more information, see the documentation on using wildcards in path: https://clickhouse.com/docs/en/integrations/clickpipes/object-storage#limitations. Example: `data/logs/*.json`
+	Path pulumi.StringPtrInput `pulumi:"path"`
+	// Queue URL for event-based continuous ingestion. When provided, files are ingested based on event notifications rather than lexicographical order. Only applicable when `isContinuous` is `true` and authentication is provided. For S3: SQS URL in the format `https://sqs.{region}.amazonaws.com/{account-id}/{queue-name}`. For GCS: Pub/Sub subscription in the format `projects/{project}/subscriptions/{subscription}`.
+	QueueUrl pulumi.StringPtrInput `pulumi:"queueUrl"`
+	// Base64-encoded GCP service account JSON key for GCS authentication. Required when authentication is `SERVICE_ACCOUNT`.
+	ServiceAccountKey pulumi.StringPtrInput `pulumi:"serviceAccountKey"`
+	// If set to true, skips the initial load and only ingests files delivered by queue notifications. Only applicable when `queueUrl` is provided.
+	SkipInitialLoad pulumi.BoolPtrInput `pulumi:"skipInitialLoad"`
+	// Start continuous ingestion after this object key. Cannot be provided when `skipInitialLoad` is true.
+	StartAfter pulumi.StringPtrInput `pulumi:"startAfter"`
+	// The type of the S3-compatible source (`s3`, `gcs`, `azureblobstorage`). Default is `s3`.
+	Type pulumi.StringPtrInput `pulumi:"type"`
+	// The URL of the S3/GCS bucket. Required for S3 and GCS types. Not used for Azure Blob Storage (use path and azure*container*name instead). You can specify multiple files using bash-like wildcards. For more information, see the documentation on using wildcards in path: https://clickhouse.com/docs/en/integrations/clickpipes/object-storage#limitations
+	Url pulumi.StringPtrInput `pulumi:"url"`
+}
+
+func (ClickpipeSourceObjectStorageArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*ClickpipeSourceObjectStorage)(nil)).Elem()
+}
+
+func (i ClickpipeSourceObjectStorageArgs) ToClickpipeSourceObjectStorageOutput() ClickpipeSourceObjectStorageOutput {
+	return i.ToClickpipeSourceObjectStorageOutputWithContext(context.Background())
+}
+
+func (i ClickpipeSourceObjectStorageArgs) ToClickpipeSourceObjectStorageOutputWithContext(ctx context.Context) ClickpipeSourceObjectStorageOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourceObjectStorageOutput)
+}
+
+func (i ClickpipeSourceObjectStorageArgs) ToClickpipeSourceObjectStoragePtrOutput() ClickpipeSourceObjectStoragePtrOutput {
+	return i.ToClickpipeSourceObjectStoragePtrOutputWithContext(context.Background())
+}
+
+func (i ClickpipeSourceObjectStorageArgs) ToClickpipeSourceObjectStoragePtrOutputWithContext(ctx context.Context) ClickpipeSourceObjectStoragePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourceObjectStorageOutput).ToClickpipeSourceObjectStoragePtrOutputWithContext(ctx)
+}
+
+// ClickpipeSourceObjectStoragePtrInput is an input type that accepts ClickpipeSourceObjectStorageArgs, ClickpipeSourceObjectStoragePtr and ClickpipeSourceObjectStoragePtrOutput values.
+// You can construct a concrete instance of `ClickpipeSourceObjectStoragePtrInput` via:
+//
+//	        ClickpipeSourceObjectStorageArgs{...}
+//
+//	or:
+//
+//	        nil
+type ClickpipeSourceObjectStoragePtrInput interface {
+	pulumi.Input
+
+	ToClickpipeSourceObjectStoragePtrOutput() ClickpipeSourceObjectStoragePtrOutput
+	ToClickpipeSourceObjectStoragePtrOutputWithContext(context.Context) ClickpipeSourceObjectStoragePtrOutput
+}
+
+type clickpipeSourceObjectStoragePtrType ClickpipeSourceObjectStorageArgs
+
+func ClickpipeSourceObjectStoragePtr(v *ClickpipeSourceObjectStorageArgs) ClickpipeSourceObjectStoragePtrInput {
+	return (*clickpipeSourceObjectStoragePtrType)(v)
+}
+
+func (*clickpipeSourceObjectStoragePtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**ClickpipeSourceObjectStorage)(nil)).Elem()
+}
+
+func (i *clickpipeSourceObjectStoragePtrType) ToClickpipeSourceObjectStoragePtrOutput() ClickpipeSourceObjectStoragePtrOutput {
+	return i.ToClickpipeSourceObjectStoragePtrOutputWithContext(context.Background())
+}
+
+func (i *clickpipeSourceObjectStoragePtrType) ToClickpipeSourceObjectStoragePtrOutputWithContext(ctx context.Context) ClickpipeSourceObjectStoragePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourceObjectStoragePtrOutput)
+}
+
+type ClickpipeSourceObjectStorageOutput struct{ *pulumi.OutputState }
+
+func (ClickpipeSourceObjectStorageOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ClickpipeSourceObjectStorage)(nil)).Elem()
+}
+
+func (o ClickpipeSourceObjectStorageOutput) ToClickpipeSourceObjectStorageOutput() ClickpipeSourceObjectStorageOutput {
+	return o
+}
+
+func (o ClickpipeSourceObjectStorageOutput) ToClickpipeSourceObjectStorageOutputWithContext(ctx context.Context) ClickpipeSourceObjectStorageOutput {
+	return o
+}
+
+func (o ClickpipeSourceObjectStorageOutput) ToClickpipeSourceObjectStoragePtrOutput() ClickpipeSourceObjectStoragePtrOutput {
+	return o.ToClickpipeSourceObjectStoragePtrOutputWithContext(context.Background())
+}
+
+func (o ClickpipeSourceObjectStorageOutput) ToClickpipeSourceObjectStoragePtrOutputWithContext(ctx context.Context) ClickpipeSourceObjectStoragePtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v ClickpipeSourceObjectStorage) *ClickpipeSourceObjectStorage {
+		return &v
+	}).(ClickpipeSourceObjectStoragePtrOutput)
+}
+
+// Access key
+func (o ClickpipeSourceObjectStorageOutput) AccessKey() ClickpipeSourceObjectStorageAccessKeyPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceObjectStorage) *ClickpipeSourceObjectStorageAccessKey { return v.AccessKey }).(ClickpipeSourceObjectStorageAccessKeyPtrOutput)
+}
+
+// CONNECTION*STRING is for Azure Blob Storage. IAM*ROLE and IAM*USER are for AWS S3. IAM*USER and SERVICE_ACCOUNT are for GCS. If not provided, no authentication is used
+func (o ClickpipeSourceObjectStorageOutput) Authentication() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceObjectStorage) *string { return v.Authentication }).(pulumi.StringPtrOutput)
+}
+
+// Container name for Azure Blob Storage. Required when type is azureblobstorage. Example: `mycontainer`
+func (o ClickpipeSourceObjectStorageOutput) AzureContainerName() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceObjectStorage) *string { return v.AzureContainerName }).(pulumi.StringPtrOutput)
+}
+
+// Compression algorithm used for the files.. (`none`, `auto`, `gzip`, `brotli`, `br`, `xz`, `LZMA`, `zstd`)
+func (o ClickpipeSourceObjectStorageOutput) Compression() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceObjectStorage) *string { return v.Compression }).(pulumi.StringPtrOutput)
+}
+
+// Connection string for Azure Blob Storage authentication. Required when authentication is CONNECTION_STRING. Example: `DefaultEndpointsProtocol=https;AccountName=myaccount;AccountKey=mykey;EndpointSuffix=core.windows.net`
+func (o ClickpipeSourceObjectStorageOutput) ConnectionString() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceObjectStorage) *string { return v.ConnectionString }).(pulumi.StringPtrOutput)
+}
+
+// The delimiter for the S3 source. Default is `,`.
+func (o ClickpipeSourceObjectStorageOutput) Delimiter() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceObjectStorage) *string { return v.Delimiter }).(pulumi.StringPtrOutput)
+}
+
+// The format of the S3 objects. (`JSONEachRow`, `CSV`, `CSVWithNames`, `Parquet`, `Avro`)
+func (o ClickpipeSourceObjectStorageOutput) Format() pulumi.StringOutput {
+	return o.ApplyT(func(v ClickpipeSourceObjectStorage) string { return v.Format }).(pulumi.StringOutput)
+}
+
+// The IAM role for the S3 source. Use with `IAM_ROLE` authentication. It can be used with AWS ClickHouse service only. Read more at https://clickhouse.com/docs/en/integrations/clickpipes/object-storage#authentication
+func (o ClickpipeSourceObjectStorageOutput) IamRole() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceObjectStorage) *string { return v.IamRole }).(pulumi.StringPtrOutput)
+}
+
+// If set to true, the pipe will continuously read new files from the source. If set to false, the pipe will read the files only once. New files have to be uploaded lexically order.
+func (o ClickpipeSourceObjectStorageOutput) IsContinuous() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceObjectStorage) *bool { return v.IsContinuous }).(pulumi.BoolPtrOutput)
+}
+
+// Path to the file(s) within the Azure container. Used for Azure Blob Storage sources. You can specify multiple files using bash-like wildcards. For more information, see the documentation on using wildcards in path: https://clickhouse.com/docs/en/integrations/clickpipes/object-storage#limitations. Example: `data/logs/*.json`
+func (o ClickpipeSourceObjectStorageOutput) Path() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceObjectStorage) *string { return v.Path }).(pulumi.StringPtrOutput)
+}
+
+// Queue URL for event-based continuous ingestion. When provided, files are ingested based on event notifications rather than lexicographical order. Only applicable when `isContinuous` is `true` and authentication is provided. For S3: SQS URL in the format `https://sqs.{region}.amazonaws.com/{account-id}/{queue-name}`. For GCS: Pub/Sub subscription in the format `projects/{project}/subscriptions/{subscription}`.
+func (o ClickpipeSourceObjectStorageOutput) QueueUrl() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceObjectStorage) *string { return v.QueueUrl }).(pulumi.StringPtrOutput)
+}
+
+// Base64-encoded GCP service account JSON key for GCS authentication. Required when authentication is `SERVICE_ACCOUNT`.
+func (o ClickpipeSourceObjectStorageOutput) ServiceAccountKey() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceObjectStorage) *string { return v.ServiceAccountKey }).(pulumi.StringPtrOutput)
+}
+
+// If set to true, skips the initial load and only ingests files delivered by queue notifications. Only applicable when `queueUrl` is provided.
+func (o ClickpipeSourceObjectStorageOutput) SkipInitialLoad() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceObjectStorage) *bool { return v.SkipInitialLoad }).(pulumi.BoolPtrOutput)
+}
+
+// Start continuous ingestion after this object key. Cannot be provided when `skipInitialLoad` is true.
+func (o ClickpipeSourceObjectStorageOutput) StartAfter() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceObjectStorage) *string { return v.StartAfter }).(pulumi.StringPtrOutput)
+}
+
+// The type of the S3-compatible source (`s3`, `gcs`, `azureblobstorage`). Default is `s3`.
+func (o ClickpipeSourceObjectStorageOutput) Type() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceObjectStorage) *string { return v.Type }).(pulumi.StringPtrOutput)
+}
+
+// The URL of the S3/GCS bucket. Required for S3 and GCS types. Not used for Azure Blob Storage (use path and azure*container*name instead). You can specify multiple files using bash-like wildcards. For more information, see the documentation on using wildcards in path: https://clickhouse.com/docs/en/integrations/clickpipes/object-storage#limitations
+func (o ClickpipeSourceObjectStorageOutput) Url() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceObjectStorage) *string { return v.Url }).(pulumi.StringPtrOutput)
+}
+
+type ClickpipeSourceObjectStoragePtrOutput struct{ *pulumi.OutputState }
+
+func (ClickpipeSourceObjectStoragePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**ClickpipeSourceObjectStorage)(nil)).Elem()
+}
+
+func (o ClickpipeSourceObjectStoragePtrOutput) ToClickpipeSourceObjectStoragePtrOutput() ClickpipeSourceObjectStoragePtrOutput {
+	return o
+}
+
+func (o ClickpipeSourceObjectStoragePtrOutput) ToClickpipeSourceObjectStoragePtrOutputWithContext(ctx context.Context) ClickpipeSourceObjectStoragePtrOutput {
+	return o
+}
+
+func (o ClickpipeSourceObjectStoragePtrOutput) Elem() ClickpipeSourceObjectStorageOutput {
+	return o.ApplyT(func(v *ClickpipeSourceObjectStorage) ClickpipeSourceObjectStorage {
+		if v != nil {
+			return *v
+		}
+		var ret ClickpipeSourceObjectStorage
+		return ret
+	}).(ClickpipeSourceObjectStorageOutput)
+}
+
+// Access key
+func (o ClickpipeSourceObjectStoragePtrOutput) AccessKey() ClickpipeSourceObjectStorageAccessKeyPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceObjectStorage) *ClickpipeSourceObjectStorageAccessKey {
+		if v == nil {
+			return nil
+		}
+		return v.AccessKey
+	}).(ClickpipeSourceObjectStorageAccessKeyPtrOutput)
+}
+
+// CONNECTION*STRING is for Azure Blob Storage. IAM*ROLE and IAM*USER are for AWS S3. IAM*USER and SERVICE_ACCOUNT are for GCS. If not provided, no authentication is used
+func (o ClickpipeSourceObjectStoragePtrOutput) Authentication() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceObjectStorage) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Authentication
+	}).(pulumi.StringPtrOutput)
+}
+
+// Container name for Azure Blob Storage. Required when type is azureblobstorage. Example: `mycontainer`
+func (o ClickpipeSourceObjectStoragePtrOutput) AzureContainerName() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceObjectStorage) *string {
+		if v == nil {
+			return nil
+		}
+		return v.AzureContainerName
+	}).(pulumi.StringPtrOutput)
+}
+
+// Compression algorithm used for the files.. (`none`, `auto`, `gzip`, `brotli`, `br`, `xz`, `LZMA`, `zstd`)
+func (o ClickpipeSourceObjectStoragePtrOutput) Compression() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceObjectStorage) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Compression
+	}).(pulumi.StringPtrOutput)
+}
+
+// Connection string for Azure Blob Storage authentication. Required when authentication is CONNECTION_STRING. Example: `DefaultEndpointsProtocol=https;AccountName=myaccount;AccountKey=mykey;EndpointSuffix=core.windows.net`
+func (o ClickpipeSourceObjectStoragePtrOutput) ConnectionString() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceObjectStorage) *string {
+		if v == nil {
+			return nil
+		}
+		return v.ConnectionString
+	}).(pulumi.StringPtrOutput)
+}
+
+// The delimiter for the S3 source. Default is `,`.
+func (o ClickpipeSourceObjectStoragePtrOutput) Delimiter() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceObjectStorage) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Delimiter
+	}).(pulumi.StringPtrOutput)
+}
+
+// The format of the S3 objects. (`JSONEachRow`, `CSV`, `CSVWithNames`, `Parquet`, `Avro`)
+func (o ClickpipeSourceObjectStoragePtrOutput) Format() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceObjectStorage) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.Format
+	}).(pulumi.StringPtrOutput)
+}
+
+// The IAM role for the S3 source. Use with `IAM_ROLE` authentication. It can be used with AWS ClickHouse service only. Read more at https://clickhouse.com/docs/en/integrations/clickpipes/object-storage#authentication
+func (o ClickpipeSourceObjectStoragePtrOutput) IamRole() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceObjectStorage) *string {
+		if v == nil {
+			return nil
+		}
+		return v.IamRole
+	}).(pulumi.StringPtrOutput)
+}
+
+// If set to true, the pipe will continuously read new files from the source. If set to false, the pipe will read the files only once. New files have to be uploaded lexically order.
+func (o ClickpipeSourceObjectStoragePtrOutput) IsContinuous() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceObjectStorage) *bool {
+		if v == nil {
+			return nil
+		}
+		return v.IsContinuous
+	}).(pulumi.BoolPtrOutput)
+}
+
+// Path to the file(s) within the Azure container. Used for Azure Blob Storage sources. You can specify multiple files using bash-like wildcards. For more information, see the documentation on using wildcards in path: https://clickhouse.com/docs/en/integrations/clickpipes/object-storage#limitations. Example: `data/logs/*.json`
+func (o ClickpipeSourceObjectStoragePtrOutput) Path() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceObjectStorage) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Path
+	}).(pulumi.StringPtrOutput)
+}
+
+// Queue URL for event-based continuous ingestion. When provided, files are ingested based on event notifications rather than lexicographical order. Only applicable when `isContinuous` is `true` and authentication is provided. For S3: SQS URL in the format `https://sqs.{region}.amazonaws.com/{account-id}/{queue-name}`. For GCS: Pub/Sub subscription in the format `projects/{project}/subscriptions/{subscription}`.
+func (o ClickpipeSourceObjectStoragePtrOutput) QueueUrl() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceObjectStorage) *string {
+		if v == nil {
+			return nil
+		}
+		return v.QueueUrl
+	}).(pulumi.StringPtrOutput)
+}
+
+// Base64-encoded GCP service account JSON key for GCS authentication. Required when authentication is `SERVICE_ACCOUNT`.
+func (o ClickpipeSourceObjectStoragePtrOutput) ServiceAccountKey() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceObjectStorage) *string {
+		if v == nil {
+			return nil
+		}
+		return v.ServiceAccountKey
+	}).(pulumi.StringPtrOutput)
+}
+
+// If set to true, skips the initial load and only ingests files delivered by queue notifications. Only applicable when `queueUrl` is provided.
+func (o ClickpipeSourceObjectStoragePtrOutput) SkipInitialLoad() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceObjectStorage) *bool {
+		if v == nil {
+			return nil
+		}
+		return v.SkipInitialLoad
+	}).(pulumi.BoolPtrOutput)
+}
+
+// Start continuous ingestion after this object key. Cannot be provided when `skipInitialLoad` is true.
+func (o ClickpipeSourceObjectStoragePtrOutput) StartAfter() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceObjectStorage) *string {
+		if v == nil {
+			return nil
+		}
+		return v.StartAfter
+	}).(pulumi.StringPtrOutput)
+}
+
+// The type of the S3-compatible source (`s3`, `gcs`, `azureblobstorage`). Default is `s3`.
+func (o ClickpipeSourceObjectStoragePtrOutput) Type() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceObjectStorage) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Type
+	}).(pulumi.StringPtrOutput)
+}
+
+// The URL of the S3/GCS bucket. Required for S3 and GCS types. Not used for Azure Blob Storage (use path and azure*container*name instead). You can specify multiple files using bash-like wildcards. For more information, see the documentation on using wildcards in path: https://clickhouse.com/docs/en/integrations/clickpipes/object-storage#limitations
+func (o ClickpipeSourceObjectStoragePtrOutput) Url() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceObjectStorage) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Url
+	}).(pulumi.StringPtrOutput)
+}
+
+type ClickpipeSourceObjectStorageAccessKey struct {
+	// The access key ID for the S3 source. Use with `IAM_USER` authentication.
+	AccessKeyId *string `pulumi:"accessKeyId"`
+	// The secret key for the S3 source. Use with `IAM_USER` authentication.
+	SecretKey *string `pulumi:"secretKey"`
+}
+
+// ClickpipeSourceObjectStorageAccessKeyInput is an input type that accepts ClickpipeSourceObjectStorageAccessKeyArgs and ClickpipeSourceObjectStorageAccessKeyOutput values.
+// You can construct a concrete instance of `ClickpipeSourceObjectStorageAccessKeyInput` via:
+//
+//	ClickpipeSourceObjectStorageAccessKeyArgs{...}
+type ClickpipeSourceObjectStorageAccessKeyInput interface {
+	pulumi.Input
+
+	ToClickpipeSourceObjectStorageAccessKeyOutput() ClickpipeSourceObjectStorageAccessKeyOutput
+	ToClickpipeSourceObjectStorageAccessKeyOutputWithContext(context.Context) ClickpipeSourceObjectStorageAccessKeyOutput
+}
+
+type ClickpipeSourceObjectStorageAccessKeyArgs struct {
+	// The access key ID for the S3 source. Use with `IAM_USER` authentication.
+	AccessKeyId pulumi.StringPtrInput `pulumi:"accessKeyId"`
+	// The secret key for the S3 source. Use with `IAM_USER` authentication.
+	SecretKey pulumi.StringPtrInput `pulumi:"secretKey"`
+}
+
+func (ClickpipeSourceObjectStorageAccessKeyArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*ClickpipeSourceObjectStorageAccessKey)(nil)).Elem()
+}
+
+func (i ClickpipeSourceObjectStorageAccessKeyArgs) ToClickpipeSourceObjectStorageAccessKeyOutput() ClickpipeSourceObjectStorageAccessKeyOutput {
+	return i.ToClickpipeSourceObjectStorageAccessKeyOutputWithContext(context.Background())
+}
+
+func (i ClickpipeSourceObjectStorageAccessKeyArgs) ToClickpipeSourceObjectStorageAccessKeyOutputWithContext(ctx context.Context) ClickpipeSourceObjectStorageAccessKeyOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourceObjectStorageAccessKeyOutput)
+}
+
+func (i ClickpipeSourceObjectStorageAccessKeyArgs) ToClickpipeSourceObjectStorageAccessKeyPtrOutput() ClickpipeSourceObjectStorageAccessKeyPtrOutput {
+	return i.ToClickpipeSourceObjectStorageAccessKeyPtrOutputWithContext(context.Background())
+}
+
+func (i ClickpipeSourceObjectStorageAccessKeyArgs) ToClickpipeSourceObjectStorageAccessKeyPtrOutputWithContext(ctx context.Context) ClickpipeSourceObjectStorageAccessKeyPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourceObjectStorageAccessKeyOutput).ToClickpipeSourceObjectStorageAccessKeyPtrOutputWithContext(ctx)
+}
+
+// ClickpipeSourceObjectStorageAccessKeyPtrInput is an input type that accepts ClickpipeSourceObjectStorageAccessKeyArgs, ClickpipeSourceObjectStorageAccessKeyPtr and ClickpipeSourceObjectStorageAccessKeyPtrOutput values.
+// You can construct a concrete instance of `ClickpipeSourceObjectStorageAccessKeyPtrInput` via:
+//
+//	        ClickpipeSourceObjectStorageAccessKeyArgs{...}
+//
+//	or:
+//
+//	        nil
+type ClickpipeSourceObjectStorageAccessKeyPtrInput interface {
+	pulumi.Input
+
+	ToClickpipeSourceObjectStorageAccessKeyPtrOutput() ClickpipeSourceObjectStorageAccessKeyPtrOutput
+	ToClickpipeSourceObjectStorageAccessKeyPtrOutputWithContext(context.Context) ClickpipeSourceObjectStorageAccessKeyPtrOutput
+}
+
+type clickpipeSourceObjectStorageAccessKeyPtrType ClickpipeSourceObjectStorageAccessKeyArgs
+
+func ClickpipeSourceObjectStorageAccessKeyPtr(v *ClickpipeSourceObjectStorageAccessKeyArgs) ClickpipeSourceObjectStorageAccessKeyPtrInput {
+	return (*clickpipeSourceObjectStorageAccessKeyPtrType)(v)
+}
+
+func (*clickpipeSourceObjectStorageAccessKeyPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**ClickpipeSourceObjectStorageAccessKey)(nil)).Elem()
+}
+
+func (i *clickpipeSourceObjectStorageAccessKeyPtrType) ToClickpipeSourceObjectStorageAccessKeyPtrOutput() ClickpipeSourceObjectStorageAccessKeyPtrOutput {
+	return i.ToClickpipeSourceObjectStorageAccessKeyPtrOutputWithContext(context.Background())
+}
+
+func (i *clickpipeSourceObjectStorageAccessKeyPtrType) ToClickpipeSourceObjectStorageAccessKeyPtrOutputWithContext(ctx context.Context) ClickpipeSourceObjectStorageAccessKeyPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourceObjectStorageAccessKeyPtrOutput)
+}
+
+type ClickpipeSourceObjectStorageAccessKeyOutput struct{ *pulumi.OutputState }
+
+func (ClickpipeSourceObjectStorageAccessKeyOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ClickpipeSourceObjectStorageAccessKey)(nil)).Elem()
+}
+
+func (o ClickpipeSourceObjectStorageAccessKeyOutput) ToClickpipeSourceObjectStorageAccessKeyOutput() ClickpipeSourceObjectStorageAccessKeyOutput {
+	return o
+}
+
+func (o ClickpipeSourceObjectStorageAccessKeyOutput) ToClickpipeSourceObjectStorageAccessKeyOutputWithContext(ctx context.Context) ClickpipeSourceObjectStorageAccessKeyOutput {
+	return o
+}
+
+func (o ClickpipeSourceObjectStorageAccessKeyOutput) ToClickpipeSourceObjectStorageAccessKeyPtrOutput() ClickpipeSourceObjectStorageAccessKeyPtrOutput {
+	return o.ToClickpipeSourceObjectStorageAccessKeyPtrOutputWithContext(context.Background())
+}
+
+func (o ClickpipeSourceObjectStorageAccessKeyOutput) ToClickpipeSourceObjectStorageAccessKeyPtrOutputWithContext(ctx context.Context) ClickpipeSourceObjectStorageAccessKeyPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v ClickpipeSourceObjectStorageAccessKey) *ClickpipeSourceObjectStorageAccessKey {
+		return &v
+	}).(ClickpipeSourceObjectStorageAccessKeyPtrOutput)
+}
+
+// The access key ID for the S3 source. Use with `IAM_USER` authentication.
+func (o ClickpipeSourceObjectStorageAccessKeyOutput) AccessKeyId() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceObjectStorageAccessKey) *string { return v.AccessKeyId }).(pulumi.StringPtrOutput)
+}
+
+// The secret key for the S3 source. Use with `IAM_USER` authentication.
+func (o ClickpipeSourceObjectStorageAccessKeyOutput) SecretKey() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourceObjectStorageAccessKey) *string { return v.SecretKey }).(pulumi.StringPtrOutput)
+}
+
+type ClickpipeSourceObjectStorageAccessKeyPtrOutput struct{ *pulumi.OutputState }
+
+func (ClickpipeSourceObjectStorageAccessKeyPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**ClickpipeSourceObjectStorageAccessKey)(nil)).Elem()
+}
+
+func (o ClickpipeSourceObjectStorageAccessKeyPtrOutput) ToClickpipeSourceObjectStorageAccessKeyPtrOutput() ClickpipeSourceObjectStorageAccessKeyPtrOutput {
+	return o
+}
+
+func (o ClickpipeSourceObjectStorageAccessKeyPtrOutput) ToClickpipeSourceObjectStorageAccessKeyPtrOutputWithContext(ctx context.Context) ClickpipeSourceObjectStorageAccessKeyPtrOutput {
+	return o
+}
+
+func (o ClickpipeSourceObjectStorageAccessKeyPtrOutput) Elem() ClickpipeSourceObjectStorageAccessKeyOutput {
+	return o.ApplyT(func(v *ClickpipeSourceObjectStorageAccessKey) ClickpipeSourceObjectStorageAccessKey {
+		if v != nil {
+			return *v
+		}
+		var ret ClickpipeSourceObjectStorageAccessKey
+		return ret
+	}).(ClickpipeSourceObjectStorageAccessKeyOutput)
+}
+
+// The access key ID for the S3 source. Use with `IAM_USER` authentication.
+func (o ClickpipeSourceObjectStorageAccessKeyPtrOutput) AccessKeyId() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceObjectStorageAccessKey) *string {
+		if v == nil {
+			return nil
+		}
+		return v.AccessKeyId
+	}).(pulumi.StringPtrOutput)
+}
+
+// The secret key for the S3 source. Use with `IAM_USER` authentication.
+func (o ClickpipeSourceObjectStorageAccessKeyPtrOutput) SecretKey() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourceObjectStorageAccessKey) *string {
+		if v == nil {
+			return nil
+		}
+		return v.SecretKey
+	}).(pulumi.StringPtrOutput)
+}
+
+type ClickpipeSourcePostgres struct {
+	// Authentication method for Postgres connection. Supported values: `basic`, `iamRole`. Default is `basic`.
+	Authentication *string `pulumi:"authentication"`
+	// PEM encoded CA certificate to validate the Postgres server certificate.
+	CaCertificate *string `pulumi:"caCertificate"`
+	// The credentials for the Postgres instance. Username is always required. For `basic` authentication, supply either `password` or `passwordWo`. For `iamRole` authentication, password is optional.
+	Credentials ClickpipeSourcePostgresCredentials `pulumi:"credentials"`
+	// The database name of the Postgres instance.
+	Database string `pulumi:"database"`
+	// The hostname of the Postgres instance.
+	Host string `pulumi:"host"`
+	// IAM role ARN for IAM authentication. Required when authentication is set to `iamRole`.
+	IamRole *string `pulumi:"iamRole"`
+	// The port of the Postgres instance. Default is 5432.
+	Port *int `pulumi:"port"`
+	// Settings for the Postgres CDC pipe.
+	Settings ClickpipeSourcePostgresSettings `pulumi:"settings"`
+	// Table mappings from Postgres source to ClickHouse destination.
+	TableMappings []ClickpipeSourcePostgresTableMapping `pulumi:"tableMappings"`
+	// TLS/SSL host for secure connections. Used to verify the server certificate.
+	TlsHost *string `pulumi:"tlsHost"`
+	// The type of the Postgres source. (`postgres`, `supabase`, `neon`, `alloydb`, `planetscale`, `rdspostgres`, `aurorapostgres`, `cloudsqlpostgres`, `azurepostgres`, `crunchybridge`, `tigerdata`). Default is `postgres`.
+	Type *string `pulumi:"type"`
+}
+
+// ClickpipeSourcePostgresInput is an input type that accepts ClickpipeSourcePostgresArgs and ClickpipeSourcePostgresOutput values.
+// You can construct a concrete instance of `ClickpipeSourcePostgresInput` via:
+//
+//	ClickpipeSourcePostgresArgs{...}
+type ClickpipeSourcePostgresInput interface {
+	pulumi.Input
+
+	ToClickpipeSourcePostgresOutput() ClickpipeSourcePostgresOutput
+	ToClickpipeSourcePostgresOutputWithContext(context.Context) ClickpipeSourcePostgresOutput
+}
+
+type ClickpipeSourcePostgresArgs struct {
+	// Authentication method for Postgres connection. Supported values: `basic`, `iamRole`. Default is `basic`.
+	Authentication pulumi.StringPtrInput `pulumi:"authentication"`
+	// PEM encoded CA certificate to validate the Postgres server certificate.
+	CaCertificate pulumi.StringPtrInput `pulumi:"caCertificate"`
+	// The credentials for the Postgres instance. Username is always required. For `basic` authentication, supply either `password` or `passwordWo`. For `iamRole` authentication, password is optional.
+	Credentials ClickpipeSourcePostgresCredentialsInput `pulumi:"credentials"`
+	// The database name of the Postgres instance.
+	Database pulumi.StringInput `pulumi:"database"`
+	// The hostname of the Postgres instance.
+	Host pulumi.StringInput `pulumi:"host"`
+	// IAM role ARN for IAM authentication. Required when authentication is set to `iamRole`.
+	IamRole pulumi.StringPtrInput `pulumi:"iamRole"`
+	// The port of the Postgres instance. Default is 5432.
+	Port pulumi.IntPtrInput `pulumi:"port"`
+	// Settings for the Postgres CDC pipe.
+	Settings ClickpipeSourcePostgresSettingsInput `pulumi:"settings"`
+	// Table mappings from Postgres source to ClickHouse destination.
+	TableMappings ClickpipeSourcePostgresTableMappingArrayInput `pulumi:"tableMappings"`
+	// TLS/SSL host for secure connections. Used to verify the server certificate.
+	TlsHost pulumi.StringPtrInput `pulumi:"tlsHost"`
+	// The type of the Postgres source. (`postgres`, `supabase`, `neon`, `alloydb`, `planetscale`, `rdspostgres`, `aurorapostgres`, `cloudsqlpostgres`, `azurepostgres`, `crunchybridge`, `tigerdata`). Default is `postgres`.
+	Type pulumi.StringPtrInput `pulumi:"type"`
+}
+
+func (ClickpipeSourcePostgresArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*ClickpipeSourcePostgres)(nil)).Elem()
+}
+
+func (i ClickpipeSourcePostgresArgs) ToClickpipeSourcePostgresOutput() ClickpipeSourcePostgresOutput {
+	return i.ToClickpipeSourcePostgresOutputWithContext(context.Background())
+}
+
+func (i ClickpipeSourcePostgresArgs) ToClickpipeSourcePostgresOutputWithContext(ctx context.Context) ClickpipeSourcePostgresOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourcePostgresOutput)
+}
+
+func (i ClickpipeSourcePostgresArgs) ToClickpipeSourcePostgresPtrOutput() ClickpipeSourcePostgresPtrOutput {
+	return i.ToClickpipeSourcePostgresPtrOutputWithContext(context.Background())
+}
+
+func (i ClickpipeSourcePostgresArgs) ToClickpipeSourcePostgresPtrOutputWithContext(ctx context.Context) ClickpipeSourcePostgresPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourcePostgresOutput).ToClickpipeSourcePostgresPtrOutputWithContext(ctx)
+}
+
+// ClickpipeSourcePostgresPtrInput is an input type that accepts ClickpipeSourcePostgresArgs, ClickpipeSourcePostgresPtr and ClickpipeSourcePostgresPtrOutput values.
+// You can construct a concrete instance of `ClickpipeSourcePostgresPtrInput` via:
+//
+//	        ClickpipeSourcePostgresArgs{...}
+//
+//	or:
+//
+//	        nil
+type ClickpipeSourcePostgresPtrInput interface {
+	pulumi.Input
+
+	ToClickpipeSourcePostgresPtrOutput() ClickpipeSourcePostgresPtrOutput
+	ToClickpipeSourcePostgresPtrOutputWithContext(context.Context) ClickpipeSourcePostgresPtrOutput
+}
+
+type clickpipeSourcePostgresPtrType ClickpipeSourcePostgresArgs
+
+func ClickpipeSourcePostgresPtr(v *ClickpipeSourcePostgresArgs) ClickpipeSourcePostgresPtrInput {
+	return (*clickpipeSourcePostgresPtrType)(v)
+}
+
+func (*clickpipeSourcePostgresPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**ClickpipeSourcePostgres)(nil)).Elem()
+}
+
+func (i *clickpipeSourcePostgresPtrType) ToClickpipeSourcePostgresPtrOutput() ClickpipeSourcePostgresPtrOutput {
+	return i.ToClickpipeSourcePostgresPtrOutputWithContext(context.Background())
+}
+
+func (i *clickpipeSourcePostgresPtrType) ToClickpipeSourcePostgresPtrOutputWithContext(ctx context.Context) ClickpipeSourcePostgresPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourcePostgresPtrOutput)
+}
+
+type ClickpipeSourcePostgresOutput struct{ *pulumi.OutputState }
+
+func (ClickpipeSourcePostgresOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ClickpipeSourcePostgres)(nil)).Elem()
+}
+
+func (o ClickpipeSourcePostgresOutput) ToClickpipeSourcePostgresOutput() ClickpipeSourcePostgresOutput {
+	return o
+}
+
+func (o ClickpipeSourcePostgresOutput) ToClickpipeSourcePostgresOutputWithContext(ctx context.Context) ClickpipeSourcePostgresOutput {
+	return o
+}
+
+func (o ClickpipeSourcePostgresOutput) ToClickpipeSourcePostgresPtrOutput() ClickpipeSourcePostgresPtrOutput {
+	return o.ToClickpipeSourcePostgresPtrOutputWithContext(context.Background())
+}
+
+func (o ClickpipeSourcePostgresOutput) ToClickpipeSourcePostgresPtrOutputWithContext(ctx context.Context) ClickpipeSourcePostgresPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v ClickpipeSourcePostgres) *ClickpipeSourcePostgres {
+		return &v
+	}).(ClickpipeSourcePostgresPtrOutput)
+}
+
+// Authentication method for Postgres connection. Supported values: `basic`, `iamRole`. Default is `basic`.
+func (o ClickpipeSourcePostgresOutput) Authentication() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourcePostgres) *string { return v.Authentication }).(pulumi.StringPtrOutput)
+}
+
+// PEM encoded CA certificate to validate the Postgres server certificate.
+func (o ClickpipeSourcePostgresOutput) CaCertificate() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourcePostgres) *string { return v.CaCertificate }).(pulumi.StringPtrOutput)
+}
+
+// The credentials for the Postgres instance. Username is always required. For `basic` authentication, supply either `password` or `passwordWo`. For `iamRole` authentication, password is optional.
+func (o ClickpipeSourcePostgresOutput) Credentials() ClickpipeSourcePostgresCredentialsOutput {
+	return o.ApplyT(func(v ClickpipeSourcePostgres) ClickpipeSourcePostgresCredentials { return v.Credentials }).(ClickpipeSourcePostgresCredentialsOutput)
+}
+
+// The database name of the Postgres instance.
+func (o ClickpipeSourcePostgresOutput) Database() pulumi.StringOutput {
+	return o.ApplyT(func(v ClickpipeSourcePostgres) string { return v.Database }).(pulumi.StringOutput)
+}
+
+// The hostname of the Postgres instance.
+func (o ClickpipeSourcePostgresOutput) Host() pulumi.StringOutput {
+	return o.ApplyT(func(v ClickpipeSourcePostgres) string { return v.Host }).(pulumi.StringOutput)
+}
+
+// IAM role ARN for IAM authentication. Required when authentication is set to `iamRole`.
+func (o ClickpipeSourcePostgresOutput) IamRole() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourcePostgres) *string { return v.IamRole }).(pulumi.StringPtrOutput)
+}
+
+// The port of the Postgres instance. Default is 5432.
+func (o ClickpipeSourcePostgresOutput) Port() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourcePostgres) *int { return v.Port }).(pulumi.IntPtrOutput)
+}
+
+// Settings for the Postgres CDC pipe.
+func (o ClickpipeSourcePostgresOutput) Settings() ClickpipeSourcePostgresSettingsOutput {
+	return o.ApplyT(func(v ClickpipeSourcePostgres) ClickpipeSourcePostgresSettings { return v.Settings }).(ClickpipeSourcePostgresSettingsOutput)
+}
+
+// Table mappings from Postgres source to ClickHouse destination.
+func (o ClickpipeSourcePostgresOutput) TableMappings() ClickpipeSourcePostgresTableMappingArrayOutput {
+	return o.ApplyT(func(v ClickpipeSourcePostgres) []ClickpipeSourcePostgresTableMapping { return v.TableMappings }).(ClickpipeSourcePostgresTableMappingArrayOutput)
+}
+
+// TLS/SSL host for secure connections. Used to verify the server certificate.
+func (o ClickpipeSourcePostgresOutput) TlsHost() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourcePostgres) *string { return v.TlsHost }).(pulumi.StringPtrOutput)
+}
+
+// The type of the Postgres source. (`postgres`, `supabase`, `neon`, `alloydb`, `planetscale`, `rdspostgres`, `aurorapostgres`, `cloudsqlpostgres`, `azurepostgres`, `crunchybridge`, `tigerdata`). Default is `postgres`.
+func (o ClickpipeSourcePostgresOutput) Type() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourcePostgres) *string { return v.Type }).(pulumi.StringPtrOutput)
+}
+
+type ClickpipeSourcePostgresPtrOutput struct{ *pulumi.OutputState }
+
+func (ClickpipeSourcePostgresPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**ClickpipeSourcePostgres)(nil)).Elem()
+}
+
+func (o ClickpipeSourcePostgresPtrOutput) ToClickpipeSourcePostgresPtrOutput() ClickpipeSourcePostgresPtrOutput {
+	return o
+}
+
+func (o ClickpipeSourcePostgresPtrOutput) ToClickpipeSourcePostgresPtrOutputWithContext(ctx context.Context) ClickpipeSourcePostgresPtrOutput {
+	return o
+}
+
+func (o ClickpipeSourcePostgresPtrOutput) Elem() ClickpipeSourcePostgresOutput {
+	return o.ApplyT(func(v *ClickpipeSourcePostgres) ClickpipeSourcePostgres {
+		if v != nil {
+			return *v
+		}
+		var ret ClickpipeSourcePostgres
+		return ret
+	}).(ClickpipeSourcePostgresOutput)
+}
+
+// Authentication method for Postgres connection. Supported values: `basic`, `iamRole`. Default is `basic`.
+func (o ClickpipeSourcePostgresPtrOutput) Authentication() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourcePostgres) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Authentication
+	}).(pulumi.StringPtrOutput)
+}
+
+// PEM encoded CA certificate to validate the Postgres server certificate.
+func (o ClickpipeSourcePostgresPtrOutput) CaCertificate() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourcePostgres) *string {
+		if v == nil {
+			return nil
+		}
+		return v.CaCertificate
+	}).(pulumi.StringPtrOutput)
+}
+
+// The credentials for the Postgres instance. Username is always required. For `basic` authentication, supply either `password` or `passwordWo`. For `iamRole` authentication, password is optional.
+func (o ClickpipeSourcePostgresPtrOutput) Credentials() ClickpipeSourcePostgresCredentialsPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourcePostgres) *ClickpipeSourcePostgresCredentials {
+		if v == nil {
+			return nil
+		}
+		return &v.Credentials
+	}).(ClickpipeSourcePostgresCredentialsPtrOutput)
+}
+
+// The database name of the Postgres instance.
+func (o ClickpipeSourcePostgresPtrOutput) Database() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourcePostgres) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.Database
+	}).(pulumi.StringPtrOutput)
+}
+
+// The hostname of the Postgres instance.
+func (o ClickpipeSourcePostgresPtrOutput) Host() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourcePostgres) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.Host
+	}).(pulumi.StringPtrOutput)
+}
+
+// IAM role ARN for IAM authentication. Required when authentication is set to `iamRole`.
+func (o ClickpipeSourcePostgresPtrOutput) IamRole() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourcePostgres) *string {
+		if v == nil {
+			return nil
+		}
+		return v.IamRole
+	}).(pulumi.StringPtrOutput)
+}
+
+// The port of the Postgres instance. Default is 5432.
+func (o ClickpipeSourcePostgresPtrOutput) Port() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourcePostgres) *int {
+		if v == nil {
+			return nil
+		}
+		return v.Port
+	}).(pulumi.IntPtrOutput)
+}
+
+// Settings for the Postgres CDC pipe.
+func (o ClickpipeSourcePostgresPtrOutput) Settings() ClickpipeSourcePostgresSettingsPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourcePostgres) *ClickpipeSourcePostgresSettings {
+		if v == nil {
+			return nil
+		}
+		return &v.Settings
+	}).(ClickpipeSourcePostgresSettingsPtrOutput)
+}
+
+// Table mappings from Postgres source to ClickHouse destination.
+func (o ClickpipeSourcePostgresPtrOutput) TableMappings() ClickpipeSourcePostgresTableMappingArrayOutput {
+	return o.ApplyT(func(v *ClickpipeSourcePostgres) []ClickpipeSourcePostgresTableMapping {
+		if v == nil {
+			return nil
+		}
+		return v.TableMappings
+	}).(ClickpipeSourcePostgresTableMappingArrayOutput)
+}
+
+// TLS/SSL host for secure connections. Used to verify the server certificate.
+func (o ClickpipeSourcePostgresPtrOutput) TlsHost() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourcePostgres) *string {
+		if v == nil {
+			return nil
+		}
+		return v.TlsHost
+	}).(pulumi.StringPtrOutput)
+}
+
+// The type of the Postgres source. (`postgres`, `supabase`, `neon`, `alloydb`, `planetscale`, `rdspostgres`, `aurorapostgres`, `cloudsqlpostgres`, `azurepostgres`, `crunchybridge`, `tigerdata`). Default is `postgres`.
+func (o ClickpipeSourcePostgresPtrOutput) Type() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourcePostgres) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Type
+	}).(pulumi.StringPtrOutput)
+}
+
+type ClickpipeSourcePostgresCredentials struct {
+	// The password for the Postgres instance. Use `passwordWo` instead to keep the value out of state.
+	Password *string `pulumi:"password"`
+	// **NOTE:** This field is write-only and its value will not be updated in state as part of read operations.
+	// Write-only password for the Postgres instance. Not persisted to state. Pair with `passwordWoVersion` to trigger updates.
+	PasswordWo *string `pulumi:"passwordWo"`
+	// Version trigger for `passwordWo`. Increment to push a new password to the API.
+	PasswordWoVersion *int `pulumi:"passwordWoVersion"`
+	// The username for the Postgres instance.
+	Username string `pulumi:"username"`
+}
+
+// ClickpipeSourcePostgresCredentialsInput is an input type that accepts ClickpipeSourcePostgresCredentialsArgs and ClickpipeSourcePostgresCredentialsOutput values.
+// You can construct a concrete instance of `ClickpipeSourcePostgresCredentialsInput` via:
+//
+//	ClickpipeSourcePostgresCredentialsArgs{...}
+type ClickpipeSourcePostgresCredentialsInput interface {
+	pulumi.Input
+
+	ToClickpipeSourcePostgresCredentialsOutput() ClickpipeSourcePostgresCredentialsOutput
+	ToClickpipeSourcePostgresCredentialsOutputWithContext(context.Context) ClickpipeSourcePostgresCredentialsOutput
+}
+
+type ClickpipeSourcePostgresCredentialsArgs struct {
+	// The password for the Postgres instance. Use `passwordWo` instead to keep the value out of state.
+	Password pulumi.StringPtrInput `pulumi:"password"`
+	// **NOTE:** This field is write-only and its value will not be updated in state as part of read operations.
+	// Write-only password for the Postgres instance. Not persisted to state. Pair with `passwordWoVersion` to trigger updates.
+	PasswordWo pulumi.StringPtrInput `pulumi:"passwordWo"`
+	// Version trigger for `passwordWo`. Increment to push a new password to the API.
+	PasswordWoVersion pulumi.IntPtrInput `pulumi:"passwordWoVersion"`
+	// The username for the Postgres instance.
+	Username pulumi.StringInput `pulumi:"username"`
+}
+
+func (ClickpipeSourcePostgresCredentialsArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*ClickpipeSourcePostgresCredentials)(nil)).Elem()
+}
+
+func (i ClickpipeSourcePostgresCredentialsArgs) ToClickpipeSourcePostgresCredentialsOutput() ClickpipeSourcePostgresCredentialsOutput {
+	return i.ToClickpipeSourcePostgresCredentialsOutputWithContext(context.Background())
+}
+
+func (i ClickpipeSourcePostgresCredentialsArgs) ToClickpipeSourcePostgresCredentialsOutputWithContext(ctx context.Context) ClickpipeSourcePostgresCredentialsOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourcePostgresCredentialsOutput)
+}
+
+func (i ClickpipeSourcePostgresCredentialsArgs) ToClickpipeSourcePostgresCredentialsPtrOutput() ClickpipeSourcePostgresCredentialsPtrOutput {
+	return i.ToClickpipeSourcePostgresCredentialsPtrOutputWithContext(context.Background())
+}
+
+func (i ClickpipeSourcePostgresCredentialsArgs) ToClickpipeSourcePostgresCredentialsPtrOutputWithContext(ctx context.Context) ClickpipeSourcePostgresCredentialsPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourcePostgresCredentialsOutput).ToClickpipeSourcePostgresCredentialsPtrOutputWithContext(ctx)
+}
+
+// ClickpipeSourcePostgresCredentialsPtrInput is an input type that accepts ClickpipeSourcePostgresCredentialsArgs, ClickpipeSourcePostgresCredentialsPtr and ClickpipeSourcePostgresCredentialsPtrOutput values.
+// You can construct a concrete instance of `ClickpipeSourcePostgresCredentialsPtrInput` via:
+//
+//	        ClickpipeSourcePostgresCredentialsArgs{...}
+//
+//	or:
+//
+//	        nil
+type ClickpipeSourcePostgresCredentialsPtrInput interface {
+	pulumi.Input
+
+	ToClickpipeSourcePostgresCredentialsPtrOutput() ClickpipeSourcePostgresCredentialsPtrOutput
+	ToClickpipeSourcePostgresCredentialsPtrOutputWithContext(context.Context) ClickpipeSourcePostgresCredentialsPtrOutput
+}
+
+type clickpipeSourcePostgresCredentialsPtrType ClickpipeSourcePostgresCredentialsArgs
+
+func ClickpipeSourcePostgresCredentialsPtr(v *ClickpipeSourcePostgresCredentialsArgs) ClickpipeSourcePostgresCredentialsPtrInput {
+	return (*clickpipeSourcePostgresCredentialsPtrType)(v)
+}
+
+func (*clickpipeSourcePostgresCredentialsPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**ClickpipeSourcePostgresCredentials)(nil)).Elem()
+}
+
+func (i *clickpipeSourcePostgresCredentialsPtrType) ToClickpipeSourcePostgresCredentialsPtrOutput() ClickpipeSourcePostgresCredentialsPtrOutput {
+	return i.ToClickpipeSourcePostgresCredentialsPtrOutputWithContext(context.Background())
+}
+
+func (i *clickpipeSourcePostgresCredentialsPtrType) ToClickpipeSourcePostgresCredentialsPtrOutputWithContext(ctx context.Context) ClickpipeSourcePostgresCredentialsPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourcePostgresCredentialsPtrOutput)
+}
+
+type ClickpipeSourcePostgresCredentialsOutput struct{ *pulumi.OutputState }
+
+func (ClickpipeSourcePostgresCredentialsOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ClickpipeSourcePostgresCredentials)(nil)).Elem()
+}
+
+func (o ClickpipeSourcePostgresCredentialsOutput) ToClickpipeSourcePostgresCredentialsOutput() ClickpipeSourcePostgresCredentialsOutput {
+	return o
+}
+
+func (o ClickpipeSourcePostgresCredentialsOutput) ToClickpipeSourcePostgresCredentialsOutputWithContext(ctx context.Context) ClickpipeSourcePostgresCredentialsOutput {
+	return o
+}
+
+func (o ClickpipeSourcePostgresCredentialsOutput) ToClickpipeSourcePostgresCredentialsPtrOutput() ClickpipeSourcePostgresCredentialsPtrOutput {
+	return o.ToClickpipeSourcePostgresCredentialsPtrOutputWithContext(context.Background())
+}
+
+func (o ClickpipeSourcePostgresCredentialsOutput) ToClickpipeSourcePostgresCredentialsPtrOutputWithContext(ctx context.Context) ClickpipeSourcePostgresCredentialsPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v ClickpipeSourcePostgresCredentials) *ClickpipeSourcePostgresCredentials {
+		return &v
+	}).(ClickpipeSourcePostgresCredentialsPtrOutput)
+}
+
+// The password for the Postgres instance. Use `passwordWo` instead to keep the value out of state.
+func (o ClickpipeSourcePostgresCredentialsOutput) Password() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourcePostgresCredentials) *string { return v.Password }).(pulumi.StringPtrOutput)
+}
+
+// **NOTE:** This field is write-only and its value will not be updated in state as part of read operations.
+// Write-only password for the Postgres instance. Not persisted to state. Pair with `passwordWoVersion` to trigger updates.
+func (o ClickpipeSourcePostgresCredentialsOutput) PasswordWo() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourcePostgresCredentials) *string { return v.PasswordWo }).(pulumi.StringPtrOutput)
+}
+
+// Version trigger for `passwordWo`. Increment to push a new password to the API.
+func (o ClickpipeSourcePostgresCredentialsOutput) PasswordWoVersion() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourcePostgresCredentials) *int { return v.PasswordWoVersion }).(pulumi.IntPtrOutput)
+}
+
+// The username for the Postgres instance.
+func (o ClickpipeSourcePostgresCredentialsOutput) Username() pulumi.StringOutput {
+	return o.ApplyT(func(v ClickpipeSourcePostgresCredentials) string { return v.Username }).(pulumi.StringOutput)
+}
+
+type ClickpipeSourcePostgresCredentialsPtrOutput struct{ *pulumi.OutputState }
+
+func (ClickpipeSourcePostgresCredentialsPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**ClickpipeSourcePostgresCredentials)(nil)).Elem()
+}
+
+func (o ClickpipeSourcePostgresCredentialsPtrOutput) ToClickpipeSourcePostgresCredentialsPtrOutput() ClickpipeSourcePostgresCredentialsPtrOutput {
+	return o
+}
+
+func (o ClickpipeSourcePostgresCredentialsPtrOutput) ToClickpipeSourcePostgresCredentialsPtrOutputWithContext(ctx context.Context) ClickpipeSourcePostgresCredentialsPtrOutput {
+	return o
+}
+
+func (o ClickpipeSourcePostgresCredentialsPtrOutput) Elem() ClickpipeSourcePostgresCredentialsOutput {
+	return o.ApplyT(func(v *ClickpipeSourcePostgresCredentials) ClickpipeSourcePostgresCredentials {
+		if v != nil {
+			return *v
+		}
+		var ret ClickpipeSourcePostgresCredentials
+		return ret
+	}).(ClickpipeSourcePostgresCredentialsOutput)
+}
+
+// The password for the Postgres instance. Use `passwordWo` instead to keep the value out of state.
+func (o ClickpipeSourcePostgresCredentialsPtrOutput) Password() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourcePostgresCredentials) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Password
+	}).(pulumi.StringPtrOutput)
+}
+
+// **NOTE:** This field is write-only and its value will not be updated in state as part of read operations.
+// Write-only password for the Postgres instance. Not persisted to state. Pair with `passwordWoVersion` to trigger updates.
+func (o ClickpipeSourcePostgresCredentialsPtrOutput) PasswordWo() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourcePostgresCredentials) *string {
+		if v == nil {
+			return nil
+		}
+		return v.PasswordWo
+	}).(pulumi.StringPtrOutput)
+}
+
+// Version trigger for `passwordWo`. Increment to push a new password to the API.
+func (o ClickpipeSourcePostgresCredentialsPtrOutput) PasswordWoVersion() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourcePostgresCredentials) *int {
+		if v == nil {
+			return nil
+		}
+		return v.PasswordWoVersion
+	}).(pulumi.IntPtrOutput)
+}
+
+// The username for the Postgres instance.
+func (o ClickpipeSourcePostgresCredentialsPtrOutput) Username() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourcePostgresCredentials) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.Username
+	}).(pulumi.StringPtrOutput)
+}
+
+type ClickpipeSourcePostgresSettings struct {
+	// Allow nullable columns in the destination table.
+	AllowNullableColumns *bool `pulumi:"allowNullableColumns"`
+	// Enable hard delete behavior in ReplacingMergeTree for PostgreSQL DELETE operations.
+	DeleteOnMerge *bool `pulumi:"deleteOnMerge"`
+	// Enable failover for created replication slot. Requires a replication slot to NOT be set.
+	EnableFailoverSlots *bool `pulumi:"enableFailoverSlots"`
+	// Number of parallel connections to use during initial load.
+	InitialLoadParallelism *int `pulumi:"initialLoadParallelism"`
+	// Publication name to use for replication. If not provided, ClickPipes will create one.
+	PublicationName *string `pulumi:"publicationName"`
+	// Number of rows to pull in each batch.
+	PullBatchSize *int `pulumi:"pullBatchSize"`
+	// Replication mode for the Postgres pipe. (`cdc`, `snapshot`, `cdcOnly`)
+	ReplicationMode string `pulumi:"replicationMode"`
+	// Replication slot name to use for replication. Only applicable when replicationMode is `cdcOnly`.
+	ReplicationSlotName *string `pulumi:"replicationSlotName"`
+	// Number of rows to snapshot per partition.
+	SnapshotNumRowsPerPartition *int `pulumi:"snapshotNumRowsPerPartition"`
+	// Number of parallel tables to snapshot.
+	SnapshotNumberOfParallelTables *int `pulumi:"snapshotNumberOfParallelTables"`
+	// Interval in seconds to sync data from Postgres.
+	SyncIntervalSeconds *int `pulumi:"syncIntervalSeconds"`
+}
+
+// ClickpipeSourcePostgresSettingsInput is an input type that accepts ClickpipeSourcePostgresSettingsArgs and ClickpipeSourcePostgresSettingsOutput values.
+// You can construct a concrete instance of `ClickpipeSourcePostgresSettingsInput` via:
+//
+//	ClickpipeSourcePostgresSettingsArgs{...}
+type ClickpipeSourcePostgresSettingsInput interface {
+	pulumi.Input
+
+	ToClickpipeSourcePostgresSettingsOutput() ClickpipeSourcePostgresSettingsOutput
+	ToClickpipeSourcePostgresSettingsOutputWithContext(context.Context) ClickpipeSourcePostgresSettingsOutput
+}
+
+type ClickpipeSourcePostgresSettingsArgs struct {
+	// Allow nullable columns in the destination table.
+	AllowNullableColumns pulumi.BoolPtrInput `pulumi:"allowNullableColumns"`
+	// Enable hard delete behavior in ReplacingMergeTree for PostgreSQL DELETE operations.
+	DeleteOnMerge pulumi.BoolPtrInput `pulumi:"deleteOnMerge"`
+	// Enable failover for created replication slot. Requires a replication slot to NOT be set.
+	EnableFailoverSlots pulumi.BoolPtrInput `pulumi:"enableFailoverSlots"`
+	// Number of parallel connections to use during initial load.
+	InitialLoadParallelism pulumi.IntPtrInput `pulumi:"initialLoadParallelism"`
+	// Publication name to use for replication. If not provided, ClickPipes will create one.
+	PublicationName pulumi.StringPtrInput `pulumi:"publicationName"`
+	// Number of rows to pull in each batch.
+	PullBatchSize pulumi.IntPtrInput `pulumi:"pullBatchSize"`
+	// Replication mode for the Postgres pipe. (`cdc`, `snapshot`, `cdcOnly`)
+	ReplicationMode pulumi.StringInput `pulumi:"replicationMode"`
+	// Replication slot name to use for replication. Only applicable when replicationMode is `cdcOnly`.
+	ReplicationSlotName pulumi.StringPtrInput `pulumi:"replicationSlotName"`
+	// Number of rows to snapshot per partition.
+	SnapshotNumRowsPerPartition pulumi.IntPtrInput `pulumi:"snapshotNumRowsPerPartition"`
+	// Number of parallel tables to snapshot.
+	SnapshotNumberOfParallelTables pulumi.IntPtrInput `pulumi:"snapshotNumberOfParallelTables"`
+	// Interval in seconds to sync data from Postgres.
+	SyncIntervalSeconds pulumi.IntPtrInput `pulumi:"syncIntervalSeconds"`
+}
+
+func (ClickpipeSourcePostgresSettingsArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*ClickpipeSourcePostgresSettings)(nil)).Elem()
+}
+
+func (i ClickpipeSourcePostgresSettingsArgs) ToClickpipeSourcePostgresSettingsOutput() ClickpipeSourcePostgresSettingsOutput {
+	return i.ToClickpipeSourcePostgresSettingsOutputWithContext(context.Background())
+}
+
+func (i ClickpipeSourcePostgresSettingsArgs) ToClickpipeSourcePostgresSettingsOutputWithContext(ctx context.Context) ClickpipeSourcePostgresSettingsOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourcePostgresSettingsOutput)
+}
+
+func (i ClickpipeSourcePostgresSettingsArgs) ToClickpipeSourcePostgresSettingsPtrOutput() ClickpipeSourcePostgresSettingsPtrOutput {
+	return i.ToClickpipeSourcePostgresSettingsPtrOutputWithContext(context.Background())
+}
+
+func (i ClickpipeSourcePostgresSettingsArgs) ToClickpipeSourcePostgresSettingsPtrOutputWithContext(ctx context.Context) ClickpipeSourcePostgresSettingsPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourcePostgresSettingsOutput).ToClickpipeSourcePostgresSettingsPtrOutputWithContext(ctx)
+}
+
+// ClickpipeSourcePostgresSettingsPtrInput is an input type that accepts ClickpipeSourcePostgresSettingsArgs, ClickpipeSourcePostgresSettingsPtr and ClickpipeSourcePostgresSettingsPtrOutput values.
+// You can construct a concrete instance of `ClickpipeSourcePostgresSettingsPtrInput` via:
+//
+//	        ClickpipeSourcePostgresSettingsArgs{...}
+//
+//	or:
+//
+//	        nil
+type ClickpipeSourcePostgresSettingsPtrInput interface {
+	pulumi.Input
+
+	ToClickpipeSourcePostgresSettingsPtrOutput() ClickpipeSourcePostgresSettingsPtrOutput
+	ToClickpipeSourcePostgresSettingsPtrOutputWithContext(context.Context) ClickpipeSourcePostgresSettingsPtrOutput
+}
+
+type clickpipeSourcePostgresSettingsPtrType ClickpipeSourcePostgresSettingsArgs
+
+func ClickpipeSourcePostgresSettingsPtr(v *ClickpipeSourcePostgresSettingsArgs) ClickpipeSourcePostgresSettingsPtrInput {
+	return (*clickpipeSourcePostgresSettingsPtrType)(v)
+}
+
+func (*clickpipeSourcePostgresSettingsPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**ClickpipeSourcePostgresSettings)(nil)).Elem()
+}
+
+func (i *clickpipeSourcePostgresSettingsPtrType) ToClickpipeSourcePostgresSettingsPtrOutput() ClickpipeSourcePostgresSettingsPtrOutput {
+	return i.ToClickpipeSourcePostgresSettingsPtrOutputWithContext(context.Background())
+}
+
+func (i *clickpipeSourcePostgresSettingsPtrType) ToClickpipeSourcePostgresSettingsPtrOutputWithContext(ctx context.Context) ClickpipeSourcePostgresSettingsPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourcePostgresSettingsPtrOutput)
+}
+
+type ClickpipeSourcePostgresSettingsOutput struct{ *pulumi.OutputState }
+
+func (ClickpipeSourcePostgresSettingsOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ClickpipeSourcePostgresSettings)(nil)).Elem()
+}
+
+func (o ClickpipeSourcePostgresSettingsOutput) ToClickpipeSourcePostgresSettingsOutput() ClickpipeSourcePostgresSettingsOutput {
+	return o
+}
+
+func (o ClickpipeSourcePostgresSettingsOutput) ToClickpipeSourcePostgresSettingsOutputWithContext(ctx context.Context) ClickpipeSourcePostgresSettingsOutput {
+	return o
+}
+
+func (o ClickpipeSourcePostgresSettingsOutput) ToClickpipeSourcePostgresSettingsPtrOutput() ClickpipeSourcePostgresSettingsPtrOutput {
+	return o.ToClickpipeSourcePostgresSettingsPtrOutputWithContext(context.Background())
+}
+
+func (o ClickpipeSourcePostgresSettingsOutput) ToClickpipeSourcePostgresSettingsPtrOutputWithContext(ctx context.Context) ClickpipeSourcePostgresSettingsPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v ClickpipeSourcePostgresSettings) *ClickpipeSourcePostgresSettings {
+		return &v
+	}).(ClickpipeSourcePostgresSettingsPtrOutput)
+}
+
+// Allow nullable columns in the destination table.
+func (o ClickpipeSourcePostgresSettingsOutput) AllowNullableColumns() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourcePostgresSettings) *bool { return v.AllowNullableColumns }).(pulumi.BoolPtrOutput)
+}
+
+// Enable hard delete behavior in ReplacingMergeTree for PostgreSQL DELETE operations.
+func (o ClickpipeSourcePostgresSettingsOutput) DeleteOnMerge() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourcePostgresSettings) *bool { return v.DeleteOnMerge }).(pulumi.BoolPtrOutput)
+}
+
+// Enable failover for created replication slot. Requires a replication slot to NOT be set.
+func (o ClickpipeSourcePostgresSettingsOutput) EnableFailoverSlots() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourcePostgresSettings) *bool { return v.EnableFailoverSlots }).(pulumi.BoolPtrOutput)
+}
+
+// Number of parallel connections to use during initial load.
+func (o ClickpipeSourcePostgresSettingsOutput) InitialLoadParallelism() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourcePostgresSettings) *int { return v.InitialLoadParallelism }).(pulumi.IntPtrOutput)
+}
+
+// Publication name to use for replication. If not provided, ClickPipes will create one.
+func (o ClickpipeSourcePostgresSettingsOutput) PublicationName() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourcePostgresSettings) *string { return v.PublicationName }).(pulumi.StringPtrOutput)
+}
+
+// Number of rows to pull in each batch.
+func (o ClickpipeSourcePostgresSettingsOutput) PullBatchSize() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourcePostgresSettings) *int { return v.PullBatchSize }).(pulumi.IntPtrOutput)
+}
+
+// Replication mode for the Postgres pipe. (`cdc`, `snapshot`, `cdcOnly`)
+func (o ClickpipeSourcePostgresSettingsOutput) ReplicationMode() pulumi.StringOutput {
+	return o.ApplyT(func(v ClickpipeSourcePostgresSettings) string { return v.ReplicationMode }).(pulumi.StringOutput)
+}
+
+// Replication slot name to use for replication. Only applicable when replicationMode is `cdcOnly`.
+func (o ClickpipeSourcePostgresSettingsOutput) ReplicationSlotName() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourcePostgresSettings) *string { return v.ReplicationSlotName }).(pulumi.StringPtrOutput)
+}
+
+// Number of rows to snapshot per partition.
+func (o ClickpipeSourcePostgresSettingsOutput) SnapshotNumRowsPerPartition() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourcePostgresSettings) *int { return v.SnapshotNumRowsPerPartition }).(pulumi.IntPtrOutput)
+}
+
+// Number of parallel tables to snapshot.
+func (o ClickpipeSourcePostgresSettingsOutput) SnapshotNumberOfParallelTables() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourcePostgresSettings) *int { return v.SnapshotNumberOfParallelTables }).(pulumi.IntPtrOutput)
+}
+
+// Interval in seconds to sync data from Postgres.
+func (o ClickpipeSourcePostgresSettingsOutput) SyncIntervalSeconds() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourcePostgresSettings) *int { return v.SyncIntervalSeconds }).(pulumi.IntPtrOutput)
+}
+
+type ClickpipeSourcePostgresSettingsPtrOutput struct{ *pulumi.OutputState }
+
+func (ClickpipeSourcePostgresSettingsPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**ClickpipeSourcePostgresSettings)(nil)).Elem()
+}
+
+func (o ClickpipeSourcePostgresSettingsPtrOutput) ToClickpipeSourcePostgresSettingsPtrOutput() ClickpipeSourcePostgresSettingsPtrOutput {
+	return o
+}
+
+func (o ClickpipeSourcePostgresSettingsPtrOutput) ToClickpipeSourcePostgresSettingsPtrOutputWithContext(ctx context.Context) ClickpipeSourcePostgresSettingsPtrOutput {
+	return o
+}
+
+func (o ClickpipeSourcePostgresSettingsPtrOutput) Elem() ClickpipeSourcePostgresSettingsOutput {
+	return o.ApplyT(func(v *ClickpipeSourcePostgresSettings) ClickpipeSourcePostgresSettings {
+		if v != nil {
+			return *v
+		}
+		var ret ClickpipeSourcePostgresSettings
+		return ret
+	}).(ClickpipeSourcePostgresSettingsOutput)
+}
+
+// Allow nullable columns in the destination table.
+func (o ClickpipeSourcePostgresSettingsPtrOutput) AllowNullableColumns() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourcePostgresSettings) *bool {
+		if v == nil {
+			return nil
+		}
+		return v.AllowNullableColumns
+	}).(pulumi.BoolPtrOutput)
+}
+
+// Enable hard delete behavior in ReplacingMergeTree for PostgreSQL DELETE operations.
+func (o ClickpipeSourcePostgresSettingsPtrOutput) DeleteOnMerge() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourcePostgresSettings) *bool {
+		if v == nil {
+			return nil
+		}
+		return v.DeleteOnMerge
+	}).(pulumi.BoolPtrOutput)
+}
+
+// Enable failover for created replication slot. Requires a replication slot to NOT be set.
+func (o ClickpipeSourcePostgresSettingsPtrOutput) EnableFailoverSlots() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourcePostgresSettings) *bool {
+		if v == nil {
+			return nil
+		}
+		return v.EnableFailoverSlots
+	}).(pulumi.BoolPtrOutput)
+}
+
+// Number of parallel connections to use during initial load.
+func (o ClickpipeSourcePostgresSettingsPtrOutput) InitialLoadParallelism() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourcePostgresSettings) *int {
+		if v == nil {
+			return nil
+		}
+		return v.InitialLoadParallelism
+	}).(pulumi.IntPtrOutput)
+}
+
+// Publication name to use for replication. If not provided, ClickPipes will create one.
+func (o ClickpipeSourcePostgresSettingsPtrOutput) PublicationName() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourcePostgresSettings) *string {
+		if v == nil {
+			return nil
+		}
+		return v.PublicationName
+	}).(pulumi.StringPtrOutput)
+}
+
+// Number of rows to pull in each batch.
+func (o ClickpipeSourcePostgresSettingsPtrOutput) PullBatchSize() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourcePostgresSettings) *int {
+		if v == nil {
+			return nil
+		}
+		return v.PullBatchSize
+	}).(pulumi.IntPtrOutput)
+}
+
+// Replication mode for the Postgres pipe. (`cdc`, `snapshot`, `cdcOnly`)
+func (o ClickpipeSourcePostgresSettingsPtrOutput) ReplicationMode() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourcePostgresSettings) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.ReplicationMode
+	}).(pulumi.StringPtrOutput)
+}
+
+// Replication slot name to use for replication. Only applicable when replicationMode is `cdcOnly`.
+func (o ClickpipeSourcePostgresSettingsPtrOutput) ReplicationSlotName() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourcePostgresSettings) *string {
+		if v == nil {
+			return nil
+		}
+		return v.ReplicationSlotName
+	}).(pulumi.StringPtrOutput)
+}
+
+// Number of rows to snapshot per partition.
+func (o ClickpipeSourcePostgresSettingsPtrOutput) SnapshotNumRowsPerPartition() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourcePostgresSettings) *int {
+		if v == nil {
+			return nil
+		}
+		return v.SnapshotNumRowsPerPartition
+	}).(pulumi.IntPtrOutput)
+}
+
+// Number of parallel tables to snapshot.
+func (o ClickpipeSourcePostgresSettingsPtrOutput) SnapshotNumberOfParallelTables() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourcePostgresSettings) *int {
+		if v == nil {
+			return nil
+		}
+		return v.SnapshotNumberOfParallelTables
+	}).(pulumi.IntPtrOutput)
+}
+
+// Interval in seconds to sync data from Postgres.
+func (o ClickpipeSourcePostgresSettingsPtrOutput) SyncIntervalSeconds() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourcePostgresSettings) *int {
+		if v == nil {
+			return nil
+		}
+		return v.SyncIntervalSeconds
+	}).(pulumi.IntPtrOutput)
+}
+
+type ClickpipeSourcePostgresTableMapping struct {
+	// Columns to exclude from replication.
+	ExcludedColumns []string `pulumi:"excludedColumns"`
+	// Custom partitioning column used for parallel snapshotting. Only beneficial for PostgreSQL 13 (no benefit for PG14+, which supports indexed ctid scans). Must be an indexed column of type: `smallint`, `integer`, `bigint`, `timestamp without time zone`, or `timestamp with time zone`. Unrelated to ClickHouse partitioning.
+	PartitionKey *string `pulumi:"partitionKey"`
+	// Ordered list of columns to use as sorting key for the target table. Required when use*custom*sorting_key is true.
+	SortingKeys []string `pulumi:"sortingKeys"`
+	// Source schema name in Postgres.
+	SourceSchemaName string `pulumi:"sourceSchemaName"`
+	// Source table name in Postgres.
+	SourceTable string `pulumi:"sourceTable"`
+	// Table engine to use for the target table. (`MergeTree`, `ReplacingMergeTree`, `Null`)
+	TableEngine *string `pulumi:"tableEngine"`
+	// Target table name in ClickHouse.
+	TargetTable string `pulumi:"targetTable"`
+	// Whether to use a custom sorting key for the target table.
+	UseCustomSortingKey *bool `pulumi:"useCustomSortingKey"`
+}
+
+// ClickpipeSourcePostgresTableMappingInput is an input type that accepts ClickpipeSourcePostgresTableMappingArgs and ClickpipeSourcePostgresTableMappingOutput values.
+// You can construct a concrete instance of `ClickpipeSourcePostgresTableMappingInput` via:
+//
+//	ClickpipeSourcePostgresTableMappingArgs{...}
+type ClickpipeSourcePostgresTableMappingInput interface {
+	pulumi.Input
+
+	ToClickpipeSourcePostgresTableMappingOutput() ClickpipeSourcePostgresTableMappingOutput
+	ToClickpipeSourcePostgresTableMappingOutputWithContext(context.Context) ClickpipeSourcePostgresTableMappingOutput
+}
+
+type ClickpipeSourcePostgresTableMappingArgs struct {
+	// Columns to exclude from replication.
+	ExcludedColumns pulumi.StringArrayInput `pulumi:"excludedColumns"`
+	// Custom partitioning column used for parallel snapshotting. Only beneficial for PostgreSQL 13 (no benefit for PG14+, which supports indexed ctid scans). Must be an indexed column of type: `smallint`, `integer`, `bigint`, `timestamp without time zone`, or `timestamp with time zone`. Unrelated to ClickHouse partitioning.
+	PartitionKey pulumi.StringPtrInput `pulumi:"partitionKey"`
+	// Ordered list of columns to use as sorting key for the target table. Required when use*custom*sorting_key is true.
+	SortingKeys pulumi.StringArrayInput `pulumi:"sortingKeys"`
+	// Source schema name in Postgres.
+	SourceSchemaName pulumi.StringInput `pulumi:"sourceSchemaName"`
+	// Source table name in Postgres.
+	SourceTable pulumi.StringInput `pulumi:"sourceTable"`
+	// Table engine to use for the target table. (`MergeTree`, `ReplacingMergeTree`, `Null`)
+	TableEngine pulumi.StringPtrInput `pulumi:"tableEngine"`
+	// Target table name in ClickHouse.
+	TargetTable pulumi.StringInput `pulumi:"targetTable"`
+	// Whether to use a custom sorting key for the target table.
+	UseCustomSortingKey pulumi.BoolPtrInput `pulumi:"useCustomSortingKey"`
+}
+
+func (ClickpipeSourcePostgresTableMappingArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*ClickpipeSourcePostgresTableMapping)(nil)).Elem()
+}
+
+func (i ClickpipeSourcePostgresTableMappingArgs) ToClickpipeSourcePostgresTableMappingOutput() ClickpipeSourcePostgresTableMappingOutput {
+	return i.ToClickpipeSourcePostgresTableMappingOutputWithContext(context.Background())
+}
+
+func (i ClickpipeSourcePostgresTableMappingArgs) ToClickpipeSourcePostgresTableMappingOutputWithContext(ctx context.Context) ClickpipeSourcePostgresTableMappingOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourcePostgresTableMappingOutput)
+}
+
+// ClickpipeSourcePostgresTableMappingArrayInput is an input type that accepts ClickpipeSourcePostgresTableMappingArray and ClickpipeSourcePostgresTableMappingArrayOutput values.
+// You can construct a concrete instance of `ClickpipeSourcePostgresTableMappingArrayInput` via:
+//
+//	ClickpipeSourcePostgresTableMappingArray{ ClickpipeSourcePostgresTableMappingArgs{...} }
+type ClickpipeSourcePostgresTableMappingArrayInput interface {
+	pulumi.Input
+
+	ToClickpipeSourcePostgresTableMappingArrayOutput() ClickpipeSourcePostgresTableMappingArrayOutput
+	ToClickpipeSourcePostgresTableMappingArrayOutputWithContext(context.Context) ClickpipeSourcePostgresTableMappingArrayOutput
+}
+
+type ClickpipeSourcePostgresTableMappingArray []ClickpipeSourcePostgresTableMappingInput
+
+func (ClickpipeSourcePostgresTableMappingArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]ClickpipeSourcePostgresTableMapping)(nil)).Elem()
+}
+
+func (i ClickpipeSourcePostgresTableMappingArray) ToClickpipeSourcePostgresTableMappingArrayOutput() ClickpipeSourcePostgresTableMappingArrayOutput {
+	return i.ToClickpipeSourcePostgresTableMappingArrayOutputWithContext(context.Background())
+}
+
+func (i ClickpipeSourcePostgresTableMappingArray) ToClickpipeSourcePostgresTableMappingArrayOutputWithContext(ctx context.Context) ClickpipeSourcePostgresTableMappingArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourcePostgresTableMappingArrayOutput)
+}
+
+type ClickpipeSourcePostgresTableMappingOutput struct{ *pulumi.OutputState }
+
+func (ClickpipeSourcePostgresTableMappingOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ClickpipeSourcePostgresTableMapping)(nil)).Elem()
+}
+
+func (o ClickpipeSourcePostgresTableMappingOutput) ToClickpipeSourcePostgresTableMappingOutput() ClickpipeSourcePostgresTableMappingOutput {
+	return o
+}
+
+func (o ClickpipeSourcePostgresTableMappingOutput) ToClickpipeSourcePostgresTableMappingOutputWithContext(ctx context.Context) ClickpipeSourcePostgresTableMappingOutput {
+	return o
+}
+
+// Columns to exclude from replication.
+func (o ClickpipeSourcePostgresTableMappingOutput) ExcludedColumns() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v ClickpipeSourcePostgresTableMapping) []string { return v.ExcludedColumns }).(pulumi.StringArrayOutput)
+}
+
+// Custom partitioning column used for parallel snapshotting. Only beneficial for PostgreSQL 13 (no benefit for PG14+, which supports indexed ctid scans). Must be an indexed column of type: `smallint`, `integer`, `bigint`, `timestamp without time zone`, or `timestamp with time zone`. Unrelated to ClickHouse partitioning.
+func (o ClickpipeSourcePostgresTableMappingOutput) PartitionKey() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourcePostgresTableMapping) *string { return v.PartitionKey }).(pulumi.StringPtrOutput)
+}
+
+// Ordered list of columns to use as sorting key for the target table. Required when use*custom*sorting_key is true.
+func (o ClickpipeSourcePostgresTableMappingOutput) SortingKeys() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v ClickpipeSourcePostgresTableMapping) []string { return v.SortingKeys }).(pulumi.StringArrayOutput)
+}
+
+// Source schema name in Postgres.
+func (o ClickpipeSourcePostgresTableMappingOutput) SourceSchemaName() pulumi.StringOutput {
+	return o.ApplyT(func(v ClickpipeSourcePostgresTableMapping) string { return v.SourceSchemaName }).(pulumi.StringOutput)
+}
+
+// Source table name in Postgres.
+func (o ClickpipeSourcePostgresTableMappingOutput) SourceTable() pulumi.StringOutput {
+	return o.ApplyT(func(v ClickpipeSourcePostgresTableMapping) string { return v.SourceTable }).(pulumi.StringOutput)
+}
+
+// Table engine to use for the target table. (`MergeTree`, `ReplacingMergeTree`, `Null`)
+func (o ClickpipeSourcePostgresTableMappingOutput) TableEngine() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourcePostgresTableMapping) *string { return v.TableEngine }).(pulumi.StringPtrOutput)
+}
+
+// Target table name in ClickHouse.
+func (o ClickpipeSourcePostgresTableMappingOutput) TargetTable() pulumi.StringOutput {
+	return o.ApplyT(func(v ClickpipeSourcePostgresTableMapping) string { return v.TargetTable }).(pulumi.StringOutput)
+}
+
+// Whether to use a custom sorting key for the target table.
+func (o ClickpipeSourcePostgresTableMappingOutput) UseCustomSortingKey() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourcePostgresTableMapping) *bool { return v.UseCustomSortingKey }).(pulumi.BoolPtrOutput)
+}
+
+type ClickpipeSourcePostgresTableMappingArrayOutput struct{ *pulumi.OutputState }
+
+func (ClickpipeSourcePostgresTableMappingArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]ClickpipeSourcePostgresTableMapping)(nil)).Elem()
+}
+
+func (o ClickpipeSourcePostgresTableMappingArrayOutput) ToClickpipeSourcePostgresTableMappingArrayOutput() ClickpipeSourcePostgresTableMappingArrayOutput {
+	return o
+}
+
+func (o ClickpipeSourcePostgresTableMappingArrayOutput) ToClickpipeSourcePostgresTableMappingArrayOutputWithContext(ctx context.Context) ClickpipeSourcePostgresTableMappingArrayOutput {
+	return o
+}
+
+func (o ClickpipeSourcePostgresTableMappingArrayOutput) Index(i pulumi.IntInput) ClickpipeSourcePostgresTableMappingOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) ClickpipeSourcePostgresTableMapping {
+		return vs[0].([]ClickpipeSourcePostgresTableMapping)[vs[1].(int)]
+	}).(ClickpipeSourcePostgresTableMappingOutput)
+}
+
+type ClickpipeSourcePubsub struct {
+	// Acknowledgement deadline in seconds (10–600).
+	AckDeadline *int `pulumi:"ackDeadline"`
+	// The authentication method for the Pub/Sub source. Currently only `SERVICE_ACCOUNT` is supported.
+	Authentication string `pulumi:"authentication"`
+	// Whether to enable ordered message delivery. Immutable — changing it requires destroy+create because ordered delivery is a property of the subscription at creation time.
+	EnableOrdering *bool `pulumi:"enableOrdering"`
+	// Optional Pub/Sub subscription filter expression (CEL). Max 256 characters. Immutable — changing it requires destroy+create because the underlying subscription filter cannot be edited in place.
+	Filter *string `pulumi:"filter"`
+	// The message format of the Pub/Sub topic. (`JSONEachRow`, `Avro`, `Protobuf`)
+	Format string `pulumi:"format"`
+	// The GCP project ID that owns the Pub/Sub topic.
+	ProjectId string `pulumi:"projectId"`
+	// RFC 3339 timestamp (e.g. `2026-04-10T12:00:00Z`). Required when `seekType = "timestamp"`; must be omitted otherwise.
+	SeekTimestamp *string `pulumi:"seekTimestamp"`
+	// The starting position for consuming the subscription. (`latest`, `earliest`, `timestamp`)
+	SeekType string `pulumi:"seekType"`
+	// GCP service account credentials. Required on create; provide a new value on update to rotate the key.
+	ServiceAccountKey ClickpipeSourcePubsubServiceAccountKey `pulumi:"serviceAccountKey"`
+	// The Pub/Sub topic name (not the fully-qualified path).
+	Topic string `pulumi:"topic"`
+}
+
+// ClickpipeSourcePubsubInput is an input type that accepts ClickpipeSourcePubsubArgs and ClickpipeSourcePubsubOutput values.
+// You can construct a concrete instance of `ClickpipeSourcePubsubInput` via:
+//
+//	ClickpipeSourcePubsubArgs{...}
+type ClickpipeSourcePubsubInput interface {
+	pulumi.Input
+
+	ToClickpipeSourcePubsubOutput() ClickpipeSourcePubsubOutput
+	ToClickpipeSourcePubsubOutputWithContext(context.Context) ClickpipeSourcePubsubOutput
+}
+
+type ClickpipeSourcePubsubArgs struct {
+	// Acknowledgement deadline in seconds (10–600).
+	AckDeadline pulumi.IntPtrInput `pulumi:"ackDeadline"`
+	// The authentication method for the Pub/Sub source. Currently only `SERVICE_ACCOUNT` is supported.
+	Authentication pulumi.StringInput `pulumi:"authentication"`
+	// Whether to enable ordered message delivery. Immutable — changing it requires destroy+create because ordered delivery is a property of the subscription at creation time.
+	EnableOrdering pulumi.BoolPtrInput `pulumi:"enableOrdering"`
+	// Optional Pub/Sub subscription filter expression (CEL). Max 256 characters. Immutable — changing it requires destroy+create because the underlying subscription filter cannot be edited in place.
+	Filter pulumi.StringPtrInput `pulumi:"filter"`
+	// The message format of the Pub/Sub topic. (`JSONEachRow`, `Avro`, `Protobuf`)
+	Format pulumi.StringInput `pulumi:"format"`
+	// The GCP project ID that owns the Pub/Sub topic.
+	ProjectId pulumi.StringInput `pulumi:"projectId"`
+	// RFC 3339 timestamp (e.g. `2026-04-10T12:00:00Z`). Required when `seekType = "timestamp"`; must be omitted otherwise.
+	SeekTimestamp pulumi.StringPtrInput `pulumi:"seekTimestamp"`
+	// The starting position for consuming the subscription. (`latest`, `earliest`, `timestamp`)
+	SeekType pulumi.StringInput `pulumi:"seekType"`
+	// GCP service account credentials. Required on create; provide a new value on update to rotate the key.
+	ServiceAccountKey ClickpipeSourcePubsubServiceAccountKeyInput `pulumi:"serviceAccountKey"`
+	// The Pub/Sub topic name (not the fully-qualified path).
+	Topic pulumi.StringInput `pulumi:"topic"`
+}
+
+func (ClickpipeSourcePubsubArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*ClickpipeSourcePubsub)(nil)).Elem()
+}
+
+func (i ClickpipeSourcePubsubArgs) ToClickpipeSourcePubsubOutput() ClickpipeSourcePubsubOutput {
+	return i.ToClickpipeSourcePubsubOutputWithContext(context.Background())
+}
+
+func (i ClickpipeSourcePubsubArgs) ToClickpipeSourcePubsubOutputWithContext(ctx context.Context) ClickpipeSourcePubsubOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourcePubsubOutput)
+}
+
+func (i ClickpipeSourcePubsubArgs) ToClickpipeSourcePubsubPtrOutput() ClickpipeSourcePubsubPtrOutput {
+	return i.ToClickpipeSourcePubsubPtrOutputWithContext(context.Background())
+}
+
+func (i ClickpipeSourcePubsubArgs) ToClickpipeSourcePubsubPtrOutputWithContext(ctx context.Context) ClickpipeSourcePubsubPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourcePubsubOutput).ToClickpipeSourcePubsubPtrOutputWithContext(ctx)
+}
+
+// ClickpipeSourcePubsubPtrInput is an input type that accepts ClickpipeSourcePubsubArgs, ClickpipeSourcePubsubPtr and ClickpipeSourcePubsubPtrOutput values.
+// You can construct a concrete instance of `ClickpipeSourcePubsubPtrInput` via:
+//
+//	        ClickpipeSourcePubsubArgs{...}
+//
+//	or:
+//
+//	        nil
+type ClickpipeSourcePubsubPtrInput interface {
+	pulumi.Input
+
+	ToClickpipeSourcePubsubPtrOutput() ClickpipeSourcePubsubPtrOutput
+	ToClickpipeSourcePubsubPtrOutputWithContext(context.Context) ClickpipeSourcePubsubPtrOutput
+}
+
+type clickpipeSourcePubsubPtrType ClickpipeSourcePubsubArgs
+
+func ClickpipeSourcePubsubPtr(v *ClickpipeSourcePubsubArgs) ClickpipeSourcePubsubPtrInput {
+	return (*clickpipeSourcePubsubPtrType)(v)
+}
+
+func (*clickpipeSourcePubsubPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**ClickpipeSourcePubsub)(nil)).Elem()
+}
+
+func (i *clickpipeSourcePubsubPtrType) ToClickpipeSourcePubsubPtrOutput() ClickpipeSourcePubsubPtrOutput {
+	return i.ToClickpipeSourcePubsubPtrOutputWithContext(context.Background())
+}
+
+func (i *clickpipeSourcePubsubPtrType) ToClickpipeSourcePubsubPtrOutputWithContext(ctx context.Context) ClickpipeSourcePubsubPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourcePubsubPtrOutput)
+}
+
+type ClickpipeSourcePubsubOutput struct{ *pulumi.OutputState }
+
+func (ClickpipeSourcePubsubOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ClickpipeSourcePubsub)(nil)).Elem()
+}
+
+func (o ClickpipeSourcePubsubOutput) ToClickpipeSourcePubsubOutput() ClickpipeSourcePubsubOutput {
+	return o
+}
+
+func (o ClickpipeSourcePubsubOutput) ToClickpipeSourcePubsubOutputWithContext(ctx context.Context) ClickpipeSourcePubsubOutput {
+	return o
+}
+
+func (o ClickpipeSourcePubsubOutput) ToClickpipeSourcePubsubPtrOutput() ClickpipeSourcePubsubPtrOutput {
+	return o.ToClickpipeSourcePubsubPtrOutputWithContext(context.Background())
+}
+
+func (o ClickpipeSourcePubsubOutput) ToClickpipeSourcePubsubPtrOutputWithContext(ctx context.Context) ClickpipeSourcePubsubPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v ClickpipeSourcePubsub) *ClickpipeSourcePubsub {
+		return &v
+	}).(ClickpipeSourcePubsubPtrOutput)
+}
+
+// Acknowledgement deadline in seconds (10–600).
+func (o ClickpipeSourcePubsubOutput) AckDeadline() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourcePubsub) *int { return v.AckDeadline }).(pulumi.IntPtrOutput)
+}
+
+// The authentication method for the Pub/Sub source. Currently only `SERVICE_ACCOUNT` is supported.
+func (o ClickpipeSourcePubsubOutput) Authentication() pulumi.StringOutput {
+	return o.ApplyT(func(v ClickpipeSourcePubsub) string { return v.Authentication }).(pulumi.StringOutput)
+}
+
+// Whether to enable ordered message delivery. Immutable — changing it requires destroy+create because ordered delivery is a property of the subscription at creation time.
+func (o ClickpipeSourcePubsubOutput) EnableOrdering() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourcePubsub) *bool { return v.EnableOrdering }).(pulumi.BoolPtrOutput)
+}
+
+// Optional Pub/Sub subscription filter expression (CEL). Max 256 characters. Immutable — changing it requires destroy+create because the underlying subscription filter cannot be edited in place.
+func (o ClickpipeSourcePubsubOutput) Filter() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourcePubsub) *string { return v.Filter }).(pulumi.StringPtrOutput)
+}
+
+// The message format of the Pub/Sub topic. (`JSONEachRow`, `Avro`, `Protobuf`)
+func (o ClickpipeSourcePubsubOutput) Format() pulumi.StringOutput {
+	return o.ApplyT(func(v ClickpipeSourcePubsub) string { return v.Format }).(pulumi.StringOutput)
+}
+
+// The GCP project ID that owns the Pub/Sub topic.
+func (o ClickpipeSourcePubsubOutput) ProjectId() pulumi.StringOutput {
+	return o.ApplyT(func(v ClickpipeSourcePubsub) string { return v.ProjectId }).(pulumi.StringOutput)
+}
+
+// RFC 3339 timestamp (e.g. `2026-04-10T12:00:00Z`). Required when `seekType = "timestamp"`; must be omitted otherwise.
+func (o ClickpipeSourcePubsubOutput) SeekTimestamp() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v ClickpipeSourcePubsub) *string { return v.SeekTimestamp }).(pulumi.StringPtrOutput)
+}
+
+// The starting position for consuming the subscription. (`latest`, `earliest`, `timestamp`)
+func (o ClickpipeSourcePubsubOutput) SeekType() pulumi.StringOutput {
+	return o.ApplyT(func(v ClickpipeSourcePubsub) string { return v.SeekType }).(pulumi.StringOutput)
+}
+
+// GCP service account credentials. Required on create; provide a new value on update to rotate the key.
+func (o ClickpipeSourcePubsubOutput) ServiceAccountKey() ClickpipeSourcePubsubServiceAccountKeyOutput {
+	return o.ApplyT(func(v ClickpipeSourcePubsub) ClickpipeSourcePubsubServiceAccountKey { return v.ServiceAccountKey }).(ClickpipeSourcePubsubServiceAccountKeyOutput)
+}
+
+// The Pub/Sub topic name (not the fully-qualified path).
+func (o ClickpipeSourcePubsubOutput) Topic() pulumi.StringOutput {
+	return o.ApplyT(func(v ClickpipeSourcePubsub) string { return v.Topic }).(pulumi.StringOutput)
+}
+
+type ClickpipeSourcePubsubPtrOutput struct{ *pulumi.OutputState }
+
+func (ClickpipeSourcePubsubPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**ClickpipeSourcePubsub)(nil)).Elem()
+}
+
+func (o ClickpipeSourcePubsubPtrOutput) ToClickpipeSourcePubsubPtrOutput() ClickpipeSourcePubsubPtrOutput {
+	return o
+}
+
+func (o ClickpipeSourcePubsubPtrOutput) ToClickpipeSourcePubsubPtrOutputWithContext(ctx context.Context) ClickpipeSourcePubsubPtrOutput {
+	return o
+}
+
+func (o ClickpipeSourcePubsubPtrOutput) Elem() ClickpipeSourcePubsubOutput {
+	return o.ApplyT(func(v *ClickpipeSourcePubsub) ClickpipeSourcePubsub {
+		if v != nil {
+			return *v
+		}
+		var ret ClickpipeSourcePubsub
+		return ret
+	}).(ClickpipeSourcePubsubOutput)
+}
+
+// Acknowledgement deadline in seconds (10–600).
+func (o ClickpipeSourcePubsubPtrOutput) AckDeadline() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourcePubsub) *int {
+		if v == nil {
+			return nil
+		}
+		return v.AckDeadline
+	}).(pulumi.IntPtrOutput)
+}
+
+// The authentication method for the Pub/Sub source. Currently only `SERVICE_ACCOUNT` is supported.
+func (o ClickpipeSourcePubsubPtrOutput) Authentication() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourcePubsub) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.Authentication
+	}).(pulumi.StringPtrOutput)
+}
+
+// Whether to enable ordered message delivery. Immutable — changing it requires destroy+create because ordered delivery is a property of the subscription at creation time.
+func (o ClickpipeSourcePubsubPtrOutput) EnableOrdering() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourcePubsub) *bool {
+		if v == nil {
+			return nil
+		}
+		return v.EnableOrdering
+	}).(pulumi.BoolPtrOutput)
+}
+
+// Optional Pub/Sub subscription filter expression (CEL). Max 256 characters. Immutable — changing it requires destroy+create because the underlying subscription filter cannot be edited in place.
+func (o ClickpipeSourcePubsubPtrOutput) Filter() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourcePubsub) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Filter
+	}).(pulumi.StringPtrOutput)
+}
+
+// The message format of the Pub/Sub topic. (`JSONEachRow`, `Avro`, `Protobuf`)
+func (o ClickpipeSourcePubsubPtrOutput) Format() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourcePubsub) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.Format
+	}).(pulumi.StringPtrOutput)
+}
+
+// The GCP project ID that owns the Pub/Sub topic.
+func (o ClickpipeSourcePubsubPtrOutput) ProjectId() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourcePubsub) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.ProjectId
+	}).(pulumi.StringPtrOutput)
+}
+
+// RFC 3339 timestamp (e.g. `2026-04-10T12:00:00Z`). Required when `seekType = "timestamp"`; must be omitted otherwise.
+func (o ClickpipeSourcePubsubPtrOutput) SeekTimestamp() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourcePubsub) *string {
+		if v == nil {
+			return nil
+		}
+		return v.SeekTimestamp
+	}).(pulumi.StringPtrOutput)
+}
+
+// The starting position for consuming the subscription. (`latest`, `earliest`, `timestamp`)
+func (o ClickpipeSourcePubsubPtrOutput) SeekType() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourcePubsub) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.SeekType
+	}).(pulumi.StringPtrOutput)
+}
+
+// GCP service account credentials. Required on create; provide a new value on update to rotate the key.
+func (o ClickpipeSourcePubsubPtrOutput) ServiceAccountKey() ClickpipeSourcePubsubServiceAccountKeyPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourcePubsub) *ClickpipeSourcePubsubServiceAccountKey {
+		if v == nil {
+			return nil
+		}
+		return &v.ServiceAccountKey
+	}).(ClickpipeSourcePubsubServiceAccountKeyPtrOutput)
+}
+
+// The Pub/Sub topic name (not the fully-qualified path).
+func (o ClickpipeSourcePubsubPtrOutput) Topic() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourcePubsub) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.Topic
+	}).(pulumi.StringPtrOutput)
+}
+
+type ClickpipeSourcePubsubServiceAccountKey struct {
+	// Base64-encoded GCP service account JSON key file contents.
+	ServiceAccountFile string `pulumi:"serviceAccountFile"`
+}
+
+// ClickpipeSourcePubsubServiceAccountKeyInput is an input type that accepts ClickpipeSourcePubsubServiceAccountKeyArgs and ClickpipeSourcePubsubServiceAccountKeyOutput values.
+// You can construct a concrete instance of `ClickpipeSourcePubsubServiceAccountKeyInput` via:
+//
+//	ClickpipeSourcePubsubServiceAccountKeyArgs{...}
+type ClickpipeSourcePubsubServiceAccountKeyInput interface {
+	pulumi.Input
+
+	ToClickpipeSourcePubsubServiceAccountKeyOutput() ClickpipeSourcePubsubServiceAccountKeyOutput
+	ToClickpipeSourcePubsubServiceAccountKeyOutputWithContext(context.Context) ClickpipeSourcePubsubServiceAccountKeyOutput
+}
+
+type ClickpipeSourcePubsubServiceAccountKeyArgs struct {
+	// Base64-encoded GCP service account JSON key file contents.
+	ServiceAccountFile pulumi.StringInput `pulumi:"serviceAccountFile"`
+}
+
+func (ClickpipeSourcePubsubServiceAccountKeyArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*ClickpipeSourcePubsubServiceAccountKey)(nil)).Elem()
+}
+
+func (i ClickpipeSourcePubsubServiceAccountKeyArgs) ToClickpipeSourcePubsubServiceAccountKeyOutput() ClickpipeSourcePubsubServiceAccountKeyOutput {
+	return i.ToClickpipeSourcePubsubServiceAccountKeyOutputWithContext(context.Background())
+}
+
+func (i ClickpipeSourcePubsubServiceAccountKeyArgs) ToClickpipeSourcePubsubServiceAccountKeyOutputWithContext(ctx context.Context) ClickpipeSourcePubsubServiceAccountKeyOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourcePubsubServiceAccountKeyOutput)
+}
+
+func (i ClickpipeSourcePubsubServiceAccountKeyArgs) ToClickpipeSourcePubsubServiceAccountKeyPtrOutput() ClickpipeSourcePubsubServiceAccountKeyPtrOutput {
+	return i.ToClickpipeSourcePubsubServiceAccountKeyPtrOutputWithContext(context.Background())
+}
+
+func (i ClickpipeSourcePubsubServiceAccountKeyArgs) ToClickpipeSourcePubsubServiceAccountKeyPtrOutputWithContext(ctx context.Context) ClickpipeSourcePubsubServiceAccountKeyPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourcePubsubServiceAccountKeyOutput).ToClickpipeSourcePubsubServiceAccountKeyPtrOutputWithContext(ctx)
+}
+
+// ClickpipeSourcePubsubServiceAccountKeyPtrInput is an input type that accepts ClickpipeSourcePubsubServiceAccountKeyArgs, ClickpipeSourcePubsubServiceAccountKeyPtr and ClickpipeSourcePubsubServiceAccountKeyPtrOutput values.
+// You can construct a concrete instance of `ClickpipeSourcePubsubServiceAccountKeyPtrInput` via:
+//
+//	        ClickpipeSourcePubsubServiceAccountKeyArgs{...}
+//
+//	or:
+//
+//	        nil
+type ClickpipeSourcePubsubServiceAccountKeyPtrInput interface {
+	pulumi.Input
+
+	ToClickpipeSourcePubsubServiceAccountKeyPtrOutput() ClickpipeSourcePubsubServiceAccountKeyPtrOutput
+	ToClickpipeSourcePubsubServiceAccountKeyPtrOutputWithContext(context.Context) ClickpipeSourcePubsubServiceAccountKeyPtrOutput
+}
+
+type clickpipeSourcePubsubServiceAccountKeyPtrType ClickpipeSourcePubsubServiceAccountKeyArgs
+
+func ClickpipeSourcePubsubServiceAccountKeyPtr(v *ClickpipeSourcePubsubServiceAccountKeyArgs) ClickpipeSourcePubsubServiceAccountKeyPtrInput {
+	return (*clickpipeSourcePubsubServiceAccountKeyPtrType)(v)
+}
+
+func (*clickpipeSourcePubsubServiceAccountKeyPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**ClickpipeSourcePubsubServiceAccountKey)(nil)).Elem()
+}
+
+func (i *clickpipeSourcePubsubServiceAccountKeyPtrType) ToClickpipeSourcePubsubServiceAccountKeyPtrOutput() ClickpipeSourcePubsubServiceAccountKeyPtrOutput {
+	return i.ToClickpipeSourcePubsubServiceAccountKeyPtrOutputWithContext(context.Background())
+}
+
+func (i *clickpipeSourcePubsubServiceAccountKeyPtrType) ToClickpipeSourcePubsubServiceAccountKeyPtrOutputWithContext(ctx context.Context) ClickpipeSourcePubsubServiceAccountKeyPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipeSourcePubsubServiceAccountKeyPtrOutput)
+}
+
+type ClickpipeSourcePubsubServiceAccountKeyOutput struct{ *pulumi.OutputState }
+
+func (ClickpipeSourcePubsubServiceAccountKeyOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ClickpipeSourcePubsubServiceAccountKey)(nil)).Elem()
+}
+
+func (o ClickpipeSourcePubsubServiceAccountKeyOutput) ToClickpipeSourcePubsubServiceAccountKeyOutput() ClickpipeSourcePubsubServiceAccountKeyOutput {
+	return o
+}
+
+func (o ClickpipeSourcePubsubServiceAccountKeyOutput) ToClickpipeSourcePubsubServiceAccountKeyOutputWithContext(ctx context.Context) ClickpipeSourcePubsubServiceAccountKeyOutput {
+	return o
+}
+
+func (o ClickpipeSourcePubsubServiceAccountKeyOutput) ToClickpipeSourcePubsubServiceAccountKeyPtrOutput() ClickpipeSourcePubsubServiceAccountKeyPtrOutput {
+	return o.ToClickpipeSourcePubsubServiceAccountKeyPtrOutputWithContext(context.Background())
+}
+
+func (o ClickpipeSourcePubsubServiceAccountKeyOutput) ToClickpipeSourcePubsubServiceAccountKeyPtrOutputWithContext(ctx context.Context) ClickpipeSourcePubsubServiceAccountKeyPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v ClickpipeSourcePubsubServiceAccountKey) *ClickpipeSourcePubsubServiceAccountKey {
+		return &v
+	}).(ClickpipeSourcePubsubServiceAccountKeyPtrOutput)
+}
+
+// Base64-encoded GCP service account JSON key file contents.
+func (o ClickpipeSourcePubsubServiceAccountKeyOutput) ServiceAccountFile() pulumi.StringOutput {
+	return o.ApplyT(func(v ClickpipeSourcePubsubServiceAccountKey) string { return v.ServiceAccountFile }).(pulumi.StringOutput)
+}
+
+type ClickpipeSourcePubsubServiceAccountKeyPtrOutput struct{ *pulumi.OutputState }
+
+func (ClickpipeSourcePubsubServiceAccountKeyPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**ClickpipeSourcePubsubServiceAccountKey)(nil)).Elem()
+}
+
+func (o ClickpipeSourcePubsubServiceAccountKeyPtrOutput) ToClickpipeSourcePubsubServiceAccountKeyPtrOutput() ClickpipeSourcePubsubServiceAccountKeyPtrOutput {
+	return o
+}
+
+func (o ClickpipeSourcePubsubServiceAccountKeyPtrOutput) ToClickpipeSourcePubsubServiceAccountKeyPtrOutputWithContext(ctx context.Context) ClickpipeSourcePubsubServiceAccountKeyPtrOutput {
+	return o
+}
+
+func (o ClickpipeSourcePubsubServiceAccountKeyPtrOutput) Elem() ClickpipeSourcePubsubServiceAccountKeyOutput {
+	return o.ApplyT(func(v *ClickpipeSourcePubsubServiceAccountKey) ClickpipeSourcePubsubServiceAccountKey {
+		if v != nil {
+			return *v
+		}
+		var ret ClickpipeSourcePubsubServiceAccountKey
+		return ret
+	}).(ClickpipeSourcePubsubServiceAccountKeyOutput)
+}
+
+// Base64-encoded GCP service account JSON key file contents.
+func (o ClickpipeSourcePubsubServiceAccountKeyPtrOutput) ServiceAccountFile() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *ClickpipeSourcePubsubServiceAccountKey) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.ServiceAccountFile
+	}).(pulumi.StringPtrOutput)
+}
+
+type ClickpipesReversePrivateEndpointCustomPrivateDnsMapping struct {
+	// Custom private DNS name managed by ClickHouse Cloud.
+	PrivateDnsName string `pulumi:"privateDnsName"`
+}
+
+// ClickpipesReversePrivateEndpointCustomPrivateDnsMappingInput is an input type that accepts ClickpipesReversePrivateEndpointCustomPrivateDnsMappingArgs and ClickpipesReversePrivateEndpointCustomPrivateDnsMappingOutput values.
+// You can construct a concrete instance of `ClickpipesReversePrivateEndpointCustomPrivateDnsMappingInput` via:
+//
+//	ClickpipesReversePrivateEndpointCustomPrivateDnsMappingArgs{...}
+type ClickpipesReversePrivateEndpointCustomPrivateDnsMappingInput interface {
+	pulumi.Input
+
+	ToClickpipesReversePrivateEndpointCustomPrivateDnsMappingOutput() ClickpipesReversePrivateEndpointCustomPrivateDnsMappingOutput
+	ToClickpipesReversePrivateEndpointCustomPrivateDnsMappingOutputWithContext(context.Context) ClickpipesReversePrivateEndpointCustomPrivateDnsMappingOutput
+}
+
+type ClickpipesReversePrivateEndpointCustomPrivateDnsMappingArgs struct {
+	// Custom private DNS name managed by ClickHouse Cloud.
+	PrivateDnsName pulumi.StringInput `pulumi:"privateDnsName"`
+}
+
+func (ClickpipesReversePrivateEndpointCustomPrivateDnsMappingArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*ClickpipesReversePrivateEndpointCustomPrivateDnsMapping)(nil)).Elem()
+}
+
+func (i ClickpipesReversePrivateEndpointCustomPrivateDnsMappingArgs) ToClickpipesReversePrivateEndpointCustomPrivateDnsMappingOutput() ClickpipesReversePrivateEndpointCustomPrivateDnsMappingOutput {
+	return i.ToClickpipesReversePrivateEndpointCustomPrivateDnsMappingOutputWithContext(context.Background())
+}
+
+func (i ClickpipesReversePrivateEndpointCustomPrivateDnsMappingArgs) ToClickpipesReversePrivateEndpointCustomPrivateDnsMappingOutputWithContext(ctx context.Context) ClickpipesReversePrivateEndpointCustomPrivateDnsMappingOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipesReversePrivateEndpointCustomPrivateDnsMappingOutput)
+}
+
+// ClickpipesReversePrivateEndpointCustomPrivateDnsMappingArrayInput is an input type that accepts ClickpipesReversePrivateEndpointCustomPrivateDnsMappingArray and ClickpipesReversePrivateEndpointCustomPrivateDnsMappingArrayOutput values.
+// You can construct a concrete instance of `ClickpipesReversePrivateEndpointCustomPrivateDnsMappingArrayInput` via:
+//
+//	ClickpipesReversePrivateEndpointCustomPrivateDnsMappingArray{ ClickpipesReversePrivateEndpointCustomPrivateDnsMappingArgs{...} }
+type ClickpipesReversePrivateEndpointCustomPrivateDnsMappingArrayInput interface {
+	pulumi.Input
+
+	ToClickpipesReversePrivateEndpointCustomPrivateDnsMappingArrayOutput() ClickpipesReversePrivateEndpointCustomPrivateDnsMappingArrayOutput
+	ToClickpipesReversePrivateEndpointCustomPrivateDnsMappingArrayOutputWithContext(context.Context) ClickpipesReversePrivateEndpointCustomPrivateDnsMappingArrayOutput
+}
+
+type ClickpipesReversePrivateEndpointCustomPrivateDnsMappingArray []ClickpipesReversePrivateEndpointCustomPrivateDnsMappingInput
+
+func (ClickpipesReversePrivateEndpointCustomPrivateDnsMappingArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]ClickpipesReversePrivateEndpointCustomPrivateDnsMapping)(nil)).Elem()
+}
+
+func (i ClickpipesReversePrivateEndpointCustomPrivateDnsMappingArray) ToClickpipesReversePrivateEndpointCustomPrivateDnsMappingArrayOutput() ClickpipesReversePrivateEndpointCustomPrivateDnsMappingArrayOutput {
+	return i.ToClickpipesReversePrivateEndpointCustomPrivateDnsMappingArrayOutputWithContext(context.Background())
+}
+
+func (i ClickpipesReversePrivateEndpointCustomPrivateDnsMappingArray) ToClickpipesReversePrivateEndpointCustomPrivateDnsMappingArrayOutputWithContext(ctx context.Context) ClickpipesReversePrivateEndpointCustomPrivateDnsMappingArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClickpipesReversePrivateEndpointCustomPrivateDnsMappingArrayOutput)
+}
+
+type ClickpipesReversePrivateEndpointCustomPrivateDnsMappingOutput struct{ *pulumi.OutputState }
+
+func (ClickpipesReversePrivateEndpointCustomPrivateDnsMappingOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ClickpipesReversePrivateEndpointCustomPrivateDnsMapping)(nil)).Elem()
+}
+
+func (o ClickpipesReversePrivateEndpointCustomPrivateDnsMappingOutput) ToClickpipesReversePrivateEndpointCustomPrivateDnsMappingOutput() ClickpipesReversePrivateEndpointCustomPrivateDnsMappingOutput {
+	return o
+}
+
+func (o ClickpipesReversePrivateEndpointCustomPrivateDnsMappingOutput) ToClickpipesReversePrivateEndpointCustomPrivateDnsMappingOutputWithContext(ctx context.Context) ClickpipesReversePrivateEndpointCustomPrivateDnsMappingOutput {
+	return o
+}
+
+// Custom private DNS name managed by ClickHouse Cloud.
+func (o ClickpipesReversePrivateEndpointCustomPrivateDnsMappingOutput) PrivateDnsName() pulumi.StringOutput {
+	return o.ApplyT(func(v ClickpipesReversePrivateEndpointCustomPrivateDnsMapping) string { return v.PrivateDnsName }).(pulumi.StringOutput)
+}
+
+type ClickpipesReversePrivateEndpointCustomPrivateDnsMappingArrayOutput struct{ *pulumi.OutputState }
+
+func (ClickpipesReversePrivateEndpointCustomPrivateDnsMappingArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]ClickpipesReversePrivateEndpointCustomPrivateDnsMapping)(nil)).Elem()
+}
+
+func (o ClickpipesReversePrivateEndpointCustomPrivateDnsMappingArrayOutput) ToClickpipesReversePrivateEndpointCustomPrivateDnsMappingArrayOutput() ClickpipesReversePrivateEndpointCustomPrivateDnsMappingArrayOutput {
+	return o
+}
+
+func (o ClickpipesReversePrivateEndpointCustomPrivateDnsMappingArrayOutput) ToClickpipesReversePrivateEndpointCustomPrivateDnsMappingArrayOutputWithContext(ctx context.Context) ClickpipesReversePrivateEndpointCustomPrivateDnsMappingArrayOutput {
+	return o
+}
+
+func (o ClickpipesReversePrivateEndpointCustomPrivateDnsMappingArrayOutput) Index(i pulumi.IntInput) ClickpipesReversePrivateEndpointCustomPrivateDnsMappingOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) ClickpipesReversePrivateEndpointCustomPrivateDnsMapping {
+		return vs[0].([]ClickpipesReversePrivateEndpointCustomPrivateDnsMapping)[vs[1].(int)]
+	}).(ClickpipesReversePrivateEndpointCustomPrivateDnsMappingOutput)
+}
+
+type PostgresServiceRestoreToPointInTime struct {
+	// RFC3339 timestamp to restore to (e.g. '2026-06-01T12:00:00Z'). The server restores to the closest available recovery point at or before this time.
+	RestoreTarget string `pulumi:"restoreTarget"`
+	// ID of the source instance whose backup to restore from.
+	SourceId string `pulumi:"sourceId"`
+}
+
+// PostgresServiceRestoreToPointInTimeInput is an input type that accepts PostgresServiceRestoreToPointInTimeArgs and PostgresServiceRestoreToPointInTimeOutput values.
+// You can construct a concrete instance of `PostgresServiceRestoreToPointInTimeInput` via:
+//
+//	PostgresServiceRestoreToPointInTimeArgs{...}
+type PostgresServiceRestoreToPointInTimeInput interface {
+	pulumi.Input
+
+	ToPostgresServiceRestoreToPointInTimeOutput() PostgresServiceRestoreToPointInTimeOutput
+	ToPostgresServiceRestoreToPointInTimeOutputWithContext(context.Context) PostgresServiceRestoreToPointInTimeOutput
+}
+
+type PostgresServiceRestoreToPointInTimeArgs struct {
+	// RFC3339 timestamp to restore to (e.g. '2026-06-01T12:00:00Z'). The server restores to the closest available recovery point at or before this time.
+	RestoreTarget pulumi.StringInput `pulumi:"restoreTarget"`
+	// ID of the source instance whose backup to restore from.
+	SourceId pulumi.StringInput `pulumi:"sourceId"`
+}
+
+func (PostgresServiceRestoreToPointInTimeArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*PostgresServiceRestoreToPointInTime)(nil)).Elem()
+}
+
+func (i PostgresServiceRestoreToPointInTimeArgs) ToPostgresServiceRestoreToPointInTimeOutput() PostgresServiceRestoreToPointInTimeOutput {
+	return i.ToPostgresServiceRestoreToPointInTimeOutputWithContext(context.Background())
+}
+
+func (i PostgresServiceRestoreToPointInTimeArgs) ToPostgresServiceRestoreToPointInTimeOutputWithContext(ctx context.Context) PostgresServiceRestoreToPointInTimeOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(PostgresServiceRestoreToPointInTimeOutput)
+}
+
+func (i PostgresServiceRestoreToPointInTimeArgs) ToPostgresServiceRestoreToPointInTimePtrOutput() PostgresServiceRestoreToPointInTimePtrOutput {
+	return i.ToPostgresServiceRestoreToPointInTimePtrOutputWithContext(context.Background())
+}
+
+func (i PostgresServiceRestoreToPointInTimeArgs) ToPostgresServiceRestoreToPointInTimePtrOutputWithContext(ctx context.Context) PostgresServiceRestoreToPointInTimePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(PostgresServiceRestoreToPointInTimeOutput).ToPostgresServiceRestoreToPointInTimePtrOutputWithContext(ctx)
+}
+
+// PostgresServiceRestoreToPointInTimePtrInput is an input type that accepts PostgresServiceRestoreToPointInTimeArgs, PostgresServiceRestoreToPointInTimePtr and PostgresServiceRestoreToPointInTimePtrOutput values.
+// You can construct a concrete instance of `PostgresServiceRestoreToPointInTimePtrInput` via:
+//
+//	        PostgresServiceRestoreToPointInTimeArgs{...}
+//
+//	or:
+//
+//	        nil
+type PostgresServiceRestoreToPointInTimePtrInput interface {
+	pulumi.Input
+
+	ToPostgresServiceRestoreToPointInTimePtrOutput() PostgresServiceRestoreToPointInTimePtrOutput
+	ToPostgresServiceRestoreToPointInTimePtrOutputWithContext(context.Context) PostgresServiceRestoreToPointInTimePtrOutput
+}
+
+type postgresServiceRestoreToPointInTimePtrType PostgresServiceRestoreToPointInTimeArgs
+
+func PostgresServiceRestoreToPointInTimePtr(v *PostgresServiceRestoreToPointInTimeArgs) PostgresServiceRestoreToPointInTimePtrInput {
+	return (*postgresServiceRestoreToPointInTimePtrType)(v)
+}
+
+func (*postgresServiceRestoreToPointInTimePtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**PostgresServiceRestoreToPointInTime)(nil)).Elem()
+}
+
+func (i *postgresServiceRestoreToPointInTimePtrType) ToPostgresServiceRestoreToPointInTimePtrOutput() PostgresServiceRestoreToPointInTimePtrOutput {
+	return i.ToPostgresServiceRestoreToPointInTimePtrOutputWithContext(context.Background())
+}
+
+func (i *postgresServiceRestoreToPointInTimePtrType) ToPostgresServiceRestoreToPointInTimePtrOutputWithContext(ctx context.Context) PostgresServiceRestoreToPointInTimePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(PostgresServiceRestoreToPointInTimePtrOutput)
+}
+
+type PostgresServiceRestoreToPointInTimeOutput struct{ *pulumi.OutputState }
+
+func (PostgresServiceRestoreToPointInTimeOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*PostgresServiceRestoreToPointInTime)(nil)).Elem()
+}
+
+func (o PostgresServiceRestoreToPointInTimeOutput) ToPostgresServiceRestoreToPointInTimeOutput() PostgresServiceRestoreToPointInTimeOutput {
+	return o
+}
+
+func (o PostgresServiceRestoreToPointInTimeOutput) ToPostgresServiceRestoreToPointInTimeOutputWithContext(ctx context.Context) PostgresServiceRestoreToPointInTimeOutput {
+	return o
+}
+
+func (o PostgresServiceRestoreToPointInTimeOutput) ToPostgresServiceRestoreToPointInTimePtrOutput() PostgresServiceRestoreToPointInTimePtrOutput {
+	return o.ToPostgresServiceRestoreToPointInTimePtrOutputWithContext(context.Background())
+}
+
+func (o PostgresServiceRestoreToPointInTimeOutput) ToPostgresServiceRestoreToPointInTimePtrOutputWithContext(ctx context.Context) PostgresServiceRestoreToPointInTimePtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v PostgresServiceRestoreToPointInTime) *PostgresServiceRestoreToPointInTime {
+		return &v
+	}).(PostgresServiceRestoreToPointInTimePtrOutput)
+}
+
+// RFC3339 timestamp to restore to (e.g. '2026-06-01T12:00:00Z'). The server restores to the closest available recovery point at or before this time.
+func (o PostgresServiceRestoreToPointInTimeOutput) RestoreTarget() pulumi.StringOutput {
+	return o.ApplyT(func(v PostgresServiceRestoreToPointInTime) string { return v.RestoreTarget }).(pulumi.StringOutput)
+}
+
+// ID of the source instance whose backup to restore from.
+func (o PostgresServiceRestoreToPointInTimeOutput) SourceId() pulumi.StringOutput {
+	return o.ApplyT(func(v PostgresServiceRestoreToPointInTime) string { return v.SourceId }).(pulumi.StringOutput)
+}
+
+type PostgresServiceRestoreToPointInTimePtrOutput struct{ *pulumi.OutputState }
+
+func (PostgresServiceRestoreToPointInTimePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**PostgresServiceRestoreToPointInTime)(nil)).Elem()
+}
+
+func (o PostgresServiceRestoreToPointInTimePtrOutput) ToPostgresServiceRestoreToPointInTimePtrOutput() PostgresServiceRestoreToPointInTimePtrOutput {
+	return o
+}
+
+func (o PostgresServiceRestoreToPointInTimePtrOutput) ToPostgresServiceRestoreToPointInTimePtrOutputWithContext(ctx context.Context) PostgresServiceRestoreToPointInTimePtrOutput {
+	return o
+}
+
+func (o PostgresServiceRestoreToPointInTimePtrOutput) Elem() PostgresServiceRestoreToPointInTimeOutput {
+	return o.ApplyT(func(v *PostgresServiceRestoreToPointInTime) PostgresServiceRestoreToPointInTime {
+		if v != nil {
+			return *v
+		}
+		var ret PostgresServiceRestoreToPointInTime
+		return ret
+	}).(PostgresServiceRestoreToPointInTimeOutput)
+}
+
+// RFC3339 timestamp to restore to (e.g. '2026-06-01T12:00:00Z'). The server restores to the closest available recovery point at or before this time.
+func (o PostgresServiceRestoreToPointInTimePtrOutput) RestoreTarget() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *PostgresServiceRestoreToPointInTime) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.RestoreTarget
+	}).(pulumi.StringPtrOutput)
+}
+
+// ID of the source instance whose backup to restore from.
+func (o PostgresServiceRestoreToPointInTimePtrOutput) SourceId() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *PostgresServiceRestoreToPointInTime) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.SourceId
+	}).(pulumi.StringPtrOutput)
+}
+
+type RolePolicy struct {
+	// Whether this policy allows or denies the specified permissions.
+	Effect string `pulumi:"effect"`
+	// Server-assigned policy ID. Changes on every update since the server replaces all policies on PATCH.
+	Id *string `pulumi:"id"`
+	// List of permission strings granted or denied by this policy.
+	Permissions []string `pulumi:"permissions"`
+	// List of resources this policy applies to. Format: 'instance/\n\n' or 'instance/*'.
+	Resources []string `pulumi:"resources"`
+	// ID of the role this policy belongs to.
+	RoleId *string `pulumi:"roleId"`
+	// Optional tags for additional policy metadata.
+	Tags *RolePolicyTags `pulumi:"tags"`
+	// Tenant ID that owns this policy.
+	TenantId *string `pulumi:"tenantId"`
+}
+
+// RolePolicyInput is an input type that accepts RolePolicyArgs and RolePolicyOutput values.
+// You can construct a concrete instance of `RolePolicyInput` via:
+//
+//	RolePolicyArgs{...}
+type RolePolicyInput interface {
+	pulumi.Input
+
+	ToRolePolicyOutput() RolePolicyOutput
+	ToRolePolicyOutputWithContext(context.Context) RolePolicyOutput
+}
+
+type RolePolicyArgs struct {
+	// Whether this policy allows or denies the specified permissions.
+	Effect pulumi.StringInput `pulumi:"effect"`
+	// Server-assigned policy ID. Changes on every update since the server replaces all policies on PATCH.
+	Id pulumi.StringPtrInput `pulumi:"id"`
+	// List of permission strings granted or denied by this policy.
+	Permissions pulumi.StringArrayInput `pulumi:"permissions"`
+	// List of resources this policy applies to. Format: 'instance/\n\n' or 'instance/*'.
+	Resources pulumi.StringArrayInput `pulumi:"resources"`
+	// ID of the role this policy belongs to.
+	RoleId pulumi.StringPtrInput `pulumi:"roleId"`
+	// Optional tags for additional policy metadata.
+	Tags RolePolicyTagsPtrInput `pulumi:"tags"`
+	// Tenant ID that owns this policy.
+	TenantId pulumi.StringPtrInput `pulumi:"tenantId"`
+}
+
+func (RolePolicyArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*RolePolicy)(nil)).Elem()
+}
+
+func (i RolePolicyArgs) ToRolePolicyOutput() RolePolicyOutput {
+	return i.ToRolePolicyOutputWithContext(context.Background())
+}
+
+func (i RolePolicyArgs) ToRolePolicyOutputWithContext(ctx context.Context) RolePolicyOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(RolePolicyOutput)
+}
+
+// RolePolicyArrayInput is an input type that accepts RolePolicyArray and RolePolicyArrayOutput values.
+// You can construct a concrete instance of `RolePolicyArrayInput` via:
+//
+//	RolePolicyArray{ RolePolicyArgs{...} }
+type RolePolicyArrayInput interface {
+	pulumi.Input
+
+	ToRolePolicyArrayOutput() RolePolicyArrayOutput
+	ToRolePolicyArrayOutputWithContext(context.Context) RolePolicyArrayOutput
+}
+
+type RolePolicyArray []RolePolicyInput
+
+func (RolePolicyArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]RolePolicy)(nil)).Elem()
+}
+
+func (i RolePolicyArray) ToRolePolicyArrayOutput() RolePolicyArrayOutput {
+	return i.ToRolePolicyArrayOutputWithContext(context.Background())
+}
+
+func (i RolePolicyArray) ToRolePolicyArrayOutputWithContext(ctx context.Context) RolePolicyArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(RolePolicyArrayOutput)
+}
+
+type RolePolicyOutput struct{ *pulumi.OutputState }
+
+func (RolePolicyOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*RolePolicy)(nil)).Elem()
+}
+
+func (o RolePolicyOutput) ToRolePolicyOutput() RolePolicyOutput {
+	return o
+}
+
+func (o RolePolicyOutput) ToRolePolicyOutputWithContext(ctx context.Context) RolePolicyOutput {
+	return o
+}
+
+// Whether this policy allows or denies the specified permissions.
+func (o RolePolicyOutput) Effect() pulumi.StringOutput {
+	return o.ApplyT(func(v RolePolicy) string { return v.Effect }).(pulumi.StringOutput)
+}
+
+// Server-assigned policy ID. Changes on every update since the server replaces all policies on PATCH.
+func (o RolePolicyOutput) Id() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v RolePolicy) *string { return v.Id }).(pulumi.StringPtrOutput)
+}
+
+// List of permission strings granted or denied by this policy.
+func (o RolePolicyOutput) Permissions() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v RolePolicy) []string { return v.Permissions }).(pulumi.StringArrayOutput)
+}
+
+// List of resources this policy applies to. Format: 'instance/\n\n' or 'instance/*'.
+func (o RolePolicyOutput) Resources() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v RolePolicy) []string { return v.Resources }).(pulumi.StringArrayOutput)
+}
+
+// ID of the role this policy belongs to.
+func (o RolePolicyOutput) RoleId() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v RolePolicy) *string { return v.RoleId }).(pulumi.StringPtrOutput)
+}
+
+// Optional tags for additional policy metadata.
+func (o RolePolicyOutput) Tags() RolePolicyTagsPtrOutput {
+	return o.ApplyT(func(v RolePolicy) *RolePolicyTags { return v.Tags }).(RolePolicyTagsPtrOutput)
+}
+
+// Tenant ID that owns this policy.
+func (o RolePolicyOutput) TenantId() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v RolePolicy) *string { return v.TenantId }).(pulumi.StringPtrOutput)
+}
+
+type RolePolicyArrayOutput struct{ *pulumi.OutputState }
+
+func (RolePolicyArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]RolePolicy)(nil)).Elem()
+}
+
+func (o RolePolicyArrayOutput) ToRolePolicyArrayOutput() RolePolicyArrayOutput {
+	return o
+}
+
+func (o RolePolicyArrayOutput) ToRolePolicyArrayOutputWithContext(ctx context.Context) RolePolicyArrayOutput {
+	return o
+}
+
+func (o RolePolicyArrayOutput) Index(i pulumi.IntInput) RolePolicyOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) RolePolicy {
+		return vs[0].([]RolePolicy)[vs[1].(int)]
+	}).(RolePolicyOutput)
+}
+
+type RolePolicyTags struct {
+	// SQL console role level for passwordless DB access. One of: sql-console-admin (full access), sql-console-readonly (read-only).
+	Role string `pulumi:"role"`
+}
+
+// RolePolicyTagsInput is an input type that accepts RolePolicyTagsArgs and RolePolicyTagsOutput values.
+// You can construct a concrete instance of `RolePolicyTagsInput` via:
+//
+//	RolePolicyTagsArgs{...}
+type RolePolicyTagsInput interface {
+	pulumi.Input
+
+	ToRolePolicyTagsOutput() RolePolicyTagsOutput
+	ToRolePolicyTagsOutputWithContext(context.Context) RolePolicyTagsOutput
+}
+
+type RolePolicyTagsArgs struct {
+	// SQL console role level for passwordless DB access. One of: sql-console-admin (full access), sql-console-readonly (read-only).
+	Role pulumi.StringInput `pulumi:"role"`
+}
+
+func (RolePolicyTagsArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*RolePolicyTags)(nil)).Elem()
+}
+
+func (i RolePolicyTagsArgs) ToRolePolicyTagsOutput() RolePolicyTagsOutput {
+	return i.ToRolePolicyTagsOutputWithContext(context.Background())
+}
+
+func (i RolePolicyTagsArgs) ToRolePolicyTagsOutputWithContext(ctx context.Context) RolePolicyTagsOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(RolePolicyTagsOutput)
+}
+
+func (i RolePolicyTagsArgs) ToRolePolicyTagsPtrOutput() RolePolicyTagsPtrOutput {
+	return i.ToRolePolicyTagsPtrOutputWithContext(context.Background())
+}
+
+func (i RolePolicyTagsArgs) ToRolePolicyTagsPtrOutputWithContext(ctx context.Context) RolePolicyTagsPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(RolePolicyTagsOutput).ToRolePolicyTagsPtrOutputWithContext(ctx)
+}
+
+// RolePolicyTagsPtrInput is an input type that accepts RolePolicyTagsArgs, RolePolicyTagsPtr and RolePolicyTagsPtrOutput values.
+// You can construct a concrete instance of `RolePolicyTagsPtrInput` via:
+//
+//	        RolePolicyTagsArgs{...}
+//
+//	or:
+//
+//	        nil
+type RolePolicyTagsPtrInput interface {
+	pulumi.Input
+
+	ToRolePolicyTagsPtrOutput() RolePolicyTagsPtrOutput
+	ToRolePolicyTagsPtrOutputWithContext(context.Context) RolePolicyTagsPtrOutput
+}
+
+type rolePolicyTagsPtrType RolePolicyTagsArgs
+
+func RolePolicyTagsPtr(v *RolePolicyTagsArgs) RolePolicyTagsPtrInput {
+	return (*rolePolicyTagsPtrType)(v)
+}
+
+func (*rolePolicyTagsPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**RolePolicyTags)(nil)).Elem()
+}
+
+func (i *rolePolicyTagsPtrType) ToRolePolicyTagsPtrOutput() RolePolicyTagsPtrOutput {
+	return i.ToRolePolicyTagsPtrOutputWithContext(context.Background())
+}
+
+func (i *rolePolicyTagsPtrType) ToRolePolicyTagsPtrOutputWithContext(ctx context.Context) RolePolicyTagsPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(RolePolicyTagsPtrOutput)
+}
+
+type RolePolicyTagsOutput struct{ *pulumi.OutputState }
+
+func (RolePolicyTagsOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*RolePolicyTags)(nil)).Elem()
+}
+
+func (o RolePolicyTagsOutput) ToRolePolicyTagsOutput() RolePolicyTagsOutput {
+	return o
+}
+
+func (o RolePolicyTagsOutput) ToRolePolicyTagsOutputWithContext(ctx context.Context) RolePolicyTagsOutput {
+	return o
+}
+
+func (o RolePolicyTagsOutput) ToRolePolicyTagsPtrOutput() RolePolicyTagsPtrOutput {
+	return o.ToRolePolicyTagsPtrOutputWithContext(context.Background())
+}
+
+func (o RolePolicyTagsOutput) ToRolePolicyTagsPtrOutputWithContext(ctx context.Context) RolePolicyTagsPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v RolePolicyTags) *RolePolicyTags {
+		return &v
+	}).(RolePolicyTagsPtrOutput)
+}
+
+// SQL console role level for passwordless DB access. One of: sql-console-admin (full access), sql-console-readonly (read-only).
+func (o RolePolicyTagsOutput) Role() pulumi.StringOutput {
+	return o.ApplyT(func(v RolePolicyTags) string { return v.Role }).(pulumi.StringOutput)
+}
+
+type RolePolicyTagsPtrOutput struct{ *pulumi.OutputState }
+
+func (RolePolicyTagsPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**RolePolicyTags)(nil)).Elem()
+}
+
+func (o RolePolicyTagsPtrOutput) ToRolePolicyTagsPtrOutput() RolePolicyTagsPtrOutput {
+	return o
+}
+
+func (o RolePolicyTagsPtrOutput) ToRolePolicyTagsPtrOutputWithContext(ctx context.Context) RolePolicyTagsPtrOutput {
+	return o
+}
+
+func (o RolePolicyTagsPtrOutput) Elem() RolePolicyTagsOutput {
+	return o.ApplyT(func(v *RolePolicyTags) RolePolicyTags {
+		if v != nil {
+			return *v
+		}
+		var ret RolePolicyTags
+		return ret
+	}).(RolePolicyTagsOutput)
+}
+
+// SQL console role level for passwordless DB access. One of: sql-console-admin (full access), sql-console-readonly (read-only).
+func (o RolePolicyTagsPtrOutput) Role() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *RolePolicyTags) *string {
+		if v == nil {
+			return nil
+		}
+		return &v.Role
+	}).(pulumi.StringPtrOutput)
+}
+
 type ServiceBackupConfiguration struct {
 	// Interval in hours between each backup.
 	BackupPeriodInHours *int `pulumi:"backupPeriodInHours"`
@@ -1275,6 +9293,392 @@ func (o ServiceQueryApiEndpointsPtrOutput) Roles() pulumi.StringArrayOutput {
 	}).(pulumi.StringArrayOutput)
 }
 
+type ServiceScheduledScalingBaseConfig struct {
+	IdleScaling        *bool `pulumi:"idleScaling"`
+	IdleTimeoutMinutes *int  `pulumi:"idleTimeoutMinutes"`
+	MaxReplicaMemoryGb *int  `pulumi:"maxReplicaMemoryGb"`
+	MaxReplicas        *int  `pulumi:"maxReplicas"`
+	MinReplicaMemoryGb *int  `pulumi:"minReplicaMemoryGb"`
+	MinReplicas        *int  `pulumi:"minReplicas"`
+}
+
+// ServiceScheduledScalingBaseConfigInput is an input type that accepts ServiceScheduledScalingBaseConfigArgs and ServiceScheduledScalingBaseConfigOutput values.
+// You can construct a concrete instance of `ServiceScheduledScalingBaseConfigInput` via:
+//
+//	ServiceScheduledScalingBaseConfigArgs{...}
+type ServiceScheduledScalingBaseConfigInput interface {
+	pulumi.Input
+
+	ToServiceScheduledScalingBaseConfigOutput() ServiceScheduledScalingBaseConfigOutput
+	ToServiceScheduledScalingBaseConfigOutputWithContext(context.Context) ServiceScheduledScalingBaseConfigOutput
+}
+
+type ServiceScheduledScalingBaseConfigArgs struct {
+	IdleScaling        pulumi.BoolPtrInput `pulumi:"idleScaling"`
+	IdleTimeoutMinutes pulumi.IntPtrInput  `pulumi:"idleTimeoutMinutes"`
+	MaxReplicaMemoryGb pulumi.IntPtrInput  `pulumi:"maxReplicaMemoryGb"`
+	MaxReplicas        pulumi.IntPtrInput  `pulumi:"maxReplicas"`
+	MinReplicaMemoryGb pulumi.IntPtrInput  `pulumi:"minReplicaMemoryGb"`
+	MinReplicas        pulumi.IntPtrInput  `pulumi:"minReplicas"`
+}
+
+func (ServiceScheduledScalingBaseConfigArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*ServiceScheduledScalingBaseConfig)(nil)).Elem()
+}
+
+func (i ServiceScheduledScalingBaseConfigArgs) ToServiceScheduledScalingBaseConfigOutput() ServiceScheduledScalingBaseConfigOutput {
+	return i.ToServiceScheduledScalingBaseConfigOutputWithContext(context.Background())
+}
+
+func (i ServiceScheduledScalingBaseConfigArgs) ToServiceScheduledScalingBaseConfigOutputWithContext(ctx context.Context) ServiceScheduledScalingBaseConfigOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ServiceScheduledScalingBaseConfigOutput)
+}
+
+func (i ServiceScheduledScalingBaseConfigArgs) ToServiceScheduledScalingBaseConfigPtrOutput() ServiceScheduledScalingBaseConfigPtrOutput {
+	return i.ToServiceScheduledScalingBaseConfigPtrOutputWithContext(context.Background())
+}
+
+func (i ServiceScheduledScalingBaseConfigArgs) ToServiceScheduledScalingBaseConfigPtrOutputWithContext(ctx context.Context) ServiceScheduledScalingBaseConfigPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ServiceScheduledScalingBaseConfigOutput).ToServiceScheduledScalingBaseConfigPtrOutputWithContext(ctx)
+}
+
+// ServiceScheduledScalingBaseConfigPtrInput is an input type that accepts ServiceScheduledScalingBaseConfigArgs, ServiceScheduledScalingBaseConfigPtr and ServiceScheduledScalingBaseConfigPtrOutput values.
+// You can construct a concrete instance of `ServiceScheduledScalingBaseConfigPtrInput` via:
+//
+//	        ServiceScheduledScalingBaseConfigArgs{...}
+//
+//	or:
+//
+//	        nil
+type ServiceScheduledScalingBaseConfigPtrInput interface {
+	pulumi.Input
+
+	ToServiceScheduledScalingBaseConfigPtrOutput() ServiceScheduledScalingBaseConfigPtrOutput
+	ToServiceScheduledScalingBaseConfigPtrOutputWithContext(context.Context) ServiceScheduledScalingBaseConfigPtrOutput
+}
+
+type serviceScheduledScalingBaseConfigPtrType ServiceScheduledScalingBaseConfigArgs
+
+func ServiceScheduledScalingBaseConfigPtr(v *ServiceScheduledScalingBaseConfigArgs) ServiceScheduledScalingBaseConfigPtrInput {
+	return (*serviceScheduledScalingBaseConfigPtrType)(v)
+}
+
+func (*serviceScheduledScalingBaseConfigPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**ServiceScheduledScalingBaseConfig)(nil)).Elem()
+}
+
+func (i *serviceScheduledScalingBaseConfigPtrType) ToServiceScheduledScalingBaseConfigPtrOutput() ServiceScheduledScalingBaseConfigPtrOutput {
+	return i.ToServiceScheduledScalingBaseConfigPtrOutputWithContext(context.Background())
+}
+
+func (i *serviceScheduledScalingBaseConfigPtrType) ToServiceScheduledScalingBaseConfigPtrOutputWithContext(ctx context.Context) ServiceScheduledScalingBaseConfigPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ServiceScheduledScalingBaseConfigPtrOutput)
+}
+
+type ServiceScheduledScalingBaseConfigOutput struct{ *pulumi.OutputState }
+
+func (ServiceScheduledScalingBaseConfigOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ServiceScheduledScalingBaseConfig)(nil)).Elem()
+}
+
+func (o ServiceScheduledScalingBaseConfigOutput) ToServiceScheduledScalingBaseConfigOutput() ServiceScheduledScalingBaseConfigOutput {
+	return o
+}
+
+func (o ServiceScheduledScalingBaseConfigOutput) ToServiceScheduledScalingBaseConfigOutputWithContext(ctx context.Context) ServiceScheduledScalingBaseConfigOutput {
+	return o
+}
+
+func (o ServiceScheduledScalingBaseConfigOutput) ToServiceScheduledScalingBaseConfigPtrOutput() ServiceScheduledScalingBaseConfigPtrOutput {
+	return o.ToServiceScheduledScalingBaseConfigPtrOutputWithContext(context.Background())
+}
+
+func (o ServiceScheduledScalingBaseConfigOutput) ToServiceScheduledScalingBaseConfigPtrOutputWithContext(ctx context.Context) ServiceScheduledScalingBaseConfigPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v ServiceScheduledScalingBaseConfig) *ServiceScheduledScalingBaseConfig {
+		return &v
+	}).(ServiceScheduledScalingBaseConfigPtrOutput)
+}
+
+func (o ServiceScheduledScalingBaseConfigOutput) IdleScaling() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v ServiceScheduledScalingBaseConfig) *bool { return v.IdleScaling }).(pulumi.BoolPtrOutput)
+}
+
+func (o ServiceScheduledScalingBaseConfigOutput) IdleTimeoutMinutes() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v ServiceScheduledScalingBaseConfig) *int { return v.IdleTimeoutMinutes }).(pulumi.IntPtrOutput)
+}
+
+func (o ServiceScheduledScalingBaseConfigOutput) MaxReplicaMemoryGb() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v ServiceScheduledScalingBaseConfig) *int { return v.MaxReplicaMemoryGb }).(pulumi.IntPtrOutput)
+}
+
+func (o ServiceScheduledScalingBaseConfigOutput) MaxReplicas() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v ServiceScheduledScalingBaseConfig) *int { return v.MaxReplicas }).(pulumi.IntPtrOutput)
+}
+
+func (o ServiceScheduledScalingBaseConfigOutput) MinReplicaMemoryGb() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v ServiceScheduledScalingBaseConfig) *int { return v.MinReplicaMemoryGb }).(pulumi.IntPtrOutput)
+}
+
+func (o ServiceScheduledScalingBaseConfigOutput) MinReplicas() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v ServiceScheduledScalingBaseConfig) *int { return v.MinReplicas }).(pulumi.IntPtrOutput)
+}
+
+type ServiceScheduledScalingBaseConfigPtrOutput struct{ *pulumi.OutputState }
+
+func (ServiceScheduledScalingBaseConfigPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**ServiceScheduledScalingBaseConfig)(nil)).Elem()
+}
+
+func (o ServiceScheduledScalingBaseConfigPtrOutput) ToServiceScheduledScalingBaseConfigPtrOutput() ServiceScheduledScalingBaseConfigPtrOutput {
+	return o
+}
+
+func (o ServiceScheduledScalingBaseConfigPtrOutput) ToServiceScheduledScalingBaseConfigPtrOutputWithContext(ctx context.Context) ServiceScheduledScalingBaseConfigPtrOutput {
+	return o
+}
+
+func (o ServiceScheduledScalingBaseConfigPtrOutput) Elem() ServiceScheduledScalingBaseConfigOutput {
+	return o.ApplyT(func(v *ServiceScheduledScalingBaseConfig) ServiceScheduledScalingBaseConfig {
+		if v != nil {
+			return *v
+		}
+		var ret ServiceScheduledScalingBaseConfig
+		return ret
+	}).(ServiceScheduledScalingBaseConfigOutput)
+}
+
+func (o ServiceScheduledScalingBaseConfigPtrOutput) IdleScaling() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *ServiceScheduledScalingBaseConfig) *bool {
+		if v == nil {
+			return nil
+		}
+		return v.IdleScaling
+	}).(pulumi.BoolPtrOutput)
+}
+
+func (o ServiceScheduledScalingBaseConfigPtrOutput) IdleTimeoutMinutes() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v *ServiceScheduledScalingBaseConfig) *int {
+		if v == nil {
+			return nil
+		}
+		return v.IdleTimeoutMinutes
+	}).(pulumi.IntPtrOutput)
+}
+
+func (o ServiceScheduledScalingBaseConfigPtrOutput) MaxReplicaMemoryGb() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v *ServiceScheduledScalingBaseConfig) *int {
+		if v == nil {
+			return nil
+		}
+		return v.MaxReplicaMemoryGb
+	}).(pulumi.IntPtrOutput)
+}
+
+func (o ServiceScheduledScalingBaseConfigPtrOutput) MaxReplicas() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v *ServiceScheduledScalingBaseConfig) *int {
+		if v == nil {
+			return nil
+		}
+		return v.MaxReplicas
+	}).(pulumi.IntPtrOutput)
+}
+
+func (o ServiceScheduledScalingBaseConfigPtrOutput) MinReplicaMemoryGb() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v *ServiceScheduledScalingBaseConfig) *int {
+		if v == nil {
+			return nil
+		}
+		return v.MinReplicaMemoryGb
+	}).(pulumi.IntPtrOutput)
+}
+
+func (o ServiceScheduledScalingBaseConfigPtrOutput) MinReplicas() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v *ServiceScheduledScalingBaseConfig) *int {
+		if v == nil {
+			return nil
+		}
+		return v.MinReplicas
+	}).(pulumi.IntPtrOutput)
+}
+
+type ServiceScheduledScalingEntry struct {
+	// End hour in UTC (1-24). Must differ from start*hour*utc. Note the asymmetric range: end*hour*utc=0 is invalid; use end*hour*utc=24 to mean midnight at end of day.
+	EndHourUtc int `pulumi:"endHourUtc"`
+	// Whether idle scaling is enabled while the window is active.
+	IdleScaling *bool `pulumi:"idleScaling"`
+	// Minutes of inactivity before the service scales to zero. Must be at least 5. Only meaningful when idleScaling is true.
+	IdleTimeoutMinutes *int `pulumi:"idleTimeoutMinutes"`
+	// Maximum memory per replica in GiB. Must be set together with min*replica*memory_gb.
+	MaxReplicaMemoryGb *int `pulumi:"maxReplicaMemoryGb"`
+	// Maximum replica count while the window is active. Currently the server requires min*replicas == max*replicas.
+	MaxReplicas *int `pulumi:"maxReplicas"`
+	// Minimum memory per replica in GiB. Must be set together with max*replica*memory_gb.
+	MinReplicaMemoryGb *int `pulumi:"minReplicaMemoryGb"`
+	// Minimum replica count while the window is active. Currently the server requires min*replicas == max*replicas.
+	MinReplicas *int `pulumi:"minReplicas"`
+	// Human-readable name for the entry (e.g. "Business hours").
+	Name string `pulumi:"name"`
+	// Start hour in UTC (0-23). If end*hour*utc < start*hour*utc the window wraps overnight. Set start*hour*utc=0 and end*hour*utc=24 for a 24-hour window.
+	StartHourUtc int `pulumi:"startHourUtc"`
+	// Weekdays this entry covers. 0 = Sunday … 6 = Saturday.
+	Weekdays []int `pulumi:"weekdays"`
+}
+
+// ServiceScheduledScalingEntryInput is an input type that accepts ServiceScheduledScalingEntryArgs and ServiceScheduledScalingEntryOutput values.
+// You can construct a concrete instance of `ServiceScheduledScalingEntryInput` via:
+//
+//	ServiceScheduledScalingEntryArgs{...}
+type ServiceScheduledScalingEntryInput interface {
+	pulumi.Input
+
+	ToServiceScheduledScalingEntryOutput() ServiceScheduledScalingEntryOutput
+	ToServiceScheduledScalingEntryOutputWithContext(context.Context) ServiceScheduledScalingEntryOutput
+}
+
+type ServiceScheduledScalingEntryArgs struct {
+	// End hour in UTC (1-24). Must differ from start*hour*utc. Note the asymmetric range: end*hour*utc=0 is invalid; use end*hour*utc=24 to mean midnight at end of day.
+	EndHourUtc pulumi.IntInput `pulumi:"endHourUtc"`
+	// Whether idle scaling is enabled while the window is active.
+	IdleScaling pulumi.BoolPtrInput `pulumi:"idleScaling"`
+	// Minutes of inactivity before the service scales to zero. Must be at least 5. Only meaningful when idleScaling is true.
+	IdleTimeoutMinutes pulumi.IntPtrInput `pulumi:"idleTimeoutMinutes"`
+	// Maximum memory per replica in GiB. Must be set together with min*replica*memory_gb.
+	MaxReplicaMemoryGb pulumi.IntPtrInput `pulumi:"maxReplicaMemoryGb"`
+	// Maximum replica count while the window is active. Currently the server requires min*replicas == max*replicas.
+	MaxReplicas pulumi.IntPtrInput `pulumi:"maxReplicas"`
+	// Minimum memory per replica in GiB. Must be set together with max*replica*memory_gb.
+	MinReplicaMemoryGb pulumi.IntPtrInput `pulumi:"minReplicaMemoryGb"`
+	// Minimum replica count while the window is active. Currently the server requires min*replicas == max*replicas.
+	MinReplicas pulumi.IntPtrInput `pulumi:"minReplicas"`
+	// Human-readable name for the entry (e.g. "Business hours").
+	Name pulumi.StringInput `pulumi:"name"`
+	// Start hour in UTC (0-23). If end*hour*utc < start*hour*utc the window wraps overnight. Set start*hour*utc=0 and end*hour*utc=24 for a 24-hour window.
+	StartHourUtc pulumi.IntInput `pulumi:"startHourUtc"`
+	// Weekdays this entry covers. 0 = Sunday … 6 = Saturday.
+	Weekdays pulumi.IntArrayInput `pulumi:"weekdays"`
+}
+
+func (ServiceScheduledScalingEntryArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*ServiceScheduledScalingEntry)(nil)).Elem()
+}
+
+func (i ServiceScheduledScalingEntryArgs) ToServiceScheduledScalingEntryOutput() ServiceScheduledScalingEntryOutput {
+	return i.ToServiceScheduledScalingEntryOutputWithContext(context.Background())
+}
+
+func (i ServiceScheduledScalingEntryArgs) ToServiceScheduledScalingEntryOutputWithContext(ctx context.Context) ServiceScheduledScalingEntryOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ServiceScheduledScalingEntryOutput)
+}
+
+// ServiceScheduledScalingEntryArrayInput is an input type that accepts ServiceScheduledScalingEntryArray and ServiceScheduledScalingEntryArrayOutput values.
+// You can construct a concrete instance of `ServiceScheduledScalingEntryArrayInput` via:
+//
+//	ServiceScheduledScalingEntryArray{ ServiceScheduledScalingEntryArgs{...} }
+type ServiceScheduledScalingEntryArrayInput interface {
+	pulumi.Input
+
+	ToServiceScheduledScalingEntryArrayOutput() ServiceScheduledScalingEntryArrayOutput
+	ToServiceScheduledScalingEntryArrayOutputWithContext(context.Context) ServiceScheduledScalingEntryArrayOutput
+}
+
+type ServiceScheduledScalingEntryArray []ServiceScheduledScalingEntryInput
+
+func (ServiceScheduledScalingEntryArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]ServiceScheduledScalingEntry)(nil)).Elem()
+}
+
+func (i ServiceScheduledScalingEntryArray) ToServiceScheduledScalingEntryArrayOutput() ServiceScheduledScalingEntryArrayOutput {
+	return i.ToServiceScheduledScalingEntryArrayOutputWithContext(context.Background())
+}
+
+func (i ServiceScheduledScalingEntryArray) ToServiceScheduledScalingEntryArrayOutputWithContext(ctx context.Context) ServiceScheduledScalingEntryArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ServiceScheduledScalingEntryArrayOutput)
+}
+
+type ServiceScheduledScalingEntryOutput struct{ *pulumi.OutputState }
+
+func (ServiceScheduledScalingEntryOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*ServiceScheduledScalingEntry)(nil)).Elem()
+}
+
+func (o ServiceScheduledScalingEntryOutput) ToServiceScheduledScalingEntryOutput() ServiceScheduledScalingEntryOutput {
+	return o
+}
+
+func (o ServiceScheduledScalingEntryOutput) ToServiceScheduledScalingEntryOutputWithContext(ctx context.Context) ServiceScheduledScalingEntryOutput {
+	return o
+}
+
+// End hour in UTC (1-24). Must differ from start*hour*utc. Note the asymmetric range: end*hour*utc=0 is invalid; use end*hour*utc=24 to mean midnight at end of day.
+func (o ServiceScheduledScalingEntryOutput) EndHourUtc() pulumi.IntOutput {
+	return o.ApplyT(func(v ServiceScheduledScalingEntry) int { return v.EndHourUtc }).(pulumi.IntOutput)
+}
+
+// Whether idle scaling is enabled while the window is active.
+func (o ServiceScheduledScalingEntryOutput) IdleScaling() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v ServiceScheduledScalingEntry) *bool { return v.IdleScaling }).(pulumi.BoolPtrOutput)
+}
+
+// Minutes of inactivity before the service scales to zero. Must be at least 5. Only meaningful when idleScaling is true.
+func (o ServiceScheduledScalingEntryOutput) IdleTimeoutMinutes() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v ServiceScheduledScalingEntry) *int { return v.IdleTimeoutMinutes }).(pulumi.IntPtrOutput)
+}
+
+// Maximum memory per replica in GiB. Must be set together with min*replica*memory_gb.
+func (o ServiceScheduledScalingEntryOutput) MaxReplicaMemoryGb() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v ServiceScheduledScalingEntry) *int { return v.MaxReplicaMemoryGb }).(pulumi.IntPtrOutput)
+}
+
+// Maximum replica count while the window is active. Currently the server requires min*replicas == max*replicas.
+func (o ServiceScheduledScalingEntryOutput) MaxReplicas() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v ServiceScheduledScalingEntry) *int { return v.MaxReplicas }).(pulumi.IntPtrOutput)
+}
+
+// Minimum memory per replica in GiB. Must be set together with max*replica*memory_gb.
+func (o ServiceScheduledScalingEntryOutput) MinReplicaMemoryGb() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v ServiceScheduledScalingEntry) *int { return v.MinReplicaMemoryGb }).(pulumi.IntPtrOutput)
+}
+
+// Minimum replica count while the window is active. Currently the server requires min*replicas == max*replicas.
+func (o ServiceScheduledScalingEntryOutput) MinReplicas() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v ServiceScheduledScalingEntry) *int { return v.MinReplicas }).(pulumi.IntPtrOutput)
+}
+
+// Human-readable name for the entry (e.g. "Business hours").
+func (o ServiceScheduledScalingEntryOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v ServiceScheduledScalingEntry) string { return v.Name }).(pulumi.StringOutput)
+}
+
+// Start hour in UTC (0-23). If end*hour*utc < start*hour*utc the window wraps overnight. Set start*hour*utc=0 and end*hour*utc=24 for a 24-hour window.
+func (o ServiceScheduledScalingEntryOutput) StartHourUtc() pulumi.IntOutput {
+	return o.ApplyT(func(v ServiceScheduledScalingEntry) int { return v.StartHourUtc }).(pulumi.IntOutput)
+}
+
+// Weekdays this entry covers. 0 = Sunday … 6 = Saturday.
+func (o ServiceScheduledScalingEntryOutput) Weekdays() pulumi.IntArrayOutput {
+	return o.ApplyT(func(v ServiceScheduledScalingEntry) []int { return v.Weekdays }).(pulumi.IntArrayOutput)
+}
+
+type ServiceScheduledScalingEntryArrayOutput struct{ *pulumi.OutputState }
+
+func (ServiceScheduledScalingEntryArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]ServiceScheduledScalingEntry)(nil)).Elem()
+}
+
+func (o ServiceScheduledScalingEntryArrayOutput) ToServiceScheduledScalingEntryArrayOutput() ServiceScheduledScalingEntryArrayOutput {
+	return o
+}
+
+func (o ServiceScheduledScalingEntryArrayOutput) ToServiceScheduledScalingEntryArrayOutputWithContext(ctx context.Context) ServiceScheduledScalingEntryArrayOutput {
+	return o
+}
+
+func (o ServiceScheduledScalingEntryArrayOutput) Index(i pulumi.IntInput) ServiceScheduledScalingEntryOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) ServiceScheduledScalingEntry {
+		return vs[0].([]ServiceScheduledScalingEntry)[vs[1].(int)]
+	}).(ServiceScheduledScalingEntryOutput)
+}
+
 type ServiceTransparentDataEncryption struct {
 	// If true, TDE is enabled for the service.
 	Enabled *bool `pulumi:"enabled"`
@@ -1431,7 +9835,921 @@ func (o ServiceTransparentDataEncryptionPtrOutput) RoleId() pulumi.StringPtrOutp
 	}).(pulumi.StringPtrOutput)
 }
 
+type GetPostgresServicesService struct {
+	CloudProvider   string `pulumi:"cloudProvider"`
+	CreatedAt       string `pulumi:"createdAt"`
+	HaType          string `pulumi:"haType"`
+	Id              string `pulumi:"id"`
+	IsPrimary       bool   `pulumi:"isPrimary"`
+	Name            string `pulumi:"name"`
+	PostgresVersion string `pulumi:"postgresVersion"`
+	Region          string `pulumi:"region"`
+	Size            string `pulumi:"size"`
+	State           string `pulumi:"state"`
+}
+
+// GetPostgresServicesServiceInput is an input type that accepts GetPostgresServicesServiceArgs and GetPostgresServicesServiceOutput values.
+// You can construct a concrete instance of `GetPostgresServicesServiceInput` via:
+//
+//	GetPostgresServicesServiceArgs{...}
+type GetPostgresServicesServiceInput interface {
+	pulumi.Input
+
+	ToGetPostgresServicesServiceOutput() GetPostgresServicesServiceOutput
+	ToGetPostgresServicesServiceOutputWithContext(context.Context) GetPostgresServicesServiceOutput
+}
+
+type GetPostgresServicesServiceArgs struct {
+	CloudProvider   pulumi.StringInput `pulumi:"cloudProvider"`
+	CreatedAt       pulumi.StringInput `pulumi:"createdAt"`
+	HaType          pulumi.StringInput `pulumi:"haType"`
+	Id              pulumi.StringInput `pulumi:"id"`
+	IsPrimary       pulumi.BoolInput   `pulumi:"isPrimary"`
+	Name            pulumi.StringInput `pulumi:"name"`
+	PostgresVersion pulumi.StringInput `pulumi:"postgresVersion"`
+	Region          pulumi.StringInput `pulumi:"region"`
+	Size            pulumi.StringInput `pulumi:"size"`
+	State           pulumi.StringInput `pulumi:"state"`
+}
+
+func (GetPostgresServicesServiceArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetPostgresServicesService)(nil)).Elem()
+}
+
+func (i GetPostgresServicesServiceArgs) ToGetPostgresServicesServiceOutput() GetPostgresServicesServiceOutput {
+	return i.ToGetPostgresServicesServiceOutputWithContext(context.Background())
+}
+
+func (i GetPostgresServicesServiceArgs) ToGetPostgresServicesServiceOutputWithContext(ctx context.Context) GetPostgresServicesServiceOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetPostgresServicesServiceOutput)
+}
+
+// GetPostgresServicesServiceArrayInput is an input type that accepts GetPostgresServicesServiceArray and GetPostgresServicesServiceArrayOutput values.
+// You can construct a concrete instance of `GetPostgresServicesServiceArrayInput` via:
+//
+//	GetPostgresServicesServiceArray{ GetPostgresServicesServiceArgs{...} }
+type GetPostgresServicesServiceArrayInput interface {
+	pulumi.Input
+
+	ToGetPostgresServicesServiceArrayOutput() GetPostgresServicesServiceArrayOutput
+	ToGetPostgresServicesServiceArrayOutputWithContext(context.Context) GetPostgresServicesServiceArrayOutput
+}
+
+type GetPostgresServicesServiceArray []GetPostgresServicesServiceInput
+
+func (GetPostgresServicesServiceArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetPostgresServicesService)(nil)).Elem()
+}
+
+func (i GetPostgresServicesServiceArray) ToGetPostgresServicesServiceArrayOutput() GetPostgresServicesServiceArrayOutput {
+	return i.ToGetPostgresServicesServiceArrayOutputWithContext(context.Background())
+}
+
+func (i GetPostgresServicesServiceArray) ToGetPostgresServicesServiceArrayOutputWithContext(ctx context.Context) GetPostgresServicesServiceArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetPostgresServicesServiceArrayOutput)
+}
+
+type GetPostgresServicesServiceOutput struct{ *pulumi.OutputState }
+
+func (GetPostgresServicesServiceOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetPostgresServicesService)(nil)).Elem()
+}
+
+func (o GetPostgresServicesServiceOutput) ToGetPostgresServicesServiceOutput() GetPostgresServicesServiceOutput {
+	return o
+}
+
+func (o GetPostgresServicesServiceOutput) ToGetPostgresServicesServiceOutputWithContext(ctx context.Context) GetPostgresServicesServiceOutput {
+	return o
+}
+
+func (o GetPostgresServicesServiceOutput) CloudProvider() pulumi.StringOutput {
+	return o.ApplyT(func(v GetPostgresServicesService) string { return v.CloudProvider }).(pulumi.StringOutput)
+}
+
+func (o GetPostgresServicesServiceOutput) CreatedAt() pulumi.StringOutput {
+	return o.ApplyT(func(v GetPostgresServicesService) string { return v.CreatedAt }).(pulumi.StringOutput)
+}
+
+func (o GetPostgresServicesServiceOutput) HaType() pulumi.StringOutput {
+	return o.ApplyT(func(v GetPostgresServicesService) string { return v.HaType }).(pulumi.StringOutput)
+}
+
+func (o GetPostgresServicesServiceOutput) Id() pulumi.StringOutput {
+	return o.ApplyT(func(v GetPostgresServicesService) string { return v.Id }).(pulumi.StringOutput)
+}
+
+func (o GetPostgresServicesServiceOutput) IsPrimary() pulumi.BoolOutput {
+	return o.ApplyT(func(v GetPostgresServicesService) bool { return v.IsPrimary }).(pulumi.BoolOutput)
+}
+
+func (o GetPostgresServicesServiceOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v GetPostgresServicesService) string { return v.Name }).(pulumi.StringOutput)
+}
+
+func (o GetPostgresServicesServiceOutput) PostgresVersion() pulumi.StringOutput {
+	return o.ApplyT(func(v GetPostgresServicesService) string { return v.PostgresVersion }).(pulumi.StringOutput)
+}
+
+func (o GetPostgresServicesServiceOutput) Region() pulumi.StringOutput {
+	return o.ApplyT(func(v GetPostgresServicesService) string { return v.Region }).(pulumi.StringOutput)
+}
+
+func (o GetPostgresServicesServiceOutput) Size() pulumi.StringOutput {
+	return o.ApplyT(func(v GetPostgresServicesService) string { return v.Size }).(pulumi.StringOutput)
+}
+
+func (o GetPostgresServicesServiceOutput) State() pulumi.StringOutput {
+	return o.ApplyT(func(v GetPostgresServicesService) string { return v.State }).(pulumi.StringOutput)
+}
+
+type GetPostgresServicesServiceArrayOutput struct{ *pulumi.OutputState }
+
+func (GetPostgresServicesServiceArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetPostgresServicesService)(nil)).Elem()
+}
+
+func (o GetPostgresServicesServiceArrayOutput) ToGetPostgresServicesServiceArrayOutput() GetPostgresServicesServiceArrayOutput {
+	return o
+}
+
+func (o GetPostgresServicesServiceArrayOutput) ToGetPostgresServicesServiceArrayOutputWithContext(ctx context.Context) GetPostgresServicesServiceArrayOutput {
+	return o
+}
+
+func (o GetPostgresServicesServiceArrayOutput) Index(i pulumi.IntInput) GetPostgresServicesServiceOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetPostgresServicesService {
+		return vs[0].([]GetPostgresServicesService)[vs[1].(int)]
+	}).(GetPostgresServicesServiceOutput)
+}
+
+type GetRolePolicy struct {
+	// Whether this policy allows or denies the specified permissions.
+	Effect string `pulumi:"effect"`
+	// Server-assigned policy ID.
+	Id string `pulumi:"id"`
+	// List of permission strings.
+	Permissions []string `pulumi:"permissions"`
+	// List of resources this policy applies to.
+	Resources []string `pulumi:"resources"`
+	// ID of the role this policy belongs to.
+	RoleId string `pulumi:"roleId"`
+	// Optional tags for additional policy metadata.
+	Tags GetRolePolicyTags `pulumi:"tags"`
+	// Tenant ID that owns this policy.
+	TenantId string `pulumi:"tenantId"`
+}
+
+// GetRolePolicyInput is an input type that accepts GetRolePolicyArgs and GetRolePolicyOutput values.
+// You can construct a concrete instance of `GetRolePolicyInput` via:
+//
+//	GetRolePolicyArgs{...}
+type GetRolePolicyInput interface {
+	pulumi.Input
+
+	ToGetRolePolicyOutput() GetRolePolicyOutput
+	ToGetRolePolicyOutputWithContext(context.Context) GetRolePolicyOutput
+}
+
+type GetRolePolicyArgs struct {
+	// Whether this policy allows or denies the specified permissions.
+	Effect pulumi.StringInput `pulumi:"effect"`
+	// Server-assigned policy ID.
+	Id pulumi.StringInput `pulumi:"id"`
+	// List of permission strings.
+	Permissions pulumi.StringArrayInput `pulumi:"permissions"`
+	// List of resources this policy applies to.
+	Resources pulumi.StringArrayInput `pulumi:"resources"`
+	// ID of the role this policy belongs to.
+	RoleId pulumi.StringInput `pulumi:"roleId"`
+	// Optional tags for additional policy metadata.
+	Tags GetRolePolicyTagsInput `pulumi:"tags"`
+	// Tenant ID that owns this policy.
+	TenantId pulumi.StringInput `pulumi:"tenantId"`
+}
+
+func (GetRolePolicyArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetRolePolicy)(nil)).Elem()
+}
+
+func (i GetRolePolicyArgs) ToGetRolePolicyOutput() GetRolePolicyOutput {
+	return i.ToGetRolePolicyOutputWithContext(context.Background())
+}
+
+func (i GetRolePolicyArgs) ToGetRolePolicyOutputWithContext(ctx context.Context) GetRolePolicyOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetRolePolicyOutput)
+}
+
+// GetRolePolicyArrayInput is an input type that accepts GetRolePolicyArray and GetRolePolicyArrayOutput values.
+// You can construct a concrete instance of `GetRolePolicyArrayInput` via:
+//
+//	GetRolePolicyArray{ GetRolePolicyArgs{...} }
+type GetRolePolicyArrayInput interface {
+	pulumi.Input
+
+	ToGetRolePolicyArrayOutput() GetRolePolicyArrayOutput
+	ToGetRolePolicyArrayOutputWithContext(context.Context) GetRolePolicyArrayOutput
+}
+
+type GetRolePolicyArray []GetRolePolicyInput
+
+func (GetRolePolicyArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetRolePolicy)(nil)).Elem()
+}
+
+func (i GetRolePolicyArray) ToGetRolePolicyArrayOutput() GetRolePolicyArrayOutput {
+	return i.ToGetRolePolicyArrayOutputWithContext(context.Background())
+}
+
+func (i GetRolePolicyArray) ToGetRolePolicyArrayOutputWithContext(ctx context.Context) GetRolePolicyArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetRolePolicyArrayOutput)
+}
+
+type GetRolePolicyOutput struct{ *pulumi.OutputState }
+
+func (GetRolePolicyOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetRolePolicy)(nil)).Elem()
+}
+
+func (o GetRolePolicyOutput) ToGetRolePolicyOutput() GetRolePolicyOutput {
+	return o
+}
+
+func (o GetRolePolicyOutput) ToGetRolePolicyOutputWithContext(ctx context.Context) GetRolePolicyOutput {
+	return o
+}
+
+// Whether this policy allows or denies the specified permissions.
+func (o GetRolePolicyOutput) Effect() pulumi.StringOutput {
+	return o.ApplyT(func(v GetRolePolicy) string { return v.Effect }).(pulumi.StringOutput)
+}
+
+// Server-assigned policy ID.
+func (o GetRolePolicyOutput) Id() pulumi.StringOutput {
+	return o.ApplyT(func(v GetRolePolicy) string { return v.Id }).(pulumi.StringOutput)
+}
+
+// List of permission strings.
+func (o GetRolePolicyOutput) Permissions() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v GetRolePolicy) []string { return v.Permissions }).(pulumi.StringArrayOutput)
+}
+
+// List of resources this policy applies to.
+func (o GetRolePolicyOutput) Resources() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v GetRolePolicy) []string { return v.Resources }).(pulumi.StringArrayOutput)
+}
+
+// ID of the role this policy belongs to.
+func (o GetRolePolicyOutput) RoleId() pulumi.StringOutput {
+	return o.ApplyT(func(v GetRolePolicy) string { return v.RoleId }).(pulumi.StringOutput)
+}
+
+// Optional tags for additional policy metadata.
+func (o GetRolePolicyOutput) Tags() GetRolePolicyTagsOutput {
+	return o.ApplyT(func(v GetRolePolicy) GetRolePolicyTags { return v.Tags }).(GetRolePolicyTagsOutput)
+}
+
+// Tenant ID that owns this policy.
+func (o GetRolePolicyOutput) TenantId() pulumi.StringOutput {
+	return o.ApplyT(func(v GetRolePolicy) string { return v.TenantId }).(pulumi.StringOutput)
+}
+
+type GetRolePolicyArrayOutput struct{ *pulumi.OutputState }
+
+func (GetRolePolicyArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetRolePolicy)(nil)).Elem()
+}
+
+func (o GetRolePolicyArrayOutput) ToGetRolePolicyArrayOutput() GetRolePolicyArrayOutput {
+	return o
+}
+
+func (o GetRolePolicyArrayOutput) ToGetRolePolicyArrayOutputWithContext(ctx context.Context) GetRolePolicyArrayOutput {
+	return o
+}
+
+func (o GetRolePolicyArrayOutput) Index(i pulumi.IntInput) GetRolePolicyOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetRolePolicy {
+		return vs[0].([]GetRolePolicy)[vs[1].(int)]
+	}).(GetRolePolicyOutput)
+}
+
+type GetRolePolicyTags struct {
+	// SQL console role level for passwordless DB access. One of: sql-console-admin (full access), sql-console-readonly (read-only).
+	Role string `pulumi:"role"`
+}
+
+// GetRolePolicyTagsInput is an input type that accepts GetRolePolicyTagsArgs and GetRolePolicyTagsOutput values.
+// You can construct a concrete instance of `GetRolePolicyTagsInput` via:
+//
+//	GetRolePolicyTagsArgs{...}
+type GetRolePolicyTagsInput interface {
+	pulumi.Input
+
+	ToGetRolePolicyTagsOutput() GetRolePolicyTagsOutput
+	ToGetRolePolicyTagsOutputWithContext(context.Context) GetRolePolicyTagsOutput
+}
+
+type GetRolePolicyTagsArgs struct {
+	// SQL console role level for passwordless DB access. One of: sql-console-admin (full access), sql-console-readonly (read-only).
+	Role pulumi.StringInput `pulumi:"role"`
+}
+
+func (GetRolePolicyTagsArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetRolePolicyTags)(nil)).Elem()
+}
+
+func (i GetRolePolicyTagsArgs) ToGetRolePolicyTagsOutput() GetRolePolicyTagsOutput {
+	return i.ToGetRolePolicyTagsOutputWithContext(context.Background())
+}
+
+func (i GetRolePolicyTagsArgs) ToGetRolePolicyTagsOutputWithContext(ctx context.Context) GetRolePolicyTagsOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetRolePolicyTagsOutput)
+}
+
+type GetRolePolicyTagsOutput struct{ *pulumi.OutputState }
+
+func (GetRolePolicyTagsOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetRolePolicyTags)(nil)).Elem()
+}
+
+func (o GetRolePolicyTagsOutput) ToGetRolePolicyTagsOutput() GetRolePolicyTagsOutput {
+	return o
+}
+
+func (o GetRolePolicyTagsOutput) ToGetRolePolicyTagsOutputWithContext(ctx context.Context) GetRolePolicyTagsOutput {
+	return o
+}
+
+// SQL console role level for passwordless DB access. One of: sql-console-admin (full access), sql-console-readonly (read-only).
+func (o GetRolePolicyTagsOutput) Role() pulumi.StringOutput {
+	return o.ApplyT(func(v GetRolePolicyTags) string { return v.Role }).(pulumi.StringOutput)
+}
+
+type GetRolesRole struct {
+	// List of actors assigned to this role.
+	Actors []string `pulumi:"actors"`
+	// Timestamp when the role was created.
+	CreatedAt string `pulumi:"createdAt"`
+	// Unique identifier for the role.
+	Id string `pulumi:"id"`
+	// Name of the role.
+	Name string `pulumi:"name"`
+	// Owner ID of this role.
+	OwnerId string `pulumi:"ownerId"`
+	// List of policies attached to this role.
+	Policies []GetRolesRolePolicy `pulumi:"policies"`
+	// Tenant ID that owns this role.
+	TenantId string `pulumi:"tenantId"`
+	// Type of the role: 'system' or 'custom'.
+	Type string `pulumi:"type"`
+	// Timestamp when the role was last updated.
+	UpdatedAt string `pulumi:"updatedAt"`
+}
+
+// GetRolesRoleInput is an input type that accepts GetRolesRoleArgs and GetRolesRoleOutput values.
+// You can construct a concrete instance of `GetRolesRoleInput` via:
+//
+//	GetRolesRoleArgs{...}
+type GetRolesRoleInput interface {
+	pulumi.Input
+
+	ToGetRolesRoleOutput() GetRolesRoleOutput
+	ToGetRolesRoleOutputWithContext(context.Context) GetRolesRoleOutput
+}
+
+type GetRolesRoleArgs struct {
+	// List of actors assigned to this role.
+	Actors pulumi.StringArrayInput `pulumi:"actors"`
+	// Timestamp when the role was created.
+	CreatedAt pulumi.StringInput `pulumi:"createdAt"`
+	// Unique identifier for the role.
+	Id pulumi.StringInput `pulumi:"id"`
+	// Name of the role.
+	Name pulumi.StringInput `pulumi:"name"`
+	// Owner ID of this role.
+	OwnerId pulumi.StringInput `pulumi:"ownerId"`
+	// List of policies attached to this role.
+	Policies GetRolesRolePolicyArrayInput `pulumi:"policies"`
+	// Tenant ID that owns this role.
+	TenantId pulumi.StringInput `pulumi:"tenantId"`
+	// Type of the role: 'system' or 'custom'.
+	Type pulumi.StringInput `pulumi:"type"`
+	// Timestamp when the role was last updated.
+	UpdatedAt pulumi.StringInput `pulumi:"updatedAt"`
+}
+
+func (GetRolesRoleArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetRolesRole)(nil)).Elem()
+}
+
+func (i GetRolesRoleArgs) ToGetRolesRoleOutput() GetRolesRoleOutput {
+	return i.ToGetRolesRoleOutputWithContext(context.Background())
+}
+
+func (i GetRolesRoleArgs) ToGetRolesRoleOutputWithContext(ctx context.Context) GetRolesRoleOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetRolesRoleOutput)
+}
+
+// GetRolesRoleArrayInput is an input type that accepts GetRolesRoleArray and GetRolesRoleArrayOutput values.
+// You can construct a concrete instance of `GetRolesRoleArrayInput` via:
+//
+//	GetRolesRoleArray{ GetRolesRoleArgs{...} }
+type GetRolesRoleArrayInput interface {
+	pulumi.Input
+
+	ToGetRolesRoleArrayOutput() GetRolesRoleArrayOutput
+	ToGetRolesRoleArrayOutputWithContext(context.Context) GetRolesRoleArrayOutput
+}
+
+type GetRolesRoleArray []GetRolesRoleInput
+
+func (GetRolesRoleArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetRolesRole)(nil)).Elem()
+}
+
+func (i GetRolesRoleArray) ToGetRolesRoleArrayOutput() GetRolesRoleArrayOutput {
+	return i.ToGetRolesRoleArrayOutputWithContext(context.Background())
+}
+
+func (i GetRolesRoleArray) ToGetRolesRoleArrayOutputWithContext(ctx context.Context) GetRolesRoleArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetRolesRoleArrayOutput)
+}
+
+type GetRolesRoleOutput struct{ *pulumi.OutputState }
+
+func (GetRolesRoleOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetRolesRole)(nil)).Elem()
+}
+
+func (o GetRolesRoleOutput) ToGetRolesRoleOutput() GetRolesRoleOutput {
+	return o
+}
+
+func (o GetRolesRoleOutput) ToGetRolesRoleOutputWithContext(ctx context.Context) GetRolesRoleOutput {
+	return o
+}
+
+// List of actors assigned to this role.
+func (o GetRolesRoleOutput) Actors() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v GetRolesRole) []string { return v.Actors }).(pulumi.StringArrayOutput)
+}
+
+// Timestamp when the role was created.
+func (o GetRolesRoleOutput) CreatedAt() pulumi.StringOutput {
+	return o.ApplyT(func(v GetRolesRole) string { return v.CreatedAt }).(pulumi.StringOutput)
+}
+
+// Unique identifier for the role.
+func (o GetRolesRoleOutput) Id() pulumi.StringOutput {
+	return o.ApplyT(func(v GetRolesRole) string { return v.Id }).(pulumi.StringOutput)
+}
+
+// Name of the role.
+func (o GetRolesRoleOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v GetRolesRole) string { return v.Name }).(pulumi.StringOutput)
+}
+
+// Owner ID of this role.
+func (o GetRolesRoleOutput) OwnerId() pulumi.StringOutput {
+	return o.ApplyT(func(v GetRolesRole) string { return v.OwnerId }).(pulumi.StringOutput)
+}
+
+// List of policies attached to this role.
+func (o GetRolesRoleOutput) Policies() GetRolesRolePolicyArrayOutput {
+	return o.ApplyT(func(v GetRolesRole) []GetRolesRolePolicy { return v.Policies }).(GetRolesRolePolicyArrayOutput)
+}
+
+// Tenant ID that owns this role.
+func (o GetRolesRoleOutput) TenantId() pulumi.StringOutput {
+	return o.ApplyT(func(v GetRolesRole) string { return v.TenantId }).(pulumi.StringOutput)
+}
+
+// Type of the role: 'system' or 'custom'.
+func (o GetRolesRoleOutput) Type() pulumi.StringOutput {
+	return o.ApplyT(func(v GetRolesRole) string { return v.Type }).(pulumi.StringOutput)
+}
+
+// Timestamp when the role was last updated.
+func (o GetRolesRoleOutput) UpdatedAt() pulumi.StringOutput {
+	return o.ApplyT(func(v GetRolesRole) string { return v.UpdatedAt }).(pulumi.StringOutput)
+}
+
+type GetRolesRoleArrayOutput struct{ *pulumi.OutputState }
+
+func (GetRolesRoleArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetRolesRole)(nil)).Elem()
+}
+
+func (o GetRolesRoleArrayOutput) ToGetRolesRoleArrayOutput() GetRolesRoleArrayOutput {
+	return o
+}
+
+func (o GetRolesRoleArrayOutput) ToGetRolesRoleArrayOutputWithContext(ctx context.Context) GetRolesRoleArrayOutput {
+	return o
+}
+
+func (o GetRolesRoleArrayOutput) Index(i pulumi.IntInput) GetRolesRoleOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetRolesRole {
+		return vs[0].([]GetRolesRole)[vs[1].(int)]
+	}).(GetRolesRoleOutput)
+}
+
+type GetRolesRolePolicy struct {
+	// Whether this policy allows or denies the specified permissions.
+	Effect string `pulumi:"effect"`
+	// Server-assigned policy ID.
+	Id string `pulumi:"id"`
+	// List of permission strings.
+	Permissions []string `pulumi:"permissions"`
+	// List of resources this policy applies to.
+	Resources []string `pulumi:"resources"`
+	// ID of the role this policy belongs to.
+	RoleId string `pulumi:"roleId"`
+	// Optional tags for additional policy metadata.
+	Tags GetRolesRolePolicyTags `pulumi:"tags"`
+	// Tenant ID that owns this policy.
+	TenantId string `pulumi:"tenantId"`
+}
+
+// GetRolesRolePolicyInput is an input type that accepts GetRolesRolePolicyArgs and GetRolesRolePolicyOutput values.
+// You can construct a concrete instance of `GetRolesRolePolicyInput` via:
+//
+//	GetRolesRolePolicyArgs{...}
+type GetRolesRolePolicyInput interface {
+	pulumi.Input
+
+	ToGetRolesRolePolicyOutput() GetRolesRolePolicyOutput
+	ToGetRolesRolePolicyOutputWithContext(context.Context) GetRolesRolePolicyOutput
+}
+
+type GetRolesRolePolicyArgs struct {
+	// Whether this policy allows or denies the specified permissions.
+	Effect pulumi.StringInput `pulumi:"effect"`
+	// Server-assigned policy ID.
+	Id pulumi.StringInput `pulumi:"id"`
+	// List of permission strings.
+	Permissions pulumi.StringArrayInput `pulumi:"permissions"`
+	// List of resources this policy applies to.
+	Resources pulumi.StringArrayInput `pulumi:"resources"`
+	// ID of the role this policy belongs to.
+	RoleId pulumi.StringInput `pulumi:"roleId"`
+	// Optional tags for additional policy metadata.
+	Tags GetRolesRolePolicyTagsInput `pulumi:"tags"`
+	// Tenant ID that owns this policy.
+	TenantId pulumi.StringInput `pulumi:"tenantId"`
+}
+
+func (GetRolesRolePolicyArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetRolesRolePolicy)(nil)).Elem()
+}
+
+func (i GetRolesRolePolicyArgs) ToGetRolesRolePolicyOutput() GetRolesRolePolicyOutput {
+	return i.ToGetRolesRolePolicyOutputWithContext(context.Background())
+}
+
+func (i GetRolesRolePolicyArgs) ToGetRolesRolePolicyOutputWithContext(ctx context.Context) GetRolesRolePolicyOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetRolesRolePolicyOutput)
+}
+
+// GetRolesRolePolicyArrayInput is an input type that accepts GetRolesRolePolicyArray and GetRolesRolePolicyArrayOutput values.
+// You can construct a concrete instance of `GetRolesRolePolicyArrayInput` via:
+//
+//	GetRolesRolePolicyArray{ GetRolesRolePolicyArgs{...} }
+type GetRolesRolePolicyArrayInput interface {
+	pulumi.Input
+
+	ToGetRolesRolePolicyArrayOutput() GetRolesRolePolicyArrayOutput
+	ToGetRolesRolePolicyArrayOutputWithContext(context.Context) GetRolesRolePolicyArrayOutput
+}
+
+type GetRolesRolePolicyArray []GetRolesRolePolicyInput
+
+func (GetRolesRolePolicyArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetRolesRolePolicy)(nil)).Elem()
+}
+
+func (i GetRolesRolePolicyArray) ToGetRolesRolePolicyArrayOutput() GetRolesRolePolicyArrayOutput {
+	return i.ToGetRolesRolePolicyArrayOutputWithContext(context.Background())
+}
+
+func (i GetRolesRolePolicyArray) ToGetRolesRolePolicyArrayOutputWithContext(ctx context.Context) GetRolesRolePolicyArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetRolesRolePolicyArrayOutput)
+}
+
+type GetRolesRolePolicyOutput struct{ *pulumi.OutputState }
+
+func (GetRolesRolePolicyOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetRolesRolePolicy)(nil)).Elem()
+}
+
+func (o GetRolesRolePolicyOutput) ToGetRolesRolePolicyOutput() GetRolesRolePolicyOutput {
+	return o
+}
+
+func (o GetRolesRolePolicyOutput) ToGetRolesRolePolicyOutputWithContext(ctx context.Context) GetRolesRolePolicyOutput {
+	return o
+}
+
+// Whether this policy allows or denies the specified permissions.
+func (o GetRolesRolePolicyOutput) Effect() pulumi.StringOutput {
+	return o.ApplyT(func(v GetRolesRolePolicy) string { return v.Effect }).(pulumi.StringOutput)
+}
+
+// Server-assigned policy ID.
+func (o GetRolesRolePolicyOutput) Id() pulumi.StringOutput {
+	return o.ApplyT(func(v GetRolesRolePolicy) string { return v.Id }).(pulumi.StringOutput)
+}
+
+// List of permission strings.
+func (o GetRolesRolePolicyOutput) Permissions() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v GetRolesRolePolicy) []string { return v.Permissions }).(pulumi.StringArrayOutput)
+}
+
+// List of resources this policy applies to.
+func (o GetRolesRolePolicyOutput) Resources() pulumi.StringArrayOutput {
+	return o.ApplyT(func(v GetRolesRolePolicy) []string { return v.Resources }).(pulumi.StringArrayOutput)
+}
+
+// ID of the role this policy belongs to.
+func (o GetRolesRolePolicyOutput) RoleId() pulumi.StringOutput {
+	return o.ApplyT(func(v GetRolesRolePolicy) string { return v.RoleId }).(pulumi.StringOutput)
+}
+
+// Optional tags for additional policy metadata.
+func (o GetRolesRolePolicyOutput) Tags() GetRolesRolePolicyTagsOutput {
+	return o.ApplyT(func(v GetRolesRolePolicy) GetRolesRolePolicyTags { return v.Tags }).(GetRolesRolePolicyTagsOutput)
+}
+
+// Tenant ID that owns this policy.
+func (o GetRolesRolePolicyOutput) TenantId() pulumi.StringOutput {
+	return o.ApplyT(func(v GetRolesRolePolicy) string { return v.TenantId }).(pulumi.StringOutput)
+}
+
+type GetRolesRolePolicyArrayOutput struct{ *pulumi.OutputState }
+
+func (GetRolesRolePolicyArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetRolesRolePolicy)(nil)).Elem()
+}
+
+func (o GetRolesRolePolicyArrayOutput) ToGetRolesRolePolicyArrayOutput() GetRolesRolePolicyArrayOutput {
+	return o
+}
+
+func (o GetRolesRolePolicyArrayOutput) ToGetRolesRolePolicyArrayOutputWithContext(ctx context.Context) GetRolesRolePolicyArrayOutput {
+	return o
+}
+
+func (o GetRolesRolePolicyArrayOutput) Index(i pulumi.IntInput) GetRolesRolePolicyOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetRolesRolePolicy {
+		return vs[0].([]GetRolesRolePolicy)[vs[1].(int)]
+	}).(GetRolesRolePolicyOutput)
+}
+
+type GetRolesRolePolicyTags struct {
+	// SQL console role level for passwordless DB access. One of: sql-console-admin (full access), sql-console-readonly (read-only).
+	Role string `pulumi:"role"`
+}
+
+// GetRolesRolePolicyTagsInput is an input type that accepts GetRolesRolePolicyTagsArgs and GetRolesRolePolicyTagsOutput values.
+// You can construct a concrete instance of `GetRolesRolePolicyTagsInput` via:
+//
+//	GetRolesRolePolicyTagsArgs{...}
+type GetRolesRolePolicyTagsInput interface {
+	pulumi.Input
+
+	ToGetRolesRolePolicyTagsOutput() GetRolesRolePolicyTagsOutput
+	ToGetRolesRolePolicyTagsOutputWithContext(context.Context) GetRolesRolePolicyTagsOutput
+}
+
+type GetRolesRolePolicyTagsArgs struct {
+	// SQL console role level for passwordless DB access. One of: sql-console-admin (full access), sql-console-readonly (read-only).
+	Role pulumi.StringInput `pulumi:"role"`
+}
+
+func (GetRolesRolePolicyTagsArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetRolesRolePolicyTags)(nil)).Elem()
+}
+
+func (i GetRolesRolePolicyTagsArgs) ToGetRolesRolePolicyTagsOutput() GetRolesRolePolicyTagsOutput {
+	return i.ToGetRolesRolePolicyTagsOutputWithContext(context.Background())
+}
+
+func (i GetRolesRolePolicyTagsArgs) ToGetRolesRolePolicyTagsOutputWithContext(ctx context.Context) GetRolesRolePolicyTagsOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetRolesRolePolicyTagsOutput)
+}
+
+type GetRolesRolePolicyTagsOutput struct{ *pulumi.OutputState }
+
+func (GetRolesRolePolicyTagsOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetRolesRolePolicyTags)(nil)).Elem()
+}
+
+func (o GetRolesRolePolicyTagsOutput) ToGetRolesRolePolicyTagsOutput() GetRolesRolePolicyTagsOutput {
+	return o
+}
+
+func (o GetRolesRolePolicyTagsOutput) ToGetRolesRolePolicyTagsOutputWithContext(ctx context.Context) GetRolesRolePolicyTagsOutput {
+	return o
+}
+
+// SQL console role level for passwordless DB access. One of: sql-console-admin (full access), sql-console-readonly (read-only).
+func (o GetRolesRolePolicyTagsOutput) Role() pulumi.StringOutput {
+	return o.ApplyT(func(v GetRolesRolePolicyTags) string { return v.Role }).(pulumi.StringOutput)
+}
+
+type GetUserAssignedRole struct {
+	// The ID of the assigned role.
+	Id string `pulumi:"id"`
+	// The name of the assigned role.
+	Name string `pulumi:"name"`
+	// The type of the assigned role (system or custom).
+	Type string `pulumi:"type"`
+}
+
+// GetUserAssignedRoleInput is an input type that accepts GetUserAssignedRoleArgs and GetUserAssignedRoleOutput values.
+// You can construct a concrete instance of `GetUserAssignedRoleInput` via:
+//
+//	GetUserAssignedRoleArgs{...}
+type GetUserAssignedRoleInput interface {
+	pulumi.Input
+
+	ToGetUserAssignedRoleOutput() GetUserAssignedRoleOutput
+	ToGetUserAssignedRoleOutputWithContext(context.Context) GetUserAssignedRoleOutput
+}
+
+type GetUserAssignedRoleArgs struct {
+	// The ID of the assigned role.
+	Id pulumi.StringInput `pulumi:"id"`
+	// The name of the assigned role.
+	Name pulumi.StringInput `pulumi:"name"`
+	// The type of the assigned role (system or custom).
+	Type pulumi.StringInput `pulumi:"type"`
+}
+
+func (GetUserAssignedRoleArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetUserAssignedRole)(nil)).Elem()
+}
+
+func (i GetUserAssignedRoleArgs) ToGetUserAssignedRoleOutput() GetUserAssignedRoleOutput {
+	return i.ToGetUserAssignedRoleOutputWithContext(context.Background())
+}
+
+func (i GetUserAssignedRoleArgs) ToGetUserAssignedRoleOutputWithContext(ctx context.Context) GetUserAssignedRoleOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetUserAssignedRoleOutput)
+}
+
+// GetUserAssignedRoleArrayInput is an input type that accepts GetUserAssignedRoleArray and GetUserAssignedRoleArrayOutput values.
+// You can construct a concrete instance of `GetUserAssignedRoleArrayInput` via:
+//
+//	GetUserAssignedRoleArray{ GetUserAssignedRoleArgs{...} }
+type GetUserAssignedRoleArrayInput interface {
+	pulumi.Input
+
+	ToGetUserAssignedRoleArrayOutput() GetUserAssignedRoleArrayOutput
+	ToGetUserAssignedRoleArrayOutputWithContext(context.Context) GetUserAssignedRoleArrayOutput
+}
+
+type GetUserAssignedRoleArray []GetUserAssignedRoleInput
+
+func (GetUserAssignedRoleArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetUserAssignedRole)(nil)).Elem()
+}
+
+func (i GetUserAssignedRoleArray) ToGetUserAssignedRoleArrayOutput() GetUserAssignedRoleArrayOutput {
+	return i.ToGetUserAssignedRoleArrayOutputWithContext(context.Background())
+}
+
+func (i GetUserAssignedRoleArray) ToGetUserAssignedRoleArrayOutputWithContext(ctx context.Context) GetUserAssignedRoleArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(GetUserAssignedRoleArrayOutput)
+}
+
+type GetUserAssignedRoleOutput struct{ *pulumi.OutputState }
+
+func (GetUserAssignedRoleOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*GetUserAssignedRole)(nil)).Elem()
+}
+
+func (o GetUserAssignedRoleOutput) ToGetUserAssignedRoleOutput() GetUserAssignedRoleOutput {
+	return o
+}
+
+func (o GetUserAssignedRoleOutput) ToGetUserAssignedRoleOutputWithContext(ctx context.Context) GetUserAssignedRoleOutput {
+	return o
+}
+
+// The ID of the assigned role.
+func (o GetUserAssignedRoleOutput) Id() pulumi.StringOutput {
+	return o.ApplyT(func(v GetUserAssignedRole) string { return v.Id }).(pulumi.StringOutput)
+}
+
+// The name of the assigned role.
+func (o GetUserAssignedRoleOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v GetUserAssignedRole) string { return v.Name }).(pulumi.StringOutput)
+}
+
+// The type of the assigned role (system or custom).
+func (o GetUserAssignedRoleOutput) Type() pulumi.StringOutput {
+	return o.ApplyT(func(v GetUserAssignedRole) string { return v.Type }).(pulumi.StringOutput)
+}
+
+type GetUserAssignedRoleArrayOutput struct{ *pulumi.OutputState }
+
+func (GetUserAssignedRoleArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]GetUserAssignedRole)(nil)).Elem()
+}
+
+func (o GetUserAssignedRoleArrayOutput) ToGetUserAssignedRoleArrayOutput() GetUserAssignedRoleArrayOutput {
+	return o
+}
+
+func (o GetUserAssignedRoleArrayOutput) ToGetUserAssignedRoleArrayOutputWithContext(ctx context.Context) GetUserAssignedRoleArrayOutput {
+	return o
+}
+
+func (o GetUserAssignedRoleArrayOutput) Index(i pulumi.IntInput) GetUserAssignedRoleOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) GetUserAssignedRole {
+		return vs[0].([]GetUserAssignedRole)[vs[1].(int)]
+	}).(GetUserAssignedRoleOutput)
+}
+
 func init() {
+	pulumi.RegisterInputType(reflect.TypeOf((*ClickpipeDestinationInput)(nil)).Elem(), ClickpipeDestinationArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ClickpipeDestinationPtrInput)(nil)).Elem(), ClickpipeDestinationArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ClickpipeDestinationColumnInput)(nil)).Elem(), ClickpipeDestinationColumnArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ClickpipeDestinationColumnArrayInput)(nil)).Elem(), ClickpipeDestinationColumnArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ClickpipeDestinationTableDefinitionInput)(nil)).Elem(), ClickpipeDestinationTableDefinitionArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ClickpipeDestinationTableDefinitionPtrInput)(nil)).Elem(), ClickpipeDestinationTableDefinitionArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ClickpipeDestinationTableDefinitionEngineInput)(nil)).Elem(), ClickpipeDestinationTableDefinitionEngineArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ClickpipeDestinationTableDefinitionEnginePtrInput)(nil)).Elem(), ClickpipeDestinationTableDefinitionEngineArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ClickpipeFieldMappingInput)(nil)).Elem(), ClickpipeFieldMappingArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ClickpipeFieldMappingArrayInput)(nil)).Elem(), ClickpipeFieldMappingArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ClickpipeScalingInput)(nil)).Elem(), ClickpipeScalingArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ClickpipeScalingPtrInput)(nil)).Elem(), ClickpipeScalingArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ClickpipeSourceInput)(nil)).Elem(), ClickpipeSourceArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ClickpipeSourcePtrInput)(nil)).Elem(), ClickpipeSourceArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ClickpipeSourceBigqueryInput)(nil)).Elem(), ClickpipeSourceBigqueryArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ClickpipeSourceBigqueryPtrInput)(nil)).Elem(), ClickpipeSourceBigqueryArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ClickpipeSourceBigqueryCredentialsInput)(nil)).Elem(), ClickpipeSourceBigqueryCredentialsArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ClickpipeSourceBigqueryCredentialsPtrInput)(nil)).Elem(), ClickpipeSourceBigqueryCredentialsArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ClickpipeSourceBigquerySettingsInput)(nil)).Elem(), ClickpipeSourceBigquerySettingsArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ClickpipeSourceBigquerySettingsPtrInput)(nil)).Elem(), ClickpipeSourceBigquerySettingsArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ClickpipeSourceBigqueryTableMappingInput)(nil)).Elem(), ClickpipeSourceBigqueryTableMappingArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ClickpipeSourceBigqueryTableMappingArrayInput)(nil)).Elem(), ClickpipeSourceBigqueryTableMappingArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ClickpipeSourceKafkaInput)(nil)).Elem(), ClickpipeSourceKafkaArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ClickpipeSourceKafkaPtrInput)(nil)).Elem(), ClickpipeSourceKafkaArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ClickpipeSourceKafkaCredentialsInput)(nil)).Elem(), ClickpipeSourceKafkaCredentialsArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ClickpipeSourceKafkaCredentialsPtrInput)(nil)).Elem(), ClickpipeSourceKafkaCredentialsArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ClickpipeSourceKafkaOffsetInput)(nil)).Elem(), ClickpipeSourceKafkaOffsetArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ClickpipeSourceKafkaOffsetPtrInput)(nil)).Elem(), ClickpipeSourceKafkaOffsetArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ClickpipeSourceKafkaSchemaRegistryInput)(nil)).Elem(), ClickpipeSourceKafkaSchemaRegistryArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ClickpipeSourceKafkaSchemaRegistryPtrInput)(nil)).Elem(), ClickpipeSourceKafkaSchemaRegistryArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ClickpipeSourceKafkaSchemaRegistryCredentialsInput)(nil)).Elem(), ClickpipeSourceKafkaSchemaRegistryCredentialsArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ClickpipeSourceKafkaSchemaRegistryCredentialsPtrInput)(nil)).Elem(), ClickpipeSourceKafkaSchemaRegistryCredentialsArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ClickpipeSourceKinesisInput)(nil)).Elem(), ClickpipeSourceKinesisArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ClickpipeSourceKinesisPtrInput)(nil)).Elem(), ClickpipeSourceKinesisArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ClickpipeSourceKinesisAccessKeyInput)(nil)).Elem(), ClickpipeSourceKinesisAccessKeyArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ClickpipeSourceKinesisAccessKeyPtrInput)(nil)).Elem(), ClickpipeSourceKinesisAccessKeyArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ClickpipeSourceMongodbInput)(nil)).Elem(), ClickpipeSourceMongodbArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ClickpipeSourceMongodbPtrInput)(nil)).Elem(), ClickpipeSourceMongodbArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ClickpipeSourceMongodbCredentialsInput)(nil)).Elem(), ClickpipeSourceMongodbCredentialsArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ClickpipeSourceMongodbCredentialsPtrInput)(nil)).Elem(), ClickpipeSourceMongodbCredentialsArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ClickpipeSourceMongodbSettingsInput)(nil)).Elem(), ClickpipeSourceMongodbSettingsArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ClickpipeSourceMongodbSettingsPtrInput)(nil)).Elem(), ClickpipeSourceMongodbSettingsArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ClickpipeSourceMongodbTableMappingInput)(nil)).Elem(), ClickpipeSourceMongodbTableMappingArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ClickpipeSourceMongodbTableMappingArrayInput)(nil)).Elem(), ClickpipeSourceMongodbTableMappingArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ClickpipeSourceMysqlInput)(nil)).Elem(), ClickpipeSourceMysqlArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ClickpipeSourceMysqlPtrInput)(nil)).Elem(), ClickpipeSourceMysqlArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ClickpipeSourceMysqlCredentialsInput)(nil)).Elem(), ClickpipeSourceMysqlCredentialsArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ClickpipeSourceMysqlCredentialsPtrInput)(nil)).Elem(), ClickpipeSourceMysqlCredentialsArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ClickpipeSourceMysqlSettingsInput)(nil)).Elem(), ClickpipeSourceMysqlSettingsArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ClickpipeSourceMysqlSettingsPtrInput)(nil)).Elem(), ClickpipeSourceMysqlSettingsArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ClickpipeSourceMysqlTableMappingInput)(nil)).Elem(), ClickpipeSourceMysqlTableMappingArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ClickpipeSourceMysqlTableMappingArrayInput)(nil)).Elem(), ClickpipeSourceMysqlTableMappingArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ClickpipeSourceObjectStorageInput)(nil)).Elem(), ClickpipeSourceObjectStorageArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ClickpipeSourceObjectStoragePtrInput)(nil)).Elem(), ClickpipeSourceObjectStorageArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ClickpipeSourceObjectStorageAccessKeyInput)(nil)).Elem(), ClickpipeSourceObjectStorageAccessKeyArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ClickpipeSourceObjectStorageAccessKeyPtrInput)(nil)).Elem(), ClickpipeSourceObjectStorageAccessKeyArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ClickpipeSourcePostgresInput)(nil)).Elem(), ClickpipeSourcePostgresArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ClickpipeSourcePostgresPtrInput)(nil)).Elem(), ClickpipeSourcePostgresArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ClickpipeSourcePostgresCredentialsInput)(nil)).Elem(), ClickpipeSourcePostgresCredentialsArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ClickpipeSourcePostgresCredentialsPtrInput)(nil)).Elem(), ClickpipeSourcePostgresCredentialsArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ClickpipeSourcePostgresSettingsInput)(nil)).Elem(), ClickpipeSourcePostgresSettingsArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ClickpipeSourcePostgresSettingsPtrInput)(nil)).Elem(), ClickpipeSourcePostgresSettingsArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ClickpipeSourcePostgresTableMappingInput)(nil)).Elem(), ClickpipeSourcePostgresTableMappingArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ClickpipeSourcePostgresTableMappingArrayInput)(nil)).Elem(), ClickpipeSourcePostgresTableMappingArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ClickpipeSourcePubsubInput)(nil)).Elem(), ClickpipeSourcePubsubArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ClickpipeSourcePubsubPtrInput)(nil)).Elem(), ClickpipeSourcePubsubArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ClickpipeSourcePubsubServiceAccountKeyInput)(nil)).Elem(), ClickpipeSourcePubsubServiceAccountKeyArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ClickpipeSourcePubsubServiceAccountKeyPtrInput)(nil)).Elem(), ClickpipeSourcePubsubServiceAccountKeyArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ClickpipesReversePrivateEndpointCustomPrivateDnsMappingInput)(nil)).Elem(), ClickpipesReversePrivateEndpointCustomPrivateDnsMappingArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ClickpipesReversePrivateEndpointCustomPrivateDnsMappingArrayInput)(nil)).Elem(), ClickpipesReversePrivateEndpointCustomPrivateDnsMappingArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*PostgresServiceRestoreToPointInTimeInput)(nil)).Elem(), PostgresServiceRestoreToPointInTimeArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*PostgresServiceRestoreToPointInTimePtrInput)(nil)).Elem(), PostgresServiceRestoreToPointInTimeArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*RolePolicyInput)(nil)).Elem(), RolePolicyArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*RolePolicyArrayInput)(nil)).Elem(), RolePolicyArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*RolePolicyTagsInput)(nil)).Elem(), RolePolicyTagsArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*RolePolicyTagsPtrInput)(nil)).Elem(), RolePolicyTagsArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*ServiceBackupConfigurationInput)(nil)).Elem(), ServiceBackupConfigurationArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*ServiceBackupConfigurationPtrInput)(nil)).Elem(), ServiceBackupConfigurationArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*ServiceEndpointsInput)(nil)).Elem(), ServiceEndpointsArgs{})
@@ -1448,8 +10766,100 @@ func init() {
 	pulumi.RegisterInputType(reflect.TypeOf((*ServicePrivateEndpointConfigPtrInput)(nil)).Elem(), ServicePrivateEndpointConfigArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*ServiceQueryApiEndpointsInput)(nil)).Elem(), ServiceQueryApiEndpointsArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*ServiceQueryApiEndpointsPtrInput)(nil)).Elem(), ServiceQueryApiEndpointsArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ServiceScheduledScalingBaseConfigInput)(nil)).Elem(), ServiceScheduledScalingBaseConfigArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ServiceScheduledScalingBaseConfigPtrInput)(nil)).Elem(), ServiceScheduledScalingBaseConfigArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ServiceScheduledScalingEntryInput)(nil)).Elem(), ServiceScheduledScalingEntryArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ServiceScheduledScalingEntryArrayInput)(nil)).Elem(), ServiceScheduledScalingEntryArray{})
 	pulumi.RegisterInputType(reflect.TypeOf((*ServiceTransparentDataEncryptionInput)(nil)).Elem(), ServiceTransparentDataEncryptionArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*ServiceTransparentDataEncryptionPtrInput)(nil)).Elem(), ServiceTransparentDataEncryptionArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetPostgresServicesServiceInput)(nil)).Elem(), GetPostgresServicesServiceArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetPostgresServicesServiceArrayInput)(nil)).Elem(), GetPostgresServicesServiceArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetRolePolicyInput)(nil)).Elem(), GetRolePolicyArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetRolePolicyArrayInput)(nil)).Elem(), GetRolePolicyArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetRolePolicyTagsInput)(nil)).Elem(), GetRolePolicyTagsArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetRolesRoleInput)(nil)).Elem(), GetRolesRoleArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetRolesRoleArrayInput)(nil)).Elem(), GetRolesRoleArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetRolesRolePolicyInput)(nil)).Elem(), GetRolesRolePolicyArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetRolesRolePolicyArrayInput)(nil)).Elem(), GetRolesRolePolicyArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetRolesRolePolicyTagsInput)(nil)).Elem(), GetRolesRolePolicyTagsArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetUserAssignedRoleInput)(nil)).Elem(), GetUserAssignedRoleArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*GetUserAssignedRoleArrayInput)(nil)).Elem(), GetUserAssignedRoleArray{})
+	pulumi.RegisterOutputType(ClickpipeDestinationOutput{})
+	pulumi.RegisterOutputType(ClickpipeDestinationPtrOutput{})
+	pulumi.RegisterOutputType(ClickpipeDestinationColumnOutput{})
+	pulumi.RegisterOutputType(ClickpipeDestinationColumnArrayOutput{})
+	pulumi.RegisterOutputType(ClickpipeDestinationTableDefinitionOutput{})
+	pulumi.RegisterOutputType(ClickpipeDestinationTableDefinitionPtrOutput{})
+	pulumi.RegisterOutputType(ClickpipeDestinationTableDefinitionEngineOutput{})
+	pulumi.RegisterOutputType(ClickpipeDestinationTableDefinitionEnginePtrOutput{})
+	pulumi.RegisterOutputType(ClickpipeFieldMappingOutput{})
+	pulumi.RegisterOutputType(ClickpipeFieldMappingArrayOutput{})
+	pulumi.RegisterOutputType(ClickpipeScalingOutput{})
+	pulumi.RegisterOutputType(ClickpipeScalingPtrOutput{})
+	pulumi.RegisterOutputType(ClickpipeSourceOutput{})
+	pulumi.RegisterOutputType(ClickpipeSourcePtrOutput{})
+	pulumi.RegisterOutputType(ClickpipeSourceBigqueryOutput{})
+	pulumi.RegisterOutputType(ClickpipeSourceBigqueryPtrOutput{})
+	pulumi.RegisterOutputType(ClickpipeSourceBigqueryCredentialsOutput{})
+	pulumi.RegisterOutputType(ClickpipeSourceBigqueryCredentialsPtrOutput{})
+	pulumi.RegisterOutputType(ClickpipeSourceBigquerySettingsOutput{})
+	pulumi.RegisterOutputType(ClickpipeSourceBigquerySettingsPtrOutput{})
+	pulumi.RegisterOutputType(ClickpipeSourceBigqueryTableMappingOutput{})
+	pulumi.RegisterOutputType(ClickpipeSourceBigqueryTableMappingArrayOutput{})
+	pulumi.RegisterOutputType(ClickpipeSourceKafkaOutput{})
+	pulumi.RegisterOutputType(ClickpipeSourceKafkaPtrOutput{})
+	pulumi.RegisterOutputType(ClickpipeSourceKafkaCredentialsOutput{})
+	pulumi.RegisterOutputType(ClickpipeSourceKafkaCredentialsPtrOutput{})
+	pulumi.RegisterOutputType(ClickpipeSourceKafkaOffsetOutput{})
+	pulumi.RegisterOutputType(ClickpipeSourceKafkaOffsetPtrOutput{})
+	pulumi.RegisterOutputType(ClickpipeSourceKafkaSchemaRegistryOutput{})
+	pulumi.RegisterOutputType(ClickpipeSourceKafkaSchemaRegistryPtrOutput{})
+	pulumi.RegisterOutputType(ClickpipeSourceKafkaSchemaRegistryCredentialsOutput{})
+	pulumi.RegisterOutputType(ClickpipeSourceKafkaSchemaRegistryCredentialsPtrOutput{})
+	pulumi.RegisterOutputType(ClickpipeSourceKinesisOutput{})
+	pulumi.RegisterOutputType(ClickpipeSourceKinesisPtrOutput{})
+	pulumi.RegisterOutputType(ClickpipeSourceKinesisAccessKeyOutput{})
+	pulumi.RegisterOutputType(ClickpipeSourceKinesisAccessKeyPtrOutput{})
+	pulumi.RegisterOutputType(ClickpipeSourceMongodbOutput{})
+	pulumi.RegisterOutputType(ClickpipeSourceMongodbPtrOutput{})
+	pulumi.RegisterOutputType(ClickpipeSourceMongodbCredentialsOutput{})
+	pulumi.RegisterOutputType(ClickpipeSourceMongodbCredentialsPtrOutput{})
+	pulumi.RegisterOutputType(ClickpipeSourceMongodbSettingsOutput{})
+	pulumi.RegisterOutputType(ClickpipeSourceMongodbSettingsPtrOutput{})
+	pulumi.RegisterOutputType(ClickpipeSourceMongodbTableMappingOutput{})
+	pulumi.RegisterOutputType(ClickpipeSourceMongodbTableMappingArrayOutput{})
+	pulumi.RegisterOutputType(ClickpipeSourceMysqlOutput{})
+	pulumi.RegisterOutputType(ClickpipeSourceMysqlPtrOutput{})
+	pulumi.RegisterOutputType(ClickpipeSourceMysqlCredentialsOutput{})
+	pulumi.RegisterOutputType(ClickpipeSourceMysqlCredentialsPtrOutput{})
+	pulumi.RegisterOutputType(ClickpipeSourceMysqlSettingsOutput{})
+	pulumi.RegisterOutputType(ClickpipeSourceMysqlSettingsPtrOutput{})
+	pulumi.RegisterOutputType(ClickpipeSourceMysqlTableMappingOutput{})
+	pulumi.RegisterOutputType(ClickpipeSourceMysqlTableMappingArrayOutput{})
+	pulumi.RegisterOutputType(ClickpipeSourceObjectStorageOutput{})
+	pulumi.RegisterOutputType(ClickpipeSourceObjectStoragePtrOutput{})
+	pulumi.RegisterOutputType(ClickpipeSourceObjectStorageAccessKeyOutput{})
+	pulumi.RegisterOutputType(ClickpipeSourceObjectStorageAccessKeyPtrOutput{})
+	pulumi.RegisterOutputType(ClickpipeSourcePostgresOutput{})
+	pulumi.RegisterOutputType(ClickpipeSourcePostgresPtrOutput{})
+	pulumi.RegisterOutputType(ClickpipeSourcePostgresCredentialsOutput{})
+	pulumi.RegisterOutputType(ClickpipeSourcePostgresCredentialsPtrOutput{})
+	pulumi.RegisterOutputType(ClickpipeSourcePostgresSettingsOutput{})
+	pulumi.RegisterOutputType(ClickpipeSourcePostgresSettingsPtrOutput{})
+	pulumi.RegisterOutputType(ClickpipeSourcePostgresTableMappingOutput{})
+	pulumi.RegisterOutputType(ClickpipeSourcePostgresTableMappingArrayOutput{})
+	pulumi.RegisterOutputType(ClickpipeSourcePubsubOutput{})
+	pulumi.RegisterOutputType(ClickpipeSourcePubsubPtrOutput{})
+	pulumi.RegisterOutputType(ClickpipeSourcePubsubServiceAccountKeyOutput{})
+	pulumi.RegisterOutputType(ClickpipeSourcePubsubServiceAccountKeyPtrOutput{})
+	pulumi.RegisterOutputType(ClickpipesReversePrivateEndpointCustomPrivateDnsMappingOutput{})
+	pulumi.RegisterOutputType(ClickpipesReversePrivateEndpointCustomPrivateDnsMappingArrayOutput{})
+	pulumi.RegisterOutputType(PostgresServiceRestoreToPointInTimeOutput{})
+	pulumi.RegisterOutputType(PostgresServiceRestoreToPointInTimePtrOutput{})
+	pulumi.RegisterOutputType(RolePolicyOutput{})
+	pulumi.RegisterOutputType(RolePolicyArrayOutput{})
+	pulumi.RegisterOutputType(RolePolicyTagsOutput{})
+	pulumi.RegisterOutputType(RolePolicyTagsPtrOutput{})
 	pulumi.RegisterOutputType(ServiceBackupConfigurationOutput{})
 	pulumi.RegisterOutputType(ServiceBackupConfigurationPtrOutput{})
 	pulumi.RegisterOutputType(ServiceEndpointsOutput{})
@@ -1466,6 +10876,22 @@ func init() {
 	pulumi.RegisterOutputType(ServicePrivateEndpointConfigPtrOutput{})
 	pulumi.RegisterOutputType(ServiceQueryApiEndpointsOutput{})
 	pulumi.RegisterOutputType(ServiceQueryApiEndpointsPtrOutput{})
+	pulumi.RegisterOutputType(ServiceScheduledScalingBaseConfigOutput{})
+	pulumi.RegisterOutputType(ServiceScheduledScalingBaseConfigPtrOutput{})
+	pulumi.RegisterOutputType(ServiceScheduledScalingEntryOutput{})
+	pulumi.RegisterOutputType(ServiceScheduledScalingEntryArrayOutput{})
 	pulumi.RegisterOutputType(ServiceTransparentDataEncryptionOutput{})
 	pulumi.RegisterOutputType(ServiceTransparentDataEncryptionPtrOutput{})
+	pulumi.RegisterOutputType(GetPostgresServicesServiceOutput{})
+	pulumi.RegisterOutputType(GetPostgresServicesServiceArrayOutput{})
+	pulumi.RegisterOutputType(GetRolePolicyOutput{})
+	pulumi.RegisterOutputType(GetRolePolicyArrayOutput{})
+	pulumi.RegisterOutputType(GetRolePolicyTagsOutput{})
+	pulumi.RegisterOutputType(GetRolesRoleOutput{})
+	pulumi.RegisterOutputType(GetRolesRoleArrayOutput{})
+	pulumi.RegisterOutputType(GetRolesRolePolicyOutput{})
+	pulumi.RegisterOutputType(GetRolesRolePolicyArrayOutput{})
+	pulumi.RegisterOutputType(GetRolesRolePolicyTagsOutput{})
+	pulumi.RegisterOutputType(GetUserAssignedRoleOutput{})
+	pulumi.RegisterOutputType(GetUserAssignedRoleArrayOutput{})
 }

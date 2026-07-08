@@ -34,11 +34,11 @@ export class Provider extends pulumi.ProviderResource {
      */
     declare public readonly organizationId: pulumi.Output<string | undefined>;
     /**
-     * Token key of the key/secret pair. Used to authenticate with OpenAPI. Alternatively, can be configured using the `CLICKHOUSE_TOKEN_KEY` environment variable.
+     * Token key of the key/secret pair. Used to authenticate with OpenAPI. Alternatively, can be configured using the `CLICKHOUSE_CLOUD_API_KEY` environment variable.
      */
     declare public readonly tokenKey: pulumi.Output<string | undefined>;
     /**
-     * Token secret of the key/secret pair. Used to authenticate with OpenAPI. Alternatively, can be configured using the `CLICKHOUSE_TOKEN_SECRET` environment variable.
+     * Token secret of the key/secret pair. Used to authenticate with OpenAPI. Alternatively, can be configured using the `CLICKHOUSE_CLOUD_API_SECRET` environment variable.
      */
     declare public readonly tokenSecret: pulumi.Output<string | undefined>;
 
@@ -92,11 +92,11 @@ export interface ProviderArgs {
      */
     timeoutSeconds?: pulumi.Input<number | undefined>;
     /**
-     * Token key of the key/secret pair. Used to authenticate with OpenAPI. Alternatively, can be configured using the `CLICKHOUSE_TOKEN_KEY` environment variable.
+     * Token key of the key/secret pair. Used to authenticate with OpenAPI. Alternatively, can be configured using the `CLICKHOUSE_CLOUD_API_KEY` environment variable.
      */
     tokenKey?: pulumi.Input<string | undefined>;
     /**
-     * Token secret of the key/secret pair. Used to authenticate with OpenAPI. Alternatively, can be configured using the `CLICKHOUSE_TOKEN_SECRET` environment variable.
+     * Token secret of the key/secret pair. Used to authenticate with OpenAPI. Alternatively, can be configured using the `CLICKHOUSE_CLOUD_API_SECRET` environment variable.
      */
     tokenSecret?: pulumi.Input<string | undefined>;
 }
